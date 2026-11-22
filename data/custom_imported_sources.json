@@ -1,0 +1,18 @@
+[
+  {
+    "prefix": "imp_mvy6mu3d",
+    "name": "User Imported M3U Playlist",
+    "url": "http://stream.mcquack.net/114/index.m3u8",
+    "channelCount": 2,
+    "importedAt": "2026-11-01T18:47:35.641Z",
+    "mode": "all"
+  },
+  {
+    "prefix": "imp_mvy6n9iw",
+    "name": "User Imported M3U Playlist",
+    "url": "http://test-provider.com/playlist.m3u",
+    "channelCount": 1,
+    "importedAt": "2026-11-01T18:47:55.640Z",
+    "mode": "working_only"
+  }
+]

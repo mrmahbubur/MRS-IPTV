@@ -1,0 +1,794 @@
+#EXTM3U x-tvg-url=""
+#EXTINF:-1 tvg-logo="https://imgur.com/ocyTxpw.png" group-title="SkyM3U Promo",Skym3u Official - Visit Skym3u.dev
+https://vods2.aynaott.com/gseriesDrama/tracks-v1a1/mono.ts.m3u8
+# AZ-RU-IPTV-Hub • all | generated 2026-10-17T04:39:27+00:00
+#EXTINF:-1 tvg-id="APATv.az" tvg-name="APA Tv" tvg-logo="https://i.imgur.com/2CSW4V4.png" group-title="AZ • News",APA Tv
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d07035e5d1617054d45185034462545321d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AyazTV.az" tvg-name="Ayaz TV" tvg-logo="https://www.ayaztv.com/storage/assets/site_logo.png" group-title="AZ • General",Ayaz TV
+https://go.skym3u.dev/live/339d5/28502b4210581e17050e5a1f195e070a5e091617045a521a472e1a2e412b1d13165f4a423851043903165c4b1a160d4f017400423a6b14727044524d475f0306420355000d5e06405659181c1a1442295a6e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AzStarTV.ca@SD" tvg-name="Az Star TV" tvg-logo="https://i.imgur.com/di3XX5L.png" group-title="AZ • General",Az Star TV
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203561f0f055a0016134f4d580d556e57210b3e481016504a400e590a0b075c12450016005803451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AzTV.az" tvg-name="Az TV" tvg-logo="https://i.imgur.com/snBMMeH.png" group-title="AZ • General",Az TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4648011c02125c170c4f44494156423a513250291d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AzadTV.az" tvg-name="Azad TV" tvg-logo="https://i.imgur.com/rDYSoRL.png" group-title="AZ • General",Azad TV
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642030b5d0707495d031b1019014d106f7514720066353d626c3d2a752b570012015a120f12054d410f40215a2c4d715f501709.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DunyaTV.az" tvg-name="Dünya TV" group-title="AZ • General",Dünya TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e48174a1d1b005e5a1b18596f5829523a1d07175f410e1b42481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ELTV.az" tvg-name="EL TV" tvg-logo="https://i.imgur.com/tTlokZ2.png" group-title="AZ • General",EL TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e005a4105554a5d534011425453101d0c4a166f5829523a1d060e454e401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="GunAzTV.us@SD" tvg-name="GunAz TV" tvg-logo="https://i.imgur.com/2ZnQazl.png" group-title="AZ • General",GunAz TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171b191a010d1d07091107144e424046564f2942250a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kanal35.az" tvg-name="Kanal 35" tvg-logo="https://live.ntv.az/kanal35.png" group-title="AZ • General",Kanal 35
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4654560a09175e10060f0442500d0c2b552e453301564d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KNMusicTV.az" tvg-name="KN Music TV" tvg-logo="https://www.knmusictv.com/wp-content/uploads/2026/01/LOGO2112.png" group-title="AZ • Music",KN Music TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a52560a070a561d4c0245411b0d516f5f2e50291d1710505b041c19104912575c521c0c0e0441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KapazTV.az" tvg-name="Kəpəz TV" tvg-logo="https://upload.wikimedia.org/wikipedia/az/thumb/3/3e/K%C9%99p%C9%99z_TV_%282019-h.h.%29.png/500px-K%C9%99p%C9%99z_TV_%282019-h.h.%29.png" group-title="AZ • News",Kəpəz TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e005a4105554a5d514b114250531014054c136f5c2c5770411710545902405d081c161e5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MedeniyyetTV.az" tvg-name="Medeniyyet TV" tvg-logo="https://i.imgur.com/PlvaDIa.png" group-title="AZ • Culture",Medeniyyet TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4648011c02125c170c4f444941564e2550254a364b1a07454c0a035149111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NaxcivanTV.az" tvg-name="Naxcivan TV" tvg-logo="https://i.imgur.com/8yLFkdE.png" group-title="AZ • General",Naxcivan TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4654560a09175e10060f0442500d0c2e40360b295b07075e16025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="VilayetTV.az" tvg-name="Vilayet TV" tvg-logo="https://vilayet.tv/wp-content/uploads/elementor/thumbs/logo-q3w2md1u47q39x7d0004wqzz74xdv1glw356ex6ph0.png" group-title="AZ • General",Vilayet TV
+https://go.skym3u.dev/live/339d5/28502b4210581e1701031a0a110503185e170709044f5a140c2858331670440a0e50410a1b1a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="WestAzerbaijanTV.ir@SD" tvg-name="West Azerbaijan TV" tvg-logo="https://upload.wikimedia.org/wikipedia/fa/thumb/2/21/Urmia_TV.svg/960px-Urmia_TV.svg.png" group-title="AZ • General",West Azerbaijan TV
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203551204064d121b094b42044812711a344133571407535100011a081d074916545c031b4b5e57185a2a552e433753110058170306420357030a12461f0b125e02584a56780b29572f0f2d23175b061b4d5b3632.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="XezerTV.az" tvg-name="Xezer TV" group-title="AZ • General",Xezer TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171818434800161c164d0b07034f5e1b18596f4734563a530e4d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="black.ru" tvg-name=".black" tvg-logo="https://i.imgur.com/Q4A6ci4.png" group-title="RU • Entertainment",.black
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067617705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="red.ru" tvg-name=".red" tvg-logo="https://i.imgur.com/GET9Qut.png" group-title="RU • Entertainment",.red
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f462540705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="scifi.ru" tvg-name=".sci-fi" tvg-logo="https://i.imgur.com/nSSUHcg.png" group-title="RU • Science",.sci-fi
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057814705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="1HDMusicTelevision.ru" tvg-name="1HD Music Television" tvg-logo="https://i.imgur.com/4Ww7CsR.png" group-title="RU • Music",1HD Music Television
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a486b041b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="2x2.ru" tvg-name="2x2" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/2x2_TV_Logo.svg/1920px-2x2_TV_Logo.svg.png" group-title="RU • Entertainment",2x2
+https://go.skym3u.dev/live/339d5/28502b4210581e170d031a140d0713115a5d101405405c0f46334032413e5f4c51080a0d5b025e4e1151440f1103041848544f41260121476b075456505c0b5a1b0f1617030b111e51141213504411700278136c035b52001e1c52400316014b0a772b37171b5b5c1b452b55771c2c002244425b070a5903451b12074f00.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="360.ru" tvg-name="360°" tvg-logo="https://i.imgur.com/VTJqdoX.png" group-title="RU • General",360°
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550501074d18110c455847104e6e57244a295b07075e161d1a1b101f0714184c1e0d1558455856502d5b3456365f4e0e584e0a4204525500140711000f084603451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="360News.ru" tvg-name="360° News" tvg-logo="https://i.imgur.com/YXDeX8q.png" group-title="RU • News",360° News
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550501074d18110c455847104e6e57244a295b07075e161d1a1b101f0714184c1e0d1558455856502d5b3456365f4e0e584e0a4204555500140711000f084603451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="365daysTV.ru" tvg-name="365 days TV" tvg-logo="https://i.imgur.com/NfnAiTR.png" group-title="RU • Documentary",365 days TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03700b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="3ABNRussia.ru" tvg-name="3ABN Russia" tvg-logo="https://i.imgur.com/4fhBbam.png" group-title="RU • Religious",3ABN Russia
+https://go.skym3u.dev/live/339d5/28502b4210581e175c0e5608561109094507144f494358561021562e16706016116e54061951490b1e0f1f0521171275405c0f466e472d4d331d130e504103064712561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="5minuttishiny.ru" tvg-name="5 minut tishiny" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/5minut_live.jpg" group-title="RU • Series",5 minut tishiny
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a4c7c2d5d2e512b6d170b425006014d49111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="555.ru" tvg-name="555" tvg-logo="https://i.imgur.com/JQZkxeA.png" group-title="RU • General",555
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c1d0401534d5d1205054b5a59120359105525.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="6TVGorlovka.ru" tvg-name="6 TV Gorlovka" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/6/61/TV_6_HD_%E2%80%93_logo.png" group-title="RU • General",6 TV Gorlovka
+https://go.skym3u.dev/live/339d5/28502b42594d1e015e4106574c5d524b114257591018054b116f412454700051561f0a415d1a52424256430f43.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="86.ru" tvg-name="86" tvg-logo="https://i.imgur.com/0dRS4Cb.png" group-title="RU • General",86
+https://go.skym3u.dev/live/339d5/28502b4210581e171c0640105601135c571f114e591403574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AbazaTV.ru" tvg-name="Abaza TV" tvg-logo="https://i.imgur.com/7Jo7UAf.png" group-title="RU • General",Abaza TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171f1a560a111048124f000c18044f54144632556f50296d020050420e3040102707092c4c1a160405455b1d46381a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AISTTV.ru" tvg-name="AIST TV" tvg-logo="https://i.imgur.com/bcw0s4V.png" group-title="RU • General",AIST TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574c4048420b4b4c5312160d491b701b014d2c464c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AmediaHit.ru" tvg-name="Amedia Hit" tvg-logo="https://i.imgur.com/a8ZBGBw.png" group-title="RU • Movies",Amedia Hit
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a325170530e0755510e425c0f0c5c0f1d5b161a4f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AngelTV.in@Russian" tvg-name="Angel TV Russian" tvg-logo="https://i.imgur.com/qKLEGU7.png" group-title="RU • General",Angel TV Russian
+https://go.skym3u.dev/live/339d5/28502b4210581e17050e5a1f195e021a581a0f0852025412422d55295e3a564d0c544c4019530a1105035e4c184f581f190148166f4635572c5b024d5f5f1d1f0e071614031f4d061112434d6a184f2c1b30483e4b0f0b424c4102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Ani.ru" tvg-name="Ani" tvg-logo="https://i.imgur.com/i2AP0hp.png" group-title="RU • Kids",Ani
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077012705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AnimalPlanet.ru@SD" tvg-name="Animal Planet (Russia)" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/2018_Animal_Planet_logo.svg/960px-2018_Animal_Planet_logo.svg.png" group-title="RU • General",Animal Planet (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057110705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Aris24.ru" tvg-name="Aris 24" tvg-logo="https://i.imgur.com/CTFVEAb.png" group-title="RU • General",Aris 24
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b0a1d42544d5d101a510707134b02410f19780478157046061145170e1d5d1557030a12461f0b125e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Arkhyz24.ru" tvg-name="Arkhyz 24" tvg-logo="https://i.imgur.com/blAtdkJ.png" group-title="RU • News",Arkhyz 24
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203561e0317561201054402470c0c3346710b3e400b0b420a5b40440a190a0a1a4c074c0c19590d.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Arsenal.ru" tvg-name="Arsenal" tvg-logo="https://i.imgur.com/DBpVeb0.png" group-title="RU • Documentary",Arsenal
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b03574d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ART.ru" tvg-name="ART" tvg-logo="https://optim.tildacdn.com/tild3134-3836-4338-a138-666666653363/-/format/webp/__.png.webp" group-title="RU • Culture",ART
+https://go.skym3u.dev/live/339d5/28502b42594d1e00564105564c5d57420b5d505510140541136f553250705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Astrahan24.ru" tvg-name="Astrahan 24" tvg-logo="https://i.imgur.com/9WcnjQN.png" group-title="RU • News",Astrahan 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d03125e5e54124b215a6e562a1d0211454a0e045c071641525c4f1f03184645460d0d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AstrahanRuSport.ru" tvg-name="Astrahan.Ru Sport" tvg-logo="https://i.imgur.com/BKaEtqL.png" group-title="RU • Sports",Astrahan.Ru Sport
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d03125e5e54124b215a6e562a1d0211454a0e045c07160113004f1c101542481a094f214d2c4d2c464d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AstrahanRuTV.ru" tvg-name="Astrahan.Ru TV" tvg-logo="https://i.imgur.com/w4ys6zm.png" group-title="RU • General",Astrahan.Ru TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d03125e5e54124b215a6e562a1d0211454a0e045c071601131f560507094e03451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="AutoPlus.ru" tvg-name="Auto Plus" tvg-logo="https://i.imgur.com/sVc8cFt.png" group-title="RU • Auto",Auto Plus
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156f01554d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Avto24.ru" tvg-name="Avto24" tvg-logo="https://i.imgur.com/GXSXmN2.png" group-title="RU • Auto",Avto24
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03780b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Balabol.ru" tvg-name="Balabol" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/balabol_vse.jpg" group-title="RU • Series",Balabol
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a3b422c55224b331d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BigAsia.ru" tvg-name="Big Asia" tvg-logo="https://i.imgur.com/vruuPKF.png" group-title="RU • General",Big Asia
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420355110f145e000b00044f5117552950254b7140164d5351080e470f195c041a581211084b0246144a2c1b30483e4b0f0b424c4102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Blokbaster.ru@HD" tvg-name="Blokbaster HD" tvg-logo="https://i.imgur.com/KcOi4Os.png" group-title="RU • Movies",Blokbaster HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077610705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BoksTV.ru" tvg-name="Boks TV" tvg-logo="https://i.imgur.com/R1UjyfX.png" group-title="RU • Sports",Boks TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057510705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Bollywood.ru" tvg-name="Bollywood" tvg-logo="https://i.imgur.com/YLQRnXt.png" group-title="RU • Movies",Bollywood
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a3b4c2c583953305d073d797c40065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BollywoodHD.ro@Russia" tvg-name="Bollywood HD Russia" tvg-logo="https://i.imgur.com/scDKOLS.png" group-title="RU • Movies",Bollywood HD Russia
+https://go.skym3u.dev/live/339d5/28502b4210581e1717165f1255150f0b11140b15425957574a2f1b234d315711035c59300a50011d43575c571f114e686379357a177b0f600060364d7c5719065156484a481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BRIDGE.ru" tvg-name="BRIDGE" tvg-logo="https://i.imgur.com/qYObfrG.png" group-title="RU • Music",BRIDGE
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f76126d1b75264d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BRIDGEClassic.ru" tvg-name="BRIDGE Classic" tvg-logo="https://i.imgur.com/JJTQq81.png" group-title="RU • Classic",BRIDGE Classic
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067716705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BRIDGEDeluxe.ru@HD" tvg-name="BRIDGE Deluxe HD" tvg-logo="https://i.imgur.com/EazL8w7.png" group-title="RU • Music",BRIDGE Deluxe HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0d720b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BRIDGEHits.ru" tvg-name="BRIDGE Hits" tvg-logo="https://i.imgur.com/sIW9oR4.png" group-title="RU • Music",BRIDGE Hits
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f76324d3b55063d656e30275d120b5c0f1d5b161a4f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BRIDGERock.ru" tvg-name="BRIDGE Rock" tvg-logo="https://i.imgur.com/MHuwct2.png" group-title="RU • Music",BRIDGE Rock
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f76126d1b7526307e7b24405d081c161e5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="BST.ru" tvg-name="BST" tvg-logo="https://i.imgur.com/IDotHmQ.png" group-title="RU • News",BST
+https://go.skym3u.dev/live/339d5/28502b4210581e170d1c40481a0107074c184c135f035d15506f5633506d1d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Carousel.ru" tvg-name="Carousel" tvg-logo="https://i.imgur.com/4wmnx1W.png" group-title="RU • Kids",Carousel
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a325170790210444b0a031b0f1617030b111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Carousel.ru@Plus4" tvg-name="Carousel +4" tvg-logo="https://i.imgur.com/4wmnx1W.png" group-title="RU • Kids",Carousel +4
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a554f5d57460f5d56570567540b5633512c0b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel10.ru" tvg-name="Channel 10" tvg-logo="https://i.imgur.com/k8JjFDw.png" group-title="RU • General",Channel 10
+https://go.skym3u.dev/live/339d5/28502b4210581e170d031a140d0713115a5d101405405c0f46334032413e5f4c01085d5d5956004d1056430c1506594e18024e11700470126a51025350085a091b0f1617030b111e51141213504411700372126e035350081e1c52511714273e165d3732585d7f622d79274625121d453244425b070a5903451b12074f00.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel12.ru" tvg-name="Channel 12" tvg-logo="https://i.imgur.com/OA9hm6e.png" group-title="RU • General",Channel 12
+https://go.skym3u.dev/live/339d5/28502b4210581e175e5d570e191d0816535d000e4459465457361a32517051070c1e095d0c5c07161d031f60110e0049475a0c576f442c45265e0a114516025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel5.ru" tvg-name="Channel 5" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/5-tv_logo_%282023%29.svg/960px-5-tv_logo_%282023%29.svg.png" group-title="RU • General",Channel 5
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b5e561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel5.ru@SD" tvg-name="Channel 5 (Russia)" tvg-logo="https://i.imgur.com/KPXMa3U.png" group-title="RU • General",Channel 5 (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410552405d535d0d47534e414d5b184f1f016f4d3156061a1f555c1a0c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel5International.ru" tvg-name="Channel 5 International" tvg-logo="https://i.imgur.com/8VKc2Ya.png" group-title="RU • General",Channel 5 International
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f01234c3e5c0d075d1706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel8.ru" tvg-name="Channel 8" tvg-logo="https://i.imgur.com/nUSx1jF.png" group-title="RU • Entertainment",Channel 8
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c1c075d000c5e575d4b160e04494358180d34426f1c3c5a020c5f5d03405d081c161e5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel8.ru@SD" tvg-name="Channel 8 (Russia)" tvg-logo="https://i.imgur.com/nUSx1jF.png" group-title="RU • General",Channel 8 (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c5a4105575642554a1147515b1219004c0c785f214a3e5e4c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel8International.ru" tvg-name="Channel 8 International" tvg-logo="https://i.imgur.com/I8OU9oa.png" group-title="RU • General",Channel 8 International
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b4942051a51160f00044f5117552950254b715c06161e095e0c5d081d1e071d5a074d501b4f5c17462d552e412b1d130e504103064712561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel8Novosibirsk.ru" tvg-name="Channel 8 Novosibirsk" tvg-logo="https://i.imgur.com/eHGETvU.png" group-title="RU • General",Channel 8 Novosibirsk
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203554b0d1d4c184c024e42431047255b6e562a1d5b095f4b044047120a16071e0e5c120d4b55591050341a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel16.ru" tvg-name="Channel-16" tvg-logo="https://i.imgur.com/7tNDKHe.png" group-title="RU • General",Channel-16
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b0a1d42544d5d101a510707134b02410f1978047815704606114517045e0249081f070a531a11150441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Che.ru" tvg-name="Che!" tvg-logo="https://i.imgur.com/ZOcDGpB.png" group-title="RU • Entertainment",Che!
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a3a4b251b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Cinema.ru" tvg-name="Cinema" tvg-logo="https://i.imgur.com/b5e9qUA.png" group-title="RU • Movies",Cinema
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a325170510a0c54550e405d081c161e5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenAutoGid.ru" tvg-name="City Eden AutoGid" tvg-logo="https://i.imgur.com/qpe8L27.png" group-title="RU • Auto",City Eden AutoGid
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b03534946491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenBirmaPlay.ru" tvg-name="City Eden Birma Play" tvg-logo="https://i.imgur.com/38Q5L5W.png" group-title="RU • Music",City Eden Birma Play
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00554e47491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenClassicMusic.ru" tvg-name="City Eden Classic Music" tvg-logo="https://i.imgur.com/l7BE8l6.png" group-title="RU • Music",City Eden Classic Music
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b03524843491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoAction.ru" tvg-name="City Eden KinoAction" tvg-logo="https://i.imgur.com/uuzuvD0.png" group-title="RU • Movies",City Eden KinoAction
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b05554b40491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoArt.ru" tvg-name="City Eden KinoArt" tvg-logo="https://i.imgur.com/67CWCtz.png" group-title="RU • Movies",City Eden KinoArt
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c0c55414b491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoAsia.ru" tvg-name="City Eden KinoAsia" tvg-logo="https://i.imgur.com/gaket4B.png" group-title="RU • Movies",City Eden KinoAsia
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00554140491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoDetektiv.ru" tvg-name="City Eden KinoDetektiv" tvg-logo="https://i.imgur.com/9rKHwBV.png" group-title="RU • Movies",City Eden KinoDetektiv
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b05554a44491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoDok.ru" tvg-name="City Eden KinoDok" tvg-logo="https://i.imgur.com/itRbMX3.png" group-title="RU • Documentary",City Eden KinoDok
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c0c554d47491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoDrama.ru" tvg-name="City Eden KinoDrama" tvg-logo="https://i.imgur.com/29ddffh.png" group-title="RU • Movies",City Eden KinoDrama
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b01544e4a491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoFantastika.ru" tvg-name="City Eden KinoFantastika" tvg-logo="https://i.imgur.com/I64FeIO.png" group-title="RU • Movies",City Eden KinoFantastika
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b01544e4b491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoKlassika.ru" tvg-name="City Eden KinoKlassika" tvg-logo="https://i.imgur.com/0qGCS1S.png" group-title="RU • Movies",City Eden KinoKlassika
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00574046491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoKomediya.ru" tvg-name="City Eden KinoKomediya" tvg-logo="https://i.imgur.com/Aga2XVA.png" group-title="RU • Movies",City Eden KinoKomediya
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b05554b42491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenKinoMistika.ru" tvg-name="City Eden KinoMistika" tvg-logo="https://i.imgur.com/s1Pid0K.png" group-title="RU • Movies",City Eden KinoMistika
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b04514040491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenMedZdrav.ru" tvg-name="City Eden MedZdrav" tvg-logo="https://i.imgur.com/BM4E0Kr.png" group-title="RU • Lifestyle",City Eden MedZdrav
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b0353494a491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenPlay.ru" tvg-name="City Eden Play" tvg-logo="https://i.imgur.com/ozEqob9.png" group-title="RU • Music",City Eden Play
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00574843491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenReceptyGurmana.ru" tvg-name="City Eden Recepty Gurmana" tvg-logo="https://i.imgur.com/wR0pvRc.png" group-title="RU • Cooking",City Eden Recepty Gurmana
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b03534945491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenSirtakiTV.ru" tvg-name="City Eden Sirtaki TV" tvg-logo="https://i.imgur.com/V3MTfyc.png" group-title="RU • Music",City Eden Sirtaki TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b02524a42491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CityEdenTeleNovella.ru" tvg-name="City Eden TeleNovella" tvg-logo="https://i.imgur.com/mT5liTh.png" group-title="RU • Series",City Eden TeleNovella
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b0254484a491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ClassicMusic.ru" tvg-name="Classic Music" tvg-logo="https://i.imgur.com/TpXs1qA.png" group-title="RU • Music",Classic Music
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077116705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Crimea24.ru" tvg-name="Crimea 24" tvg-logo="https://i.imgur.com/k4C0uvp.png" group-title="RU • News",Crimea 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b54405d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="CurrentTimeTV.cz@SD" tvg-name="Current Time TV" tvg-logo="https://i.imgur.com/hKo8ApU.png" group-title="RU • News",Current Time TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171d095114145e0f1d58161115044d5e184e215d3a413b1c0d07451707034749141a1016104153531b1a004e0c34422d476f074c0f504b1b0a46481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DaVinci.ru@SD" tvg-name="Da Vinci (Russia)" tvg-logo="https://i.imgur.com/V8AUJP6.png" group-title="RU • General",Da Vinci (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06731c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Dagestan.ru" tvg-name="Dagestan" tvg-logo="https://i.imgur.com/jumkRvc.png" group-title="RU • General",Dagestan
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e53030b07071d111e0705434d561d4d6e46350b3c560d4d5559080a4712191d490353121b0d435f41574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DanceHits80.ru" tvg-name="DanceHits80" tvg-logo="https://i.imgur.com/uMw3kks.png" group-title="RU • Music",DanceHits80
+https://go.skym3u.dev/live/339d5/28502b42594d1e5c0e015703101a120007434c054f42430a0d32417a1c6f0a534d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Detskiy.ru" tvg-name="Detskiy" tvg-logo="https://mt.media/upload/iblock/c22/pndw8yi2jwgppdrjikm3eusqp8087kr3.png" group-title="RU • Kids",Detskiy
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156f01504d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Dikayarybalka.ru@HD" tvg-name="Dikaya rybalka HD" tvg-logo="https://i.imgur.com/e3BFVgt.png" group-title="RU • General",Dikaya rybalka HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067711705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Dikij.ru" tvg-name="Dikij" tvg-logo="https://i.imgur.com/VDXDiPC.png" group-title="RU • Outdoor",Dikij
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e555d5c1a0c04584d58180d354e6f156d01534d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DiscoveryChannel.ru@SD" tvg-name="Discovery Channel (Russia)" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/2019_Discovery_logo.svg/960px-2019_Discovery_logo.svg.png" group-title="RU • General",Discovery Channel (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057713705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Doctor.ru" tvg-name="Doctor" tvg-logo="https://i.imgur.com/VNirxxn.png" group-title="RU • Education",Doctor
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0c700b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Domkino.ru" tvg-name="Dom kino" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D0%B0_%D0%94%D0%BE%D0%BC_%D0%9A%D0%B8%D0%BD%D0%BE.png/960px-%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D0%B0_%D0%94%D0%BE%D0%BC_%D0%9A%D0%B8%D0%BD%D0%BE.png" group-title="RU • Movies",Dom kino
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156f07574d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DomkinoPremium.ru@HD" tvg-name="Dom kino Premium HD" tvg-logo="https://i.imgur.com/rJpQtvK.png" group-title="RU • Movies",Dom kino Premium HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05701c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DomashnieZhivotnye.ru" tvg-name="Domashnie Zhivotnye" tvg-logo="https://tv-stream.ru/uploads/D_Zh_ad21d48199.svg" group-title="RU • Lifestyle",Domashnie Zhivotnye
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b00554d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Dorama.ru" tvg-name="Dorama" tvg-logo="https://i.imgur.com/ZH5LuXU.png" group-title="RU • Movies",Dorama
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156d05504d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Drive.ru" tvg-name="Drive" tvg-logo="https://i.imgur.com/FnuwfSC.png" group-title="RU • Auto",Drive
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b00524d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="DumaTV.ru" tvg-name="Duma TV" tvg-logo="https://i.imgur.com/JvlO3PU.png" group-title="RU • Legislative",Duma TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c04412d450b644c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Enisey.ru" tvg-name="Enisey" tvg-logo="https://i.imgur.com/57deE7f.png" group-title="RU • General",Enisey
+https://go.skym3u.dev/live/339d5/28502b4210581e170703474b1d1d0f005a0a1617044f5117552950254b7140164d5456061c511f0c0549004b010700471d1a094f214d2c4d2c464d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Eurasia.ru" tvg-name="Eurasia" tvg-logo="https://i.imgur.com/4JUHIVS.png" group-title="RU • General",Eurasia
+https://go.skym3u.dev/live/339d5/28502b4210581e17060152091b1b0e5d4b0109045f5e540a4a211a3251705a0f1158560900570e571a081550100a094e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="EuronewsRussian.fr@SD" tvg-name="Euronews Russian" tvg-logo="https://i.imgur.com/8t9mdg9.png" group-title="RU • News",Euronews Russian
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1d06141c51161512044d5e184e215d3a413b1c0d0745170306420357160200101617134542500e506d46350b6d075355001706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="EuropaPlusTV.ru" tvg-name="Europa Plus TV" tvg-logo="https://i.imgur.com/GLc4qrc.png" group-title="RU • Music",Europa Plus TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d261743571f0e640a0d00491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Evrokino.ru" tvg-name="Evrokino" tvg-logo="https://i.imgur.com/8LPtPf6.png" group-title="RU • Movies",Evrokino
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a3c55325b2b4d315d4c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Evrokino.ru@HD" tvg-name="Evrokino HD" tvg-logo="https://i.imgur.com/8LPtPf6.png" group-title="RU • Movies",Evrokino HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077811705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FAN.ru" tvg-name="FAN" tvg-logo="https://i.imgur.com/mDeTbaF.png" group-title="RU • Animation",FAN
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007214705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FashionLifeStyle.ru" tvg-name="Fashion&LifeStyle" tvg-logo="https://i.imgur.com/ETmpllL.png" group-title="RU • Lifestyle",Fashion&LifeStyle
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05711d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FashionTV.ru" tvg-name="FashionTV" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Fashion_TV_logo.svg/960px-Fashion_TV_logo.svg.png" group-title="RU • Lifestyle",FashionTV
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e0e1c5c0f171d0a1a49164c0c4f485c1840245a6e562a1d00065f17090e470e111c0807495c120d4b55591050341a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FirstMusicChannel.by@SD" tvg-name="First Music Channel" tvg-logo="https://i.imgur.com/YdyFJrl.png" group-title="RU • Music",First Music Channel
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a1b024448171d035d5d0a5850191c0556.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FONMusic.ru" tvg-name="FON Music" tvg-logo="https://i.imgur.com/tXABQDE.png" group-title="RU • Music",FON Music
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156d05514d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FoodNetwork.ru" tvg-name="Food Network" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Food_Network_New_Logo.png/960px-Food_Network_New_Logo.png" group-title="RU • Cooking",Food Network
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06791c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FoodTime.ru" tvg-name="FoodTime" tvg-logo="https://i.imgur.com/gxCYAwH.png" group-title="RU • Cooking",FoodTime
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067112705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Fox.ru" tvg-name="Fox" tvg-logo="https://i.imgur.com/nr1Y67Z.png" group-title="RU • Entertainment",Fox
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057816705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="FoxLife.ru" tvg-name="Fox Life" tvg-logo="https://i.imgur.com/O2miSLA.png" group-title="RU • Series",Fox Life
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05721d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Friday.ru" tvg-name="Friday!" tvg-logo="https://i.imgur.com/UfmlXxe.png" group-title="RU • Entertainment",Friday!
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a325170621a034556060c5549111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="GlazamiTurista.ru" tvg-name="Glazami Turista" tvg-logo="https://i.imgur.com/GXJKWdy.png" group-title="RU • Travel",Glazami Turista
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b00504d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="GovoritMoskva.ru" tvg-name="Govorit Moskva" tvg-logo="https://i.imgur.com/z2mxf3E.png" group-title="RU • News",Govorit Moskva
+https://go.skym3u.dev/live/339d5/28502b4210581e1719065003175d011c491c10085e415a0a4836556e562a1d1117575540065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Groznyj.ru" tvg-name="Groznyj" tvg-logo="https://i.imgur.com/yrN0Vl6.png" group-title="RU • General",Groznyj
+https://go.skym3u.dev/live/339d5/28502b4210581e170a5e044b141f48155e1007024b5f41574a2f1b25523e510c06544a30075815271b0f5c6a262f2d7b7a7420752c6e396c6e06243074763e3962563f5c545c0841524c1902584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="GuberniaSamara.ru" tvg-name="Gubernia Samara" tvg-logo="https://i.imgur.com/IlL57Rm.png" group-title="RU • General",Gubernia Samara
+https://go.skym3u.dev/live/339d5/28502b42594d1e54061951481f0604164d1d0b005e5a1b1a472e4229403a5d4d104417081a56030a1d0f124b054d065f4e500b4d29553452714107121e48030e4d0a1100125d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="GulliGirl.ru" tvg-name="Gulli Girl" tvg-logo="https://i.imgur.com/lbViDuC.png" group-title="RU • Kids",Gulli Girl
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077011705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Hit.ru" tvg-name="Hit" tvg-logo="https://i.imgur.com/jl3MNPe.png" group-title="RU • Movies",Hit
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077617705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="HopeChannelRussia.ru" tvg-name="Hope Channel Russia" tvg-logo="https://i.imgur.com/ah6VnFJ.png" group-title="RU • Religious",Hope Channel Russia
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035507101b5003074f49485b0f4a24512f0a2d474c164750001f514b08060a1f10071409455c5026126f442c45265e0a114516025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="HorosheeKino.ru" tvg-name="Horoshee Kino" tvg-logo="https://i.imgur.com/ZbOqfy4.png" group-title="RU • Movies",Horoshee Kino
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420355010f12515d0105445a5c1d462f1a325170400a035f171d1a474b0a12021a505c120d4b55591050341a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="HuzurTV.ru" tvg-name="Huzur TV" tvg-logo="https://i.imgur.com/Abg1fct.png" group-title="RU • Religious",Huzur TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170703474b150a051751435a5618180c4f137107750a3c560d14585c0a001a140d5c0b0a5c170c51121b074d1a760471176a1d1016435d0e020549081f070a531a11150441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="IllusionPlus.ru" tvg-name="Illusion+" tvg-logo="https://i.imgur.com/9GvuHQ5.png" group-title="RU • Movies",Illusion+
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a304f2c413a4d305c484d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="IndiyskoyeKino.ru" tvg-name="Indiyskoye Kino" tvg-logo="https://i.imgur.com/LL8GyCh.png" group-title="RU • Movies",Indiyskoye Kino
+https://go.skym3u.dev/live/339d5/28502b42594d1e0957571a574940484206434c501803064b1a6f5d2e403a4a4d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Ingushetia.ru" tvg-name="Ingushetia" tvg-logo="https://i.imgur.com/Fw2Hkk4.png" group-title="RU • General",Ingushetia
+https://go.skym3u.dev/live/339d5/28502b4210581e17060153130b1b030756124c0c4f485c1840245a6e562a1d00065f17060153130b1b030756124d11464d4c154a33406e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="InsaytTV.ru" tvg-name="Insayt TV" tvg-logo="https://i.imgur.com/slLuRel.png" group-title="RU • General",Insayt TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077615705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="InvestigationDiscovery.ru@SD" tvg-name="Investigation Discovery (Russia)" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/InvestigationDiscoveryLogo2020.svg/960px-InvestigationDiscoveryLogo2020.svg.png" group-title="RU • General",Investigation Discovery (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067011705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Istoki.ru" tvg-name="Istoki" tvg-logo="https://istoki.tv/local/templates/istoki_new/img/logo.png" group-title="RU • General",Istoki
+https://go.skym3u.dev/live/339d5/28502b4210581e17061c4009131a4807495c0e085c491a0a57325121496e1d130e504103064712561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Izvestia.ru" tvg-name="Izvestia" tvg-logo="https://i.imgur.com/r5HzA6J.png" group-title="RU • News",Izvestia
+https://go.skym3u.dev/live/339d5/28502b42594d1e510806190e140048105b1d14084e495a5751351b2943361d0a0558671b0c5b021d5c161f5e0a0e0859581b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KapitanFantastika.ru" tvg-name="Kapitan Fantastika" tvg-logo="https://i.imgur.com/K3PSHiT.png" group-title="RU • Kids",Kapitan Fantastika
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057410705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KHL.ru" tvg-name="KHL" tvg-logo="https://i.imgur.com/RgdHdOV.png" group-title="RU • Sports",KHL
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a326b0c1b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KHLPrime.ru" tvg-name="KHL Prime" tvg-logo="https://i.imgur.com/pwxT0ON.png" group-title="RU • Sports",KHL Prime
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05771c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kino1.ru" tvg-name="Kino 1" tvg-logo="https://i.imgur.com/zsCPLs4.png" group-title="RU • Movies",Kino 1
+https://go.skym3u.dev/live/339d5/28502b42594d1e5306015b4b495d05124b1003125e02410f0c235b2e503a5c174d0200595e0349111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KinoTV.ru" tvg-name="Kino TV" tvg-logo="https://i.imgur.com/sMpamNO.png" group-title="RU • Movies",Kino TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a325170590a0c5e151b191b0f1617030b111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KinoHit.ru" tvg-name="KinoHit" tvg-logo="https://i.imgur.com/Ge8vkQM.png" group-title="RU • Movies",KinoHit
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057212705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinokomedija.ru" tvg-name="Kinokomedija" tvg-logo="https://i.imgur.com/dVjtth0.png" group-title="RU • Comedy",Kinokomedija
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067611705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinomix.ru" tvg-name="Kinomix" tvg-logo="https://i.imgur.com/D4q2XUT.png" group-title="RU • Movies",Kinomix
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057317705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinopokaz.ru" tvg-name="Kinopokaz" tvg-logo="https://i.imgur.com/nNjMyAq.png" group-title="RU • Movies",Kinopokaz
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f02740b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinopremyera.ru" tvg-name="Kinopremyera" tvg-logo="https://i.imgur.com/s0UYT8T.png" group-title="RU • Movies",Kinopremyera
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f7f096a106231277c712a3d7549111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinosemja.ru" tvg-name="Kinosemja" tvg-logo="https://i.imgur.com/4BF5VeK.png" group-title="RU • Movies",Kinosemja
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057714705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinosvidanie.ru" tvg-name="Kinosvidanie" tvg-logo="https://i.imgur.com/ZRaWqxj.png" group-title="RU • Movies",Kinosvidanie
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f5f294a3041150b555901065149111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kinouzhas.ru" tvg-name="Kinouzhas" tvg-logo="https://i.imgur.com/mAcAAQF.png" group-title="RU • Movies",Kinouzhas
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06771c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Komedia.ru" tvg-name="Komedia" tvg-logo="https://i.imgur.com/VRC5juh.png" group-title="RU • Comedy",Komedia
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f02780b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Komediynoe.ru@HD" tvg-name="Komediynoe HD" tvg-logo="https://i.imgur.com/cEKe8XC.png" group-title="RU • General",Komediynoe HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03740b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KongressTV.ru" tvg-name="Kongress TV" tvg-logo="https://tvcongress.ru/bitrix/templates/mbntheme/img/logo_tvc.svg" group-title="RU • General",Kongress TV
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035540481c4b100c045e02470c0c235b2e432d571011454e40065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KrikTV.ru" tvg-name="Krik-TV" tvg-logo="https://i.imgur.com/rtuChZR.png" group-title="RU • News",Krik-TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011956495d041c5106114c5e5a1b0b566f5f324d3446153d545c080a1b1614121f1f5600164f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kuban24.ru" tvg-name="Kuban 24" tvg-logo="https://www.cableman.ru/sites/default/files/2022-03-23_02-09-35.png" group-title="RU • General",Kuban 24
+https://go.skym3u.dev/live/339d5/28502b42594d1e5c0206071f5507105d501d0e0844491a114f331b3a453d5315031e4a0a085d09165c2b3266384d22627378387a0b7b100a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Kuhnya.ru" tvg-name="Kuhnya" tvg-logo="https://cdn2.red-media.ru/wp-content/uploads/2016/08/Kuhnya-mediakit.png" group-title="RU • Cooking",Kuhnya
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05771d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KulinarTV.ru" tvg-name="Kulinar TV" tvg-logo="https://smotret.tv/images/kulinar-tv.webp" group-title="RU • Cooking",Kulinar TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170e1f5d48191f16125c124c151c1e5457402f596f4c33414c5b00095f4047120a16071e0f5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KurajTV.ru" tvg-name="Kuraj-TV" tvg-logo="https://i.imgur.com/hZXBD9F.png" group-title="RU • General",Kuraj-TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170d1c40120e5d041c5106114c5e5a1b0b566f57244a705916105051401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="KVNTV.ru" tvg-name="KVN TV" tvg-logo="https://i.imgur.com/Vw3LFLX.png" group-title="RU • Comedy",KVN TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574a474842084a4c50181e0f411378046f6f097c4e36671706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="LawTV.ru" tvg-name="Law TV" tvg-logo="https://i.imgur.com/X0Vp6fd.png" group-title="RU • General",Law TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007012705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="LDPRTV.ru" tvg-name="LDPR TV" tvg-logo="https://i.imgur.com/gCmCRfe.png" group-title="RU • General",LDPR TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594100505642524011415053101d0c4a166f5829523a1d0e120502030b4414560012015a120f4e5a4054004f2947340a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Leomax24.ru" tvg-name="Leomax 24" tvg-logo="https://i.imgur.com/qU9ohQu.png" group-title="RU • Shop",Leomax 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171b19470e1703155d5d1c0c145901410f0d32416f473b5c4c1159571f5d0049081f070a531a11150441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Telecafe.ru@SD" tvg-name="like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="Cooking",Telecafe (Russia)" tvg-logo="https://i.imgur.com/1H3h1HL.png" group-title="RU • General",like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="Cooking",Telecafe (Russia)
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a5256000d0a581c4c0c4403591055251b244d2c59524d655d030a57071e16493b73201452076a61380c14512c413c5305071f555c1a0c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="STSLove.ru@SD" tvg-name="like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="Family",STS Love" tvg-logo="https://i.imgur.com/YBVZoDd.png" group-title="RU • General",like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="Family",STS Love
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a5256000d0a581c4c0c4403591055251b244d2c59524d77591c075d09162c3225103b2e325c1f183f77011b06452c5a0a0d5f673b391a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Mir.ru@SD" tvg-name="like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="General",Mir" tvg-logo="https://i.imgur.com/AqWaJT8.png" group-title="RU • General",like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="General",Mir
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a5256000d0a581c4c0c4403591055251b244d2c59524d7c713d407c2a2b05555e7927234e676567574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTVi.ru@SD" tvg-name="like Gecko) Chrome/149.0.0.0 Safari/537.36" group-title="General",RTVi" tvg-logo="https://i.imgur.com/1AEhXyS.png" group-title="RU • General",like Gecko) Chrome/149.0.0.0 Safari/537.36" group-title="General",RTVi
+https://go.skym3u.dev/live/339d5/28502b4210581e171c075d000c43555d5600124f484b1a2b77165d6f4d3156061a1f555c1a0c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Dorama.ru@HD" tvg-name="like Gecko) Chrome/149.0.0.0 Safari/537.36" group-title="Movies",Dorama HD" tvg-logo="https://i.imgur.com/ZH5LuXU.png" group-title="RU • Movies",like Gecko) Chrome/149.0.0.0 Safari/537.36" group-title="Movies",Dorama HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007116705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Channel8Krasnoyarsk.ru@HD" tvg-name="like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0" group-title="General",Channel 8 Krasnoyarsk HD" tvg-logo="https://i.imgur.com/q3JCAC3.png" group-title="RU • General",like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0" group-title="General",Channel 8 Krasnoyarsk HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171b1c5c0f1e074b421107070d4f4f5a14426e40360b67510b035f560a031b120a1205184c5e14504b1d1a144c2e5b6e502c1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="LiveMusicChannel.ru@HD" tvg-name="Live Music Channel HD" tvg-logo="https://i.imgur.com/9qJkxV9.png" group-title="RU • Music",Live Music Channel HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d2f0b475d300241151110391057120c0f4f401a104d2451380a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Lugansk24.ua@SD" tvg-name="Lugansk 24" tvg-logo="https://i.imgur.com/AihoVc0.png" group-title="RU • News",Lugansk 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b54415d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Magnat.ru" tvg-name="Magnat" tvg-logo="https://i.imgur.com/r485aZL.png" group-title="RU • Shop",Magnat
+https://go.skym3u.dev/live/339d5/28502b4210581e171c5e1a120e5e0812511c4c0245411a3442275a2150007a273d04095e5603564d5c101a5b160d4f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Maidan.ru" tvg-name="Maidan" tvg-logo="https://i.imgur.com/C8CCjZK.png" group-title="RU • Music",Maidan
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203551e071a5b120c155c02561d4d365d2441301c11171e550e0650071607105c52120b054b42410f0d3359294870420f034854061c40481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Mama.ru" tvg-name="Mama" tvg-logo="https://i.imgur.com/kmMIjjf.png" group-title="RU • Kids",Mama
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a3251705f020f501706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MatchBoets.ru" tvg-name="Match! Boets" tvg-logo="https://i.imgur.com/DogOkA4.png" group-title="RU • Sports",Match! Boets
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057116705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MatchUltra.ru" tvg-name="Match! Ultra" tvg-logo="https://www.kartina.tv/media/news/images/News/SEO/kanal-match-ultra.jpg" group-title="RU • Sports",Match! Ultra
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05761d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MirBelogorya.ru" tvg-name="Mir Belogorya" tvg-logo="https://mirbelogorya.ru/images/logo/Logo_Mir_Belogorya_purple_gradient.png" group-title="RU • General",Mir Belogorya
+https://go.skym3u.dev/live/339d5/28502b42594d1e55061d5603141c011c4d0a034f58590f411378046f49364001075d570800461f195c0f1d5b161a4f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Mir.ru@HD" tvg-name="Mir HD" tvg-logo="https://i.imgur.com/AqWaJT8.png" group-title="RU • General",Mir HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a0b110112051110060f5c45511c4c6e46350b325b111647151f0e460715031311531a110905455b0d0c3058215d335b10161f555c1a0c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MirSeriala.ru" tvg-name="Mir Seriala" tvg-logo="https://i.imgur.com/uzj7wVp.png" group-title="RU • Series",Mir Seriala
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a344a3267255636530f031e51010b511e561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MMATVcom.ru" tvg-name="MMA-TV.com" tvg-logo="https://i.imgur.com/QhdxNsB.png" group-title="RU • Sports",MMA-TV.com
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e154111000d074b5f415757361b3643335b15071c4b044200504a4a564710030e0053405c0a576e59735167.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MosfilmGoldCollection.ru" tvg-name="Mosfilm Gold Collection" tvg-logo="https://i.imgur.com/95Y8jb6.png" group-title="RU • Movies",Mosfilm Gold Collection
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f07761d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Moskva24.ru" tvg-name="Moskva 24" tvg-logo="https://i.imgur.com/gXbUMVy.png" group-title="RU • General",Moskva 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c5770550a145200401f5807011f0f004b5d0f525f140a1c4d345d345d62510b035f560a03120f1c4e514a075511084d42084a14780c7141390006500901095f02541b1600150f1701001c4f074d47230178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MoskvaDoveriye.ru" tvg-name="Moskva. Doveriye" tvg-logo="https://i.imgur.com/QDqDQzt.png" group-title="RU • General",Moskva. Doveriye
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d070d475d1d065149081f070a531a1115751f1b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Moymir.ru" tvg-name="Moy mir" tvg-logo="https://www.cableman.ru/sites/default/files/MM-TV_logo-1%5B1509%5D.png" group-title="RU • Shop",Moy mir
+https://go.skym3u.dev/live/339d5/28502b4210581e1702004d0b110148014a5c0a0d59035a174229466e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MoyaPlaneta.ru" tvg-name="Moya Planeta" tvg-logo="https://i.imgur.com/uIiAdBv.png" group-title="RU • Outdoor",Moya Planeta
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057210705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Moyastikhiya.ru" tvg-name="Moya stikhiya" tvg-logo="https://i.imgur.com/Sl8c9eB.png" group-title="RU • Travel",Moya stikhiya
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057415705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MTVVolgograd.ru" tvg-name="MTV Volgograd" tvg-logo="https://i.imgur.com/pdCAUrP.png" group-title="RU • General",MTV Volgograd
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a10171f011c580103051b5a410f0d23502e523656060d1f4a1a404209141409144d1206505c584356552f58274b38400206004e1b191a151c03490353121b0d435f41574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Mult.ru" tvg-name="Mult" tvg-logo="https://i.imgur.com/xi351Fx.png" group-title="RU • Kids",Mult
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a3251707f160e451706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Multimuzyka.ru" tvg-name="Mult i muzyka" tvg-logo="https://i.imgur.com/SYt6BZP.png" group-title="RU • Kids",Mult i muzyka
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0c720b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Multilandia.ru" tvg-name="Multilandia" tvg-logo="https://i.imgur.com/ccwijY0.png" group-title="RU • Kids",Multilandia
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b06534d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MuzSoyuz.ru" tvg-name="Muz Soyuz" tvg-logo="https://i.imgur.com/Puk1Bhx.png" group-title="RU • Music",Muz Soyuz
+https://go.skym3u.dev/live/339d5/28502b4210581e170703474b0c05151c4606184f49485b0f4a24512f0a2d474c16474b0016411c4a5c0b0645000d185f561b4f4537046d11674a134f505b1b1c19030b0a565c4f1f03184645460d0d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Muzyka1.ru" tvg-name="Muzyka 1" tvg-logo="https://i.imgur.com/DIKe5vA.png" group-title="RU • Music",Muzyka 1
+https://go.skym3u.dev/live/339d5/28502b4210581e1704065a09554248105e07010059581b0d556f572f4a2b570d161e0b58580053571a08175a0b4c0c19590d.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MuzykaKino.ru" tvg-name="Muzyka Kino" tvg-logo="https://i.imgur.com/2SG0Swa.png" group-title="RU • Music",Muzyka Kino
+https://go.skym3u.dev/live/339d5/28502b4210581e1704065a09554248105e07010059581b0d556f572f4a2b570d161e0b5858075f571a08175a0b4c0c19590d.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MuzykaLive.ru" tvg-name="Muzyka Live" tvg-logo="https://cdn2.red-media.ru/wp-content/uploads/2016/08/LOGO_MUSIC_LIVE.png" group-title="RU • Music",Muzyka Live
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077017705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MuzykaPervogo.ru" tvg-name="Muzyka Pervogo" tvg-logo="https://i.imgur.com/U0vKj3P.png" group-title="RU • Music",Muzyka Pervogo
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057517705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nano.ru" tvg-name="Nano" tvg-logo="https://i.imgur.com/dYj3XDa.png" group-title="RU • Documentary",Nano
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f00711d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nano.ru@HD" tvg-name="Nano HD" tvg-logo="https://i.imgur.com/dYj3XDa.png" group-title="RU • General",Nano HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c0e750e6b007a274d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NashKinopokaz.ru@HD" tvg-name="Nash Kinopokaz HD" tvg-logo="https://i.imgur.com/iwTMl8O.png" group-title="RU • Movies",Nash Kinopokaz HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d30306567210e470e27180f1d50030d0a4b561a104d2451380a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nashe.ru" tvg-name="Nashe" tvg-logo="https://i.imgur.com/KO8dhi9.png" group-title="RU • Movies",Nashe
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067113705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nashemuzhskoe.ru@HD" tvg-name="Nashe muzhskoe HD" tvg-logo="https://i.imgur.com/QRWKpmb.png" group-title="RU • Movies",Nashe muzhskoe HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077616705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NasheNovoeKino.ru" tvg-name="Nashe Novoe Kino" tvg-logo="https://i.imgur.com/IOxIsPj.png" group-title="RU • Movies",Nashe Novoe Kino
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156f07524d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NationalGeographic.ru" tvg-name="National Geographic" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/960px-Natgeologo.svg.png" group-title="RU • Documentary",National Geographic
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057112705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nauka.ru" tvg-name="Nauka" tvg-logo="https://i.imgur.com/ZZxzueO.png" group-title="RU • Documentary",Nauka
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057211705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nevskiy.ru" tvg-name="Nevskiy" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/nevski_llive.jpg" group-title="RU • Series",Nevskiy
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a374636472b4d261d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NickJr.ru" tvg-name="Nick Jr." tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nick_Jr._logo_2023_(outline).svg/960px-Nick_Jr._logo_2023_(outline).svg.png" group-title="RU • Kids",Nick Jr.
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156a02524d41540e16580f0b07481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NicktoonsCIS.ru" tvg-name="Nicktoons CIS" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/d/d8/Nicktoons_UK_Logo_2014.png" group-title="RU • Kids",Nicktoons CIS
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156a02514d41540e16580f0b07481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NikaTV.ru" tvg-name="Nika TV" tvg-logo="https://i.imgur.com/dccsFAu.png" group-title="RU • General",Nika TV
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203551d0f185e07144f49485b0f4a24512f0a2d474c0c58530e1b4249161a0d124b054c124e5c1a094f214d2c4d2c464d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NizhniyNovgorod24.ru" tvg-name="Nizhniy Novgorod 24" tvg-logo="https://i.imgur.com/ZWgPVIC.png" group-title="RU • General",Nizhniy Novgorod 24
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550503004b1a0c0f044f5117552950254b7140164d475d1c1b5d08165c081d0d474f0a42401a094f214d2c4d2c464d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Nostalgia.ru" tvg-name="Nostalgia" tvg-logo="https://i.imgur.com/YBdBc0J.png" group-title="RU • Classic",Nostalgia
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a374c33402148385b1a031e51010b511e561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NovorossiyaTV.ru" tvg-name="Novorossiya TV" tvg-logo="https://i.imgur.com/ijmf0bV.png" group-title="RU • News",Novorossiya TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410555495d5740065d505419160c4913721b2e4b295d110d421706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NST.ru" tvg-name="NST" tvg-logo="https://i.imgur.com/uv2yxa5.png" group-title="RU • General",NST
+https://go.skym3u.dev/live/339d5/28502b4210581e17190050480c0610121101174e445f41564a2e50255c715f501709.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NTM.ru" tvg-name="NTM" tvg-logo="https://i.imgur.com/AH50pGT.png" group-title="RU • General",NTM
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203551d121e0e404c024e42431047255b6e562a1d0d165c095c40470b111f5c1d4b1e5352045f58104f6f442c45265e0a114516025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NTS.ru" tvg-name="NTS" tvg-logo="https://i.imgur.com/skkDR7q.png" group-title="RU • General",NTS
+https://go.skym3u.dev/live/339d5/28502b4210581e171f0a450d4f42161f51191b4f4b02410b4123502e0a3157174d5d51190a59070b0703011004560a501b45124a76061f4a2b413c1647171f03551f141a1507111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NTVMir.ru" tvg-name="NTV Mir" tvg-logo="https://i.imgur.com/pUcV46F.png" group-title="RU • Culture",NTV Mir
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d16094f5f410b4621596e47265d164d5d51190a1b544940481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NTVSeries.ru" tvg-name="NTV Series" tvg-logo="https://i.imgur.com/QdVa8tl.png" group-title="RU • Series",NTV Series
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077015705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NTVHit.ru" tvg-name="NTV-Hit" tvg-logo="https://i.imgur.com/FfKBvz5.png" group-title="RU • Series",NTV-Hit
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f5a3452375b174d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NVKSakha.ru" tvg-name="NVK Sakha" tvg-logo="https://i.imgur.com/LwXNUhf.png" group-title="RU • General",NVK Sakha
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035500071b5e5d0105445a5c1d462f1a32517041020a50171c0e5c0757030a12461f0b125e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="O.ru" tvg-name="O!" tvg-logo="https://i.imgur.com/pDc665V.png" group-title="RU • Kids",O!
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f02700b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Ohotnikirybolov.ru" tvg-name="Ohotnik i rybolov" tvg-logo="https://i.imgur.com/Bj1jI7F.png" group-title="RU • Outdoor",Ohotnik i rybolov
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057910705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Okhotairybalka.ru" tvg-name="Okhota i rybalka" tvg-logo="https://i.imgur.com/nZwBaeW.png" group-title="RU • Outdoor",Okhota i rybalka
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057511705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OkkoFutbol.ru" tvg-name="Okko Futbol" tvg-logo="https://xml-epgservice.cdnvideo.ru/EPGService/hs/xmldata/852f4b92-cae5-463e-aad6-cd8844c5a49/logo/8986.png" group-title="RU • Sports",Okko Futbol
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574a474842084a4c50181e0f411378046f773a46020c45595e405d081c161e5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OplotTV.ru" tvg-name="Oplot TV" tvg-logo="https://i.imgur.com/RvUkId2.png" group-title="RU • News",Oplot TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410555495d5740065d505419160c4913721b2f54335d173d595c40065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OsetiyaIryston.ru" tvg-name="Osetiya-Iryston" tvg-logo="https://i.imgur.com/N0Zn4zU.png" group-title="RU • General",Osetiya-Iryston
+https://go.skym3u.dev/live/339d5/28502b4210581e17001c5d14561e0317561201054402470c0c23502e0b304106165859401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OSN.ru" tvg-name="OSN" tvg-logo="https://www.osnmedia.ru/wp-content/uploads/2024/11/osn-logo-header.png" group-title="RU • General",OSN
+https://go.skym3u.dev/live/339d5/28502b42594d1e571c0159031c1a075d4c161017434f501a472e1a3251704117105459021c1b574f455640604b5a5112151a094f214d2c4d2c464d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Ostrosyuzhetnoye.ru" tvg-name="Ostrosyuzhetnoye" tvg-logo="https://i.imgur.com/NwQ7GBy.png" group-title="RU • Movies",Ostrosyuzhetnoye
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067110705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OtkritiymirZdorove.ru" tvg-name="Otkritiy mir. Zdorove" tvg-logo="https://i.imgur.com/7orZOJA.png" group-title="RU • Lifestyle",Otkritiy mir. Zdorove
+https://go.skym3u.dev/live/339d5/28502b4210581e17195b1a160a1c0915560b4c135f0305144a321b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OTVPrim.ru" tvg-name="OTV-Prim" tvg-logo="https://i.imgur.com/2zd8trG.png" group-title="RU • Entertainment",OTV-Prim
+https://go.skym3u.dev/live/339d5/28502b4210581e170515060a174a561b51031b4f4b02410b4123502e0a3157174d5d51190a59070b070301100a0d594d5e6a154a36516d11385d1110435e1f00411756000b1a535c120d4b55591050341a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Patriot.ru" tvg-name="Patriot" tvg-logo="https://patriotkanal.ru/assets/cached/2025/02/resize/264_112_q100_patriot-only-logo.png" group-title="RU • Movies",Patriot
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d1016504c060c1b1614121f1f5600163e1e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="PeretzInternational.ru" tvg-name="Peretz International" tvg-logo="https://i.imgur.com/Y84p1y6.png" group-title="RU • Entertainment",Peretz International
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057215705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Perviyotdel.ru" tvg-name="Perviy otdel" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/perv_otdel_llive.jpg" group-title="RU • Series",Perviy otdel
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a29463242295d005d1706545440065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="PervyyRespublikanskiy.ru" tvg-name="Pervyy Respublikanskiy" tvg-logo="https://i.imgur.com/ti4OMBv.png" group-title="RU • News",Pervyy Respublikanskiy
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b544f5d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Pes.ru" tvg-name="Pes" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/pes_llive.jpg" group-title="RU • Series",Pes
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a2946331b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Pobeda.ru" tvg-name="Pobeda" tvg-logo="https://i.imgur.com/4KiYSln.png" group-title="RU • General",Pobeda
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a5256000d0a581c4c0c4403591055251b244d2c59524d61570d0a5007573b2a2049404f277e6d1a294c22512445715f501709.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Priklyucheniya.ru" tvg-name="Priklyucheniya" tvg-logo="https://i.imgur.com/qQ6pPPQ.png" group-title="RU • General",Priklyucheniya
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b00534d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Prima.ru" tvg-name="Prima" tvg-logo="https://i.imgur.com/33XGMch.png" group-title="RU • General",Prima
+https://go.skym3u.dev/live/339d5/28502b4210581e171b0a58034a171001511216511b01054b0d23502e523656060d1f4a1a4047120a16071e103d2335757c47104e211b28482c1d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ProBusiness.ru" tvg-name="Pro Business" tvg-logo="https://i.imgur.com/1u8KvTD.png" group-title="RU • Business",Pro Business
+https://go.skym3u.dev/live/339d5/28502b4210581e171b1919150c010312521a0c06044e46110d32417a166e0b505a1e481d0056130b1a08164c004d115843570c50295a25572c1c1016435d0e021b1614121f1f5600164f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Prodvizhenie.ru" tvg-name="Prodvizhenie" tvg-logo="https://i.imgur.com/KlsnfG9.png" group-title="RU • General",Prodvizhenie
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d03125e5e54124b215a6e562a1d13105e591c1b4607131b071d57174d08444850010d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Prosveshchenie.ru" tvg-name="Prosveshchenie" tvg-logo="https://i.imgur.com/uppFhhq.png" group-title="RU • General",Prosveshchenie
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b48424811501d17120758435751351b305630411507425b070a5a0f1d2c031758164d11464d4c154a33406e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Quadro.ru" tvg-name="Quadro" tvg-logo="https://i.imgur.com/P4c53HA.png" group-title="RU • Movies",Quadro
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d58410554405d54400e5d53561b160d491b701b7315691d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Radio1.ru@SD" tvg-name="Radio 1 (Russia)" tvg-logo="https://radiopotok.ru/f/station/512/1812.png" group-title="RU • General",Radio 1 (Russia)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e48015e170b0e1b02470c0c2d512d422c1d575b555d0a585203554451115e5e56041c4e18414024576d423e0a5752040b5a0d06524a5d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RadioMir.by@SD" tvg-name="Radio Mir" tvg-logo="https://pbs.twimg.com/profile_images/1902997619724480512/jY6I1qIH_400x400.jpg" group-title="RU • General",Radio Mir
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e575d5b104c034f40411c4f25572f4971501a4d43590b065b0b110149004b0606084502460d5125552d0b2f5e021b5d511c1b1a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RadioRossii.ru" tvg-name="Radio Rossii" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Radio_Rossii_logo.svg/1920px-Radio_Rossii_logo.svg.png" group-title="RU • General",Radio Rossii
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d11035551003046130b5c161f5e0a0e0859586a4d0d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RadioShanson.ru" tvg-name="Radio Shanson" tvg-logo="https://i.imgur.com/lbqM3K2.png" group-title="RU • Music",Radio Shanson
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b070e5a15171d4b055617070e04445a0a57295a27563e560a0d1f4a1a550c564043491b53004d02424d5b0a4c2e552256705e0a145416025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RadostMoya.ru" tvg-name="Radost Moya" tvg-logo="https://i.imgur.com/B5FA62o.png" group-title="RU • Kids",Radost Moya
+https://go.skym3u.dev/live/339d5/28502b4210581e171d0e500b561e0317561201054402470c0c23502e0b2d53070d424c401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RBKTV.ru" tvg-name="RBK-TV" tvg-logo="https://i.imgur.com/CwhmJby.png" group-title="RU • Business",RBK-TV
+https://go.skym3u.dev/live/339d5/28502b4210581e1709580c0a0247001253434c000458471b40245a6e4a3a464c01555619065003175c14115c07144f471f40411c2509251779465e54070a591f58.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RedLine.ru" tvg-name="Red Line" tvg-logo="https://i.imgur.com/TgZ8Uv1.png" group-title="RU • General",Red Line
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b5a5a03504e5d0517515d0c064f425c010d2e51340b2c075655070e4202510211124b1c4d1a0508440347154a2e511f4c36550b4d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RENTVInternational.ru" tvg-name="REN TV International" tvg-logo="https://i.imgur.com/gBjk9oF.png" group-title="RU • General",REN TV International
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f66056a0b644c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Retro.ru" tvg-name="Retro" tvg-logo="https://xml-epgservice.cdnvideo.ru/EPGService/hs/xmldata/852f4b92-cae5-463e-aad6-cd8844c5a49/logo/69.png" group-title="RU • Classic",Retro
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057915705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RodnoeKino.ru" tvg-name="Rodnoe Kino" tvg-logo="https://i.imgur.com/H70LxoZ.png" group-title="RU • Movies",Rodnoe Kino
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067416705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Rossiya1Vainah.ru" tvg-name="Rossiya 1 Vainah" tvg-logo="https://i.imgur.com/GnbNG0r.png" group-title="RU • General",Rossiya 1 Vainah
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356100e165c1b070f5943530d0d32416f523e5b0d03594c19405a010a035c055e0a0c0042584326422c586f5433531a0e584b1b4159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RT.ru" tvg-name="RT" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Russia-today-logo.svg/960px-Russia-today-logo.svg.png" group-title="RU • News",RT
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1a590414164810501e4d0d435a50544b2c476d4029404c510259185e5549081f070a531a11150441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTArabic.ru" tvg-name="RT Arabic" tvg-logo="https://i.imgur.com/G8vGrn1.png" group-title="RU • News",RT Arabic
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1b19070a1148014b07144f494358564f2942250b2d460210505a401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTBalkan.ru" tvg-name="RT Balkan" tvg-logo="https://pbs.twimg.com/media/FiHmjBrWIBsN41d.jpg" group-title="RU • News",RT Balkan
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1b19150a1148014b07144f494358564f2942250b2d4601035d530e011b1614121f1f5600164f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTDocumentary.ru" tvg-name="RT Documentary" tvg-logo="https://i.imgur.com/aeu5zIC.png" group-title="RU • Documentary",RT Documentary
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1b19140c1748014b07144f494358564f2942250b2d46070d52171f03551f141a1507111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTenEspanol.ru" tvg-name="RT en Espanol" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Russia-today-logo.svg/960px-Russia-today-logo.svg.png" group-title="RU • News",RT en Espanol
+https://go.skym3u.dev/live/339d5/28502b4210581e170c035b131c5d09174600070404405c0f466f572f4a2b570d161e010959075e1a4a52170e4206591d15024b15215175113b56560301015d5c025449115f455e4757030541540a5725466e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTGTV.ru" tvg-name="RTG TV" tvg-logo="https://i.imgur.com/ZMKPAho.png" group-title="RU • Travel",RTG TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057610705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RTRPlaneta.ru" tvg-name="RTR-Planeta" tvg-logo="https://i.imgur.com/0YEahxs.png" group-title="RU • General",RTR-Planeta
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c5770420f035f5d1b0e6b140c0139124c1a034e5a4054004f2947340a3201165a0e5d011b5d12014e051b5e1d0c04460a5c1d1e750571022c5b040c0c5c5e0951564e10024a0d4100571d49014811770579116c045a5b095e0e5b0702.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RUTV.ru" tvg-name="RU.TV" tvg-logo="https://i.imgur.com/Z7HUU7V.png" group-title="RU • Music",RU.TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170d031a140d0713115a5d101405405c0f46334032413e5f4c00005d0d57515f48175116094054571d1b574a46220373466b540000530f5e581b0f1617030b111e511412135044117002791667075355071e1c52504b3d5e040b740a5017196970331a7466117c66712244425b070a5903451b12074f00.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Rus.ru" tvg-name="Rus" tvg-logo="https://i.imgur.com/KuL21f9.png" group-title="RU • General",Rus
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410552405d535d0d47534e414d5b184f1f06710b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Russia1.ru@HD" tvg-name="Russia-1 HD" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/rossiya-1-hd.png" group-title="RU • General",Russia-1 HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d1117424b060e6b0e1c5c161f5e0a0e0859586a4f0d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RussiaK.ru" tvg-name="Russia-K" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Russia-Cultura.svg/960px-Russia-Cultura.svg.png" group-title="RU • Culture",Russia-K
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356000b1c4b010b0c045e4056552740324f70024c0944541b1a4607551b025c561d06045202584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RussiaK.ru@HD" tvg-name="Russia-K HD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Russia-Cultura.svg/960px-Russia-Cultura.svg.png" group-title="RU • General",Russia-K HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d1117424b060e6b0d57030a12461f0b125e7300574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RussianExtremeUltra.ru" tvg-name="Russian Extreme Ultra" tvg-logo="https://i.imgur.com/Dk8VbAc.png" group-title="RU • Sports",Russian Extreme Ultra
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d1707424c300446070b18575c561d06045202584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RussianMusicBox.ru" tvg-name="Russian MusicBox" tvg-logo="https://i.imgur.com/ZkJ3Rh9.png" group-title="RU • Music",Russian MusicBox
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f07711d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RusskiyBestseller.ru" tvg-name="Russkiy Bestseller" tvg-logo="https://i.imgur.com/w0ZE9QJ.png" group-title="RU • Movies",Russkiy Bestseller
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06701c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RusskiyDetektiv.ru" tvg-name="Russkiy Detektiv" tvg-logo="https://i.imgur.com/H3qhN8S.png" group-title="RU • Movies",Russkiy Detektiv
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067010705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Russkiyroman.ru" tvg-name="Russkiy roman" tvg-logo="https://i.imgur.com/cQN0P2B.png" group-title="RU • Movies",Russkiy roman
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067612705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Rybolov.ru" tvg-name="Rybolov" tvg-logo="https://i.imgur.com/wJMTcFS.png" group-title="RU • Outdoor",Rybolov
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067610705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Ryzhiy.ru" tvg-name="Ryzhiy" tvg-logo="https://i.imgur.com/acrU2IE.png" group-title="RU • Kids",Ryzhiy
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b02544d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="S1.ru" tvg-name="S1" tvg-logo="https://i.imgur.com/chNBF5t.png" group-title="RU • General",S1
+https://go.skym3u.dev/live/339d5/28502b4210581e171c0640105601135c571f114e595843574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Salyam.ru" tvg-name="Salyam" tvg-logo="https://i.imgur.com/FfULLr1.png" group-title="RU • General",Salyam
+https://go.skym3u.dev/live/339d5/28502b4210581e170d1c40120e5d041c5106114c5e5a1b0b566f57244a7041020e48590240440a190a0a1a4c074c0c19590d.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SamaraGIS.ru" tvg-name="Samara-GIS" tvg-logo="https://samaragis.ru/wp-includes/images/logo.png" group-title="RU • General",Samara-GIS
+https://go.skym3u.dev/live/339d5/28502b4210581e171b191a15191e07015e140b12045e40564d25436f4a3a454c1643590c04474b0e420742101e0d0f4502584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SanktPeterburg.ru@HD" tvg-name="Sankt-Peterburg HD" tvg-logo="https://i.imgur.com/9At4oG7.png" group-title="RU • General",Sankt-Peterburg HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d061a45671c1f56120e5c161f5e0a0e0859586a4c0d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Saphire.ru" tvg-name="Saphire" tvg-logo="https://i.imgur.com/NMOBvle.png" group-title="RU • Series",Saphire
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d3003415e061d6b2e3c5c0f1d5b161a4f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Sarafan.ru" tvg-name="Sarafan" tvg-logo="https://i.imgur.com/u4q1rMT.png" group-title="RU • General",Sarafan
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0c710b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Sever.ru" tvg-name="Sever" tvg-logo="https://i.imgur.com/sTOQLYl.png" group-title="RU • General",Sever
+https://go.skym3u.dev/live/339d5/28502b4210581e175d195f094103051b481c0c4f4b02410b4123502e0a3157174d5d51190a59070b070301104b0b0d4d4f6a1a5476073547310250121f4b02065849081f070a531a11150441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ShansonTV.ru" tvg-name="Shanson TV" tvg-logo="https://i.imgur.com/Fk4sd8t.png" group-title="RU • Music",Shanson TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d16094f5f410b4621596e47265d164d5d51190a1b5148435f5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ShchyolkovskoeTV.ru" tvg-name="Shchyolkovskoe TV" tvg-logo="https://i.imgur.com/0us6l04.png" group-title="RU • General",Shchyolkovskoe TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e575d4b055650045e40564b2c476f483644064c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Shef.ru" tvg-name="Shef" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/shef_llive.jpg" group-title="RU • Series",Shef
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a2a4b25526f4d3156061a1f555c1a0c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Shokiruyushchee.ru@HD" tvg-name="Shokiruyushchee HD" tvg-logo="https://i.imgur.com/UG63hZ0.png" group-title="RU • Movies",Shokiruyushchee HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03750b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ShoppingLive.ru" tvg-name="Shopping Live" tvg-logo="https://i.imgur.com/EMmGnjV.png" group-title="RU • Shop",Shopping Live
+https://go.skym3u.dev/live/339d5/28502b4210581e1701005a0b11011f120810014f4b02410b4123502e0a3157174d5d51190a59070b0703011007181350196a0a423a58395433070c161f4b02065849081f070a531a11150441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Skorayapomoshch.ru" tvg-name="Skoraya pomoshch" tvg-logo="https://cdn2-static.ntv.ru/home/promo/24740/skoraya_pom_llive.jpg" group-title="RU • Series",Skoraya pomoshch
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a2a482f46214e3e6d130d5c571c071b0f1617030b111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SmileTV.ru" tvg-name="Smile TV" tvg-logo="https://static.tildacdn.com/tild3936-3138-4234-b536-326531343933/-_13x.png" group-title="RU • Kids",Smile TV
+https://go.skym3u.dev/live/339d5/28502b4210581e175a0b06554a455f110c1601514902460d5125552d483051084c5f5d1b4063233a2c351e561f0b0a0542520b537a672d4d335b084c424c1d0a550b551202124f070b174f03451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SmotrimChestnyyDetektiv.ru" tvg-name="Smotrim Chestnyy Detektiv" tvg-logo="https://cdn-st3.smotrim.ru/vh/pictures/svg/444/241/8.svg" group-title="RU • Series",Smotrim Chestnyy Detektiv
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550501074d18110c455847104e6e57244a295b07075e161d1a1b101f0714184c1e0d1558455856502d5b3456365f4e0e584e0a42045756000b1a535c120d4b55591050341a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SochiLive.ru" tvg-name="Sochi Live" tvg-logo="https://www.cableman.ru/sites/default/files/sochi_live.png" group-title="RU • General",Sochi Live
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b0a1d4255485d101a510707134b02410f197804781570410c015951401c5b05101a39004b0107004703451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Sochi24.ru" tvg-name="Sochi24" tvg-logo="https://i.imgur.com/iwWxkl6.png" group-title="RU • General",Sochi24
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b0a1d4255485d101a510707134b02410f197804781570410c015951401c5b05101a54476007144e5a4054004f2947340a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Solnce.ru" tvg-name="Solnce" tvg-logo="https://i.imgur.com/HCefxaK.png" group-title="RU • Animation",Solnce
+https://go.skym3u.dev/live/339d5/28502b4210581e171b191a0b1d170f125c170c4f58591a154a36516f57305e0d16425d401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SolovyovLive.ru" tvg-name="Solovyov Live" tvg-logo="https://images.iptv.rt.ru/images/d7efm08mifeaf9jacb30.png" group-title="RU • General",Solovyov Live
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d100d5d5719065110141a101610030e0053405c0a571f026e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SONGTVRussia.ru" tvg-name="SONGTV Russia" tvg-logo="https://i.imgur.com/nM7LbmV.png" group-title="RU • Music",SONGTV Russia
+https://go.skym3u.dev/live/339d5/28502b4210581e171c005a010c05481b53004c085a58431d406e572f49704506001c4a1a1c470f195c161f5e0a0e0859581b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Soyuz.ru" tvg-name="Soyuz" tvg-logo="https://i.imgur.com/w3OewHc.png" group-title="RU • Religious",Soyuz
+https://go.skym3u.dev/live/339d5/28502b4210581e170703474b0c05151c4606184f49485b0f4a24512f0a2d474c16474b0016411c5700090a4a094d11464d4c154a33406e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Soyuzny.ru" tvg-name="Soyuzny" tvg-logo="https://www.mtis.by/upload/medialibrary/717/v07nk6rmf6m1mno8ujhbkcg8nstkfjgv/Slide%2016_9%20-%2050.png" group-title="RU • General",Soyuzny
+https://go.skym3u.dev/live/339d5/28502b4210581e171c00411c160a481e5a170b0049485b5751351b2340311d100d444201161b1614121f1f5600164f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Spas.ru" tvg-name="Spas" tvg-logo="https://i.imgur.com/yY39nMg.png" group-title="RU • Religious",Spas
+https://go.skym3u.dev/live/339d5/28502b4210581e171b1947161900481e5a170b0049485b5751351b2340311d1012504b401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Sportivnyy.ru" tvg-name="Sportivnyy" tvg-logo="https://i.imgur.com/ujS6mMo.png" group-title="RU • Sports",Sportivnyy
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035540481c4b100c045e02470c0c33442f562b5b150c481706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="StarCinema.ru" tvg-name="Star Cinema" tvg-logo="https://i.imgur.com/5sis895.png" group-title="RU • Movies",Star Cinema
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e470e4a5d071d4b1a094f59471a154a36516f503a41173d424c0e1d6b05111d031e5e2c031541584356532c5539483641174c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="StarFamily.ru" tvg-name="Star Family" tvg-logo="https://i.imgur.com/eGuGHnZ.png" group-title="RU • Movies",Star Family
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e470e4a5d071d4b1a094f59471a154a36516f503a41173d424c0e1d6b00191e0f1f462c031541584356532c5539483641174c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="STARTAir.ru" tvg-name="START Air" tvg-logo="https://images.iptv.rt.ru/images/d60qp8omife4gis72tk0.png" group-title="RU • Movies",START Air
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05721c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="StranaFM.ru" tvg-name="Strana FM" tvg-logo="https://i.imgur.com/WsPlKJJ.png" group-title="RU • Music",Strana FM
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550012015e1d03074702561d4d365d2441301c11171e4b1b1d550819150b5c4c1e0b0d105f410b422e55264971410e0b5d171f03551f141a1507111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="STSInternational.ru" tvg-name="STS International" tvg-logo="https://i.imgur.com/mwiC0RG.png" group-title="RU • General",STS International
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f771467705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="STSkids.ru" tvg-name="STS kids" tvg-logo="https://i.imgur.com/o9kLpAL.png" group-title="RU • Kids",STS kids
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057913705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Subbota.ru" tvg-name="Subbota!" tvg-logo="https://i.imgur.com/nsk8PpB.png" group-title="RU • Entertainment",Subbota!
+https://go.skym3u.dev/live/339d5/28502b4210581e170d031a140d0713115a5d101405405c0f46334032413e5f4c510008585b00054943074607435b054b1f0d1842740075476607515b060e0b0e1b0f1617030b111e51141213504411700276116e0b5457091e1c52500b2d1550316a2218256878420d720f472565395d0444425b070a5903451b12074f00.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SuperGeroi.ru" tvg-name="SuperGeroi" tvg-logo="https://i.imgur.com/c0zZUR1.png" group-title="RU • Kids",SuperGeroi
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f561a5f4c5d575d0c495a51121c1a4810721b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Surgut24.ru" tvg-name="Surgut 24" tvg-logo="https://i.imgur.com/OxvqXMt.png" group-title="RU • News",Surgut 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c0640105601135c491416134103460d556e59735167.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="SvoyoTV.ru" tvg-name="Svoyo TV" tvg-logo="https://i.imgur.com/3cP2fmX.png" group-title="RU • General",Svoyo TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c195b030c05481e5a170b0049485b5751351b2340311d10145e5d1b191b1614121f1f5600164f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="T24.ru" tvg-name="T24" tvg-logo="https://i.imgur.com/1W6R14o.png" group-title="RU • News",T24
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f407210705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Tamyr.ru" tvg-name="Tamyr" tvg-logo="https://i.imgur.com/Ia3acCB.png" group-title="RU • Kids",Tamyr
+https://go.skym3u.dev/live/339d5/28502b4210581e170d1c40120e5d041c5106114c5e5a1b0b566f57244a7046020f484a401f5807011f0f004b5d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Tavriya.ru" tvg-name="Tavriya" tvg-logo="https://i.imgur.com/gqung6i.png" group-title="RU • General",Tavriya
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b544c5d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Telecafe.ru" tvg-name="Telecafe" tvg-logo="https://i.imgur.com/1H3h1HL.png" group-title="RU • Cooking",Telecafe
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077110705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TeleDom.ru" tvg-name="TeleDom" tvg-logo="https://i.imgur.com/071JRrb.png" group-title="RU • General",TeleDom
+https://go.skym3u.dev/live/339d5/28502b4210581e17060e594b08010915565d10140544590a0e2c5d3641705e0a1454480408464927170315561d111575035910552551364131464c16550f5d5f1a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TelekanalKrasnodar.ru" tvg-name="Telekanal Krasnodar" tvg-logo="https://i.imgur.com/YVtutzp.png" group-title="RU • General",Telekanal Krasnodar
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550710184d12110f4548540b0d23502e523656060d1f4a1a40401013010700511c06005803410f483255334a305602101f4b0b1f1b1614121f1f5600164f471f4041.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Telplus.ru" tvg-name="Telplus" tvg-logo="https://i.imgur.com/1zbcZ3p.png" group-title="RU • General",Telplus
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d03125e5e54124b215a6e562a1d17075d48031a470e1c5c161f5e0a0e0859581b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TiJi.ru" tvg-name="TiJi" tvg-logo="https://i.imgur.com/QCOUJ30.png" group-title="RU • Kids",TiJi
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057115705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TKR.ru" tvg-name="TKR" tvg-logo="https://i.imgur.com/VqtPB7L.png" group-title="RU • General",TKR
+https://go.skym3u.dev/live/339d5/28502b42594d1e54061951480c18145d5c170c17434850160d32416f5034404c165a4a411c501657030a12461f0b125e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TLC.ru@SD" tvg-name="TLC (Russia)" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/TLC_Logo.svg/960px-TLC_Logo.svg.png" group-title="RU • General",TLC (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05761c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TNT.ru@SD" tvg-name="TNT (Russia)" tvg-logo="https://i.imgur.com/T4A6rEI.png" group-title="RU • General",TNT (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057311705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TNTInternational.ru" tvg-name="TNT International" tvg-logo="https://i.imgur.com/l0RGbRI.png" group-title="RU • Entertainment",TNT International
+https://go.skym3u.dev/live/339d5/28502b42594d1e085a0c51074e165e5d4a100d0c435f41574d25406f4d2f46154d67735836772e302428377b4b3a22051d004b10701b294a3b571b4c5c0b1a57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TNT4.ru" tvg-name="TNT4" tvg-logo="https://i.imgur.com/gBokU5i.png" group-title="RU • Entertainment",TNT4
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057012705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TNVPlanet.ru" tvg-name="TNV-Planet" tvg-logo="https://i.imgur.com/ijA1zDw.png" group-title="RU • General",TNV-Planet
+https://go.skym3u.dev/live/339d5/28502b4210581e171f0355081d07075d521606084b4f51170d32416f473b5c4c165f4e1f0355081d07490353121b0d435f41574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TNVTatarstan.ru" tvg-name="TNV-Tatarstan" tvg-logo="https://i.imgur.com/58u9TQT.png" group-title="RU • General",TNV-Tatarstan
+https://go.skym3u.dev/live/339d5/28502b4210581e171a1c511441425441065d010d43495b0d506d57244a315d144c434d40075815570615164d4a535318156a480d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Tochkaotryva.ru" tvg-name="Tochka otryva" tvg-logo="https://tv-stream.ru/uploads/Tochka_Otriva_c4317672bb.svg" group-title="RU • General",Tochka otryva
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156f01524d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Tolk.ru" tvg-name="Tolk" tvg-logo="https://i.imgur.com/l7JZ79P.png" group-title="RU • News",Tolk
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035507091f541d07165902561d4d365d2441301c11171e4c00035f081d04155c4c0710044b411a094f214d2c4d2c464d0f024d57.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Tonus.ru" tvg-name="Tonus" tvg-logo="https://i.imgur.com/pGm8QCj.png" group-title="RU • General",Tonus
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574c4048420b4b4c5312160d491b701b0d4d2d00574d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Tooku.ru" tvg-name="Tooku" tvg-logo="https://tooku.ru/wp-content/uploads/2024/11/tooku-kanal-logo.png" group-title="RU • Animation",Tooku
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b0b120e121110060f5c45511c4c6e46350b2c530b031e4c00005f1f57030a12461f0b125e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TraceSportStars.fr@Russia" tvg-name="Trace Sport Stars Russia" tvg-logo="https://i.imgur.com/FabFP5A.png" group-title="RU • Sports",Trace Sport Stars Russia
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156d05574d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TravelChannel.ru@SD" tvg-name="Travel Channel (Russia)" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/8/82/Travel_Channel_International.svg/revision/latest?cb=20191226223708" group-title="RU • General",Travel Channel (Russia)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067315705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TravelPlusAdventure.ru@HD" tvg-name="Travel+Adventure HD" tvg-logo="https://i.imgur.com/AlpdXC4.png" group-title="RU • General",Travel+Adventure HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067012705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TsargradTV.ru" tvg-name="Tsargrad TV" tvg-logo="https://i.imgur.com/34RINpb.png" group-title="RU • Religious",Tsargrad TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170d031a140d0713115a5d101405405c0f46334032413e5f4c5b00005e5a50074c1602110e4555031f4e514f12775621416b0b5307040f0b0e1b0f1617030b111e5114121350441170037016680a5154021e1c525d15271e2a0260180831736046366974452a1c6a461444425b070a5903451b12074f00.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TV21.ru" tvg-name="TV 21" tvg-logo="https://i.imgur.com/nSmSnH6.png" group-title="RU • Movies",TV 21
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f60167c077b4c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TV21International.ru" tvg-name="TV 21 International" tvg-logo="https://ibb.co/BH6CZx3K" group-title="RU • Movies",TV 21 International
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057516705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TVBRICSRussian.ru" tvg-name="TV BRICS Russian" tvg-logo="https://i.imgur.com/vLpm8tN.png" group-title="RU • General",TV BRICS Russian
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1a47040a1a0500111e0705434d561d4d6e46350b3c560d4d534a060c47490a06150056120c4e5a4054004f2947340a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TVCentrInternational.ru" tvg-name="TV Centr International" tvg-logo="https://i.imgur.com/tsCOnBW.png" group-title="RU • General",TV Centr International
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156d0a524d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TVPRO.ru" tvg-name="TV PRO" tvg-logo="https://i.imgur.com/sbuSefI.png" group-title="RU • General",TV PRO
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a1b0244480c051601505e0d0f46455b1c0d32416f4c33414c0159094102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TVRain.nl@SD" tvg-name="TV Rain" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Tvrain.svg/960px-Tvrain.svg.png" group-title="RU • General",TV Rain
+https://go.skym3u.dev/live/339d5/28502b4210581e1718031a120e01071a515d1617055847184d33572f403a1d0d054348551c511527120a1f10030e0053405c0a576e59735167.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TV3.ru" tvg-name="TV-3" tvg-logo="https://i.imgur.com/JLAvq8O.png" group-title="RU • Entertainment",TV-3
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a32517046154f021706015003005d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TV3.ru@Belarus" tvg-name="TV-3 Belarus" tvg-logo="https://i.imgur.com/JLAvq8O.png" group-title="RU • General",TV-3 Belarus
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574a474842084a4c50181e0f411378046f701d1f504d58560b0a4c481540134b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TV3.ru@HD" tvg-name="TV-3 HD" tvg-logo="https://i.imgur.com/JLAvq8O.png" group-title="RU • General",TV-3 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057312705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TvoeTV.ru" tvg-name="Tvoe TV" tvg-logo="https://i.imgur.com/kKAM7dP.png" group-title="RU • Entertainment",Tvoe TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c190051120e5d15035e10075b121c0d490c34422f412b444c0b5f5c0a171a0b4b065e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TvoyeTVYumor.ru" tvg-name="Tvoye TV Yumor" tvg-logo="https://smotret.tv/images/tvoe-tv-yumor.webp" group-title="RU • Comedy",Tvoye TV Yumor
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c190051120e5d15035e10075b121c0d490c34422f412b443c0a4455001d1b0f1617030b111e511412.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="UDAR.ru" tvg-name="UDAR" tvg-logo="https://mt.media/upload/iblock/2b3/2b3cf99141bf7f99cda377eec62ec084.png" group-title="RU • Sports",UDAR
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06771d705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="UgraTV.ru" tvg-name="Ugra-TV" tvg-logo="https://i.imgur.com/561FRwI.png" group-title="RU • General",Ugra-TV
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203550601015e07144f49485b0f4a24512f0a2d474c17564a0e1b42490d1414124b054d11464d4c154a33406e496c475b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="UniverTV.ru" tvg-name="Univer TV" tvg-logo="https://i.imgur.com/r3u0mxr.png" group-title="RU • General",Univer TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a480d1d0f055a01110c455847100d32416f483644064d425506030e0b1a014800521a0e4e5a4054004f2947340a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="UnknownRussia.ru" tvg-name="Unknown Russia" tvg-logo="https://i.imgur.com/W7ste2f.png" group-title="RU • General",Unknown Russia
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c0e51295e295710165f59160e66090b000f12101a0c054f541b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Usadba.ru" tvg-name="Usadba" tvg-logo="https://i.imgur.com/mf13haG.png" group-title="RU • General",Usadba
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067115705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Vgostyakhuskazki.ru" tvg-name="V gostyakh u skazki" tvg-logo="https://i.imgur.com/jNJkLHl.png" group-title="RU • Kids",V gostyakh u skazki
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0d730b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Vmirezhivotnykh.ru" tvg-name="V mire zhivotnykh" tvg-logo="https://i.imgur.com/6uotdVQ.png" group-title="RU • General",V mire zhivotnykh
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067415705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="VestiFM.ru" tvg-name="Vesti FM" tvg-logo="https://i.imgur.com/ZBHqSZj.png" group-title="RU • News",Vesti FM
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d1507424c0630520b57030a12461f0b125e7301574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Vetta24.ru" tvg-name="Vetta 24" tvg-logo="https://i.imgur.com/zKH1b5k.png" group-title="RU • News",Vetta 24
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b0a1d42544c5d101a510707134b02410f1978047815704406164559401951120c12391c59150b024f03451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuExplore.ru" tvg-name="viju Explore" tvg-logo="https://i.imgur.com/EGIpLPu.png" group-title="RU • Documentary",viju Explore
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d0252005140065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuHistory.ru" tvg-name="viju History" tvg-logo="https://i.imgur.com/FqWkeXb.png" group-title="RU • Documentary",viju History
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057015705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuNature.ru" tvg-name="viju Nature" tvg-logo="https://i.imgur.com/8BPZ18l.png" group-title="RU • Documentary",viju Nature
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d0252005340065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuTV1000.ru" tvg-name="viju TV1000" tvg-logo="https://i.imgur.com/ZMsyjSr.png" group-title="RU • Movies",viju TV1000
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d37346e095f5f0449111d0216475d0f525f14.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuTV1000action.ru" tvg-name="viju TV1000 action" tvg-logo="https://i.imgur.com/TMmyuzh.png" group-title="RU • Movies",viju TV1000 action
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057014705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuTV1000novella.ru" tvg-name="viju TV1000 novella" tvg-logo="https://www.cableman.ru/sites/default/files/viju_TV1000_%D0%BD%D0%BE%D0%B2%D0%B5%D0%BB%D0%BB%D0%B0_color_rgb_02%20%281%29.png" group-title="RU • Movies",viju TV1000 novella
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d352b7b6d303b623949435643601d0d174f4059180c295a2441271c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuTV1000romantica.ru" tvg-name="viju TV1000 romantica" tvg-logo="https://rnnxdki1nv.a.trbcdn.net/viasat/production/tvchannels/dc243048-c5ad-4ccc-86c6-3a480874ec29/logos/flo59mr6lh1jf68g3021urgwtd5k" group-title="RU • Series",viju TV1000 romantica
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d350b5b4d302b46071512491a511707190441060c1b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuTV1000russkoe.ru" tvg-name="viju TV1000 russkoe" tvg-logo="https://i.imgur.com/Meak2y4.png" group-title="RU • Movies",viju TV1000 russkoe
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d0252005f40065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusComedy.ru" tvg-name="viju+ Comedy" tvg-logo="https://i.imgur.com/YoNOFu7.png" group-title="RU • Comedy",viju+ Comedy
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d350b5b4d302c5b0b1d171f2c77374d08444850010d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusMegahit.ru" tvg-name="viju+ Megahit" tvg-logo="https://i.imgur.com/oIQNddV.png" group-title="RU • Movies",viju+ Megahit
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d350b5b4d30225101191b0f07603b264e4342511c5b6e59735167.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusPlanet.ru@HD" tvg-name="viju+ Planet HD" tvg-logo="https://i.imgur.com/9Weqdsk.png" group-title="RU • General",viju+ Planet HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067414705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusPremiere.ru" tvg-name="viju+ Premiere" tvg-logo="https://i.imgur.com/klRvhR5.png" group-title="RU • Movies",viju+ Premiere
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067016705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusSerial.ru" tvg-name="viju+ Serial" tvg-logo="https://i.imgur.com/8yXZET5.png" group-title="RU • Series",viju+ Serial
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d350b5b4d303c511411120a2c77374d08444850010d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusSport.ru" tvg-name="viju+ Sport" tvg-logo="https://i.imgur.com/fXESG0l.png" group-title="RU • Sports",viju+ Sport
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d350b504b0e1b6b35081c1407101a0c054f541b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="vijuPlusSport.ru@HD" tvg-name="viju+ Sport HD" tvg-logo="https://i.imgur.com/fXESG0l.png" group-title="RU • Sports",viju+ Sport HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594101555641564311425752101b024e146f442c45261d0252005440065a021d0b481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="VitrinaTV.ru" tvg-name="Vitrina TV" tvg-logo="https://i.imgur.com/lzQsVfn.png" group-title="RU • Shop",Vitrina TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420355425710561d070c4b02561d4d365d2441301c11171e095e0c5d081d1e075c0e420108444958180c3058215d335b10161f555c1a0c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Vkus.ru" tvg-name="Vkus" tvg-logo="https://www.cableman.ru/sites/default/files/logo%20%287%29%20%281%29.png" group-title="RU • Travel",Vkus
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f422b512c1d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="VmesteRF.ru" tvg-name="Vmeste-RF" tvg-logo="https://i.imgur.com/KI1qZNc.png" group-title="RU • General",Vmeste-RF
+https://go.skym3u.dev/live/339d5/28502b4210581e171e0c440209060b1a4b04044f4b02410b4123502e0a3157174d5d51190a59070b0703014c01164e5a5e0114541f58364d3a1f150f544b1b0a46005500140711000f084603451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Volga.ru" tvg-name="Volga" tvg-logo="https://i.imgur.com/xHs1pr1.png" group-title="RU • General",Volga
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c0a0351541c05141d5e075250071c075740245a364d3b570c4c434d401c40141d120b5c7132363e7c43591e426f5c2c5770035a5001405e5f0c56384753430b5c120d4b55591050341a2d172a0a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="VoprosyiOtvety.ru" tvg-name="Voprosy i Otvety" tvg-logo="https://i.imgur.com/yjETxk1.png" group-title="RU • Entertainment",Voprosy i Otvety
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03760b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Vremya.ru" tvg-name="Vremya" tvg-logo="https://i.imgur.com/jZlj3ga.png" group-title="RU • General",Vremya
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a5256000d0a581c4c0c4403591055251b244d2c59524d674a0a024d07573b2a2049404f277e6d1a2f5125593945715f501709.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="YaltaTV.ru" tvg-name="Yalta TV" tvg-logo="https://img.cataloxy.ru/fl/97/e3/808131.gif" group-title="RU • General",Yalta TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a544e5d5e40114a545b1d1c07400c3058215d7053535207.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="YaPervyy.ru" tvg-name="YaPervyy" tvg-logo="https://yarreg.ru/gallery/news/2025/03/293241/3.jpeg" group-title="RU • General",YaPervyy
+https://go.skym3u.dev/live/339d5/28502b4210581e17160e46090b1f0705535d0f044e45541a472e1a32517051070c1e480a1d421f19010900531214124103451542395829572b1c0e514400.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Yuvelirochka.ru" tvg-name="Yuvelirochka" tvg-logo="https://i.imgur.com/IcWtXCZ.png" group-title="RU • Shop",Yuvelirochka
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420355061016531a100e49445e180d23502e523656060d1f4a1a4041101d1f0f0150100a0a4b03400f462c5d324b3c5a08036e0f5d5f445557030a12461f0b125e02584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ZaTV.ru" tvg-name="Za! TV" tvg-logo="https://i.imgur.com/pVPTl8J.png" group-title="RU • General",Za! TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b544d5d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ZagorodnayaZhizn.ru" tvg-name="Zagorodnaya Zhizn" tvg-logo="https://i.imgur.com/RoYd5pz.png" group-title="RU • General",Zagorodnaya Zhizn
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a534f5d504b1140514e1e1c1a104d2451380a3201165a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ZdorovoeTV.ru" tvg-name="Zdorovoe TV" tvg-logo="https://i.imgur.com/jedtE5l.png" group-title="RU • Lifestyle",Zdorovoe TV
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b005b4d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ZhivayaPlaneta.ru" tvg-name="Zhivaya Planeta" tvg-logo="https://i.imgur.com/onNv1tM.png" group-title="RU • General",Zhivaya Planeta
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156d07534d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Zhivayapriroda.ru" tvg-name="Zhivaya priroda" tvg-logo="https://i.imgur.com/9lHQPdN.png" group-title="RU • General",Zhivaya priroda
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067211705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Zoopark.ru" tvg-name="Zoopark" tvg-logo="https://tv-stream.ru/uploads/Zoopark_300h300_zelenyj_vert_0f85755619.svg" group-title="RU • General",Zoopark
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156b03544d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ZvezdaPlus.ru@HD" tvg-name="Zvezda Plus HD" tvg-logo="https://i.imgur.com/NNmjD9Z.png" group-title="RU • General",Zvezda Plus HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191542030217075d5d1c0c145901410f0d32416f473b5c4c18475d150b55161406155c4f1f03184645460d0d2d07351c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Domashniy.ru" tvg-name="Домашний" tvg-logo="https://i.imgur.com/WaLwOyt.jpeg" group-title="RU • Lifestyle",Домашний
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067213705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Zvezda.ru" tvg-name="Звезда" tvg-logo="https://i.imgur.com/4PAcpfM.png" group-title="RU • General",Звезда
+https://go.skym3u.dev/live/339d5/28502b4210581e171b194e101d09021211110d0f5f5f180d556e46350b3c560d4d454e1519511c1c12490353121b0d435f41574e734178.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MatchArena.ru" tvg-name="Матч! Арена" tvg-logo="https://i.imgur.com/udTzwzu.png" group-title="RU • Sports",Матч! Арена
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057617705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MatchIgra.ru" tvg-name="Матч! Игра" tvg-logo="https://i.imgur.com/5XWpF19.png" group-title="RU • Sports",Матч! Игра
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05781c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MatchStrana.ru" tvg-name="Матч! Страна" tvg-logo="https://i.imgur.com/X02s2UE.png" group-title="RU • Sports",Матч! Страна
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057417705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Mir.ru" tvg-name="МИР" tvg-logo="https://i.imgur.com/AqWaJT8.png" group-title="RU • General",МИР
+https://go.skym3u.dev/live/339d5/28502b4210581e171b1957021643575d5018161704474f5657361b2d4d2d1d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Mir24.ru" tvg-name="МИР 24" tvg-logo="https://i.imgur.com/dj9c8Yd.png" group-title="RU • News",МИР 24
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a0b110112051110060f5c45511c4c6e46350b325b111647151f0e460715031311531a110905415c0b11746b72116f024c125d5916035d150c5d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="MuzTV.ru" tvg-name="МУЗ-ТВ" tvg-logo="https://i.imgur.com/BtqrHmz.png" group-title="RU • Music",МУЗ-ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410552405d535d0d47534e414d5b184f1f06700b365c07074916025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="NTV.ru" tvg-name="НТВ" tvg-logo="https://real.su/wp-content/uploads/2019/12/%D0%9D%D0%A2%D0%92_HD-20220826-123641.png" group-title="RU • General",НТВ
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1c05145d5107144f58591a175736041f4c3b1d0a0c555d174159550d4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="OTR.ru" tvg-name="ОТР" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/9/9c/OTR_2025_logo.svg" group-title="RU • General",ОТР
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f4672107151004d5d51190a1b574a5d0b404a4b.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="ChannelOne.ru" tvg-name="Первый канал" tvg-logo="https://i.imgur.com/RUSX0rX.png" group-title="RU • General",Первый канал
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d16094f5f410b4621596e47265d164d5d51190a1b544943481e0c065a.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="RENTV.ru" tvg-name="РЕН ТВ" tvg-logo="https://i.imgur.com/0Tu5lte.png" group-title="RU • General",РЕН ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a32517040060c6e4c19405d081c161e5d52401759.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Russia1.ru" tvg-name="Россия 1" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/rossiya-1-hd.png" group-title="RU • General",Россия 1
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356000b1c4b010b0c045e4056552740324f70024c10444b1c065557551b025c561d06045202584a5678.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="Russia24.ru" tvg-name="Россия 24" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Rossiya-24_Logo.svg/960px-Rossiya-24_Logo.svg.png" group-title="RU • News",Россия 24
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356000b1c4b010b0c045e4056552740324f70024c10444b1c0655544c5e0e17101a0c054f541b1410350c.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="STS.ru" tvg-name="СТС" tvg-logo="https://i.imgur.com/ilUzAeb.png" group-title="RU • Family",СТС
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05731c705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="STSLove.ru" tvg-name="СТС Love" tvg-logo="https://upload.wikimedia.org/wikipedia/ru/thumb/3/35/%D0%A1%D0%A2%D0%A1_Love_%282023%29.svg/1920px-%D0%A1%D0%A2%D0%A1_Love_%282023%29.svg.png" group-title="RU • Family",СТС Love
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057817705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TVCentr.ru" tvg-name="ТВ Центр" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/7/72/TV_Tsentr_2013_Logo.svg" group-title="RU • General",ТВ Центр
+https://go.skym3u.dev/live/339d5/28502b4210581e171b19574b101f155d5c170c17434850160d32416f5029514e10544b401c590f1449101706415050045f58104f6f442c45265e0a114516025c415e.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="TNT.ru" tvg-name="ТНТ" tvg-logo="https://i.imgur.com/T4A6rEI.png" group-title="RU • Entertainment",ТНТ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a325170460d161e51010b511e561e550607.m3u8?s=711e&id=sftq.m3u
+#EXTINF:-1 tvg-id="U.ru" tvg-name="Ю" tvg-logo="https://i.imgur.com/KDZvt0Q.png" group-title="RU • Entertainment",Ю
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067314705b0d0654404102071340.m3u8?s=711e&id=sftq.m3u

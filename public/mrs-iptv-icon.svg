@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="M R S IPTV logo">
+  <title>M R S IPTV logo</title>
+  <defs>
+    <linearGradient id="mrsIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D9FF" />
+      <stop offset="50%" stop-color="#176BFF" />
+      <stop offset="100%" stop-color="#B832F5" />
+    </linearGradient>
+    <linearGradient id="mrsIconSilver" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#C9D1E0" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(10, 26)">
+    <!-- Outer Stylized TV Frame -->
+    <rect x="0" y="6" width="114" height="82" rx="15" fill="#050816" stroke="url(#mrsIconSilver)" stroke-width="5.5" />
+    <!-- Inner Gradient Broadcast Screen Border -->
+    <rect x="9" y="15" width="96" height="64" rx="9" fill="#050816" stroke="url(#mrsIconGrad)" stroke-width="3.2" />
+
+    <!-- Bold Play Button Symbol -->
+    <path d="M43 29 C43 26.5 45.8 25 48 26.3 L79 44.3 C81.2 45.6 81.2 48.8 79 50.1 L48 68.1 C45.8 69.4 43 67.9 43 65.4 Z" fill="url(#mrsIconGrad)" />
+    <path d="M49 36.5 L67.5 47.2 L49 57.9 Z" fill="#FFFFFF" opacity="0.96" />
+
+    <!-- TV Pedestal Stand -->
+    <path d="M35 99 L79 99" stroke="#C9D1E0" stroke-width="5.5" stroke-linecap="round" />
+    <path d="M48 88 L44 99 M66 88 L70 99" stroke="#C9D1E0" stroke-width="4" stroke-linecap="round" />
+
+    <!-- Subtle Broadcast Signal Waves -->
+    <path d="M123 29 A 21 21 0 0 1 123 65" fill="none" stroke="#00D9FF" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M133 20 A 33 33 0 0 1 133 74" fill="none" stroke="url(#mrsIconGrad)" stroke-width="4.5" stroke-linecap="round" />
+  </g>
+</svg>

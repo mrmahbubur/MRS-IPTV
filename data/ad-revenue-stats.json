@@ -1,0 +1,80 @@
+{
+  "totalImpressions": 105,
+  "totalClicks": 0,
+  "estimatedRevenueUsd": 0.10804,
+  "lastUpdated": "2026-11-22T08:32:15.496Z",
+  "zones": {
+    "300808": {
+      "zoneId": "300808",
+      "network": "Monetag Multi-Tag",
+      "url": "https://quge5.com/88/tag.min.js",
+      "impressions": 2,
+      "clicks": 0,
+      "revenueUsd": 0.00475,
+      "lastTriggered": "2026-10-23T15:43:27.412Z"
+    },
+    "11226634": {
+      "zoneId": "11226634",
+      "network": "Monetag Direct",
+      "url": "https://uplcm.com/4/11226634",
+      "impressions": 19,
+      "clicks": 0,
+      "revenueUsd": 0.01995,
+      "lastTriggered": "2026-11-16T11:01:43.329Z"
+    },
+    "11230440": {
+      "zoneId": "11230440",
+      "network": "Monetag Direct",
+      "url": "https://uplcm.com/4/11230440",
+      "impressions": 1,
+      "clicks": 0,
+      "revenueUsd": 0.00108,
+      "lastTriggered": "2026-11-22T08:28:40.457Z"
+    },
+    "11242069": {
+      "zoneId": "11242069",
+      "network": "Monetag Direct",
+      "url": "https://uplcm.com/4/11242069",
+      "impressions": 1,
+      "clicks": 0,
+      "revenueUsd": 0.00106,
+      "lastTriggered": "2026-11-22T08:31:43.238Z"
+    },
+    "11242745": {
+      "zoneId": "11242745",
+      "network": "Monetag Direct",
+      "url": "https://omg10.com/4/11242745",
+      "impressions": 1,
+      "clicks": 0,
+      "revenueUsd": 0.00085,
+      "lastTriggered": "2026-10-04T05:02:53.758Z"
+    },
+    "11683565": {
+      "zoneId": "11683565",
+      "network": "Monetag Direct",
+      "url": "https://uplcm.com/4/11683565",
+      "impressions": 79,
+      "clicks": 0,
+      "revenueUsd": 0.07597,
+      "lastTriggered": "2026-11-22T08:32:15.496Z"
+    },
+    "12103800": {
+      "zoneId": "12103800",
+      "network": "Monetag Push Worker",
+      "url": "/sw.js",
+      "impressions": 1,
+      "clicks": 0,
+      "revenueUsd": 0.0035,
+      "lastTriggered": "2026-10-23T15:43:15.428Z"
+    },
+    "unknown": {
+      "zoneId": "unknown",
+      "network": "Monetag Direct",
+      "url": "",
+      "impressions": 1,
+      "clicks": 0,
+      "revenueUsd": 0.00088,
+      "lastTriggered": "2026-10-21T21:07:34.962Z"
+    }
+  }
+}

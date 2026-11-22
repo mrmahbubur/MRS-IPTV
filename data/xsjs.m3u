@@ -1,0 +1,1195 @@
+#EXTM3U x-tvg-url=""
+#EXTINF:-1 tvg-logo="https://imgur.com/ocyTxpw.png" group-title="SkyM3U Promo",Skym3u Official - Visit Skym3u.dev
+https://vods2.aynaott.com/gseriesDrama/tracks-v1a1/mono.ts.m3u8
+#EXTINF:-1 group-title="Общие", loganettv all
+https://go.skym3u.dev/live/339d5/28502b4210581e171b415903571f09145e1d07155e5a6a0a5630442f562b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие", telegram - t.me/loganettv_original
+https://go.skym3u.dev/live/339d5/28502b4210581e171b415903571f09145e1d07155e5a6a16512953294a3e5e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", CGTN Русский
+https://go.skym3u.dev/live/339d5/28502b42594d1e5d0108580f0b1b4b1f560507155202561e572e1a234b321d0b0e4217233c42030032241b711a1208486700327135612b52176854500308575f062a2b2703095a4a0d595e4873216e08472215095d10055e6c5d5d045e4841391b5b5d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", CGTN Русский HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1a47151112085e531a14044b405c574027402e0a3c5d0e4d59541c4078350e161e327d1b2c085a455732160b66357134442b38060a5d5f0c564a3f35275a0907584514411d65187908573d03350d425f003b0654484b56415c174d11464d4c154a33406e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", RTVi
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c1260164d705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", БСТ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5a1c1b40105611091d4a004f155c02470c0c23502e0b3d41174d41540e16580f0b0739005b1b0b064202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", БСТ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5a1c1b40105611091d4a004f155c02470c0c23502e0b3756011145171f03551f141a1507601b0609434b5d574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Беларусь РТР
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4b48410d414c521c16034813751b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="vmeste-rf" audio-track="rus", Вместе-РФ
+https://go.skym3u.dev/live/339d5/28502b42594d1e490c1f50170d1e0f0748154c000458471b40245a6e4a3a464c0e584e0a0255150c1614004d074d115818580e7c2c42294172440e07424c0a1d524b0b01125d4c1e0b0d055c59185a2c5d3350715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="vmeste-rf" audio-track="rus", Вместе-РФ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011956495d041c5106114c5e5a1b0b566f422d412c46061057171b1d550513004b050e12534e4342511c5b6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="zvezda" audio-track="rus", Звезда
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c190c5c07161d031f4c0710044b41045757364e36412556024c434d400c500857071009491618054b03451542395829572b6d1006595108071a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="zvezda" audio-track="rus", Звезда HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171b19570e191d0816530016134f4d58480d34423a523a4807031f4a1a405702165c12054505071b4e4d1a094f214d2c4d2c463c0a555006085c481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="zvezda" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Звезда (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b6029342470687456552146294531464d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Крым 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d160446494310592f466d166b1f170d5250040e1a140d5c0a1a49164d531202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Крым 24 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e511f1b42481b010f1e5a124c0f4f580f411478036f.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Миллет
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52531b03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Мир
+https://go.skym3u.dev/live/339d5/28502b42594d1e4d061f40105617095d5e1e4d505f4a565612710775146f0057551e48030e4d0a1100125d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Мир HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a0b110112051110060f5c45511c4c6e46350b325b111647151f0e460715031311531a110905415c0b57366b72116f024c125d5916035d150c5d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="mir" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Мир (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603e2b33055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="mir-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Мир +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603e2b33751b1a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Москва 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c57705f0c1152571830065257030a12461f0b125e7306574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Москва. Доверие
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d070d475d1d065149081f070a531a1115751f1b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", НТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a080c0548014a5c0c155c1c1a0d5121572b5772445003001702005a09561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", НТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a3251705c17141e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="ntv" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", НТВ (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603d3637055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="ntv-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", НТВ +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c7127343e1d0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", НТВ-Мир
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0e60167b125b114d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="ntk-kz", НТК
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e171c56035f404148105b1d4c0f4d495b105b6e5a2550705a0f111e7b27306651412c29276b2c26377564632a681f7a146f704402105859011b1a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", НТС Севастополь
+https://go.skym3u.dev/live/339d5/28502b42594d1e480a1e5f5149030a1d550a4c000458471b40245a6e4a3a464c0e584e0a0255150c16145c4847091b1d5c5e1015726b2e502c6d17141e48030e4d0a1100125d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="novgorodskoe-obl-tv", Новгородское областное телевидение
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1b19080f5e081c49144f095e405c0f466e57244a715c04075f5117415a030c5c0e1f4c5c2129757e054b7c0e7b166310602c26656e4019551411120807111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", ОТВ Екатеринбург
+https://go.skym3u.dev/live/339d5/28502b4210581e17190b1a091a1f12051101174e5d4d411a4b6f552956005a074c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", ОТР
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527200510755015f5703051c425f475b41004e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="otr" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ОТР (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603c3633055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="pervy" audio-track="rus", Первый канал
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527206055b0401570e56531e4a57175c12564e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="pervy" audio-track="rus", Первый канал HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e555d5c1a0c04584d58180d354e6f156d03574d5c5701001a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="pervy" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Первый канал (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1  (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b6042363779681a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="pervy-pl9" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Первый канал +9 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e171c5e00574b4248105b1d4c0f4d495b105b6e5a2550705a0f111e7b27306652492c29276b2c2637756774347c7160160b2953110b50561b4159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="pervy-kanal-eu" audio-track="rus", Первый канал Европа
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e0f1d585d16094f5f410b4621596e47265d164d5d51190a1b5449434b015a023d0e4c4a461c571f0678146f02535201151d0a45390f1a081750043d51071f5e2655751a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Первый крымский
+https://go.skym3u.dev/live/339d5/28502b42594d1e005f4106524d5d57420d5d5056101d0d4e1b771b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="5kanal-ru" audio-track="rus", Пятый канал
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f0257575e570c03074045054b5d4a5750055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="5kanal-ru" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Пятый канал (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60463637055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="5kanal-ru-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Пятый канал +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c0a27343e1d0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="piaty-int" audio-track="rus", Пятый канал Int.
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574a4748420a404c50181f0f4d177404700b6a59020c5054.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Рен ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f66056a006635.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="rentv" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Рен ТВ (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b6021272f7e7a1a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="rentv-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Рен ТВ +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6d362c357c730256552146294531464d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Рен ТВ Int.
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b055e50170c2d5b2e4b715f501709071b005f03164e091d531a0c045e5a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="rossia1" audio-track="rus", Россия 1
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356000b1c4b010b0c045e4056552740324f70024c10444b1c065557551b025c0e435a515a02584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="rossia1" audio-track="rus", Россия 1 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a2b4c3347295d3e7a274d5c5701001a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="rossia1" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Россия 1 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60213732796574480c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="rossia1-pl9" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Россия 1 +9 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e171c5e00574b4248105b1d4c0f4d495b105b6e5a2550705a0f111e7b27306652492c29276b2c2637756774347c127b13771673524d47591d0655080c5d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", СТВ Беларусь
+https://go.skym3u.dev/live/339d5/28502b42594d1e5d0b085153485d02101111070d5e49591c402f596e46261d001647170c1b42480b0714165e1e4d0242595b124f2947347b3d07525401085f5f6b1514160814111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", Симферополь 24
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a53591a03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="tro" audio-track="rus", Союзный
+https://go.skym3u.dev/live/339d5/28502b4210581e171c00411c160a481e5a170b0049485b5751351b2340311d100d444201161b1614121f1f5600164f471f4041.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="tro" audio-track="rus", Союзный HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b001a4e08015d0b165b1a03024e421b0b566f57244a70410c174b561640401419100d00120553001b0358164d2f1a3457715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", ТВ Центр
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d53560558431a0c295a2441271c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="tvcentr" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТВ Центр (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60273422055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" tvg-id="tvcentr-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТВ Центр +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60273422751b1a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", ТНВ Планета
+https://go.skym3u.dev/live/339d5/28502b42594d1e571d06530f1646481e5a170b0049485b5751351b2c4d29574c165f4e1f0355081d07075c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", ТНВ Татарстан
+https://go.skym3u.dev/live/339d5/28502b42594d1e4d1c0a465f4941544a11100e084f42410a0e23502e4a30454d104417070347490d00030106425053137304261472046f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus", ТСВ Приднестровье HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171b1c4248151749004b01070047035d15506f403352725d0d0e58560a405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Общие" audio-track="rus" tvg-id="echotv", Эхо ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b1d100e1c4b054c024e42431047255b6e562a1d060159571b191b031b1b0907495d11055a03451542395829572b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="sony-turbo" audio-track="rus", .Black
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e59435b00573546224b705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="sony-turbo" audio-track="rus", .Black HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067817705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="sony-tv" audio-track="rus", .Red
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a5748434847095d50551f160c490c3251240b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="sony-tv" audio-track="rus", .Red HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c1371140b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="sony-scifi" audio-track="rus", .Sci-Fi
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272575b52525b575701024c1203420b17534e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Amedia 1
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4b41501d4a21056f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Amedia 2
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527251020600010e5c06004c125e410741564e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Amedia Hit
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b3452720a055205015657055141415e405a16574e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Amedia Hit HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d5356054d581c4729556d4c36464c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Amedia Premium
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e6b41501d4a21643241325b160f797c40065a021d0b481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Amedia Premium HD
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b054d581c4729551f542d570e0b445530075049151c081c111e51141213411648255a7d4b315e0a0c544c19.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Bollywood
+https://go.skym3u.dev/live/339d5/28502b4210581e1717165f1255150f0b11140b15425957574a2f1b234d315711035c59300a50011d43575c571f114e686379357a177b0f600060364d7c5719065156484a481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Bolt
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301540e405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Bolt HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03730b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Cinema
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d5356054f5c17462d556f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Cinema HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491375016f116a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Epic Drama
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a57404a48450f5d5054190304481b6f5d2e403a4a4d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", FAN
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2645311d0a0c555d174159550d4b59075018070f1707624b6e137112.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", FAN HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007214705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", FX HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c067b187b17764c1643590c04474b0e420742101e0d0f4502584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", FX Life HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c065b387b135b05076e702b40401419100d00120553001b0358164d2f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", FilmUADrama HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067717705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", FlixSnip
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301500b405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Hollywood
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d5f4103484941565d0c4758591a1405566b0f780c7d087d2c261e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Hollywood HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e624359155a375b2f4017764c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Horror TV HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c085b325630404c1643590c04474b0e420742101e0d0f4502584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", KinoLiving HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007411705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Plan_B
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e5a4d47184e2f412e503c5a020c5f5d03405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Plan_B HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491378066f1c6d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-logo="https://i.ibb.co/mrBfHb29/image.png", Revolyo Mnemo
+https://go.skym3u.dev/live/339d5/28502b4210581e175e5c06534c4748165b140717434850160d32416f572b4006035c4b405e07544d47522c064457541b191a4810720174106e025b521e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Saga TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594105514d5d57410c5d53571e16014911721b35402f1d515108165e5601484e464846094953531918.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Shot TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b334c304617141e51010b511e561e5506074c160e41495b440817060d771a60.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Star Cinema
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301545d405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Start Air
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b055f411851346b214d2d1d0e0d5f5741020713404c121c54160c5c454259104d254036.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Start Air HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491376076f126c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Timeless Dizi
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a53591303.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Viasat Kino Comedy HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4d041d06480d181412561d110a4f02410f0c740d730b295b07075e16025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju TV1000
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5e581a57495d5744085d5757055f410b462159330b3257070b50171b190556484339440d431a541d1a1a104d2451380a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju TV1000 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c146271146f024c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju TV1000 action
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e5c455f0c7c344271146f023c03524c06005a490c01071054004f171b4d04564e2f5a2f0a2b414d0f024d575040091316084e501d0e084449410f.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju TV1000 action HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c146271146f023c23524c06005a49111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju TV1000 русское
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d16044913760d6f1266.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Comedy
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e7c65653a4c2d51245d17764c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Comedy HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527251505a045d0c5c56071a4007400943574e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Megahit
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f620974007f06055050061b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Megahit HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272010753525d0b090d5f4b4355170f46554e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Premiere
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e7c65652951255929412d572b261e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Premiere HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272575252065c5d5e555f4810044b0f4b044e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Serial
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077115705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", viju+ Serial HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301540b405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="domkino" audio-track="rus", Дом кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4e4358124a2e5b6f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="domkino-premium" audio-track="rus", Дом кино Премиум
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e4e43582648295a2f7b2f40060f584d0240401419100d00120553001b0358164d2f1a3457715f501709071b005f03164e091d531a0c045e5a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="domkino-premium" audio-track="rus", Дом кино Премиум HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05701c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="dorama" audio-track="rus", Дорама
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f561a544c4b48410c454c541b035116512159210b295b07075e16025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="dorama" audio-track="rus", Дорама HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c245b324532533c0a551706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="evrokino" audio-track="rus", Еврокино
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4f59471648295a2f0b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="evrokino" audio-track="rus", Еврокино HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077811705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="illuzion-plus" audio-track="rus", Иллюзион+
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4340590c59295b2e0b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="indiyskoe-kino" audio-track="rus", Индийское кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e0957571a574940484206434c501803064b1a6f592f4a301c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="zee-tv" audio-track="rus", Индия
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b294a3b5b1a031e51010b511e561e5506074c160e41495b440817060d771a60.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kamedi" audio-track="rus", Камеди HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0b5d2e4b2f5d08034b67272b06490c01071054004f171b4d04564e2f5a2f0a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kineko" audio-track="rus", Кинеко
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4c434d0b5633472945705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kineko" audio-track="rus", Кинеко HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2b4d3157080d1e51010b511e561e5506074c160e41495b440817060d771a60.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kino-tv" audio-track="rus", Кино ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2b4d315d17141e51010b511e561e5506074c160e41495b440817060d771a60.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kino-tv" audio-track="rus", Кино ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d535605475c174c6d40360b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", КиноМеню HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c1707435940045d08171e031d4a5c0b0f4e494d574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinosezon" audio-track="rus", КиноСезон HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c1707435940025b10111615165e000d0f05455b1d46381a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinokomedia" audio-track="rus", Кинокомедия
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b05475c174c2b5b2d413b5b024d5c5701001a0b4b065e4c4b1c090444115a174f295a255029.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinokomedia" audio-track="rus", Кинокомедия HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067611705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinosat" audio-track="rus", Киноман
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574a4248421142545210140541106f7f294a305f020c1e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinomiks" audio-track="rus", Киномикс
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e41455b164e295f330b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinomiks" audio-track="rus", Киномикс HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057317705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinopokaz" audio-track="rus", Кинопоказ
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a324a2e5b304b3453194d5c5701001a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinopokaz" audio-track="rus", Кинопоказ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f02740b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinopremiera-hd" audio-track="rus", Кинопремьера
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574a4248421142545210140541106f7f294a304211075c410a1d5549111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinopremiera-hd" audio-track="rus", Кинопремьера HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f7f096a106231277c712a3d7549111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinosvidanie" audio-track="rus", Киносвидание
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a53571e03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinosvidanie" audio-track="rus", Киносвидание HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c03015218405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinosemiya" audio-track="rus", Киносемья
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e41455b165025593945705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinosemiya" audio-track="rus", Киносемья HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574a4248421142545210140541106f7f294a3041060f485940065a021d0b481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinoseria" audio-track="rus", Киносерия
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e41455b165025462945705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinouzhas" audio-track="rus", Киноужас
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2b4d315d161859591c405d081c161e5d5240175915585a12462e096b736d7f302763.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinouzhas" audio-track="rus", Киноужас HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06771c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinoxit" audio-track="rus", Кинохит
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0b5d2e4b375b174d58560b0a4c481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="kinoxit" audio-track="rus", Кинохит HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057212705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="klassika-kino" audio-track="rus", Классика кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c1707435940025b101116051f5e00110849035c1747254c6e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" tvg-id="russkaya-komedia" audio-track="rus", Комедия
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a324c2d51244d26534c0f5e56004159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Легенда HD
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5403045e565602574144564408405554055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Любимое кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e465957104e2f512b4d315d4c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Любимое кино HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007512705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Мир сериала
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4745470a46325d21483e1d0a0c555d174159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Мосфильм. Золотая коллекция
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574a4248421142545210140541106f792f57395b0f0f1e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Мосфильм. Золотая коллекция HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f07761d705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Мужское кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e67595f0a482f510b4d315d2b261e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Мужское кино HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057013705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", НСТ
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e445f41564a2e50255c715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", НТВ-Сериал
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a080c0548014a5c1609755f500b4a21586f49305c0c4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", НТВ-Хит
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a080c0548014a5c160975445c0d0c3446214734414e1400595e40440a190a0a1a4c074c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", НТВ-Хит HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491377006f136b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Наше крутое HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067113705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Наше новое кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f7a294734570f0d555d0001.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Остросюжетное HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0f47345630411a174b500a1b5a091d2c2e371007100049474654557155710b325d0d0d1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Премиальное
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0b5d2e4b004211075c511a026b2e3c5c12015e100912075a0418126f592f4a301c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Премиальное HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007215705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Про любовь HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c30462f7b334b16005e4e401b46071b18155e4942035005415a174c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Ретро
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52521803.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Родное кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b324b3b5c0c076e5306015b49111d0216475d0f525f140a0d4c2b512e197465512f627d3d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Романтичное HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c13512d41265c0c076e702b40401419100d00120553001b0358164d2f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Русский бестселлер
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491377016f136a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Русский детектив
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f515b080f090a50514a4350420b465456055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Русский иллюзион
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f6635572c590a1b6e7103034d13021a091d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Русский иллюзион HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491379076f1d6c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Русский роман
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b32512c410a035f671d005907165c0f1d5b161a4f471f40411c345b2b41310f483503753c2a66.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Русский роман HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52591f03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Сапфир
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4c434d154a26516f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Сапфир HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0f584106554a5d57400e5d50501b03661853265d320b32530d0b575d1c1b1a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноАРТ
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c0c55414b491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноАзия
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00554140491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноДетектив
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b05554a44491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноДок
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c0c554d47491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноДрама
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b01544e4a491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноКлассика
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00574046491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноКомедия
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b05554b42491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноМистика
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b04514040491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноСемья
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c0c574a4b491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноФантастика
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b01544e4b491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — КиноЭкшен
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b05554b40491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — ТелеНовелла
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b0254484a491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино", Сити Эдем — Христианский
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00544c45491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Советское кино
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c17074359401c5b101116121e50050b0405455b1d46381a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", ТВ21
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e5e5a07480c295a2441271c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Хит HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077617705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Шокирующее
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0b5d2e4b2f5d08034b67272b05490c01071054004f171b4d04564e2f5a2f0a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Кино" audio-track="rus", Шокирующее HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03750b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Ani
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f752e4d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Baby Time
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f56214626460a0f541706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", CHD TV HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a544e5d5441065d505019034616563a5935482b540a0e5c1706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Cartoon Classics
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f7721562b5d0c0c6e760a1b43090a18491a511707190441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Cartoon Network
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a3a4232402f4b316d2d07454f001d5f49111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Da Vinci
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e4e4d6a0f4a2e57290b2b4002015a4b42190507495c0b1c511c4c155902584a56780b344b34570d5f5e5603065a030c05.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Gulli Girl
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077011705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", JimJam
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0a5d2d6e3e5f4c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Kids TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c03015e59405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Nick Jr.
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067214705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Nickelodeon
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0e5d234f3a5e0c0654570140401419100d00120553001b0358164d2f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", TiJi
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272015b56095c0b5702564c1254450d16524e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", ducktv
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c03015f0a405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="v-gostiax-u-skazki" audio-track="rus", В гостях у сказки
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b367b385d10164859073041390b180709541a4d08444850010d2d07351c60460c0954565244635435202321.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="detsky-mir" audio-track="rus", Детский мир HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4e49410a48294d2d4d2d1d0a0c555d174159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="ginger-hd" audio-track="rus", Капитан Фантастика
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c075d2e433a403c2a75171b1d550513004b050e12534e47435b160d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="ginger-hd" audio-track="rus", Капитан Фантастика HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057410705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="karusel" audio-track="rus", Карусель
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d53560567540b5633512c0b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="karusel" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Карусель (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603823337f7f70350c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="karusel-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Карусель +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c7432303479697926146f42215636530d161f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Мама
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111f0b0f41455b0d462c1a3251705f020f501706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Мульт
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d535605614015576f5d2e403a4a4d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Мульт HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e6759590d6b041b294a3b571b4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Мультиландия
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b3452720a5a5702085e5a07004a4651400c15074e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Мультимузыка
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2d5133463c0b6e551a155d0d195c0f1d5b161a4f471f40411c345b2b41310f483503753c2a66.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", О!
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b05431a144c2e5b6e496c475b5d4557040a5a5b171d0a1a51161617.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Радость моя
+https://go.skym3u.dev/live/339d5/28502b4210581e171d0e500b561e0317561201054402470c0c23502e0b2d53070d424c401f5807011f0f004b2c1105424552110d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", СТС Kids
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527206020400095d0c07571a4451160d125a4e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", СТС Kids HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057913705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Смайл ТВ
+https://go.skym3u.dev/live/339d5/28502b4210581e175a0b06554a455f110c1601514902460d5125552d483051084c5f5d1b4063233a2c351e561f0b0a057f58104f295f6e572b4006035c171f03551f141a1507111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Солнце
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c194159031c1a07105b1d4c135f03591055251b334b335c171154171f03551f141a1507111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="solnce" catchup="append" catchup-days="7" catchup-source="?utcstart=${start}&utcend=${end}", Солнце (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c7b3a312f6f751a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" tvg-id="solnce-pl7" catchup="append" catchup-days="7" catchup-source="?utcstart=${start}&utcend=${end}", Солнце +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c7b3a312f6f756a4e0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", СуперГерои
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527204555b0700565e00024e4056470b45074e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Тамыр
+https://go.skym3u.dev/live/339d5/28502b4210581e170d1c4009161f0f1d5a5d0f044e45541a472e1a32517051070c1e4c0e024d1457030a12461f0b125e02584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Тооку HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b0b120e121110060f5c45511c4c6e46350b2c530b031e4c00005f1f57030a12461f0b125e02584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Детям" audio-track="rus", Уникум
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4e49410a48294d6f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="2na2" audio-track="rus", 2x2
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a4b5b721b294a3b571b4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="2na2" audio-track="rus", 2x2 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c724c720b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="2na2" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", 2x2 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60413a53055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Discovery
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f7029573c5d150743412c07550816160a5c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Discovery HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c045d3347304406104867272b1b0f1617030b111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Gagsnetwork HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f00751c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Investigation Discovery
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067011705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Investigation Discovery HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491275066f156a00.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", RTG
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c1260077b0b644c1643590c04474b0e420742101e0d0f4502584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", RTG HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d16044912750d6f156a0b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", TLC
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05761c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", TLC HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491273036f156c05.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", TVM Channel
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011956495d041c5106114c5e5a1b0b566f4036490057070554171b1d550513004b050e12534e4342511c5b6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Travel Channel
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d16044912750c6f156a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Travel Channel HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067315705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Travel XP HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007515705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Travel+Adventure
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c144621523a5e3c23554e0a0140130a16393b7b5c16134b4f5e0a0e36052115705f0c0c5e16025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Travel+Adventure HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0f584106554a5d57400e5d50501b03610b4236512c653b44060c454d1d0a7c22571a08175a0b4c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="voprosy-i-otvety" audio-track="rus", Вопросы и ответы
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52521203.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="vremia" audio-track="rus", Время
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e5c5e50145a211b34563e5108111c4e5e0e0549151c081c1107114f471f40411c345b2b41310f0c0c5d51010a4010.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="glazami-turista" audio-track="rus", Глазами туриста HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0758215e3e5f0a3d454d1d064712192c2e37101a0c054f541b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="domashny" audio-track="rus", Домашний
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272505653045b0c0c51504f4a5440594b034e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="domashny" audio-track="rus", Домашний HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067213705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="domashny" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Домашний (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60372d2c6b7f7d376a191b36452d5b020c4516025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="domashny-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Домашний +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c7b3c2f2079647b207c771b36452d5b020c4516025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="kvn-tv" audio-track="rus", КВН ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2b52316d17141e51010b511e561e5506074c160e41495b440817060d771a60.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="kaleydoskop-tv" audio-track="rus", Калейдоскоп ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011956495d041c5106114c5e5a1b0b566f7f21483a5b070d4253001f6b031c14035c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение", Красная линия
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b5a5a03504e5d0517515d0c064f425c010d2e51340b2c075655070e4202510211124b1c4d1a0508440347154a2e511f4c36550b4d58560b0a4c481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", НТВ-Право
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a080c0548014a5c1609755c4718552f1b34563e5108111c4e5e0e0549151c081c111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", НТВ-Стиль
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a080c0548014a5c1609755f41004f251b34563e5108111c4e5e0e0549081f070a531a11150441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Ностальгия
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4443460d422c53295d3e1d0a0c555d174159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Перец Int.
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c105132412b483c0b5f4c401b46071b18155e4942035005415a174c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Поехали!
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e5a435011422c5d6f502d5300094215195e5557571e091d505d16120441060c1b7f402f4f3a5c5e0d5f54060151120e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Продвижение
+https://go.skym3u.dev/live/339d5/28502b42594d1e571d06530f1646481e5a170b0049485b5751351b2c4d29574c1243570b195d1c1016081a5a2c0c045d035c1747254c6e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Пятница!
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52501f03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="piatnica" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Пятница! (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6f2a233564656f23626f42215636530d161f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="piatnica-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Пятница! +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603530286e6d6c26146f42215636530d161f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Россия Культура
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272035253555d0e0e06574c4157470916074e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Россия Культура HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356000b1c4b010b0c045e4056552740324f70024c0944541b1a4607551b025c4b01030241730449161f07711d3e005a5b57170c074108131f0f004b5d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="kultura" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Россия Культура (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60213732796574320c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="kultura-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Россия Культура +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6d263132636d7e26146f42215636530d161f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", СТС
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b33502c1d0a0c555d174159550d4b59075018070f1707624b6e137112.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", СТС HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c1360137b17764c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="sts" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", СТС (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60203632055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="sts-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", СТС +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6c27313e1d0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", СТС Int.
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f771467705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", СТС Love
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f015b57085757000041125e425d4b0157055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="sts-love" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", СТС Love (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b602036326663633c0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="sts-love-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", СТС Love +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b602036326663633c7c771b36452d5b020c4516025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Сарафан
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b055f540b4226552e0b325d0d0d1f555c1a0c590c1c0d16514e0d0f46455b1c5736.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Суббота!
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272000652500f0c0c0d52414a534b5d45524e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="super" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Суббота! (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b602037316f7e1a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="super-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Суббота! +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b602037316f7e6a4e0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Т24
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c1451284a306d51561e4c1d0e570d0b5e10425e424d0c45425a574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", ТВ3
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f015b555c095850031a4002410a445756055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="tv3-ru" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТВ3 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60273452055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="tv3-ru-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТВ3 +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6b25513e1d0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", ТВ3 Беларусь
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a0e0b5d095607100011111b5b121c0d490c14766d17705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", ТНТ
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f600e70.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", ТНТ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c147a146c1b1d1710505b041c19104912575c521c0c0e0441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="tnt" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТНТ (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60272c35055a540b4a215a340a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="tnt-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТНТ +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6b3d363e1d0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", ТНТ4
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574d4148400a5d535605585b0d176f5d2e403a4a4d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="tnt4" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТНТ4 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60272c351e0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="tnt4-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", ТНТ4 +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6b3d3655751b1a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Телепутешествия
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c14512c412f47170742500a1c4010110a075c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Точка ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491372006f166b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Че
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a53551b03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="che" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Че! (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6f3630247e761a0f42325d214a2b1c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="che-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Че! +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6f3630247e766a4e0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" audio-track="rus", Ю ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527201015000005b5851051d4704425c425b4e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="yu" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Ю ТВ (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6a5c140058455417576e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Развлечение" tvg-id="yu-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Ю ТВ +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6a2c554e5c4d4710422e406e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="360-podmoskovie" audio-track="rus", 360°
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b0e14120154000f0e5e5e5c140d23502e523656060d1f4a1a4042010c010d00521c161343411a0a4e2f40324d321f0f0b475d425f004b0b01125d4c1e0b0d05584718402b476d526c53524d5c5701001a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="360-podmoskovie" audio-track="rus", 360° HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170a0b53035507105e531f4c074b4f501a4233406e4d301d0614505b000b5114271b0a00601b0b4e69474d1f71714c0e711e781436564c373b763c2c322c1f565c524f471f4041.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="365-dnej" audio-track="rus", 365 дней
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b051f034c7c245a255d705f0c0c5e16025c415e470709185a1d5f0e44405c17463442.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Animal Planet
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e6b425c14422c642c453157172a751706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Animal Planet HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c015a29493e5e3c325d59010a40393037491a511707190441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Big Planet
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b054e5c1e7c3058214a3a464c0f5e56004159550d4b59075018070f17435b154a2e513452.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Big Planet HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e484552094f215a2550705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", DocuBox HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c045b23511d5d1b2a75171b1d550513004b050e12534e47435b160d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", History 2 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c08061f6c1b1d1710505b041c19104912575c521c0c0e0441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Love Nature HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491171006f166e06.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Luxury
+https://go.skym3u.dev/live/339d5/28502b4210581e171c5e1a120e5e0812511c4c0245411a35563841325d004006011e4c1d0e570d0b5e10405e424d08444850010d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Nano
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f5a214a301d0a0c555d174159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Nano HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c0e750e6b007a274d58560b0a4c481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", National Geographic
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b0542540d7c27512f0b325d0d0d1f555c1a0c590c1c0d16514e0d0f46455b1c5736.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", National Geographic HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e644d41104c2e552c633a5d041050480706572e3c5c0f1d5b161a4f471f4041.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", National Geographic Wild
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d16044912740d6f156b0b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", RTД
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a1b4250091b5d14074b054c0245411a1d55321b32503b40164d434c0b1d41514a43481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", RTД HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a1b4250091b5d14074b054c0245411a1d55321b32503b40164d434c0b1d4157484b565d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", TV BRICS HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5a1d0657155611091d4a004f155c02470c0c23502e0b3d400a0142171d1a47151112085c4b010302415f180f1221056f49305c0c4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Terra
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e444d41104c2e552c433a5d0410504807065749111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Terra HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c147112761e6d2b261e4c1d0e570d0b5e10425e424d0c45425a574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", The Explorers
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007514705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Top Secret
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c135b36412d410b075f560030470313010307511c4d15584d5612506d4271456e1d0e0d5f574102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Univer
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a13161a10164d000f0e5e5e5c5751351b2c4d29574c0f40161c0b4449081f070a531a11150441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Zooпарк
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f4e2f4b2f5311091e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Zooпарк HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b3a4b304202105a1706015003005d0b404a4b5d15454750171e6b6372690c7731.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju Explore
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5401040f0e5b57551e4a074b06450700055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju Explore HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06731d705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju History
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272045b555359575c0c05194a54445d4a034e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju Nature
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e5c455f0c7c2e5534512d574c1643590c04474b0e420742101e0d0f4502410a0d2d07351c60460c09545652005a0a111d030749.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju Nature HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e555d5c1a0c04584d58180d354e6f156d005b4d5c5701001a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju+ Planet
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491274036f156b05.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", viju+ Planet HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067414705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="akwatv" audio-track="rus", Аква ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c17074359400e45131907105c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="arsenaltv" audio-track="rus", Арсенал HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491275036f156a05.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="art-tv" audio-track="rus", Арт
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c0166140b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="bolshaya-azia" audio-track="rus", Большая Азия
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420355110f145e000b00044f5117552950254b7140164d5351080e470f195c041a581211084b0246144a2c1b34563e5108111c4e5e0e0549151c081c111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="v-mire-zhivotnyx-hd" audio-track="rus", В мире животных
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c015a29493e5e3c24505506034d39303749074d12010a5901434842711b2d4b315d4d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="v-mire-zhivotnyx-hd" audio-track="rus", В мире животных HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067415705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="doktor" audio-track="rus", Доктор
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f502f4f2b5d114d58560b0a4c481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="doktor" audio-track="rus", Доктор HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0c700b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="domashnie-zhivotnye" audio-track="rus", Домашние животные
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e4e43581850285a2941355b150d4556060a1b0f1617030b111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="dumatv" audio-track="rus", Дума ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c04412d450b644c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="ege-tv" audio-track="rus", ЕГЭ ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c194147120a16071e4c5d0000434754150e34512c413c5d0e4c5f5d1b550c56404349216b2c262e69035c1747254c6e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="zhivaya-planeta" audio-track="rus", Живая планета
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e404543185a21442c45315717031e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="zhivi-aktivno" audio-track="rus", Живи активно
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f050309095f56015e4e41561708440659055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="zhivi-aktivno" audio-track="rus", Живи активно HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b34527254025a0008565a0c504a43024408175a4e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="zvezda-plus" audio-track="rus", Звезда Плюс
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191542030217075d5d1c0c145901410f0d32416f473b5c4c18475d150b55161406155c4b010302415f180f1121056f49305c0c4c454b4102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="zvezda-plus" audio-track="rus", Звезда Плюс HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191542030217075d5d1c0c145901410f0d32416f473b5c4c18475d150b55161406155c521c0c0e045846574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="zdorovoe-tv" audio-track="rus", Здоровое ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b3452720b510450010b59005e1b1204435940044e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="insight-tv-hd" audio-track="rus", Инсайт ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077615705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="istoria" audio-track="rus", История
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e435f411651294d210b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="kongresstv" audio-track="rus", Конгресс ТВ
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b5d121b1b48075a1f07154b5e521c576e46350b3e420a4d470940075815574656471042515405455b1d46381a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="kongresstv" audio-track="rus", Конгресс ТВ HD
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035547481c4b100c045e02470c0c7504740b6e01564d0008575f4449111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" tvg-id="kto-est-kto" audio-track="rus", Кто есть кто
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2b50306d06114567041b5b49111d0216475d0f525f140a0d4c2b512e197465512f627d3d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", ЛДПР ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594100505642524011415053101d0c4a166f5829523a1d0f06414a411c40141d120b2c0b4b5211055c59185a2c5d3350715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", ЛДПР ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c594100505642524011415053101d0c4a166f5829523a1d0f06414a411c40141d120b5c4f1f03184645460d0d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Моя планета
+https://go.skym3u.dev/live/339d5/28502b42594d1e4e000b1a120d05075d4d064d0c535c59184d25406f4d3156061a1f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Моя планета HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52591d03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Наука
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491277026f156804.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Наука HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057211705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Неизвестная Россия
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b0106481607105d4d064d1444475b16542e6b32512c410a031e4c1d0e570d0b5e10425e424d0c45425a574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Неизвестная Россия HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544b5d5e431141515b121c0d490c0e51295e295710165f59160e66090b000f12101a0c054f541b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Неизвестная планета
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b5d121b1b48075a1f07154b5e521c576e46350b2f570610424c194040030a01075c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Неизвестная планета HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f452f5b4c140017070347490e1a08075a01034e44494515422e513445705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Открытый мир
+https://go.skym3u.dev/live/339d5/28502b42594d1e4e5b414414171c001a475d1014051c5810516f5d2e403a4a4d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", ПРНК
+https://go.skym3u.dev/live/339d5/28502b4210581e171c0a46104a464805561d1604584d1b0d556f05304a341d13105f53400c5c131618155d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Первый вегетарианский
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301531c405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Первый космический HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0541324134533c2a75171b1d550513004b050e12534e47435b160d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Плюс Минус 16
+https://go.skym3u.dev/live/339d5/28502b42594d1e550a0b5d0756425003525d101405405c0f466f4032453c59104f47090e5e1b0b171d095d4b004c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Победа
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e5a43571c47211b34563e5108111c4e5e0e0549151c081c1107114f471f40411c345b2b41310f0c0c5d51010a4010.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Победа HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491274056f156b03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Полет ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c170743594009580f1f1b1207495c0b0f4e494d574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Про бизнес
+https://go.skym3u.dev/live/339d5/28502b4210581e171b1919150c010312521a0c06044e46110d32417a166e0b505a1e481d0056130b1a08164c004d115843570c50295a25572c1c1016435d0e021b0510060818531a11150441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Просвещение
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b48424811501d17120758435751351b305630411507425b070a5a0f1d2c031758164d08444850010d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", РЖД ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a120e1248105b1d14084e495a5751351b34523e1d171450161c0b4449081f070a531a11150441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", РЖД ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a120e1248105b1d14084e495a5751351b34523e1d171450500b414702085c161f5e0a0e0859581b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Ратник HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a53511c03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Тайны Галактики
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642030b0714165e1e4c064b4054015a34426e51381d090b5a5701045b081d5c051b4a1d090d435f412654750578106b0a5a520316025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Терра Инкогнита
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574a4748420a404c50181f0f4d177404700b2b57111050.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Терра Инкогнита HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b064005105d121653161600584b500d0d32416f52365c17074359401b51140a12491a511707190441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Точка отрыва
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b05585a1a4b2b551f4b2b400a14501702005a09561e5506074c160e41495b444c2e58294a3a4615.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Точка отрыва HD
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5350045e59090054191653115c150157055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Точка.РФ
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c08701f683654064d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Точка.РФ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c03015d08405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Знания" audio-track="rus", Успех
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5050055e0a5655051b465f4459110150055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="360-news" audio-track="rus", 360° Новости
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b1d050710501707130758435745215725473e41174c5857400a42071b1c02164d2c0a0d59735d100c15761a421955172973092518601117372321712234266d5f1a4b0d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="360-news" audio-track="rus", 360° Новости HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170a0b53035507105e531f4c074b4f501a4233406e4d301d0614505b000b5114271b0a00601b0b4e7f6e6f1f6527400b666e78143646572b2a6628292521344c5c524f471f4041.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Deutsche Welle
+https://go.skym3u.dev/live/339d5/28502b4210581e170b18550b1c0012015a120f501b1c1b18482159214d2557074c5f5d1b405c0a0b5c0a1a49164d531a1d024014711b24532c46110750555e5e0449111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Deutsche Welle HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007414705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Euronews
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491278076f156701.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", RT English
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1b1901141148014b07144f494358564736466f562b5c061542171f03551f141a1507604254511a6757574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", RT English HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1a590414164b15500b0d4f49485b5751355922483a1c000e5e4d0b40580f0e16491b4d451b17191a5356502c5b34096b1d0e1a4555421850001d2c57430743124e49444017482c5d3350007635301f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="belarus24" audio-track="rus", Беларусь 24
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a0e0b5d095607100011111b5b121c0d490c02512c452d471050051706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="belarus24" audio-track="rus", Беларусь 24 HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170a0b53034d4a48175c5d00044658501546235b2d0a3d4b4c0c564c1d041b391c16001a5100163e055f58104f7a5625483e401611030c400c5c1316180a1a4c073d161b180d4e17740571150050565307085f5f04390b1f031d585d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="izvestia" audio-track="rus", Известия
+https://go.skym3u.dev/live/339d5/28502b42594d1e510806190e140048105b1d14084e495a5751351b2943361d0a0558671b0c5b021d5c161f5e0a0e0859581b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="izvestia" audio-track="rus", Известия HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c190f1f1a48105b1d14084e495a5751351b2943361d0a055867071e1b1614121f1f5600164f471f4041.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="krik-tv" audio-track="rus", Крик ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011956495d041c5106114c5e5a1b0b566f5f324d3446153d545c080a1b0f1617030b111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости", Кубань 24
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1b19150c1b4b184d170313074441154a36516e473b5c4d0c565d01064c481616125c571f114e69646a2b13746b0b711d732d500517190e460f191d125d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Мир 24
+https://go.skym3u.dev/live/339d5/28502b4210581e170703474b151a1407495d0105445a5c1d462f1a3251705f0a10454e421f5514191e16065d1f0b12420358105172001f166a02534d41540e16580f0b07481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Мир 24 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a0b110112051110060f5c45511c4c6e46350b325b111647151f0e460715031311531a110905415c0b11746b72116f024c125d5916035d150c5d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Первый информационный
+https://go.skym3u.dev/live/339d5/28502b4210581e170a0b53034d4348175c5d00044658501546235b2d0a3d4b4c0c564c1d041b15151a0a49561d040e5841541a4a2f5a2e5d261c100f5854400c5c1316180a1a4c073d031b1c04491370041f5733570d051f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Первый информационный HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170a0b53034d4148175c5d00044658501546235b2d0a3d4b4c0c564c1d041b391c16001a5100163e055f58104f7a5d2e4230400e03525100015a1f015d151e561f4d0242595b124f2947347b28065a5b040a5b58035227115342094352511a734615462e536e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", РБК
+https://go.skym3u.dev/live/339d5/28502b42594d1e5701035d081d5e101a5b160d4f584e565751351b33543d1d1100524c193047161a5d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", РБК HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a2b610b1b294a3b571b4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Россия 24
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d1117424b060e6b544c5c161f5e0a0e0859586a4a0d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Россия 24 HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170306420356000b1c4b010b0c045e4056552740324f70024c10444b1c0655544c5e0e17104252591a5c1b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="rossia-24" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Россия 24 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6d263132636d074d0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" tvg-id="rossia-24-pl7" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Россия 24 +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c6d263132636d074d7c771b36452d5b020c4516025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Соловьев Live
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c576d1d100d5d5719065110141a101610030e0053405c0a571f076e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", Соловьев Live HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4800521c161343411b0b566f5c2c5770410c0e5e4e060a420a1105035c4f1f03184645460d7c761a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Новости" audio-track="rus", ТАСС
+https://go.skym3u.dev/live/339d5/28502b4210581e171b0e4715551b0a00110007135c45561c40245a6e562a1d0b1645481c1b4603191e030110070312590159164c30192d45365c4d11454a0a0e59394c4b560310030e0053405c0a576e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Fashion TV
+https://go.skym3u.dev/live/339d5/28502b4210581e17030d5309561109094507144f4943585613771b35573750025b02171b1d550513004b050e12534e47435b160d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Fashion TV HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e0e1c5c0f171d0a1a49164c0c4f485c1840245a6e562a1d00065f17090e470e111c0807495c16134b4f5e0a0e36052115705f0c0c5e16025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Food Network HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06791c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Joy Cook HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b5d121b1b48075a1f07154b5e521c576e46350b2f570610424c19405e090110091c545c0b0f4e494d574e7341781b2b5d08075f050a167e0e1a34051a701a28287f567c486d297d336d31605601727159265f1620252539065d07186044512e72297b296e376b512c5d5b5c225d2a3b390a1677320b2e406906366715050f703c032d08704b2602580e1c302f4572270155647860016e147172691c450a3b035404265e094a3f25390e12353043635f3c540e4e0911115826517e7c221c7d08321f3c0a7645380c6c5f564b76337d2d48287b090d0375153e4c2b123e113e6b221128476a5e1d743804094e2f5f3a354942353704484a42571659100e2a505d524d481544795038712a304176051f533f3b1a17206d1155195875780b4a09642f.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", World Fashion Channel
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a111e104807495c01054403460d5125552d092d47104f060a5f1f1a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", World Fashion Channel HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b011a111e104807495c01054403460d5125552d092d47104f0008575f44481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="avto24" audio-track="rus", Авто 24
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f02575759575b035e411505475e170654055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="avto24" audio-track="rus", Авто 24 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03780b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="avto-plus" audio-track="rus", Авто Плюс
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d16044913720d6f1666.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="bobior" audio-track="rus", Бобер
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e4843571c516f4032453c59104f47090e5e1b0b171d095d4b004c0c19590d46572f5f254a625d0d0e58560a1b42.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="dialogi-o-rybalke" audio-track="rus", Диалоги о рыбалке
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491271036f156e05.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="dialogi-o-rybalke" audio-track="rus", Диалоги о рыбалке HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067610705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Дикая охота HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067710705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Дикая рыбалка HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301530b405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="dikiy" audio-track="rus", Дикий
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e555d5c1a0c04584d58180d354e6f156d01534d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="drive" audio-track="rus", Драйв
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52521303.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="drive" audio-track="rus", Драйв HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0446215d291d1710505b041c19104912575c521c0c0e0441060c1b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="zhivi" audio-track="rus", Живи!
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e404543100c295a2441271c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="zagorodnaya-zhizn" audio-track="rus", Загородная жизнь
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a534f5d504b1140514e1e1c1a145325533457.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" tvg-id="kuxnia-tv" audio-track="rus", Кухня
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e41594d175a2140360b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Лапки Live
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b0540540948296b2c4d29574c0f5e56004159550d4b59075018070f17435b154a2e513452.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Моя стихия HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057415705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Мужской
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272075601080c0a57075e1a4056450946554e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Мужской HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0d413a4c2c590c1b1e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Наша тема
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272515a500359565d04571e4656440c155a4e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Наша тема HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b4b5d09075c1d0715045e40564d214728452b570e031e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Оружие
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c5a4105575642554a1147515b1219004c0c2f46354e36574c0b5f5c0a171a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Охота и рыбалка
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574a4248421142545210140541106f7b284b2b53311b535903045549111d0216475d0f525f14.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Охотник и рыболов
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0f5c2f50315b083d58673d165d04171f0905603b264e5e5e541a48331936153e034c0f5e56004159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Охотник и рыболов HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491276066f156900.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Пес и Ко
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b30412c6d0a3d5a5740065a021d0b481e0c065a5e5e435e1c4d7d1f171612612630.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби", Сити Эдем — АвтоГид
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b03534946491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби", Сити Эдем — МедЗдрав
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b0353494a491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби", Сити Эдем — Рецепты Гурмана
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b03534945491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Телекафе
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b344133570003575d40065a021d0b481e0c065a5e5e435e1c4d7d1f171612612630.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Тонус
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a574c4048420b4b4c5312160d491b701b0d4d2d00574d5c480a084015.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Хобби" audio-track="rus", Усадьба
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c154721403d534c1643590c04474b0e420742101e0d0f4502584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", МузСоюз
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c19120e00090a4a094c024e42431047255b6e562a1d17144257161a4e54571e13094c1c1b145002031f547019751c27424e03524c1c4251150143490353121b0d435f41574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", МузСоюз HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c1a120e00090a4a094c024e42431047255b6e562a1d17144257161a4e54571e13094c1c1b145002031f547019751c27424e03524c1c4251150143490353121b0d435f41574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", Надежда
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b0c050e1c4f164c024e42431047255b6e562a1d171459571f0a19160d1f0a5c4b050a0e5a496a480c3058215d335b10161f555c1a0c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия", Сити Эдем Плей
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00574843491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия", Сити Эдем ТВ
+https://go.skym3u.dev/live/339d5/28502b4210581e170e1a4009081a0a1c4b5d01005e4f540a576e40360b3c5d0d1654561b4007524a47505c561d06045202584a56780b30452c41140d435c52035b01191d0307.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", Союз
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f672f5d2a48.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", Союз HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c19120e00090a4a094c024e42431047255b6e562a1d17144257161a4e490b1c1f06455c120d4b55591050341a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", Спас
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191c44070b5d0b165b1a03024e421b0b566f57244a7041130342171b1d550513004b050e12534e47435b160d34476e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" tvg-id="spas" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Спас (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b60203220790343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" tvg-id="spas" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Спас +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b6020322079730256552146294531464d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", ТБВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5a194159031c1a07105b1d4c135f03561d4d6f562c453844061145171f03551f141a1507111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", ТБН
+https://go.skym3u.dev/live/339d5/28502b4210581e175a0b06554a455f110c1601514902460d5125552d483051084c5f5d1b4063233a2c3231715c36236402460d5125552d0b2f5e021b5d511c1b1a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Религия" audio-track="rus", Три ангела
+https://go.skym3u.dev/live/339d5/28502b4210581e17070347480c0548405e1d0504465f1b0b566f4734563a530e4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Arena Sport 2 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e00574106574a5d574611425b4e4645431c0c34513350005311075f591c1f5b140c2c02055e5c120d4b55591050341a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Astrakhan.RU Sport
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107151a081411121115584d5e11422e1a3251705310164359040755080a061503500116094e03410b42235f3309290702531e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Eurosport 1
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491271006f156e06.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Eurosport 1 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0541324b2c420c104567272b1b0f1617030b111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Eurosport 2
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e555d5c1a0c04584d58180d354e6f156b07514d5c5701001a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Eurosport 2 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0541324b2c420c1045675d307c22571a08175a0b4c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Extreme
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5203080c5b5e52024b4102450c4b5552055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Extreme HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c054c34563a5f063d6248001d4015570714125c18114c5c1d54480c2d5b2e4b715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Fast&FunBox HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e470e4b5d071d4b1a094f59471a154a36516f503a41173d57591c1b6b07161739154a1d000e5273581c4729412d7b3e46084d41540e16580f0b07481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", FightBox HD
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e545d4c1c0f0e4402410f0c065d274c2b500c1a1e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", KHL
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2b4c331d0a0c555d174159550d4b59075018070f1707624b6e137112.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", KHL Prime
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05771c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", KHL Prime HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d16044912700d6f156f0b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", MMA-TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491271046f156e02.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", QazSport
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b055d540350305b3250005a074d5c5701001a0b4b065e4c4b1c090444115a174f295a255029.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", QazSport HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f03720b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Russian Extreme
+https://go.skym3u.dev/live/339d5/28502b42594d1e005a410656405d54410c5d505513160d411b781b30483e4b4c0301085b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Setanta Sports+
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5841005056475f5d0e475850121c04490c3058215d70535357071706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Udar
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f06771d705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Udar HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f4124452d1d0a0c555d174159550d4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", viju+ Sport
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958571a574b4748421142575910140541126f4229452c53171141571d1b1b0f1617030b111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", viju+ Sport HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077317705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="belarus5-inet" audio-track="rus", Беларусь 5 Интернет
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a0e0b5d095607100011111b5b121c0d410c0260750b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="belarus5-inet" audio-track="rus", Беларусь 5 Интернет HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170a0b53034d4148175c5d00044658501546235b2d0a3d4b4c0c564c1d041b391c16001a5100163e055f58104f7a5625483e40161104161c025d0a57100e0651180e0859586a0e12740c75166903565008670d5d02504843564360000e04444b1b1410350c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="box-tv" audio-track="rus", Бокс ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f7135563041130d434c305e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="match-tv" audio-track="rus", Матч!
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c194140130e1248014a5c0f004944410f0c295a2441271c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="match-tv" audio-track="rus", Матч! HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491270016f156f07.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="match-tv" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Матч! (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603e23356964612f0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" tvg-id="match-tv" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Матч! +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603e23356964612f7c771b36452d5b020c4516025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Арена
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5a0655595e0b505f1c4452435e4a0355055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Арена HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0d553447376d221054560e40401419100d00120553001b0358164d2f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Боец
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b2d452b510b3d53570a0c1b0f1617030b111e51141213411648255a7d0f08002e31746a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Боец HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057116705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Игра
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f520057590c5650004b175f4007105307055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Игра HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05781c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Планета
+https://go.skym3u.dev/live/339d5/28502b4210581e17091c1a13081f0f1d545d091b0541540d40286b30483e5c0616501702005a09561e5506074c160e41495b444c2e58294a3a4615.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Премьер
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f0607020e5a5e51571d4405160a100007055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Премьер HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f057917705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Страна
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a524e5d57451141515810140549136f7921503c5a3c2c504b07306716170112.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Футбол 1
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0d553447376d2517455a00036b57273b225c4b010302415f180f1221056f49305c0c4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Футбол 1 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491270046f156f02.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Футбол 2
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410552405d535d0d47534e674d411a4b1f722f4b2b50020e5d675d307c22571a08175a0b4c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Футбол 2 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491270056f156f03.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Футбол 3
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491270066f156f00.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Матч! Футбол 3 HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a5748434847095d50551f160c490c2d55344737540c0d455a0e035855571a08175a0b4c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Мир баскетбола
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c0301095b405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Спорт ТВ
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642035540481c4b100c045e02470c0c33442f562b5b150c481706015003005d0b404a4b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Старт
+https://go.skym3u.dev/live/339d5/28502b42594d1e0b5e410657485d5443075d53561b160d491b701b33503e40174d58560b0a4c481540134b00070d0a4f42085274727913610d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Старт Баскет HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170d031a111d1105124c070713045c47160c2d51244d3e1d130e504103064712571514165a2c54531b48044f1a250123126c03005402005e5c02021e4005110e4054021f4f0c5610736b761c670a5254060e405e045e480349110c4107004b49001f41260524163d0a5153000d5b5c01504e1257170612555905180c4817730d7213690b4d0f024d5750580f0e165b420a5510044c115d0d5730477a0b7046151145591d1b1a140d5c051b5e1d0c04465f1a0a57214634093d531009544c421b51150c5c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", ТВ Спорт
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b4b5d09075c1d0715045e405650305b325036440d1b1e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Спорт" audio-track="rus", Футбол
+https://go.skym3u.dev/live/339d5/28502b42594d1e4a0e0b5d095607100011111b5b121c0d410c13513445314602531e51010b511e561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" tvg-id="1hd" audio-track="rus", 1HD Music HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a57494b484206444c501a1d1a486b041b294a3b571b4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f07711c705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Classic
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f76324d3b55063d656e30275d120b5c0f1d5b161a4f471f4041.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Deluxe
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d415e0c5e5642534a114250591014054e136f76324d3b55063d656e302b510a0d0b035c561d06045202584a5678.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Deluxe HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0d720b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Hits
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077214705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Rock
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a574146484207474c521a160d4913701b30483e4b4c03015e5c405d081c161e5d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Русский хит
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491279006f156606.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Bridge Фрэш HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0246294038573c366767272b1b120a1205184c5e14504b1d1a144c2e5b6e496c475b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", CHD RU Rock HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a544e5d5441065d5050190356114734421f562a6d110d525340065a021d0b481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", CHD Rock HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565b1a544e5d5441065d5050190356114734421f563051084d58560b0a4c481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Classic Music HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077116705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Clubbing TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170e425702165d0d1f500406155c0256164e6f5829523a014c015d4d0d0d5d081f07102c08415211055c59185a2c5d3350715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Clubbing TV HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410553495d57460e5d50541a160c4b13711b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Deluxe Music
+https://go.skym3u.dev/live/339d5/28502b4210581e171c0b5a4b1f1f09115e1f4f0d435a50545034462545325b0d051c480e0c5f071f16145e5c1201094f02060850245a6e47305f4c53020c5a591b574b4753456041545575405c0f466e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Deluxe Rap
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b0b011901141c0412535e0e085c49180a5732512149365c044f41590c0455011d014b105e100a04041f440a472e1a234b321d555700005c400253494b552c0d45563e4645431c0d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Europa Plus TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e1c414116141a08181118184e4f59471653216b30482a414c1643590c04474b0e420742101e0d0f4502410a0d2d07351c60460c09545652005a0a111d030749.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Europa Plus TV HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0542324b2f533c325d411a1c6b322e5c12015e100912075a0418126f592f4a301c0e514400.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", MCM Top
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c59410754564251451146524e474f580d4c301b294a3b571b4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", MCM Top HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0d770d0b2b4002015a4b42190507495c0b1c511c4c0c19590d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Maidan
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b15120f175e1d1617044f5117552950254b7140164d5c59060b55080c05491e5e1a060044584357502d5d2c0b2f5e021b5d511c1b1a0b4b065e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Mezzo
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0d513a5e306d2b261e4c1d0e570d0b5e10425e424d0c45425a574e734178.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Mezzo HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e540619514b4b5d09075c1d0715045e40566e254e3a4b705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Mezzo Live HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f067712705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", MusicBox Gold
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c730270702a5c06205e40401b46071b18155e4942035005415a174c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", RU.TV
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f05701d705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", RU.TV HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e5e031a4715171d0f10111e09114449415751351b345272045700035b5b0952574b4050460742554e5c45511c4c6e59735167.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Radio M2O
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d51071510021d52464f5549185741157757781d6d06575a07090e0c06574e475445074b51051b4d51490d2d473640311c0d074517030642035720504109415a591c141a0c4b24630248347152235e7740065a021d0b481e0c065a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Stingray iConcerts HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e470e4c5d071d4b1a094f59471a154a36516f503a41173d424c06015314190a391a5c1c0c024f5e410a7c28501f4c3a44005701171f03551f141a1507111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", kronehit
+https://go.skym3u.dev/live/339d5/28502b42594d1e5a061b5702165e0d01501d070943581b1b4a34592f52365c4d015e5540190649101f155c5c1b170f41405c0a571f5671126d0a53520116025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" tvg-id="zhara" audio-track="rus", Жара
+https://go.skym3u.dev/live/339d5/28502b4210581e17090341150b1c081a5c5d0f0a5a42500d0d32416f50291f5001555b5c5c50554e4350115e415107055a5c1d462f1a2d172a0a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" tvg-id="zhara" audio-track="rus", Жара HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f077812705b0d0654404102071340.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" tvg-id="kuraj" audio-track="rus", Курай-ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e5a1c1b40105611091d4a004f155c02470c0c23502e0b3447110358171f03551f141a1507111e511412.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Матур ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e481d00420f1c161400110016134f4d58104d271a2d452b47114f454e411d4149101f155c57415455754d541a0c334032413e5f4d0f024d57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Матур ТВ HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e481a0d580f1b5d15074d16030c434252574e214035567246154c434d40075815571b54450b2c03004903460d5125552d0a3201165a.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Муз-ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f0c760b365c07074916025c415e.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" tvg-id="muztv" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Муз-ТВ (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b42594d1e420e0d5510195e0e07531a1404044f51170d2e53254a364a4d0c544c4007581557302e2c722638357c0343185129552e50715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" tvg-id="muztv" catchup="append" catchup-days="7" catchup-source="?offset=-${offset}&utcstart=${timestamp}", Муз-ТВ +7 (Архив)
+#EXTVLCOPT:http-user-agent=WINK/1.40.1 (AndroidTV/9) HlsWinkPlayer
+https://go.skym3u.dev/live/339d5/28502b4210581e17150e56070e124b1b4b1f0b174f02561d4d6e5a2741315b1b4c5f5d1b405c0a0b5c253b603e373b7e7a6a4e0c3655324d3e5c174c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Музыка Live
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c0c4d2109325b0d0d43171b1d550513004b050e12534e47435b160d2d07351c.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Музыка Первого
+https://go.skym3u.dev/live/339d5/28502b42594d1e09565a1a504c5d57470f5d53551d1604491279026f156604.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", О!2
+https://go.skym3u.dev/live/339d5/28502b42594d1e0f584106554a5d57400e5d50501b037a4b77161b294a3b571b4c5c0b1a57.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка", Сити Эдем — Meditation Music
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b03524943491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка", Сити Эдем — БирмаПлей
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405c00554e47491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка", Сити Эдем — СиртакиТВ
+https://go.skym3u.dev/live/339d5/28502b4210581e170c06401f1d17031d11100315494d460d0d34426f47305c17075f4c405b02524a42491a511707190441060c1b7f4421572c450c10550503005307161612.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Страна FM
+https://go.skym3u.dev/live/339d5/28502b42594d1e54061951480b0714125112040c044f5117552950254b7140164d424c1d0e5a071e1e49004b01030f4b4a58264b241a33402f1d130e504103064712561e550607.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", ТНТ Music
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c011b59481516021a5e10060f045e405640245a6f5031460e1742510c40401419100d00120551001b0358164d2f1a3457715f501709.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", ТНТ Music HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4d061f40105617095d5e1e4d505f4a5656157007721c6d035b5b1e48030e4d0a1100125d52401759.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Музыка" audio-track="rus", Шансон-ТВ
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c191510120800501d1617044f5117552950254b7140164d42500e0147091607105c4c1b030f59435b0d556e47245470420f034854061c40481540134b.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Релакс" audio-track="rus", Fireplace
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4c0714110767673b67740070146f0251577d.m3u8?s=4481&id=xsjs.m3u
+#EXTINF:-1 group-title="Релакс" tvg-id="zhivaya-priroda" audio-track="rus", Живая природа HD
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c19414012135d0b0b054a52571c03.m3u8?s=4481&id=xsjs.m3u

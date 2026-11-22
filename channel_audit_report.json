@@ -1,0 +1,4371 @@
+{
+  "auditedAt": "2026-10-31T05:13:10.970Z",
+  "totalAudited": 275,
+  "totalPlaying": 24,
+  "totalNotPlaying": 251,
+  "playingPercentage": "8.7%",
+  "testedOptions": [
+    "vlc",
+    "smarters",
+    "chrome",
+    "smarttv",
+    "direct",
+    "mirrors"
+  ],
+  "playingChannels": [
+    {
+      "id": "tiw4-2004",
+      "name": "ANIMAL PLANET HD",
+      "category": "Documentary",
+      "tvgId": "AnimalPlanet.ru@SD",
+      "streamUrl": "http://stream.mcquack.net/114/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 906,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 69
+    },
+    {
+      "id": "tiw4-2016",
+      "name": "Discovery Science HD",
+      "category": "Documentary",
+      "tvgId": "DiscoveryScience.in@SD",
+      "streamUrl": "https://drk6xq0vhn.gpcdn.net/live/discovery_science_abr/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1660,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "tiw4-2021",
+      "name": "HBO HD",
+      "category": "Movies",
+      "tvgId": "HBO.East.us2",
+      "streamUrl": "http://tvsen7.aynascope.net/hbo/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 358,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 21
+    },
+    {
+      "id": "tiw4-2077",
+      "name": "ETV",
+      "category": "News",
+      "tvgId": "ETV.ee@SD",
+      "streamUrl": "https://edge12.vedge.infomaniak.com/livecast/ik:etvgp/manifest.m3u8",
+      "bestOption": "vlc",
+      "latencyMs": 1522,
+      "contentType": "application/vnd.apple.mpegurl; charset=utf-8",
+      "workingOptions": [
+        "vlc"
+      ],
+      "mirrorsAvailable": 11
+    },
+    {
+      "id": "tiw4-2238",
+      "name": "Stingray Remember the 80s HD",
+      "category": "Music",
+      "tvgId": "StingrayRememberthe80s.ca@SD",
+      "streamUrl": "https://d39g1vxj2ef6in.cloudfront.net/v1/manifest/3fec3e5cac39a52b2132f9c66c83dae043dc17d4/prod-rakuten-stitched/68cc5f97-cf6c-4ff7-9125-f56f272dbcb6/1.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 2403,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 5
+    },
+    {
+      "id": "tiw4-2243",
+      "name": "XITE HD",
+      "category": "Music",
+      "tvgId": "XITE.nl@SD",
+      "streamUrl": "https://xite-rakuten.amagi.tv/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 235,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "tiw4-2334",
+      "name": "PTC Punjabi HD",
+      "category": "Entertainment",
+      "tvgId": "PTCPunjabi.in@SD",
+      "streamUrl": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/3e22a9c278db4e3eb779afd42e41b0a6/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 287,
+      "contentType": "application/x-mpegURL",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 19
+    },
+    {
+      "id": "tiw4-2392",
+      "name": "CGTN Documentary HD",
+      "category": "Documentary",
+      "tvgId": "CGTNDocumentary.cn@SD",
+      "streamUrl": "https://amg00405-rakutentv-cgtndocumentary-rakuten-0ql8j.amagi.tv/master.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1542,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 15
+    },
+    {
+      "id": "tiw4-2400",
+      "name": "Get Factual HD",
+      "category": "Documentary",
+      "tvgId": "Getfactual.us@UK",
+      "streamUrl": "https://d1nhni5l2n8hjt.cloudfront.net/gf.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 468,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "tiw4-2405",
+      "name": "Inside Crime HD",
+      "category": "Documentary",
+      "tvgId": "InsideCrime.us@UK",
+      "streamUrl": "https://aenetworks-insidecrime-rakuten.amagi.tv/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1744,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "tiw4-2406",
+      "name": "INWILD HD",
+      "category": "Documentary",
+      "tvgId": "INWILD.nl@SD",
+      "streamUrl": "https://amg00861-terninternation-inwild-samsunguk-w5wic.amagi.tv/playlist/amg00861-terninternation-inwild-samsunguk/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 2228,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 11
+    },
+    {
+      "id": "tiw4-2617",
+      "name": "Aaseervatham TV",
+      "category": "Religious",
+      "tvgId": "AaseervathamTV.in@SD",
+      "streamUrl": "https://mumt04.tangotv.in/m18aqlK4AASEERVATHAMTV/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1520,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 3
+    },
+    {
+      "id": "tiw4-2618",
+      "name": "Aastha HD",
+      "category": "Religious",
+      "tvgId": "Aastha.in@SD",
+      "streamUrl": "https://aasthaott.akamaized.net/110923/smil:aasthatv.smil/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 918,
+      "contentType": "application/x-mpegURL",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 11
+    },
+    {
+      "id": "tiw4-2619",
+      "name": "Aastha Gujarati HD",
+      "category": "Religious",
+      "tvgId": "AasthaGujarati.in@SD",
+      "streamUrl": "https://mumt04.tangotv.in/m18aqlK4AASTHAGUJARATI/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1536,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "tiw4-2620",
+      "name": "Aastha Kannada HD",
+      "category": "Religious",
+      "tvgId": "AasthaKannada.in@SD",
+      "streamUrl": "https://aasthaott.akamaized.net/110923/smil:aasthakannada.smil/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 475,
+      "contentType": "application/x-mpegURL",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 7
+    },
+    {
+      "id": "tiw4-2654",
+      "name": "Amrita TV",
+      "category": "Entertainment",
+      "tvgId": "AmritaTV.in@SD",
+      "streamUrl": "https://ddash74r36xqp.cloudfront.net/master.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 654,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 15
+    },
+    {
+      "id": "tiw4-2656",
+      "name": "Colors Kannada HD",
+      "category": "Entertainment",
+      "tvgId": "ColorsKannada.in@HD",
+      "streamUrl": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:colorskannadahd1.smil/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1002,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 7
+    },
+    {
+      "id": "tiw4-2657",
+      "name": "Colors Marathi HD",
+      "category": "Entertainment",
+      "tvgId": "ColorsMarathi.in@HD",
+      "streamUrl": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:colorsmarathihd.smil/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 2416,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 7
+    },
+    {
+      "id": "tiw4-2661",
+      "name": "E 24 HD",
+      "category": "Entertainment",
+      "tvgId": "E24.in@SD",
+      "streamUrl": "https://mumt04.tangotv.in/m18aqlK4E24/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1608,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 3
+    },
+    {
+      "id": "tiw4-2696",
+      "name": "Zee TV HD",
+      "category": "Indian",
+      "tvgId": "ZeeTV.in@SD",
+      "streamUrl": "http://41.205.93.154/ZEE-TV/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 767,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 25
+    },
+    {
+      "id": "tiw4-2708",
+      "name": "INFAST HD",
+      "category": "Lifestyle",
+      "tvgId": "INFAST.nl@SD",
+      "streamUrl": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 943,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "tiw4-2750",
+      "name": "DD Sports SD HD",
+      "category": "Sports",
+      "tvgId": "DDSports.in@HD",
+      "streamUrl": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/b17adfe543354fdd8d189b110617cddd/index.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 515,
+      "contentType": "application/x-mpegURL",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 25
+    },
+    {
+      "id": "tiw4-2832",
+      "name": "Tennis Channel HD",
+      "category": "Sports",
+      "tvgId": "Tennis.Channel.HD.us2",
+      "streamUrl": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01444-tennischannelth-tennischannelnl-samsungnl/playlist.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1545,
+      "contentType": "application/vnd.apple.mpegurl",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 9
+    },
+    {
+      "id": "iptv_org-21717",
+      "name": "Zee TV Asia Pacific",
+      "category": "Indian",
+      "tvgId": "ZeeTVAsiaPacific.sg@SD",
+      "streamUrl": "https://raw.githubusercontent.com/amazeyourself/adaptive-streams/refs/heads/main/streams/sg/YuppTV/ZeeTVHDAPAC.m3u8",
+      "bestOption": "direct",
+      "latencyMs": 1637,
+      "contentType": "text/plain; charset=utf-8",
+      "workingOptions": [
+        "direct"
+      ],
+      "mirrorsAvailable": 1
+    }
+  ],
+  "notPlayingChannels": [
+    {
+      "id": "tiw4-2001",
+      "name": "SRK TV",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c1d5f08170407034f5d0c024b5e50574f2942250b2c4008164750031c43091c010b5c4c0109155c02460d5125552d0b2f5e021b5d511c1b1a0b4b065e504c181b0c19591b1d4636.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2002",
+      "name": "Program Promo HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17580347054b400c1c4f034c065a4f51170d2e51340b3d42084f454e405e0354485c09064b03171505455b1d46381a2d172a0a40115a41025c41481c1610.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2003",
+      "name": "Al jazeera HD",
+      "category": "News",
+      "tvgId": "AlJazeera.qa@Arabic",
+      "streamUrl": "https://live-hls-apps-aja-fa.getaj.net/AJA/01.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2005",
+      "name": "BBC News",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b02661c1c2d27666b40065a021d0b481e0c065a4259474c1410351a244129.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2006",
+      "name": "Bangla Cenama HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a02405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2007",
+      "name": "Bein 1 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03015e0d405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2008",
+      "name": "Bein sports 2 HD",
+      "category": "Sports",
+      "tvgId": "beINSports2.qa@MENA",
+      "streamUrl": "http://primetv.cc.cd/beinfhd2/index.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2009",
+      "name": "Bein Xtrim HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301081b405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2010",
+      "name": "CNN HD",
+      "category": "News",
+      "tvgId": "CNN.HD.us2",
+      "streamUrl": "https://tvsen6.aynaott.com/cnn/index.m3u8",
+      "mirrorsCount": 23,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2011",
+      "name": "CartonNetwork HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301095f405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2012",
+      "name": "Colors Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "ColorsBangla.in@HD",
+      "streamUrl": "http://103.165.93.31:8095/colorsBangla/index.m3u8",
+      "mirrorsCount": 27,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2013",
+      "name": "Colors HD",
+      "category": "Indian",
+      "tvgId": "Colors.in@SD",
+      "streamUrl": "http://66.102.126.10:8000/play/a00a/index.m3u8",
+      "mirrorsCount": 17,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2014",
+      "name": "Colors Infinity HD",
+      "category": "Indian",
+      "tvgId": "ColorsInfinity.in@HD",
+      "streamUrl": "http://103.151.60.162:2122/play/a02r/index.m3u8?hls",
+      "mirrorsCount": 11,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2015",
+      "name": "DencyInternational HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010957405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2017",
+      "name": "Disen Jr HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010959405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2018",
+      "name": "ENter 10 Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b254a2b571153017a0e01530a195c0f1d5b161a4f471f404100335f39496c474d06544e.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2019",
+      "name": "EUROSPORTS HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b05710d7d30327e6a3b3c1a2e3c5c0f1d5b161a4f471f404100335f39496c474d06544e.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2020",
+      "name": "Fifa unity SD 2 HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03015e58405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2022",
+      "name": "HIT DL HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a08405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2023",
+      "name": "History 18 HD",
+      "category": "Documentary",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010816405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2024",
+      "name": "HitsMovie HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010907405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2025",
+      "name": "Hum Stury HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301081a405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2026",
+      "name": "Jolsha Bangla bd HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a17405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2027",
+      "name": "Jolsha Movie HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010817405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2028",
+      "name": "KAS Sport 1 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a0c405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2029",
+      "name": "Movie Now HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a18405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2030",
+      "name": "NET GIO HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010908405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2031",
+      "name": "NGC Wild HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010909405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2032",
+      "name": "NickLendo HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010958405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2033",
+      "name": "PTV Sports",
+      "category": "Sports",
+      "tvgId": "PTVSports.pk@SD",
+      "streamUrl": "http://103.250.28.74:8000/play/a019/index.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2034",
+      "name": "Pappare Tv 1 SL",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03015e02405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2035",
+      "name": "Pappare Tv 2 SL",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03015e01405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2036",
+      "name": "Pogo HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b106b187d4c0b5f5c0a171a0b4b065e504c181b0c19591b1d4636.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2037",
+      "name": "Rupshi Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17021a5912484648075e1d050e5e5a1b104d6f0c776a3a732f1a036a3a3f75353131273d783f234e4342511c5b6e5973516711100948555c1a1a021d05.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2038",
+      "name": "MAX HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301095a405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2039",
+      "name": "SKYNET SPOTS HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a5a405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2040",
+      "name": "SRK HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301081d405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2041",
+      "name": "America TV",
+      "category": "News",
+      "tvgId": "RBKTV.ru",
+      "streamUrl": "https://prepublish.f.qaotic.net/a07/americahls-100056/playlist_720p.m3u8",
+      "mirrorsCount": 49,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2042",
+      "name": "STAR BANGLA HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03015e5a405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2043",
+      "name": "STAR MOVIE HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a04405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2044",
+      "name": "STAR MOVIE Select HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a03405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2045",
+      "name": "STAR PLUS HD",
+      "category": "Indian",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b13701e604d327d6d3c417c22571a08175a0b4c0c19590d5a502b4d2d172a1c070747.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 19,
+      "failureReason": "HTTP 502",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2046",
+      "name": "Sony Pix HD",
+      "category": "Movies",
+      "tvgId": "SonyPix.in@HD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301090b405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2047",
+      "name": "Sony Sports 1 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301090c405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2048",
+      "name": "Sony Sports 2 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301090d405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2049",
+      "name": "Sony Sports ten HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301091b405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2050",
+      "name": "Sony Sub HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301091e405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2051",
+      "name": "Sony att HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a5c405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2052",
+      "name": "Sony set ent HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a5b405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2053",
+      "name": "Sony sports 5 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a57405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2054",
+      "name": "SonyMaxHD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301095b405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2055",
+      "name": "Star Jolsha HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010818405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2056",
+      "name": "Star Sport 2 DL HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010819405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2057",
+      "name": "Star Gold 2 HD",
+      "category": "Movies",
+      "tvgId": "StarGold2.in@HD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010919405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2058",
+      "name": "Start sports select 1 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a59405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2059",
+      "name": "Start sports select 2 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a58405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2060",
+      "name": "SunBangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301091f405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2061",
+      "name": "Supper HIT HD",
+      "category": "General",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a09405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2062",
+      "name": "Ten cricket HD",
+      "category": "Sports",
+      "tvgId": "TenCricket.in@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03015e05405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2065",
+      "name": "Zee Cinema HD",
+      "category": "Movies",
+      "tvgId": "ZeeCinema.in@SD",
+      "streamUrl": "http://103.151.60.162:2122/play/a024/index.m3u8?hls",
+      "mirrorsCount": 27,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2066",
+      "name": "Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a1f405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2069",
+      "name": "nick jr HD",
+      "category": "Kids",
+      "tvgId": "NickJr.in@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5d1a574a4a484207454c50121e0f41126f5a2947341d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 37,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2070",
+      "name": "Ekushey TV",
+      "category": "News",
+      "tvgId": "EkusheyTV.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170a04411510161f005a011404580256164e6f5c2c57725e0a1454170306420308180101102c06044c455b0a571f1b2c4d2957061454561b40580f0e1615074d16030c1902584a567817334f265f50171f5c0a19.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 31,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2072",
+      "name": "Channel I HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b066a17423a14766258295f253d42562348272a0c05455b1d46381a2d172a0a40115a41025c41481c1610.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 29,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2073",
+      "name": "NTV",
+      "category": "Bangladeshi",
+      "tvgId": "100",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17161a4416161a0b015a000f1447025412422d55295e3a564d0c544c405e05564b41545c5107144e5a4054004f2947340a3201165a0e590b1c1a051012081d5a1f5f531814131847331a234b3146060c45670c1a4712171e3942600303134b41083f62136066453b414d17425d1d5206401917155d5c1c0c154f424126403547344b326d503d41591d0e595b21061603791211156342511042665c244a2b415e1145055e580d544a42544b0c421c04525c084814790672176b0650534f590c030947525c57420f4050530542410f0c6a156f543e4b0f0d505c401641160807101c4b073d5475010426102202261167015a4f015a5a5c19071943505e08125a51071c074a13740321126c0754016e6d3c3001515642534211425059041d06487c39413054395310166e0a300c5c07161d031f6042525175010456093e5021503e0f1a1741481b195b120c2c532c12423d52481a534c1b730d6d143d07504f50595f591951194b565e0f4151511e1b544f107503237b0a613c5706165e5a054849415e5d0e40533e53594509452147347b6d6d000a5056010a58394943562c12421c09474d56444671037515690b5652535b5c5f57021a120544084057041f1b024011250c7917690357035300575d57001a1055410a4353004f480c1f14720574423c045353501e0e0b4748161612045001093e444d581c1e394130543953101617590b1c1a07080339004b1c1004755947151e66552457715313126e5a1a01500a1d4e40125b004c024542411c4d346b2c4d29571016435d0e0209575e12020011100d0f5e495b0d7c27512e563a0f2d27666b490e501556100e12511d070d75425414467d7a1472795307111f540e0153131914034e6b362e474b48465756335132196f.m3u8?s=2817&id=avbe.m3u",
+      "mirrorsCount": 65,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2074",
+      "name": "Bangla Vision HD",
+      "category": "Bangladeshi",
+      "tvgId": "BanglaVision.bd@SD",
+      "streamUrl": "https://tvsen5.aynaott.com/banglavision/index.m3u8",
+      "mirrorsCount": 23,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2075",
+      "name": "RTV HD",
+      "category": "Bangladeshi",
+      "tvgId": "RTV.at@SD",
+      "streamUrl": "http://iptv.rtv-ooe.at/stream.m3u8",
+      "mirrorsCount": 51,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2076",
+      "name": "ATN Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "ATNBangla.bd@SD",
+      "streamUrl": "http://tvsen5.aynascope.net/atnbangla/index.m3u8",
+      "mirrorsCount": 39,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2078",
+      "name": "Maasranga TV",
+      "category": "Bangladeshi",
+      "tvgId": "MaasrangaTV.bd@SD",
+      "streamUrl": "http://tvsen5.aynascope.net/maasrangatv/index.m3u8",
+      "mirrorsCount": 37,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2079",
+      "name": "Deepto TV",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b04611a62372d656e41277049111d0216475d0f525f14160a483959735171560614.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 27,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2083",
+      "name": "Duronto TV",
+      "category": "Bangladeshi",
+      "tvgId": "DurontoTV.bd@SD",
+      "streamUrl": "https://tvsen6.aynaott.com/6xyZ3N4oHv2KBJdB6W4p/index.m3u8",
+      "mirrorsCount": 29,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2084",
+      "name": "MADANI TV HD",
+      "category": "Religious",
+      "tvgId": "MadaniTV.id@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b0d651b732d2b1f6c39417c22571a08175a0b4c0c19590d5a502b4d2d172a1c070747.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2085",
+      "name": "Bangla TV",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095e591a54484748420b4a4c501c0357184d27582150291d0a0c555d174159550d4b4500540a0f525f02511c55.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 29,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2086",
+      "name": "Desh TV",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b325d19593b0455090e5b77374f1e2b175c4b505105455b1d46381a2d172a0a40115a41025c41481c1610.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 15,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2087",
+      "name": "Boishakhi TV",
+      "category": "Bangladeshi",
+      "tvgId": "BoishakhiTV.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b026b166122297971413b62483037491a511707190441060c1b63472b5d3201164c555d19.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 27,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2090",
+      "name": "Bijoy TV",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b1d5f5000025605571d4c065a4f51170d2e51340b335b15071e5a06055b1f2707102c5e11104e4342511c5b6e5973516711100948555c1a1a021d05.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 25,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2092",
+      "name": "My TV",
+      "category": "Bangladeshi",
+      "tvgId": "MyTV.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e1f4448161007015a5d0e085c491a1a10164d2449094b3b5a63480d2a615f351a5e0b710a5a186768704964097015120d55193307763b2e53023d1c071679090027131e6c2e5b096e146b6f6753074b765e264e2b0115101078252f3b6f66762d6606632572110133367e550b2947072f21121268465300437c5d1773147d720b324b17141c4d1f425b001e5d15074d16030c05405c0f466d5b3243365c4c0f484c19424116551c0015110016134f4d5856532c5539483641174c5c0b1a571715130a0b404a5d06045c.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 35,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2093",
+      "name": "Ananda TV",
+      "category": "Bangladeshi",
+      "tvgId": "AnandaTV.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e1f4448161007015a5d0e085c491a1a10164d2449094b3b5a63480d2a615f351a5e0b710a5a186768704964097015120d55193307763b2e53023d1c071679090027131e6c2e5b096e146b6f6753074b765e264e2b0115101078252f3b6f66762d6606632572110133367e550b2947072f21121268465300437c5d1773147d720b3e5c020c55591b191a150c010312525c0e085c49181651275d2e0b3e5c020c55591b191a150c010312525c120d4b55591050341a2d172a0a40115a41025c41481c1610.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 27,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2094",
+      "name": "BTV CTG",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b144e186052255240240a402e3625053e690b001005455b1d46381a2d172a0a40115a41025c41481c1610.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2096",
+      "name": "Channel S HD",
+      "category": "Bangladeshi",
+      "tvgId": "ChannelS.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e1f4448161007015a5d0e085c491a1a10164d2449094b3b5a63480d2a615f351a5e0b710a5a186768704964097015120d55193307763b2e53023d1c071679090027131e6c2e5b096e146b6f6753074b765e264e2b0115101078252f3b6f66762d6606632572110133367e550b2947072f21121268465300437c5d1773147d720b3c5a020c5f5d031c1a150c010312525c0e085c49181651275d2e0b3c5a020c5f5d031c1a150c010312525c120d4b55591050341a2d172a0a40115a41025c41481c1610.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 25,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2097",
+      "name": "Amar Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e1f4448161007015a5d0e085c491a1a10164d2449094b3b5a63480d2a615f351a5e0b710a5a186768704964097015120d55193307763b2e53023d1c071679090027131e6c2e5b096e146b6f6753074b765e264e2b0115101078252f3b6f66762d6606632572110133367e550b2947072f21121268465300437c5d1773147d6f45325311005056080355120e5d15074d16030c055c59185a2c5d3350715f5017091b1c044d0b4b0648175a05.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "Timeout (>2.5s)",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2099",
+      "name": "ATN Bangla UK HD",
+      "category": "Bangladeshi",
+      "tvgId": "ATNBanglaUK.uk@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e1f4448161007015a5d0e085c491a1a10164d2449094b3b5a63480d2a615f351a5e0b710a5a186768704964097015120d55193307763b2e53023d1c071679090027131e6c2e5b096e146b6f6753074b765e264e2b0115101078252f3b6f66762d6606632572110133367e550b2947072f21121268465300437c5d1773147d720b3e460d00505608035513135e0915595d1115584954140c3058215d335b10161f555c1a0c450b181f1e0c064c054f5a.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2102",
+      "name": "Enter10 Bangla HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17030642035511071d581f034f4b47541442294e2540715c06161e54061951071a0149034a114f08454e5417442c552b546c4105041e54061951394a47560310100a14444746574e734178072c591a0f024d410b5110.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2104",
+      "name": "ION TV",
+      "category": "Entertainment",
+      "tvgId": "ION.Television.HD.us2",
+      "streamUrl": "http://23.237.104.106:8080/USA_ION/index.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2106",
+      "name": "ZB Cinema",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c0a46101d014809561f0e00584e540b57211a234b321d39207271212a7927571a08175a0b4c0c19590d5a502b4d2d172a1c070747.m3u8?s=1312&id=9csf.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2107",
+      "name": "ZEE BANGLA CINEMA",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b1a611a1c21237f7f232e1a25313d233e7e5c0b0f4e494d574e734178072c591a0f024d410b5110.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 21,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2108",
+      "name": "Movie Bangla TV",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e59031951120e5d051c525c0f0e5c45501b422e532c452b444c5a01005f405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2109",
+      "name": "ZB Music HD",
+      "category": "Music",
+      "tvgId": "ZBMusic.in@HD",
+      "streamUrl": "https://server.zillarbarta.com/zbmusic/index.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2111",
+      "name": "NTV TV UK",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e1f4448161007015a5d0e085c491a1a10164d2449094b3b5a63480d2a615f351a5e0b710a5a186768704964097015120d55193307763b2e53023d1c071679090027131e6c2e5b096e146b6f6753074b765e264e2b0115101078252f3b6f66762d6606632572110133367e550b2947072f21121268465300437c5d1773147d720b314615175a085f5c07544a42575d4c0710044b411a094f214d2c4d2c464d0f024d574c470d011e550611170717.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2116",
+      "name": "A SPORTS HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b010a0c622c30656b41277049111d0216475d0f525f14160a483959735171560614.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2117",
+      "name": "Sports First TV",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5b50021f170b190e10140f470256154c35502656305c174c5f5d1b404705101602065316104e594f5d1c47355825693e41170743175b5f0d481540134b1c000918471f4057472542.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2118",
+      "name": "Sports Grid HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b135430401711764a060b1b0f1617030b111e5114120f46125a2d07350a3b5715.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2120",
+      "name": "Talk Sport HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b3445335930327e6a3b405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2121",
+      "name": "Marquee Sports Network HD",
+      "category": "Sports",
+      "tvgId": "Marquee.Sports.Network.HD.us2",
+      "streamUrl": "https://go.skym3u.top/live/4372b/3b1f0d3d404f706d273b3d010804112b344f18174110003c47425719321b106245447074256d6b5505404c67730554505751073d0506515466081c6243193e3b283620194f1f472a7a5e180e05060b627c5d774f1c2f11267e1f3876090802592c261f261b0c2552200e2b367c677c5a1c013c7e7c313873091b1e5d2f3621280d2507573751372a50775e0409332b7f7f1b0d700b3502152c3639270c1b04082037026b686455411d3c28386921123b1e1b1e172c18316e0c262a0c2051302668777b05090120346a1f12770a6d1a582e263235183529522037206a685a705d1e013b2169210d2a0a1b301a2c253e330f0c21542337026f685d7c5f1e2f33267e12.m3u8?t=7549&s=bb5&id=88tv.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2122",
+      "name": "Cricket Gold HD",
+      "category": "Sports",
+      "tvgId": "290",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e154111000d074b5f415757361b3615705f0211455d1d4002574917514a5d4253031d1b504b457503711d6c06050609080c0e0552494052460c4455534b4f0256417204741c3d505b4f000e575919524c40545e5e125751071a014e117401731c6c5753011e550e015d001d00125d52401759154d510a0d235c214a31570f5f0701565a12071c004810501d160444586a1a5633402f4900033c12504a0e020920392032555e17114f5f5f500b1e721221402c1c000d5f4c0a0140391b061507501e3d52755c540b422d0919512f422503424c2601500f19550e175107115c5958084814790672156d055a5b4f5d171f09574f4a54410c4751581352541a4f7d156a0b29034c0f504b1b0a46494e425717084a00501b4e024e46725275136e0b5056575c575f5707494757400b4651561d1e541a146f5672146b0a010009155e590c50554752400d5e03001f1c184f17770674116c0a5007015b4045154908121f1f5012064e5359450957365b345000073c4f00675c0d02004d4b554a1243005419015418137619774567024e52030b5f5b03074e4053445c2c3732751902571275056e156d0a4d53020930164116081507004b2c503e494454174d25581f1666023c4f0017451150070c125b0a4a0312155c43410d7c756b6d1500010154570d575c0d4b48115340121203511c0102181b701970166c025755500e5c5a03052726352c0a444c501f1d1b4811781a71176e6d1a174148090e47122741391057120c0f4f406a4b1a706b6d15215a0e0352055e0b06574b1655455b1750071b1c014a107706261d6956575a045c5e0d50564b4b074408460707481f031b47760123426e030104040f5c5c000449115e470a1144004e5f1b174634432f56346d0d035c5d52164116081507004b55030559025409531f47344b2d573c174354524955020b5d07034f2c00144448591c1e6655245771510c0c455d011b6b0a110503004b0107004711045f4224476e47305c17075f4c300851080a165b206f3c3035790a541d506e572845315c060e6e560e02515b3b010f10541616264540515f4224476e483e5c0417505f0a5271283f5507174c5d17124f5e0849.m3u8?s=2817&id=avbe.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2123",
+      "name": "Bein Sports Extra 2 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170d0a5d0855161503120b170c4502541442275d6e50291d130e5041030647122a42564b0f034c0c19590d5a502b4d2d172a1c070747.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2126",
+      "name": "Trace Sport HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170306530e0c1d0f1d585e16134b4f500a532f4634092c530e114456080e4148191e0714565d1617055c59185a2c5d3350715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2130",
+      "name": "Fox Cricket 501 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e5d0a5f57531d44525d5e1803054b5850150d235b2d0b364217141e693d2b63212c312b3777202626610304401274026f4d3156061a1f555c1a0c450b181f1e0c064c054f5a.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2132",
+      "name": "FIGHT FIGHT NETWORK HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e025356484a504512120f061a1c0c4f15230570093e5f04125d4c5f5d045756030a12461c171504425a0e106e552d45385b4d1647171b1c19030d5e1142121d504e5a4054004f2947340b3e5f045201015959190715145643064554021b1c18184e27442c506f0053531e48030e4d0a1100125d52401759095f5e004e73416e403a44.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2133",
+      "name": "FIGHT MVMT Culture HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5e01014f09531d0c1612171d581b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c0707130515514915720174153900050402010d5a57561e475e11084751021c18044847720126126d54005004173b0751210a121603531a0c066449410e4c325f6d772f5d1116426c1d065607145c5440095d0f525f14160a483959735171560614.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2134",
+      "name": "FIGHT PFL HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d435f1a4b151252440852505a1b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c070713051f024b1123027045670356010001560b0d0548160040091057031d1f511815785576163d025a0600170c0c19531f46531257010c584b4654110c36056f54395e3c12575402025539495c15125200170f4d44501847255a247b2a414c0e504c0a1c404915120f1d101b0e12055c59185a2c5d3350715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2135",
+      "name": "GOLF GOLFPASS HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d5d0516070b45591b1a1358551b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c070713051f024b1123027045670356010001560b0d0548160040091057031d1f511815785576163d025a0600170c0c19031f020f1e56470b57441f47110c2d5533503a404d0f024d574c470d011e550611170717.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2142",
+      "name": "MIXER SportsGrid HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c1f5b140c00010156174f15584557184f6e552d45385b4d1647171f03551f141a15076d4751535a02584a567817334f265f50171f5c0a19.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2144",
+      "name": "MIXER Unbeaten Sports Channel HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5e405319151c454e16065252471b1a4f2f4124422d5d0d161f560a1b1b33161103124b160c4f471f404100335f39496c474d06544e.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2146",
+      "name": "MIXER World of Freesports HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e025356494b5045121e0308445f410b4621592d413b5b024f574a0a0a471617011200561d014c595c5a0b573340324d3d530f4f530b150b5b48191e0714565d1617055846544635193715725c514d41540e16580f0b07491252145250121a03544e215d2e572b4006035c550a0b5d07551514165a00120e585846104d2319335430401711454a060d550a57030a12461f0b125e02584a567817334f265f50171f5c0a19.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2148",
+      "name": "RACING Hagerty HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b1e43500d4313035e4b0e531b0256154c35502656305c174c5f5d1b404257571e07004b16104e191b074b407604211c6e07005308010b5657561d1555455c4600561948544f1b210272466f0b07531e5b0c4204030c1f5e4451165015401b02566b215325562b4b4d0f024d574c470d011e550611170717.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2149",
+      "name": "JAMUNA TV HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171f03551f0207105e5e031212045c541e46331a2441291d09035c4d010e19120e5c0f1d5b161a4f471f404100335f39496c474d06544e.m3u8?s=1312&id=9csf.m3u",
+      "mirrorsCount": 21,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2150",
+      "name": "EKATTOR TV HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171f03551f0207105e5e031212045c541e46331a2441291d0609504c1b00464b0c05491a511707190441060c1b63472b5d3201164c555d19.m3u8?s=1312&id=9csf.m3u",
+      "mirrorsCount": 15,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2151",
+      "name": "News 24 BD",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b234038405016460e38007351320a341d73110b5105455b1d46381a2d172a0a40115a41025c41481c1610.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2152",
+      "name": "DBC News HD",
+      "category": "Bangladeshi",
+      "tvgId": "DBCNews.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b3062690437094b081e2943364a122b3e4e3b1b1505584718402b476d526e53524d5c5701001a120b5d0b404a4b41124155584a566e502552.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 31,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2155",
+      "name": "DW News",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a57414648410c4a4c541a160d491a751b0473717c26356216272b1b0f1617030b111e5114120f46125a2d07350a3b5715.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 15,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2156",
+      "name": "Bloomberg TV",
+      "category": "News",
+      "tvgId": "Bloomberg.HD.us2",
+      "streamUrl": "http://23.237.104.106:8080/USA_BLOOMBERG/index.m3u8",
+      "mirrorsCount": 13,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2157",
+      "name": "CNBC TV",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b234a3d514c0b5f5c0a171a0b4b065e504c181b0c19591b1d4636.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2158",
+      "name": "Wion HD",
+      "category": "News",
+      "tvgId": "14",
+      "streamUrl": "http://vg-zeefta.akamaized.net/ptnr-yupptv/title-wion/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/20c3c0d9-0256-43fe-bca6-70fdd490b957/main.m3u8",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2159",
+      "name": "AccuWeather HD",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b0d16575e4f010d050458460f116e552d45385b4d16471703065a0319014912521452511c14015442235735533a53170a544a420e57050d0403124b1b0713075c591c5b6f442c45265e0a114516025c415e5b000d0a5240174f4e4943.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2161",
+      "name": "Hindi Khabar HD",
+      "category": "News",
+      "tvgId": "160",
+      "streamUrl": "https://stream.ottlive.co.in/hindikhabar/index.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2162",
+      "name": "News 1 India",
+      "category": "News",
+      "tvgId": "129",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5e59151d190a1c4842165246181b1a4f2f4124422d5d0d161f560a1b1b000c12491d5a04115043425110426f442c45265e0a114516025c415e4712020011100a00444250151e7602721c795307111f5b00014003160739104a00160e47730426532146214962742231651e0e0b47480d000301024144004e5f1b1a4c2e40254a2b6d0017424c00026b55270307015e1e5f385f5c453f423340094a3b5b0244595c011b475b0b075b42084a50531b1e0d49143e5138546203545b030a5c5b00564f0d0710534e434b054a41180c2e5137576e5b0d0658594045154908121f1f5012064e5359450957365b345000073c4f00675c0d02004d4b554a1243005419015418137619774567024e52030b5f5b03074e4053445c2c3732751902571275056e156d0a4d53020930164116081507004b2c503e494454174d25581f156d0b3c4f0017451150070c125b0a4a0312155c43410d7c756b6d1500010154570d575c0d4b48115340121203511c0102181b701970166c025755500e5c5a03052726352c0a444c501f1d1b4811781a71176e6d1a174148090e47122741391057120c0f4f406a4811796b6d15215a0e0352050d5a0055194b00100b415a56121b064b142352741c3e04015007595d5b57004142034a07405155121f004d462350251c3a510554070f0a5f04504816554b591144004e5f1b174634432f56346d0d035c5d52164116081507004b55030559025409531f47344b2d573c174354524955020b5d07034f2c00144448591c1e6655245771510c0c455d011b6b0a110503004b0107004711045f4224476e47305c17075f4c300851080a165b3d7a2431474b4846574028552e4a3a5e3c0c50550a527a030f00573a51170b000c4d510a0d2c552e432a5304070c70262112071c0048064c16105c1a.m3u8?s=2817&id=avbe.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2163",
+      "name": "News Nation",
+      "category": "News",
+      "tvgId": "NewsNation.in@SD",
+      "streamUrl": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/6cd2f649739a45ca9de1daf81cc7d0f2/index.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2164",
+      "name": "ATN News HD",
+      "category": "Bangladeshi",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316464812461d030e5e581b1a4c2d1b21503150020c56540e405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 31,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2165",
+      "name": "News 21 Bangla TV",
+      "category": "Bangladeshi",
+      "tvgId": "News21BanglaTV.bd@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a57414348420c404c571216044010751b2e41284151535d51190a1b0a1105035c4f1f03184645460d0d2d07351c7c41081b5c0b1a4150030e.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2166",
+      "name": "Probashi TV News",
+      "category": "News",
+      "tvgId": "ProbashiTVNews.ca@SD",
+      "streamUrl": "http://158.69.24.53:8080/probashi_tv/index.m3u8",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2167",
+      "name": "Dios Te Ve Kids HD",
+      "category": "Kids",
+      "tvgId": "DiosTeVeKids.hn@SD",
+      "streamUrl": "https://s.emisoras.tv:8081/diostevekids/index.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2168",
+      "name": "Moonbug Kids HD",
+      "category": "Kids",
+      "tvgId": "MoonbugKids.uk@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e1702005b081a06015e4d1c09145f5f1b184e2153290a2b444c125d5916035d150c5d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2169",
+      "name": "3ABN Kids HD",
+      "category": "Kids",
+      "tvgId": "3ABNKids.us@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b73453d5c080b554b40065a021d0b481e0c065a4259474c1410351a244129.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2170",
+      "name": "PBS Kids HD",
+      "category": "Kids",
+      "tvgId": "KUEN-DT.us_locals1",
+      "streamUrl": "https://livestream.pbskids.org/out/v1/14507d931bbe48a69287e4850e53443c/est.m3u8",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2173",
+      "name": "0 Disney Channel Latin America HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095a4106564c5d5447095d505510140541136f70295731571a2a751706015003005d0b404a4b41124155584a566e502552.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2174",
+      "name": "0 Disney Jr HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e09565f1a5f4b5d54410b5d565305687c2a6d056d6d6e0d1d0a0c555d174159550d4b4500540a0f525f02511c55.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2179",
+      "name": "0 Sonic The Hedgehog HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b1b43021b0601125b04160f5d0256154c35502656305c174c5f5d1b4059070b070301111e5114120f46125a2d07350a3b5715.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2182",
+      "name": "0 Toon Goggles HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5e51014a471e014c151057415a1b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c070713051f024b1123027045670356010001560b0d0548160040091057031d1f511815785576163d025a0600170c0c19044c115711450b09151b594f160e30462f407046044d455f401b53481540134b1c000918471f4057472542.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2183",
+      "name": "0 Toon Goggles Junior HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5c5d500d0317124e090d12431d1b1a4f2f4124422d5d0d161f560a1b1b121f5c0c016006114e5e4b6a13511f41330a3201165a124b041659550d5d021649.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2184",
+      "name": "0 ToonGoggles HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e0253564940544a121c16154f5e54104d2319344b305c040d565f030a474b0b120b004a1d05005f01541d0e74576e453253040b1f4c1940440a190a0a1a4c074d00474b054810720d6d4b2b4606105051010c1912171c08145014050d4f5f180a422d47354a3853164d41540e16580f0b07481e0c065a4259474c1410351a244129.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2185",
+      "name": "1 Cartoon Network USA HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171900501c171d015d5219170f45435b5757360e781467054c11454a0a0e59121d00125c5c12101545435b544d2540374b2d594e5a06171f03551f141a1507111e5114120f46125a2d07350a3b5715.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2196",
+      "name": "2 Powerkids Kartoon Channel HD",
+      "category": "Kids",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170c0c190c4a02141e5b1f0554531b591e0d215f21493e5b19075516010a40490e42491e5e0016045803064e11725776143e0a525752095656505f1b4303150c450154481b061d42760c21126d50535b5509400c574b1241170152170e061f550215446f442f533a40080b554b4102071340501518461e51140448500f.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2206",
+      "name": "Hindi Movie Classic 24 HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17190050154a5d070a51120d155e0256164e6f5c294a3b5b0e0d47510a1c1b0f1617030b111e5114120f46125a2d07350a3b5715.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2207",
+      "name": "Court TV",
+      "category": "Entertainment",
+      "tvgId": "Court.TV.us2",
+      "streamUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01438-ewscrippscompan-courttv-tablo/playlist.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2211",
+      "name": "Action Hollywood Movies HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b190315160e5e121345481b0d5036066e453253040b1f4c1940580f1616070110120f061a1d054e156d58294337460d0b5f5f060140030a1d4b125c070b0e44445a154f39432f4b3b1f10035c4b1a015308025c161f5e0a0e0859581b1410350c6357344b0e5144160b0a42.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2212",
+      "name": "Movie Sphere HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170200420f1d00161b5a010714410146184e33412e432a594d035c5908061a120e5c161f5e0a0e0859581b1410350c6357344b0e5144160b0a42.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2215",
+      "name": "Rakuten Movies HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e175f5e00534c46574a084603571e4e064c1b760271136f5407505400090e005e4e5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e0a4a5a560541540a5725466e496c475b4142531602071356170305.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2217",
+      "name": "Al Quran Al Kareem TV",
+      "category": "Religious",
+      "tvgId": "AlQuranAlKareemTV.sa@SD",
+      "streamUrl": "http://m.live.net.sa:1935/live/quran/gmswf.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2219",
+      "name": "IBN TV",
+      "category": "Religious",
+      "tvgId": "IBNTV.tz@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095c571a50405d5740075d535013160d491b701b2c4d29574c57500056560751484a03120e4a4d08444850010d2d07351c7c41081b5c0b1a4150030e.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2220",
+      "name": "IBN TV Africa",
+      "category": "Religious",
+      "tvgId": "IBNTVAfrica.tz@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e0e5741055e4b5d52421141525810140541136f5829523a1d560608595a5c03054e47044a5c5c0b0f4e494d574e734178072c591a0f024d410b5110.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2223",
+      "name": "QURAN HD",
+      "category": "Religious",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17030642035618111a541e0d1543435b57402f596f573d40081150491a1d55080a12021a501f0b174f03460b532b4721552a40020c43590b065b49081f070a531a11150441060c1b63472b5d3201164c555d19.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 19,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2226",
+      "name": "Music TV",
+      "category": "Music",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e5a061b5702165e0d01501d070943581b1b4a34592f52365c4d015e5540190649101f155c5c1b170f41405c0a571f5673156d0a53520116025c415e5b000d0a5240174f4e4943.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2227",
+      "name": "YRF Music HD",
+      "category": "Music",
+      "tvgId": "YRFMusic.in@SD",
+      "streamUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8",
+      "mirrorsCount": 19,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2228",
+      "name": "TNT Music HD",
+      "category": "Music",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b01400b561e0317561201054402470c0c23502e0b2b5c170f444b060c1b1614121f1f5600164f471f404100335f39496c474d06544e.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2229",
+      "name": "Arabica TV",
+      "category": "Music",
+      "tvgId": "ArabicaTV.lb@SD",
+      "streamUrl": "http://istream.binarywaves.com:8081/hls/arabica/playlist.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2231",
+      "name": "Dance TV",
+      "category": "Music",
+      "tvgId": "DanceTV.ar@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17025e5654560409015317010059581b0d556f50214a3c5717075d5d1906470f171d091d5a5c504e4e4d5b1a4634512c41295b100b5e56000151481540134b1c000918471f4057472542.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2233",
+      "name": "Kronehit HD",
+      "category": "Music",
+      "tvgId": "Kronehit.at@SD",
+      "streamUrl": "https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2234",
+      "name": "NOW 70s HD",
+      "category": "Music",
+      "tvgId": "Now70s.uk@SD",
+      "streamUrl": "https://lightningnow70-samsungau.amagi.tv/playlist.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2236",
+      "name": "Now Rock HD",
+      "category": "Music",
+      "tvgId": "NOWRock.uk@SD",
+      "streamUrl": "https://lightning-now90s-samsungnz.amagi.tv/playlist.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2237",
+      "name": "Play TV",
+      "category": "Music",
+      "tvgId": "PlayTV.br@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e5b00015a031b070f184b054c054e4246574d25407a116f02534d41540e1640105733161f5e0a1617055c59185a2c5d3350715f5017091b1c044d0b4b0648175a05.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2239",
+      "name": "TRACE UK HD",
+      "category": "Music",
+      "tvgId": "TraceUK.uk@HD",
+      "streamUrl": "https://channels.trace.plus/Traceprod/UK_FAST_hd/index.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2240",
+      "name": "Trace Urban HD",
+      "category": "Music",
+      "tvgId": "TraceUrban.fr@SD",
+      "streamUrl": "https://lightning-traceurban-samsungau.amagi.tv/playlist.m3u8",
+      "mirrorsCount": 15,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2242",
+      "name": "Vevo Pop HD",
+      "category": "Music",
+      "tvgId": "VevoPop.us@SD",
+      "streamUrl": "https://d128y56w6v2kax.cloudfront.net/playlist/amg00056-vevotv-vevopopau-samsungau/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2255",
+      "name": "Kolkata TV",
+      "category": "News",
+      "tvgId": "324",
+      "streamUrl": "https://cdn.ottlive.co.in/kolkatatv/index.m3u8",
+      "mirrorsCount": 29,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2261",
+      "name": "CTVN AKD Plus",
+      "category": "News",
+      "tvgId": "101",
+      "streamUrl": "https://live.legitpro.co.in/ctvnakdplus/index.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2275",
+      "name": "Bhojpuri Cinema",
+      "category": "Movies",
+      "tvgId": "BhojpuriCinema.in@SD",
+      "streamUrl": "https://live-bhojpuri.akamaized.net/liveabr/playlist.m3u8",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2277",
+      "name": "BHOJ Filamchi Bhojpuri HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170a1f5d05171d101b11120900474d5c0346241a2e412b1d0f0b475d40095d0a191e051b565c0f005958500b0d2d07351c7c41081b5c0b1a4150030e.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2281",
+      "name": "DANGAL 2 HD",
+      "category": "Entertainment",
+      "tvgId": "Dangal2.in@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e155d4b120c06455843574a2e1b04651175222e0317203d7d21313d491a511707190441060c1b63472b5d3201164c555d19.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2284",
+      "name": "DD National HD",
+      "category": "Entertainment",
+      "tvgId": "DDNational.in@SD",
+      "streamUrl": "https://mumbai-edge.smartplaytv.in/DDNational/index.m3u8",
+      "mirrorsCount": 23,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2289",
+      "name": "History TV18 HD Hindi",
+      "category": "Documentary",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17015e0c15011d021a5c12160845421b18482159214d2557074c5f5d1b405616135e1205103b0b125e4347007c1462711c007a0a0c555130216357402c2b3c7d5c0d145e5c400d13711b2d452c4606101f555c1a0c450b181f1e0c064c054f5a.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2290",
+      "name": "Kadak HD",
+      "category": "News",
+      "tvgId": "Kadak.in@SD",
+      "streamUrl": "https://n18syndication.akamaized.net/bpk-tv/Kadak_NW18_MOB/output01/master.m3u8",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2292",
+      "name": "MBC Bollywood HD",
+      "category": "Movies",
+      "tvgId": "MBCBollywood.ae@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c07504b1f10165e531a14040449511e462e5138503c560d4c5f5d1b40580f0e16491156070f0e5c455b544e22576d46305e0f1b4657000b1b534c4503110b4306564e4f534042720479166a070706030c56590d564b445047101a0c054f541b1410350c.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 15,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2293",
+      "name": "NH BollyFlix HD",
+      "category": "Movies",
+      "tvgId": "NHBollyFlix.in@HD",
+      "streamUrl": "https://jmp2.uk/stvp-IN46000140Q",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2294",
+      "name": "PITAARA MOVIES HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d580d4d06534a4b1d11561e4f1b1a4f2f4124422d5d0d161f560a1b1b090d0749050e5c57511a4d031b17755275453a06520655595b5b0102414254110a4a07004b1c0c564a2e50255c715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2295",
+      "name": "South Station HD",
+      "category": "Movies",
+      "tvgId": "SouthStation.in@HD",
+      "streamUrl": "https://cc-yw7ztecy8do3q.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-yw7ztecy8do3q/SS_IN.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2302",
+      "name": "Desi Channel HD",
+      "category": "Entertainment",
+      "tvgId": "DesiChannel.in@SD",
+      "streamUrl": "https://livestream.unlimitedcdn.com/agm-dc/desi-channel/index.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2312",
+      "name": "NEWS Aaj Tak HD",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e0e5e1219180a1a49164f0047481b18482159214d2557074c5f5d1b405c0a0b5c0a1a49164d531a1d014d12761b2145354602091e590e054007131f0f055a5c0e085c496a4d1374446f4737470d094216025c415e5b000d0a5240174f4e4943.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2313",
+      "name": "NEWS Aap Ki Adalat",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649465343121a0c05434d410f0e295a244d3e46154f50591f045d071c120a124b5e0f0807545c184c2d5d6d4a6a4616091f59020e530f5607105c4f1f03184645460d0c215927146e0756521c51010b5d070c054b1a51170b005e5a181842305f29453b530f0345150206191e1112091e565c120d4b55591050341a2d172a0a40115a41025c41481c1610.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2314",
+      "name": "NEWS ABP News",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d58521901500a0c1e10121e471b1a4f2f4124422d5d0d161f560a1b1b0a1105035e4c0710044b415c17446f552254315714111c54061951120e5c0b124c0707130441060c1b63472b5d3201164c555d19.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2315",
+      "name": "NEWS Bharat 24",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5c45154b175401541b041058581b1a4f2f4124422d5d0d161f560a1b1b090d0749050e5c50561d18564a1a7055241c670606520759580d04544d44054b0b4b5b04181f51564a2e50255c715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2316",
+      "name": "NEWS CNBC Awaaz",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17015e0c15011d021a5c12160845421b18482159214d2557074c5f5d1b405616135e120510302c236973740e42214e1f6a08035b3d7c772d405b130c0313070f424d08444850010d2d07351c7c41081b5c0b1a4150030e.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2317",
+      "name": "NEWS CNN News18",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17015e0c15011d021a5c12160845421b18482159214d2557074c5f5d1b405616135e120510302c2f7562500e50710c1f6a08035b3d7c772d405b130c0313070f424d08444850010d2d07351c7c41081b5c0b1a4150030e.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2318",
+      "name": "NEWS DD INDIA",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5c45154b175401541b041058581b1a4f2f4124422d5d0d161f560a1b1b090d0749050e5c01044e4d044d16780774136806515450595e5906074e46554a0d175a044b1c02564a2e50255c715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2319",
+      "name": "NEWS DD News",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5c45154b175401541b041058581b1a4f2f4124422d5d0d161f560a1b1b090d0749050e5c52591b1d561d1b230777473e06005601010b5a075e4d1250105b4104001b1457564a2e50255c715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2320",
+      "name": "NEWS IBC 24",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5c45154b175401541b041058581b1a4f2f4124422d5d0d161f560a1b1b090d0749050e5c52034c4e514941795025133906575206015b5606564a415f450a4552021a4a50564a2e50255c715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2321",
+      "name": "NEWS India Today",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d580d4d06534a4b1d11561e4f1b1a4f2f4124422d5d0d161f560a1b1b090d0749050e5c06551e1f004910795777406e06505155010d5650561a4505175c4a06051e4a53564a2e50255c715f5017091b1c044d0b4b0648175a05.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2322",
+      "name": "NEWS India TV",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171f03190f16170f124b050c045d5f1b18482159214d2557074c5f5d1b405b130c5c104210170056131d024041760478126b03000750595a0e0002481702435b1003594e4d1a104d2451380a3201165a124b041659550d5d021649.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2323",
+      "name": "NEWS India TV Speed News",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649465343121a0c05434d410f0e295a244d3e46154f42480a0a504b151a4b0b56120d0c43014f1e4e21436e453253040b1f4c1940440a190a0a1a4c074d00474b05481675046d4d31560a03454e42065a0211121205120012044f4818144a6d4c2945305f0a4d41540e16580f0b07481e0c065a4259474c1410351a244129.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2324",
+      "name": "NEWS NDTV English",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17010b40104a471e445a1f070c4b5e5611422e556e4534530e0358420a0b1a081d07491b53004d0d435a50561170047312680a4e001e560b1b42544c0b515c521211154f5e1b1410350c6357344b0e5144160b0a42.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2325",
+      "name": "NEWS NDTV Hindi",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17010b4010111d021a5e160e04474d471a4b215a210a3e59020f5051150a50481616125c571f114e4645431c0c7204701769055a4f5317010b4010111d021a5e5c0f005958500b0d2d07351c7c41081b5c0b1a4150030e.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2326",
+      "name": "NEWS News18 India",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e0253564947524b1200030c59595b1e4a2e192e412841525a58560b06554b0b120b004a1d05084401541d0e274c6e453253040b1f4c194040155512165e4c424f0f1b03451542395829572b1d020f56085e5b005e5500071e4c060c0643421817463747711c365c070b50151c0e59150d1d011a515c120d4b55591050341a2d172a0a40115a41025c41481c1610.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2327",
+      "name": "NEWS News24",
+      "category": "News",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e0253574b45524012120f061b1f034d1023056d453255130e45085f5e0248081f070a5006164f4443424a0d21592143361c17141e4c1c4251135504575e51414d11464d4c154a33406f4532555251070c5c42550b1f4255450b400150074d581e532c4070146e044c125d5916035d150c5d0b404a4b41124155584a566e502552.m3u8?s=2230&id=gpst.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2335",
+      "name": "PTC PUNJABI GOLD HD",
+      "category": "Entertainment",
+      "tvgId": "PTCPunjabiGold.in@SD",
+      "streamUrl": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/6e14bac6d0384e129521a4d005188bfb/index.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2336",
+      "name": "Action Bollywood Movies HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649435145121f0b0642585b104d275d2e503a400d4f505b1b065b08101c0a1f46040d0e4e0146184e33412e4331484e5a034a1d161a071512011a1107144e5a4054004f2947340b3e5f045200085859190a11140e07511a0c064342411c512e1921472b5b0c0c595703034d11171c025e4c120f125f425217596f442c45265e0a114516025c415e5b000d0a5240174f4e4943.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2339",
+      "name": "TBN 24 USA HD",
+      "category": "Religious",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e5b0b0104575603071f541a4c155c03591055251b14661100574f7c1706015003005d0b404a4b41124155584a566e502552.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2350",
+      "name": "ABC Sport in 90 Seconds HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170c41590c105d08091000120e58586a104d1f0d707b2c57000d5f5c1c4c470d011e550611170717.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2370",
+      "name": "American Horrors HD",
+      "category": "Movies",
+      "tvgId": "AmericanHorrors.us@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f581a574e4448441142545310140541126f442c45265e0a1145170e025c090a5c161f5e0a0e0859581b1410350c.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2371",
+      "name": "AMC Triller HD",
+      "category": "Movies",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e175b5c02004d4a5344064751571e1b061c1b7102781667060003520d0b5806531e5d0b165b1a03154b455916516e4133093a5310161c09410e5907021c081248004c0245411a0f126f5921572b57114d050c09580704194702430c165b571a1b511a47795625463b51015a05015b0b0c50414552150e175a4e7a4050017c1241334c1d4b222f72171f03551f141a1507111e5114120f46125a2d07350a3b5715.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2373",
+      "name": "Circle HD",
+      "category": "Entertainment",
+      "tvgId": "Circle.us@SD",
+      "streamUrl": "https://circle-roku.amagi.tv/playlist.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2374",
+      "name": "Gravitas Movies HD",
+      "category": "Movies",
+      "tvgId": "GravitasMovies.us@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5950014b160416561b5550520256154c35502656305c174c5f5d1b40731419050f075e003d2c455a5c1c506e59735167.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 13,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2375",
+      "name": "Great! Movies HD",
+      "category": "Movies",
+      "tvgId": "GREATmovies.uk@UK",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649445340121d0313584d41105525412b093e5f0452000f5a5c5755551f015e58114f50121f0657532c55394b2a46104c5f571841550b19140f5d4b054d11464d4c154a33406f4532555353060d5c425a070a010707560507144101520b4621402d4b295b06111c5408085649081f070a531a11150441060c1b.m3u8?s=7ac2&id=qz8o.m3u",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2386",
+      "name": "60 Days In by A&E HD",
+      "category": "Entertainment",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d565e121a054a5812060d5c551b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c070713051f024b1123027045670356010001560b0d0548160040091057031d1f511815785576163d025a0600170c0c190d0e155e09511518524855404d0c36056f453a5c061646571d0447394e43021246000b0f751d1a0a422d47354a385a0603555d010b6b130b5c0a124b161115054154104d6f5c2c5770420f034854061c40481540134b1c000918471f4057472542.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2387",
+      "name": "Alone By History HD",
+      "category": "Documentary",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5c055e491208154b001b0d18591b1a4f2f4124422d5d0d161f560a1b1b10495c071651161616455e5e0a7c21582f4a3a6d524d4259021c41081f1b03125b160c05755946564f214025572b1d0e0358564007581557030a12461f0b125e02584a567817334f265f50171f5c0a19.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2388",
+      "name": "Amazing Discoveries TV",
+      "category": "Religious",
+      "tvgId": "AmazingDiscoveriesTV.ca@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171a015d564901121e4f5d161446454d5757361b21493e480a0c565c1b191b0715121c1a511406155c03451542395829572b1c0e5144004c1c5f1f1540135d5b1614.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2390",
+      "name": "Autentic History HD",
+      "category": "Documentary",
+      "tvgId": "AutenticHistory.de@SD",
+      "streamUrl": "https://9e754fa707344ccca6d84955c8fcaf36.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RlaxxTV-eu_AutenticHistory/playlist.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2394",
+      "name": "Crime & Justice HD",
+      "category": "Documentary",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5e42151c0755100d0b0119461e1b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c070713051f024b1123027045670356010001560b0d0548160040091057031d1f511815785576163d025a0600170c0c190e4b435f01561155005c1f47120c3058215d335b10161f555c1a0c450b181f1e0c064c054f5a.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2398",
+      "name": "Documentary+ International HD",
+      "category": "Documentary",
+      "tvgId": "DocumentaryPlus.us@International",
+      "streamUrl": "https://1d153317c8db4250b3789601274e2402.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-887-DOCUMENTARYINTERNATIONAL-DOCUMENTARYPLUS/mt/documentaryplus/887/hls/master/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2399",
+      "name": "Documentary+ USA HD",
+      "category": "Documentary",
+      "tvgId": "DocumentaryPlus.us@US",
+      "streamUrl": "https://ef79b15c8c7c46c7a9de9d33001dbd07.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-859-DOCUMENTARYPLUS-DOCUMENTARYPLUS/mt/documentaryplus/859/hls/master/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2402",
+      "name": "History & Warfare Now HD",
+      "category": "Documentary",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5e5a1c1c1254120d1151125d581b1a4f2f4124422d5d0d161f560a1b1b2e1100121c4d0a3d364b5e531851256b0e4b281c0e5144004c1c5f1f1540135d5b1614.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2403",
+      "name": "History Hit HD",
+      "category": "Documentary",
+      "tvgId": "HistoryHit.uk@SD",
+      "streamUrl": "https://lds-timeline-rakuten.amagi.tv/playlist.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2404",
+      "name": "House of Crime HD",
+      "category": "Documentary",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170c0c191f4a095e4a52060d14444d594d0d215f21493e5b19075516010a40490e42491e5e0016045803064e11725776143e0a525752095656505f1b4303150c450154481b061d42760c21126d50535b5509400c574b01411c4b061e170e5f425415176f7d116e081d34207517270041151d3c00304d1a0f0475657b566b2f4133411054201058550a307d28561e55060750110a5341060c0d245136.m3u8?s=3c44&id=4cxy.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2410",
+      "name": "Mystery TV",
+      "category": "Entertainment",
+      "tvgId": "MysteryTV.us@UK",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170e0a5a030c04090154004f0c535f411c51394036092d530817455d0141550b19140f5d4b054d11464d4c154a33406e496c475b4142531602071356170305.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2416",
+      "name": "Terra Mater WILD English HD",
+      "category": "Documentary",
+      "tvgId": "TerraMaterWILD.de@English",
+      "streamUrl": "https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2417",
+      "name": "Unidentified HD",
+      "category": "Documentary",
+      "tvgId": "Unidentified.us@SD",
+      "streamUrl": "https://d3ify425qsio2d.cloudfront.net/playlist.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2426",
+      "name": "Antiques Road Trip HD",
+      "category": "Lifestyle",
+      "tvgId": "AntiquesRoadTrip.us@SD",
+      "streamUrl": "https://amg02333-pbs-amg02333c1-samsung-au-1253.playouts.now.amagi.tv/PBSD-AntiquesRoadTripSF-samsung/playlist.m3u8",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2435",
+      "name": "OTHER Telemundo HD",
+      "category": "Entertainment",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e17010d5713141c0512531f0b174f025412422d55295e3a564d0c544c40075815571f0f055a5c5051191b01401a6f4435412d460c10585b004047120a16071e0e5c0f005958500b7c71047814715f5017091b1c044d0b4b0648175a05.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2436",
+      "name": "Outdoor Channel HD",
+      "category": "Lifestyle",
+      "tvgId": "Outdoor.Channel.HD.us2",
+      "streamUrl": "https://amg00718-outdoorchannela-outdoortv-samsungau-uc7mp.amagi.tv/playlist/amg00718-outdoorchannela-outdoortv-samsungau/playlist.m3u8",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2441",
+      "name": "Young Hollywood HD",
+      "category": "Entertainment",
+      "tvgId": "YoungHollywood.us@SD",
+      "streamUrl": "https://younghollywood-rakuten-samsung.amagi.tv/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2442",
+      "name": "STAR JALSHA HD",
+      "category": "Indian",
+      "tvgId": "StarJalsha.in@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170c0e40051006165d4606121149485b574d25406f453253190d5f4e5d40075057031416491a0716055f4118512a552c5737534c0f504b1b0a46491b1b131d541f0b125e02584a567817334f265f50171f5c0a19.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 39,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2616",
+      "name": "Aadinath TV",
+      "category": "Religious",
+      "tvgId": "314",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b5d53100114501f4912170e41431b1a4f2f4124422d5d0d161f560a1b1b544b435441095c03004e455b18572840360b2f5e021b5d511c1b1a0b4b065e4c57170c155911460d1e710379166d03515a0309110a4c164542514a0d4151551e1e04074223587d05751d5151010a5d591b0719170f1d5e070a155c031f580c305539483053074d484d1f1f40101707122c0a2c4f50751f574f45750c731d7202015702150e0e04505544074b0f5e5253191c014e42760775133c6d36316e0d58410553495d5741075d53521b734c0c53305221572b6d513d52500e015a03142c55420b2c4f5005064b1d4234557d5d2a42131647571b1b6b53275e572c0c1154071f1406400e70567517725302520715580e0c56554354400f4755001c1f004e401f61137b6a054d530409415e065e56425542600a17115a4a540a571f061f4737530d0c5454305c0552275e570d571e03021714054116760470456705020708005d0c525f4c4355110f1751504b1f511b17710778416b0b0553085b5b5900521c4b03150f405402184f514e47730472126a574503554b410151120f1c1418601d030c4f114c0c53305221572b14020642160e1f44390b0709015a2c17134611131847331a21542f6d01175f5c030a09401917155d5c1c0c154f4241264f294225572b4006035c055e4955020b5d051c5107070f5e73521c4d32517d770f7b312b656d2e2312071c00481057120c0f4f406a17422d517d653e560a0c504c073b62401917155d53120c065f4d521c1e087d0e023e56104c444b0a1d0956.m3u8?s=2817&id=avbe.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2621",
+      "name": "Aastha Prime 1 HD",
+      "category": "Religious",
+      "tvgId": "AasthaPrime1.in@SD",
+      "streamUrl": "https://aasthaott.akamaized.net/110923/smil:aasthaprime1.smil/master.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2622",
+      "name": "Aastha Tamil HD",
+      "category": "Religious",
+      "tvgId": "AasthaTamil.in@SD",
+      "streamUrl": "https://aasthaott.akamaized.net/110923/smil:aasthatamil.smil/playlist.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2623",
+      "name": "Aastha Telugu HD",
+      "category": "Religious",
+      "tvgId": "AasthaTelugu.in@SD",
+      "streamUrl": "https://mumbai-edge.smartplaytv.in/AasthaTelugu/index.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2655",
+      "name": "Apna Punjab TV",
+      "category": "Entertainment",
+      "tvgId": "ApnaPunjabTV.ca@SD",
+      "streamUrl": "https://plus.gigabitcdn.net/live-stream/apna-punjab-H3sE/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2658",
+      "name": "Colors Tamil HD",
+      "category": "Entertainment",
+      "tvgId": "ColorsTamil.in@HD",
+      "streamUrl": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:colorstamilhd11.smil/playlist.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2659",
+      "name": "Darshana TV",
+      "category": "Entertainment",
+      "tvgId": "DarshanaTV.in@SD",
+      "streamUrl": "https://mumt04.tangotv.in/m18aqlK4DARSHANATV/index.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2660",
+      "name": "DD Malayalam HD",
+      "category": "Entertainment",
+      "tvgId": "DDMalayalam.in@SD",
+      "streamUrl": "https://d2lk5u59tns74c.cloudfront.net/out/v1/c313674ffced4c9a90f1bba436df2b9b/index.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2663",
+      "name": "Epic Bharat HD",
+      "category": "Entertainment",
+      "tvgId": "EpicBharat.in@SD",
+      "streamUrl": "https://mumt06.tangotv.in/qYyB8fXVEPICTV/index.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2664",
+      "name": "Epic TV Digital",
+      "category": "Entertainment",
+      "tvgId": "EpicTV.in@Digital",
+      "streamUrl": "https://cc-czbq30x55knit.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-czbq30x55knit/DIYC/PMSL/IN10/Epic_TV_IN_B/Epic_TV_IN_B.m3u8",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2665",
+      "name": "ETV Josh",
+      "category": "Entertainment",
+      "tvgId": "ETVJosh.in@HD",
+      "streamUrl": "https://cc-uyh1ow5zouoio.akamaized.net/WWBI/Amagi/ETV_Josh_IN/playlist.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2666",
+      "name": "Fakt Marathi HD",
+      "category": "Entertainment",
+      "tvgId": "FaktMarathi.in@SD",
+      "streamUrl": "https://mumt07.tangotv.in/zHjX9OFlFAKTMARATHI/index.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2667",
+      "name": "Jaihind TV",
+      "category": "Entertainment",
+      "tvgId": "JaihindTV.in@SD",
+      "streamUrl": "https://mumt03.tangotv.in/Dsly5z3HJAIHIND/index.m3u8",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2707",
+      "name": "Ayush TV",
+      "category": "Lifestyle",
+      "tvgId": "234",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e5c5e024703121f09040e07510d1e0256154c35502656305c174c5f5d1b405212195c070a4a000a155c03451542395829572b1c0e514400500e501556100e12511d070d171a034c106655245771510c0c455d011b6b050d00121c522c533e5a4d47184e7d7201770b14020642161a1c5114454140125b004c024542411c4d346b23512c460c0f6e0b301f5514191e5b2a4a0312274b5f41304d245d210237560d1642051c1b09574f4a54410e415a551a525001537d05771d6d005056050c5f115505144e475910151600054d4c0c502840360b75134c12504103005502570a13034f07140e5e586a4c7c6d051f173d040557090b564204044d404b125e43544c1d4d0d490e700673146b050254020d580c6b332b2c534411425750041d07410d7107717b2647131257591c1b6b5427100e12511d070d751e064d7c6d056f0e215602165005161a44160c0509074b2c573e071d6a4a417652751c6c0b4e52530d5c42550748454b445e4b524c1a1e064917775576176a05003d646b305a03484946575d0e415a4f1b1f04265a354430423e41173d03670c07550816160a2c0d40563e071d4b114e21577d1c68050154015a5c5b52514a4a0215064a57071a1d0c1f11225024106607015307085a0a56511a4202460d1255581c1a574040770c714668000001545d575d04401917155d51161616455e5e264d215925192647131257591c1b12071c0048124f033d125e43471c7c35462c19795307111f591f1f6b040d1d021f5a4e44004e5f1b1a4c2e40254a2b6d0f0b475d1c1b4603191e5b4219120612044f5a1757255a347b38570d105405232672232b273f3f7a55030559025611422e5a2548005c020f54052e164115102730555e17114f464d5b1e562153251914732d44505c1c4141151d015b43.m3u8?s=2817&id=avbe.m3u",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2751",
+      "name": "DocuBay TV",
+      "category": "Documentary",
+      "tvgId": "DocuBayTV.in@SD",
+      "streamUrl": "https://cc-mgr91yrk4pehy.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-mgr91yrk4pehy/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2752",
+      "name": "Epic Crimes HD",
+      "category": "Documentary",
+      "tvgId": "EpicCrimes.in@SD",
+      "streamUrl": "https://cc-wsuyg2uxeak04.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-wsuyg2uxeak04/master.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2756",
+      "name": "Food Food HD",
+      "category": "Lifestyle",
+      "tvgId": "FoodFood.in@SD",
+      "streamUrl": "https://mumt03.tangotv.in/Dsly5z3HFOODFOOD/index.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2820",
+      "name": "Cooking Channel HD",
+      "category": "Lifestyle",
+      "tvgId": "Cooking.Channel.HD.us2",
+      "streamUrl": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2833",
+      "name": "Autentic Travel HD",
+      "category": "Lifestyle",
+      "tvgId": "AutenticTravel.de@SD",
+      "streamUrl": "https://cb0c87cc605942ff9766a4e6744bbadc.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RlaxxTV-eu_AutenticTravel/playlist.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2857",
+      "name": "Russia Football 3 HD",
+      "category": "Sports",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e5c5e4157021607105d501d0e0844491a154c371b7949334a1a1558530e5d1b534f5d0b404a4b41124155584a566e502552.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2911",
+      "name": "2 Tv Sports FIFA Worldcup Server 2",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b191a051c1d480b4c144c064f035209416d063452705b0d0654404102071340501518461e51140448500f.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2912",
+      "name": "2 Tv Sports FIFA Worldcup",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171b191a051c1d480b4c144c064f035209416d0634527046110352531c4242571942491e501d0d4f5e5f1b1410350c6357344b0e5144160b0a42.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-2919",
+      "name": "Football World Cup 2026 HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e411b004c114e06085d50071602465957575b394e6f4d2f46154d7a7b3a2775503c343f2a69325a3b706a60297216070b7e171d5556010040065a021d0b481e0c065a4259474c1410351a244129.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-3001",
+      "name": "TLC HD",
+      "category": "Lifestyle",
+      "tvgId": "TLC.ru@SD",
+      "streamUrl": "http://stream.mcquack.net/168/index.m3u8",
+      "mirrorsCount": 35,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "tiw4-3115",
+      "name": "FASHION ONE HD",
+      "category": "Lifestyle",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170d5f05054841081f111e0705434d410b4a3058250a3157174d47510b0a5b09161f1f1f5605074e47585e1e46355d28563354140e584e0a4041390b0714165e1e3d544915504b462502791d6851013d00171f03551f141a1507111e5114120f46125a2d07350a3b5715.m3u8?s=2d45&id=tiw4.m3u",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "e5dp-3199",
+      "name": "FIFA+ United States HD",
+      "category": "Recent WC Event's",
+      "tvgId": "FIFAPlus.uk@English",
+      "streamUrl": "https://jmp2.uk/plu-660c29b5aec9680008f5b4a4.m3u8",
+      "mirrorsCount": 9,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "e5dp-3269",
+      "name": "30A Luxe Life Discovered HD",
+      "category": "Lifestyle",
+      "tvgId": "30ALuxeLifeDiscovered.us@SD",
+      "streamUrl": "https://30a-tv.com/feeds/vidaa/luxelife.m3u8",
+      "mirrorsCount": 5,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "4cxy-4608",
+      "name": "&TV HD",
+      "category": "Indian",
+      "tvgId": "AndTV.in@SD",
+      "streamUrl": "http://202.70.146.135:8000/play/a06c/index.m3u8",
+      "mirrorsCount": 11,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "4cxy-4685",
+      "name": "Sony Sab HD",
+      "category": "Indian",
+      "tvgId": "SonySAB.in@SD",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e170b1d5f5000025605571d4c065a4f51170d2e51340b335b15071e4b1a0d6b0e1c2c07114d5c0b0f4e494d574e734178072c591a0f024d410b5110.m3u8?s=1312&id=9csf.m3u",
+      "mirrorsCount": 17,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "qm49-5925",
+      "name": "Dota 2 Day 6 Feed 1 Esports World Cup 2026 HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c0a460f1d120a165e141704044d5e184e215d3a413b1c0d07451707034749141a1016104153511d1d054e0c345530091d794e326274422b054b3d5c0b124c0707130441060c1b63472b5d3201164c555d19.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "qm49-5926",
+      "name": "Dota 2 Day 6 Feed 2 Esports World Cup 2026 HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b4210581e171c0a460f1d120a165e141704044d5e184e215d3a413b1c0d07451707034749141a1016104153511d1d054e0c145530493e564e295b745a5d1b0b190012164d5d0f525f14160a483959735171560614.m3u8?s=2979&id=qm49.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "64yc-6317",
+      "name": "Star Jalsha BD IP HD",
+      "category": "Indian",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010818405d081c161e5d52401759095f5e004e73416e403a44.m3u8?s=3438&id=64yc.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "64yc-7229",
+      "name": "Movistar Plus HD",
+      "category": "Indian",
+      "tvgId": "MovistarPlus.pe@SD",
+      "streamUrl": "http://200.62.239.170:830/play/a08z/index.m3u8",
+      "mirrorsCount": 3,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "64yc-7501",
+      "name": "StarPlus HD",
+      "category": "Indian",
+      "tvgId": "StarPlus.in@HD",
+      "streamUrl": "http://202.70.146.135:8000/play/a009/index.m3u8",
+      "mirrorsCount": 7,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "kceh-10345",
+      "name": "SET HD",
+      "category": "Indian",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/67b77/1b150d305940570d1a110a555f5d4218765d504a755957480f1a0c540e0e0a5c4d70435456290d0b1d47044e171757.m3u8?t=6389&s=d6e&id=kceh.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "kceh-10352",
+      "name": "ZEE CAFE HD",
+      "category": "Indian",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/67b77/1b150d305940570d1a110a555f5d4218765d504a755957480f1a0c540e0e0a5c4d70470f56290d0b1d47044e171757.m3u8?t=6389&s=d6e&id=kceh.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "fcdb-10376",
+      "name": "FIFA Plus English HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/67b77/1b150d30105557104b1516060e174a186e04140b2c4d0c1752054e45111b1601032640571d72560a4f5a1f1142530d124b487716544f2501574d06491517545a45401e7147074c7452402d526c51403a3d1f114012242d2e165237486560714f243e113b7a3a21364c2e012814454b651d2b3b353e03301f00002c0a1c0c114710515a.m3u8?t=6389&s=332&id=fcdb.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "fcdb-10377",
+      "name": "FIFA Plus Argentina HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/67b77/1b150d30105557101c401c565615111f6e04140b2c4d0c1752054e45111b1601032640571d72560a4f5a1f1142530d124b487716544f2501574d06491517545a45401e7147074c7452402c7a4957463a071521472c34302f02100b20717e4063241a122b622f3f353f26302a006b05534803161f1a5f345d0c4a355b.m3u8?t=6389&s=332&id=fcdb.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "fcdb-10378",
+      "name": "FIFA Plus France HD",
+      "category": "Recent WC Event's",
+      "tvgId": "N/A",
+      "streamUrl": "https://go.skym3u.dev/live/67b77/1b150d3010555710191446560c4141146e04140b2c4d0c1752054e45111b1601032640571d72560a4f5a1f1142530d124b487716544f2501574d06491517545a45401e7147074c7452402d526c51403a3d1f114012242d2e1a1a37486560714f243e113b7a3a210f332c0102365072134c2f3a045c5c2c12181529101b565219561c.m3u8?t=6389&s=332&id=fcdb.m3u",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "iptv_org-18647",
+      "name": "SAB TV",
+      "category": "Indian",
+      "tvgId": "SABTV.pk@SD",
+      "streamUrl": "https://ml-pull-dvc-myco.io:2096/SAB_ENTERTAINMENT/tracks-v1a1/mono.ts.m3u8",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    },
+    {
+      "id": "iptv_org-19430",
+      "name": "Sun TV HD",
+      "category": "Indian",
+      "tvgId": "SunTV.in@HD",
+      "streamUrl": "http://103.151.60.162:2122/play/a02a/index.m3u8?hls",
+      "mirrorsCount": 1,
+      "failureReason": "HTTP 429",
+      "optionsTested": [
+        "vlc",
+        "smarters",
+        "chrome",
+        "smarttv",
+        "direct"
+      ]
+    }
+  ]
+}

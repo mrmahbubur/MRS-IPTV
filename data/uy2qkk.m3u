@@ -1,0 +1,588 @@
+#EXTM3U x-tvg-url=""
+#EXTINF:-1 tvg-logo="https://imgur.com/79g2kMA.png" group-title="SkyM3U Promo",Skym3u Official - Visit Skym3u.dev
+https://ls-station.github.io/promo-tv/stream/stream.m3u8
+#EXTM3U url-tvg="https://iptvx.one/epg/epg.xml.gz, https://epgshare01.online/epgshare01/epg_ripper_ALL_SOURCES1.xml.gz"
+# Автоспорт
+#EXTINF:0 group-title="Автоспорт" tvg-logo="https://iptvx.one/picons/sky-sports-f1.png" tvg-id="sky-sports-f1",Sky Sports F1
+#EXTINF:0 group-title="Автоспорт",Speed Sports 1
+https://go.skym3u.dev/live/9b33d7/cb6c0af8e1d75f9bf6c254fffe036c990473789b151dbd8a82ff3b286becce845a0c13456d579b0102eb20496ee595e367b0ef1667f0e5c1e73d73026407a576b1937423546ffb4afda9b0449f04509acfc7f52f4721be1b13adf50894c9cb7d1ec6ad0c15993b.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Автоспорт" tvg-logo="https://iptvx.one/picons/viasat-motor-hd.png" tvg-id="viasat-motor-hd",V Sport Motor
+#EXTINF:0 group-title="Автоспорт",Vital Sport Drive
+# Баскетбол
+#EXTINF:0 group-title="Баскетбол" tvg-logo="https://iptvx.one/picons/mir-basketbola.png" tvg-id="mir-basketbola",Мир баскетбола
+#EXTINF:0 group-title="Баскетбол" tvg-logo="https://iptvx.one/picons/start-basket.png" tvg-id="start-basket",Старт Баскет
+https://go.skym3u.dev/live/9b33d7/24ebf6b57a78913a29a839946c55d6a1370afce8fd8bf82899e3b035b36b790d99730368267e46197feb633d5e1f7ec13047084278672766fe98f51a49148579b60526f26a93fa05ce313689343a4fb7674b21a9618782277114dc34a24aa2c1ecea43a490ec9110bf10261328b711e8a5c2af9b1d3418550ad9d5cd16d9e8b2dae9792b9fa641878db6ddd37e4e5590574728c3571ff1bd72de68b8893d7dcb.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Баскетбол" tvg-logo="https://iptvx.one/picons/nba-tv-us.png" tvg-id="nba-tv-us",NBA TV
+#EXTINF:0 group-title="Баскетбол" tvg-logo="https://iptvx.one/picons/nba-tv.png" tvg-id="nba-tv",NBA TV International
+# Гольф
+#EXTINF:0 group-title="Гольф",CCTV-Golf & Tennis
+https://go.skym3u.dev/live/9b33d7/c776c936388cdd24abccfd164e451adf8a01d3bd9838735deaf391314c94859a4bcd74efccdf71fc644be7de91a45d1db7ffbf6a5a0147bfa1e72c4054dcdd6ca6b8e9b804a2fce224a8fa8d57dd1402754dc4cf9149f29d.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Гольф" tvg-logo="https://iptvx.one/picons/sky-sports-golf.png" tvg-id="sky-sports-golf",Sky Sports Golf
+#EXTINF:0 group-title="Гольф" tvg-logo="https://iptvx.one/picons/golf-plus-fr.png" tvg-id="golf-plus-fr",Golf +
+https://go.skym3u.dev/live/9b33d7/41ccca51764ebef27b5774c64b6ecf1d6c90e556c4a9ac1911fc39572c81d18c751615e7b684aedc0eb8cbe5feb85e72cc0873d52ec67f40cb10531dc9fc04612542c4e7f878592f12887172fa9d89b1cceb8986fcc5d8960d9b56ec9f.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Гольф" tvg-logo="https://iptvx.one/picons/sky-sport-golf-de.png" tvg-id="sky-sport-golf-de",Sky Sport Golf (DE)
+# Единоборства
+#EXTINF:0 group-title="Единоборства" tvg-logo="https://iptvx.one/picons/box-tv.png" tvg-id="box-tv",Бокс ТВ
+https://go.skym3u.dev/live/9b33d7/bcdaff607f709ec24b569186cbc4c10fdc1af672a4f343907b7844159e1a0ae05f0fe789485dab282c40ec76065d2e1357f1614abc431d65e4f004a3c9d89549f8dfe53fa17279a1dd6139865137442c0f2483fa533f9cbc73b421a8c9f1794d0dc7edde6a24249f61af20022c56013f198ceba3bf10e8ec09ec505a49c57569a244074c2cc41022facdeaf97e266d363dba9631c9eda6f39caa5be3fccfc9.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://stream.mcquack.net/154/index.m3u8
+#EXTINF:0 group-title="Единоборства" tvg-logo="https://iptvx.one/picons/poedinok.png" tvg-id="poedinok",Поединок
+#EXTINF:0 group-title="Единоборства" tvg-logo="https://iptvx.one/picons/ufc.png" tvg-id="ufc",Удар
+https://go.skym3u.dev/live/9b33d7/98f5c103196841fd839ccd5ff269e443aced20e14cbaee81534b0fb1ee91e5fe73cce0cbdd669795addd814a3f42da3180c339073965842fabfe38ec90b1188f1a95e3f6bd8749a5c885e2cc816173ed6bc79ea33e979b14f4e70c43600707b234df989205d2f16efd9e0079d6fcc419158ef1f6a25dcf6021029c9b93c64d9a577ece8a285573f7c791a67d79ecc366d48154fc117af9487aea0ff4d4d1c8d236.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Единоборства" tvg-logo="https://iptvx.one/picons/fightbox-hd.png" tvg-id="fightbox-hd",FightBox
+https://go.skym3u.dev/live/9b33d7/857936c1f1657cf51a9d5d3cfe7a53016bf4452a9fb3524fa85afd9a3b008e72beadfb22c57df57bc2fbc84556b6cd381025fa8ea2a16777e30ce2a26af1ad51e67b636a964bd16ef3370b26ef247c479332d67b4ad6.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://92.114.85.87:8003/play/a00b/index.m3u8
+#EXTINF:0 group-title="Единоборства" tvg-logo="https://iptvx.one/picons/m1global.png" tvg-id="m1global",MMA-TV
+https://go.skym3u.dev/live/9b33d7/1eaf1a179507d7de23989c0f9963b79bc7d5464b957bc3bf78758d71c722fb142a22ca8347360e47d538cdd07f60fdab4f67ba958c7020d807f0e704b0dd7a67b906a4a5af265012a9ca259d332259be043ae3f0c75a0e02451f09ad6dbf181992462b1606c82e3a0126d1bdc143ea6def38a415dfd492c964f4f0756dfe0479be83ffff35a9f2439dc4291d43191d2dc283cee6e1cf8c51c59ba32e65de6a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Единоборства" tvg-logo="https://iptvx.one/picons/prime-fight.png" tvg-id="prime-fight",Prime Fight
+#EXTINF:0 group-title="Единоборства",TOP BUDO
+#EXTINF:0 group-title="Единоборства",UFC Network
+https://go.skym3u.dev/live/9b33d7/0f7e2c027a334e6515328e6b28c523c1e6f71e4e38fec37f76d213cd38d6d594c2464fdae9ff6e96b73dfa12ca439bbc33ec8a077debcaf1cccf3b2ec816dfa640df64dcc5523ffcadc6a8b78610af018482f1334e2b8311a65f63040e66dfd837eb5dc0c29e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Единоборства",UFC TV
+#EXTINF:0 group-title="Единоборства",StrahTV WWE Russian
+#EXTINF:0 group-title="Единоборства",StrahTV MMA TIME
+#EXTINF:0 group-title="Единоборства",UFC Fight
+# Матч!
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-tv.png" tvg-id="match-tv",Матч!
+https://go.skym3u.dev/live/9b33d7/5f7688025bf62f8da775717bde0c8e0486d5fef3bacd998b333ec6a831039b5ce7a30248b834811bf52d92fd8849dfaca205dd6bb39fe550472177385f95777251a0628094f7b780a105c27744cdb7d9b857f740bcdba6022e95d1be31b293c20d4b3194fb737ccbfe5b7e650a3dd8faa26a7cd8697cf16a9e509ed4ef8ba546c95068a61d51deaae6a85ef3b8021938517d238f5871a6d7fdcdeb83a97ced.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b0609/index.m3u8?token=ktSlluyLH7abBHsNCf4k1zaE6O9U3LG9VfJ_X4d8fcp6qgov_WJa44eot8RJ0wB0.zmeich
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-arena.png" tvg-id="match-arena",Арена
+https://go.skym3u.dev/live/9b33d7/8ed782f462d08373e1fec92761df30c120c03082c24ef45dfa79c3b69cb51c5cd3dfcb8d4b7608a71d9ffa911f95ce87f985fc9239f0ad0c2e92317a86262bdd4760f6c40881dba1cb4c3e2dea6a403d2a7d71c4d01cc7ad43d445bc8102d492af44ab130271fa2e437b4587537220a65c297a3909837f2d20302b118e6c6b7660aa7b4052feb58f80deea447d527346a187a660c897614a4d220d9ca28161.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-boec.png" tvg-id="match-boets",Боец
+https://go.skym3u.dev/live/9b33d7/4e22570ecf86c09845a7a7217beaa69c2763a8bfac55a2ff8dec312fa81d5f4dc7ddd6179da5f3e7e837b597571c3a1fa801edff2f509974ba311101e1fad9af4176e84fb10fbc9fe499345cd576927f7d0b88972f00ab4be69afc8a1252050dcd297d350aef056d35b947b574f1ee5285b663220209de38ebb9f3b8ea491e8fc5a2536be7781a03e56a20e563204968cfdd66fc025fed694d134e815f797f.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-igra.png" tvg-id="match-igra",Игра
+https://go.skym3u.dev/live/9b33d7/a78dcac7efb27b9bf8407c1b1065cd72d3be94e4db881ab1e57f7bfd81c25305cba2bc9981b119ab3dfbd5ab9894987dfef5c43c853ceafb8103807790b18a402f00fd6c5e7722671a0b7469e2fd978561549ac9f056c47d86085760e2c4d2fef89dd5da395db444d2cd3af5043ea0e6ebf0b60218b2686461a8751aed2f245121c0d39e4f05355e3082656a0a4bb3993748c8fcff08261e54bfeba813d45a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-planeta.png" tvg-id="match-planeta",Планета
+https://go.skym3u.dev/live/9b33d7/5605e6e1abf4fc12a5d7d41d86638e80527a4406e43ca7f459ed9effe1cd6fb621a3a903654bb86d74843bb4c8f06aa8a1566832f94651b7073cb7887d9cb998ab2e65d46bdaf013998de80de6d262.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-premiere.png" tvg-id="match-premier",Премьер
+https://go.skym3u.dev/live/9b33d7/57da97752c2c2d91d902b2b8695b54e884db0a82971338f9800866bf3e84fac1fd3d6d8456f6c8e1ac34c14a387232119d5da6a50ce7cd7dc82945cca13c8f8f4a16e553df14f6ff9018ecdda7f59911a10570142102ebf95130e2aecd2513acababdd8010d1aa617f4786d3521fb5e05c395ff322d4c1c1bb2ff432a7372605888037cf08e478c604457588ec91174ffa166c1a8c65e18dcf54fcdaeb2e6e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b8698/index.m3u8?token=ktSlluyLH7abBHsNCf4k19g5RqCobrVLyCQ5UpLwFUS5DpFV9i63Uj5IXtdfP_MH.zmeich
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-strana.png" tvg-id="match-nash-sport",Страна
+https://go.skym3u.dev/live/9b33d7/d5e7f1b246cf83ec1827649197c89f5228abcde4dd82c9262c71be0467452f05f8e19a0a153b0ad8be99438dfc2bc1631ec6b88db71dab1cf004f884451e5f2cb5e15309206ea7433d97a528c32a364b2939a2f1de29cea5a1e4752de7e59b91b75167a9351392920088d4b49c149ceb1bbd5b9368adba47f3974042b459991fb0e942582b310c562746c8f6bfd63901761a10dd76a01f12af5ec608447fbf.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://stream.mcquack.net/143/index.m3u8
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-football1.png" tvg-id="match-football1",Футбол 1
+https://go.skym3u.dev/live/9b33d7/49ce862ecbe0e79787345ea9a88cbb813f1a673cad1fda6b79dd73684a00e80744e63c40113cc358b1dcf2019685339f48b87623ba4f87f6b3da7d374ca6edd191ee4d4572422031013117651e9d445c3cf4a5bdbef4ae90807739ea5a3918c13df15c650802743b9705a2dd2f4cc20656940910657a166318979d5be20188baab65ec2ab02de6c1968d29d8283be18e1f00fdc311e1891d2b8a1108476f3d.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-football2.png" tvg-id="match-football2",Футбол 2
+https://go.skym3u.dev/live/9b33d7/ba82bf983fe48f6703c99ea2b6dfe70749c21efdb80a68a2bcbb85613b19d6f4b941e95b1648c89bb12fc692a8b84398fbba0b2fdb5f46319cf4a91cdda52cd5a61e175500786e3c2d6dfa45a48e7d9b767f5d54c3adb84c76f691c85e1e1121143c343ad0b2a62ec25624ad56fafcc9b336bf430218f8fe569600d63750eda3fb5921be0dfce9515b7c350b5d78b6cfa0e47667a6709937787efc681ac801.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Матч!" tvg-logo="https://iptvx.one/picons/match-football3.png" tvg-id="match-football3",Футбол 3
+#http://176.100.46.245:90/matchfootball3/index.m3u8
+#http://ru1.plist.link:3355/RNaoWLSkV5b1063/index.m3u8?token=ktSlluyLH7abBHsNCf4k1-omsBiE-Y7VGeB7HuLdaujvc0iI9RMGqaXhd3jrfYnN.zmeich
+# Окко
+#EXTINF:0 group-title="Окко" tvg-logo="https://iptvx.one/picons/okko-sport-2.png" tvg-id="okko-sport-2",Прайм Спорт
+https://go.skym3u.dev/live/9b33d7/c09b1c31fe3840df5ee546fc8ecc20bc050b0395909fe73a8ad87f81fa6e422893fdff744bcb86300b9348f0964e5d5be75e98cfc2202e232dbd0df6f352266dbc8ef4900fa92831210f7dcfc2d9fa0ec30430894a6b6fc3f1345a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Окко" tvg-logo="https://iptvx.one/picons/okko-sport.png" tvg-id="okko-sport",Спорт
+#EXTINF:0 group-title="Окко",Окко Event 13
+#EXTINF:0 group-title="Окко",Окко Event 16
+#EXTINF:0 group-title="Окко",Окко Event 1
+#EXTINF:0 group-title="Окко",Окко Event 2
+#EXTINF:0 group-title="Окко",Окко Event 3
+#EXTINF:0 group-title="Окко",Окко Event 4
+#EXTINF:0 group-title="Окко",Окко Event 5
+#EXTINF:0 group-title="Окко",Окко Event 6
+# Спорт
+#EXTINF:0 group-title="Спорт",БНТ 3
+https://go.skym3u.dev/live/9b33d7/e0b64638c54e2c601b24f92266eca7c6d9ea30bffda2cd5b6a8f2a462a95beef8fbce710c76c420ad17055461dde9d4c3b80b43f9ba8bdfca87a3875446912cf529d04328b9c6594df2a49b96160.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Овертайм ТВ
+https://go.skym3u.dev/live/9b33d7/aedad09c2ba9b125717cf1933db10b501484e7bd17a3b7409812c0c8ec8577e9843c191685d6f81f1bf503f168a4705399a176b4ebba634219f7d48f8c95f7b7a087c5a59dd2bec1dbf8cfea67.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Спорт-1 (Украина)
+https://go.skym3u.dev/live/9b33d7/119c184e1cc933131e66d26fa755238c3416319088eaf1cc4426466d6bb140eff3644e040c7c4ddbe068081a04fdd97b3ae4a22746aea54b967f177f036d014eb3c34702c181bd217fcae528c3127e887e005cd1572d69aced912a0ce89b3c92a4ff7c71a6c607cba0fef5ec5f08164131077c454a01602d8cbbd0987a5f6fa32c18f4f79438257cf29602c187325eea46e6df7993bcad4681a6d97e1c7593.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Спорт-2 (Украина)
+https://go.skym3u.dev/live/9b33d7/c92e5e368533b7be40efb6b21e42bc6047a202539cdc454cf08804e12d894d083eea5c392bd3ba20fe7fe7c642f1c59741815d61ce93f38b517b119d4277342285d28ea32efd8dc6066d16c0abe70e16f59fac1a2fb96089c21a015e06281ae9f510dae038281f329775ec500316981be901335ab1a1774a64aa1c9f9ad11ef2be4098bee619e99eefe28b13c80704714c3eda60e6569a41122fbb4774f702.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Суспільне Спорт
+https://go.skym3u.dev/live/9b33d7/136a646ddcd35d6a05a9a36dd214ff3cad1189465475571245e28ccda1a4cb0c742f1fe23a30f7ffea2f9d8b909156c81124b95c8af1b17df517c471164497e961db2daed708bd4f3713d1f90544f4df2522fd2c68877ab6d1afc14082eced610036a353818a1b495ee6e7335492a10043e591e53bbbdffd9df1f531134e809d6d9405b0852865ce95328ff5c58166663ca5e2a857d2ab4ccf3cdba41d32b4e0fd.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",CCTV-Billiards
+https://go.skym3u.dev/live/9b33d7/513880a12db4ff81b5df55f6f0ea7b92b9a30f2314034665b3f2e4d6266aa709f7539ca73f9a7e7c68db9e9868e0a07c80d11b7a07ada6abf82d5ed5b6caa64d714b86d9ca1f5768d4916917e0a503e17aef4156a39080.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/diema-sport-1.png" tvg-id="diema-sport-1",Diema Sport
+https://go.skym3u.dev/live/9b33d7/25581a03a8485f0c1b025ba8da62471ec35b08ce32c1abc1ab22b85be9514b927ff1bf796cb396ff0a0260b152c50a7d95d69825f6595f6e83df29679b281b88ac98aee3a1b8952e69b6706c17fb0e6b66677c66.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/diema-sport-2.png" tvg-id="diema-sport-2",Diema Sport 2
+https://go.skym3u.dev/live/9b33d7/580344247dbbde7bf8518b33ae5e4b58561e0f0e1fbad3955d2833f59a70794459d3c566cc3caef7b00d244d6a0e2bfe3d6406ee379333e7f13c3e6f3ea10177974480d803dc04e8903a635b0e78b0d971aae61e1946.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/diema-sport-3.png" tvg-id="diema-sport-3",Diema Sport 3
+https://go.skym3u.dev/live/9b33d7/10a96fd0f07026f5e28621a186fce932c70028f470911e746250b9a9d884f33fcd6a8ed7c8c9e714e4052a37508d6dc6de2ec9fe05761273e4e2ccb11fa3e54e41edbae20cc3e32da52ba9833f83b2ce652e3fd61e7b.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/divisport.png" tvg-id="divisport",DiviSport
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sports-1.png" tvg-id="eleven-sports-1",Eleven Sports 1
+https://go.skym3u.dev/live/9b33d7/a92e3cf9c1c2b5f8524c59f347800a00178528d976d725191113c1e2d2f887eb35d939ca105f46aaf077add9015194362695efa5dca4d5572879759126b02656480882741237953cff335859fa204b8cc42a864d589e8a41a19fa8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://92.114.85.87:8002/play/a00e/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/max-sport-1.png" tvg-id="max-sport-1",Max Sport 1
+https://go.skym3u.dev/live/9b33d7/8faeff870fc78f4f4f148bfdbe8625d1ba3fcdc298b9f3ca14d9ccce59c454271974d3be3abd8ffe71579672860422c88f624c54c0983f24221f0f39ab2fff9c66841f7b96446849753d7ea7b7898a6874769a53.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b820030/index.m3u8?token=ktSlluyLH7abBHsNCf4k18rOxfKaEnYvQfQevGHa8YVWGMGd6Fv8p6LLR0QAuY-t.zmeich
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/max-sport-2.png" tvg-id="max-sport-2",Max Sport 2
+https://go.skym3u.dev/live/9b33d7/cf368d6a747b9132cac6fcd28f567ec25d2c807a7444bc318bff559e415f480b17db6f1aa225f0b650eb15e74bedad58f86a9f2df0d6c5a8c2ae04552f4bf37f8ff32796e25ba45403af2bde99f306ea38062fcb.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/max-sport-3.png" tvg-id="max-sport-3",Max Sport 3
+https://go.skym3u.dev/live/9b33d7/a815ca78ccd26d3647a9007e79a78064182102ed37f96728db1af92dc4ec2ffa5a57ffe09f8815db12c4ee693beb730ce9a6dd1bbd133ee3dd5fdba666c0522db918adc2152d3a11aba446ae0738ef010652d5db.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b420077/index.m3u8?token=ktSlluyLH7abBHsNCf4k16LIzkjVHj3pzL9gQGThNlpKFy-KXMfNKr36Slfz-2Qw.zmeich
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/max-sport-4.png" tvg-id="max-sport-4",Max Sport 4
+https://go.skym3u.dev/live/9b33d7/5ef71e96886cefccb69b84403ff14b827140172e212af0dd90673e280f5a8dcc19b0cd474f56dc712cd1c7c4fe54447d22cdf1fe693c8f4a6cd8121f5501b35bf8c19365a0037aa6dd74258cfc8a40b8579119f0.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b220043/index.m3u8?token=ktSlluyLH7abBHsNCf4k14spucS-WV7oaESNAkXVBZznihHUeSI3gEUPYA3Uvd5_.zmeich
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/megogo-sport.png" tvg-id="megogo-sport",Megogo Спорт HD
+https://go.skym3u.dev/live/9b33d7/6440e5d32d6565241f5c79985ddffc634467315a88a44aa753c310776b37d4873d09f4879b23f6df6b7fb79b7aa6914c07336072d6ff993a50f092b3a54a72efb8411685fec4c6813e705286cc8e40cca08e769f30471093bbae15cd7c29438dd0063f202fb27217a4e687814b84532f1a1fcf6d1f166de306649bbb21a5630ebd074221fb39d26b68a6e9f8d8c2810ce545294a62865c3ffcba55b4e178adcc.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/more-than-sport-de.png" tvg-id="more-than-sport-de",More Than Sports TV
+https://go.skym3u.dev/live/9b33d7/12f1cef7e1fb868ae66bb28538b77a439a2d791ef89fedb9386f0a7f6126e863caafb421ae16d4c138f3949df358b81210aaa55b5cab82a8c20e4b07b9ec3b7ebfbb391b2db84880c9cb401fc96b8c02cc916582a292e402.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://mts1.iptv-playoutcenter.de/mts/mts-web/playlist.m3u8
+#https://mts1.iptv-playoutcenter.de/mts/mts-web/mts/mtsw3/chunks.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/nova-sport.png" tvg-id="nova-sport",Nova Sport
+https://go.skym3u.dev/live/9b33d7/b4510137e8991176fbbf963e0483b9afc3b43b741d4bbd3e97b757dc415ef045301b976be676ada6a13ccbd32d677411f1a17a7f1561a39598ecd5fe4aad6c8db5d0f79656e4225ca4d6c2235230df66.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Oman Sports TV
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 1
+https://go.skym3u.dev/live/9b33d7/468aae993156cea022127803ac85fe5dc3c5394695a4e31322e9a37df2e156346ea9a211b35328cd4bd97795fe8f008f418c840dfa5cdf0971b8af14df3b6d292c4872066acbdf3677f1dcff73538ec22492761aefb740aa0d593a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 10
+https://go.skym3u.dev/live/9b33d7/ad121dd1a650ba3f7076ce71b46c585390273d1a745720765ef206ae0ad2ccf93c34e4e48c42ca02d89006fd374ba37f18560b28be305968a064cf62a5d9f48ffc94d7b5130b5a7aa1a6471f4736628be6d2f09d7464c1927688a2.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 11
+https://go.skym3u.dev/live/9b33d7/ea58ebefc1ffe1f800a86f16dceeeb937eb8bc21f47c691b086fa579d1039a5379b6681f1860a95ab5ceab691d6b60210b6a5ad22327f75f6d6b85a1b9c1b1f868843df0496ab5174fad29ad6fd51722fac9e9aff5f971ab25fd94.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 12
+https://go.skym3u.dev/live/9b33d7/3f848162eadce19798d2c8ca73401e158c02ce0c9cbc613a8276e31e71dedb5715be25552079a256ac86ab8140c91beb7cd1551e6bb17d8932b86969aba3a837ecc700750b4e890904ea110da4ae4813ec64b808bc3f69ab01da06.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 2
+https://go.skym3u.dev/live/9b33d7/7abfaf362bc34658528a24c92e9d39dbdf9c1a67c20de3327a4e5a7c21c48e4255c6aee970867d9387fb1beac7e20ee1032a29a46c588ad02cfd0611c9039b9db947835b0d6ac0aeb5cbc1b24fe7cd05c22c8d27c54479a5f5c266.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 3
+https://go.skym3u.dev/live/9b33d7/6472312ee34bc943235ac5b864098ec6652f2df0dd4a0eaceec0a0b47530cca06665009f8dd4899fec5ce8521602ff66542361bcd0ac933b072f7506efce4e5f6146fd96c6ad22f542349ce327c167283561c406d5e0f9160536a5.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 4
+https://go.skym3u.dev/live/9b33d7/9c4bddb12689254d93076c4b2982b358be960dfc38f1c5f2e7039e32c2f1111e9f0c1e2aad921f50d01604c4be2b6ef9fed6e2a8483bf09c5191764f9ba554d299e07336694035f3ed23b3fe3a5683cbaa01be763c448f30758f22.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 5
+https://go.skym3u.dev/live/9b33d7/163375a6072019b207dbc727f5155cd0e2a8a77532c6d01525539e343efeb5d1e7b6d5c7bb547e251cb3629c8f9f61bddd69450e57e7df04ac2aeb9df51e50289ed1afb2e6a44ce37105d7165fc6894cb1a24302b5f6a832da8267.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 6
+https://go.skym3u.dev/live/9b33d7/ffcd0f74d01334141037b0f8c44e1ea1e47e2db082a80d55449bd9ef8d27490eddf1f5c6c059231f745453c76c700177a112ecb962e9b06d84cdab2973eceb2af12cc6896a6088c319fc6f37932d2e81c4d0b9928b22ada5e78a57.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 7
+https://go.skym3u.dev/live/9b33d7/dbf1321de855dcc07f408e48a70ba052588a1ed9dfef82ad405744522c680080f8ffb3c2ade5469dadff7331fcacc66eeb7f159b6a91de30e265728b5858de85e52085e3b34cc0ef929fb20c98955bb8d89715e4103687aa42e619.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 8
+https://go.skym3u.dev/live/9b33d7/89fcf6bcaf0c6f850476885032cbfca1ae927074e84a8d180710161438f199bad449536c85d4bee7662263800d6456165824d1fbd2e7ff52ee1648fb40a27a95064bde20d89a00701633a311bb1aa8b888c60e06740e9ba01a2f00.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Prokop Sport Online 9
+https://go.skym3u.dev/live/9b33d7/1dcac2e6b892cda193fa46f8195b54019ce82e1427301141dcd96c7a192761d133387b74e42e7e7707ff4e0cef07ffa52d3510e27d581caeb19c1184c7f3857de7ac9c9df75086e101bb41ede0fa1157cf1779118a4e070dd73564.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Q Sport Kyrgyzstan
+https://go.skym3u.dev/live/9b33d7/75068256b440ee813946340f2971ff53c617ebe534157422772250c7a3adbaf6c2a91575c795ea8884e6f2b6467dfff96b4468982b3eb19d316c13e85d3ce7d08ce84b13856c7a7efbae548489c924ef47a5a877f3463f945fa37e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Realitatea Sportiva
+https://go.skym3u.dev/live/9b33d7/7d11bf0b179bec942ab96cf9abcfe583f49524543fb7752db84c08c6e6ae17ffc940c054a0bcc832d11289f539503d7474f6e6ae4eaf481d6bc4532c92b4faf9484aefa16a2567213c2a3e9e03301281ba74a2f77e24d4223be2d0cc120a0f26b4.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://stream.realitatea.net/realitatea/sportiva_md/ts:playlist.m3u8
+#https://stream.realitatea.net/realitatea/sportiva_md/medialist_7351611093486677382_hls.m3u8
+#EXTINF:0 group-title="Спорт",RING
+https://go.skym3u.dev/live/9b33d7/a52685b163625eb320ded6cb4a9531fd84fc61e0ecdcd3680c400c902c02ff508eacc886928dedac5d7a86a40417f55909af6776f24561b12cb8c3e80776f5b60b12f889545009bc51468d130c.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sports-cricket.png" tvg-id="sky-sports-cricket",Sky Sports Cricket
+https://go.skym3u.dev/live/9b33d7/fa740884c827d8d7a58b60e4617773ceff453c98253a5be89a70ba2dcfbb9cd0ea4241a2864ec127d88c6aab784da2213d04a72042911d2f1f193ad425a54a09067a44ae8533ca25c97d683ad4554bc8032611b8b109e8e7251ab5419b.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Viaplay Sports
+https://go.skym3u.dev/live/9b33d7/d3686a11aa4184dd3ae1297ded525985765cea5ec893ff094979390251f5efd62002c08386ce5ae032657fe282e7a007d24f570346baf50699511a0d1b0a2f6a0874efa3a0f1c042973c64e429c75dab34ff2a27992e2f79cd5a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Viasat Sport Ultra DK
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/w-sport.png" tvg-id="w-sport",W-Sport HD
+#EXTINF:0 group-title="Спорт",Астрахань.Ru Sport
+https://go.skym3u.dev/live/9b33d7/602a26d91c28cbdf171c9e46cedf0830ec1392ab58460f4316184aef0a95bbfd85094de78fdce17a229ac0893ca2c40d3c6bd166fbcaacf9a07baf886956d94ac1dded71e7dbca99d12c06970e5d5c3c5f815058eb0598b210f9d6.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v1a1/mono.ts.m3u8
+#http://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v2a1/index.m3u8
+#https://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v3a1/mono.ts.m3u8
+#https://streaming.astrakhan.ru/astrakhanrusporthd/index.m3u8
+#https://stream1.sersat.com/hls/garagetv.m3u8
+#http://streaming.astrakhan.ru/astrakhanrusporthd/playlist.m3u8
+#http://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v3a1/mono.ts.m3u8
+#http://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v5a1/index.m3u8
+#http://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v4a1/mono.m3u8
+#http://streaming.astrakhan.ru/astrakhanrusporthd/tracks-v1a1/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/voleybol.png" tvg-id="voleybol",Волейбол
+https://go.skym3u.dev/live/9b33d7/05f02b61d6e554d78290a9307aaf543ab1ec04f983722f961c40ff9c457b7d248593dc196b5ca5325e381209f5b2fd7af640a700220ab21fe9a8bce07895ca0b56690e78ba9aca79bcbb35a028d45fa44602785586c4d3cad19bf961806083a1f7d25325558cb9cc2b674cdd319ae41a5e500a6672d63260f4ddc3ed11817d5ac923833b95835f094aac6bcfcd0391d8399a3296a1a357b0ce3744c5584f572a60.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/start.png" tvg-id="start",Старт
+https://go.skym3u.dev/live/9b33d7/4777a508c768f9c07137e8def025bd42c80247c8fa50e2389e844cefa200c06499af2fc9c8857a8ba0e6bd4cff158008c11fcff786a4d8f3c1ce1ab95d556168d074dd49c1c4ef1db9d15658b89ef066eb889ddec8de59dd6214014eb61de68f3935f806dc7fc98c26161f2bbfac167686639b0dc72a99b5a2ed1e7478405951eca9caec7b8aec1ce019fdb1e73c4e1f3273bcb2390e010f2c7c3a7619058a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/start-triumf.png" tvg-id="start-triumf",Старт Триумф
+https://go.skym3u.dev/live/9b33d7/86fdc7e52c6ed3fdb5258ddec24d4f27778afa39addcdb1d04b58cda209b0931d99ccb0e3075c41ba82c79a1a9799d655aae355f23c78abc83b258783442cfd05373925bb62ba65729bb67d142cba50d525b7e168b449596b49107bb8f2ad5270d02cd84f2beaae42a60fa0d74c395743271463b463460cb73c78329c7f4f66d552d3f61a3366e624abd16aafff64baa9d32a39b76a2a51ffcd476159276664e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sportivny.png" tvg-id="sportivny",ТВ Спорт
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/a-spor-tr.png" tvg-id="a-spor-tr",A SPOR
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/beetv-sport-kz.png" tvg-id="beetv-sport-kz",BeeTV Sport
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Best4Sport%20HD%20LV.png",Best4SportTV
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-beonedge.png" tvg-id="box-beonedge",Box Be ON Edge
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-beonedge1live.png" tvg-id="box-beonedge1live",Box Be ON Edge 1 Live
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-beonedge2live.png" tvg-id="box-beonedge2live",Box Be ON Edge 2 Live
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/BOX%20Be%20On%20Edge%20Live%201%20HD.png",BOX Be On Edge Live 1
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/BOX%20Be%20On%20Edge%20Live%202%20HD.png",BOX Be On Edge Live 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast.png" tvg-id="box-sportcast",Box Sport Cast
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live1.png" tvg-id="box-sportcast-live1",BOX SportCast Live 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live2.png" tvg-id="box-sportcast-live2",BOX SportCast Live 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live3.png" tvg-id="box-sportcast-live3",BOX SportCast Live 3
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live4.png" tvg-id="box-sportcast-live4",BOX SportCast Live 4
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live5.png" tvg-id="box-sportcast-live5",BOX SportCast Live 5
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live6.png" tvg-id="box-sportcast-live6",BOX SportCast Live 6
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live7.png" tvg-id="box-sportcast-live7",BOX SportCast Live 7
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live8.png" tvg-id="box-sportcast-live8",BOX SportCast Live 8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sportcast-live9.png" tvg-id="box-sportcast-live9",BOX SportCast Live 9
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sr-sport-live-4k-hdr.png" tvg-id="box-sr-sport-live-4k-hdr",BOX SR Sport 1 Live 4K HDR
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sr-sport-2-live-4k-hdr.png" tvg-id="box-sr-sport-2-live-4k-hdr",BOX SR Sport 2 Live 4K HDR
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sr-sport-3-live-4k-hdr.png" tvg-id="box-sr-sport-3-live-4k-hdr",BOX SR Sport 3 Live 4K HDR
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sr-sport-4-live-4k-hdr.png" tvg-id="box-sr-sport-4-live-4k-hdr",BOX SR Sport 4 Live 4K HDR
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/box-sr-sport-4k-hdr.png" tvg-id="box-sr-sport-4k-hdr",BOX SR Sport 4K HDR
+https://go.skym3u.dev/live/9b33d7/5f778a83bf7a3fada371535567b42444aa0ede2c4643cef72d8ab03d98b82d8fc86a8b16f957aabafb51017ac6516dcaf838739c820bd47737e15155bf05b41be89db78affc6fac01364063de49cddbb02d01b157cc4d6524d900bdd1e2de3f3bf871fd3b031a80d.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cineman-fitnes.png" tvg-id="cineman-fitnes",CineMan Фитнес
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sport1-pt.png" tvg-id="eleven-sport1-pt",DAZN 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sport2-pt.png" tvg-id="eleven-sport2-pt",DAZN 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sport3-pt.png" tvg-id="eleven-sport3-pt",DAZN 3
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sport4-pt.png" tvg-id="eleven-sport4-pt",DAZN 4
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sport5-pt.png" tvg-id="eleven-sport5-pt",DAZN 5
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/digisport1.png" tvg-id="digisport1",Digi Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/digisport2.png" tvg-id="digisport2",Digi Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/digisport4.png" tvg-id="digisport4",Digi Sport 4
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/espn-us.png" tvg-id="espn-us",ESPN
+#http://85.237.89.160:9590/usa-s/ESPN-HD/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/espn2-us.png" tvg-id="espn2-us",ESPN 2
+https://go.skym3u.dev/live/9b33d7/2896f0b0b697feccbcc331fe66604ce8b8c1b2994e58c4af62f447478d1f640b9019c866c7701a1d9d260e615032d41f8da1139ed54dc7c86e709ca92a530c8f7072138f74ad851b0829.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://85.237.89.160:9590/usa-s/ESPN-2-HD/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eurosport1.png" tvg-id="eurosport1",Eurosport 1
+https://go.skym3u.dev/live/9b33d7/35139402e4b58ef34ee557bed45f63ea0a63ef9aa87c34bbef1f34417d463b9833a30618c4822c99f142d31d868dca6d24f2b476fd5a5e182f29f77ec359bd0970d5c1f22d912948a02066590ef61d5180.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://r9jgzc02.russtv.net/iptv/RDXD2KKG257QK5/20058/index.m3u8
+#https://r.eu.cdn-redge.media/livehls/oeu/mt/live/eurosport_1/live.livx/playlist.m3u8
+#https://s7.iptv-24.net/1439/playlist.m3u8
+#http://90.183.52.46:4000/play/a06v/index.m3u8
+#http://185.228.163.146:8000/play/a03z/index.m3u8
+#http://89.44.231.73:7000/eurosport
+#http://45.134.141.161:2200/ARG/Eurosport_1_HD/index.m3u8
+#http://88.212.7.14/live/test_esp1_hevc_tizen/playlist.m3u8
+#http://88.212.7.14/live/esp1_hun/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eurosport2.png" tvg-id="eurosport2",Eurosport 2
+https://go.skym3u.dev/live/9b33d7/8f27561b8dd87c4ace316ad082f3d752491efe4d4dcdce3029dfb5409861d850036775253e8fe35feeff340c7c0362f3cd4efc62a0e2e0afd1911641d8ef0d6d1f78a918ea91ff0b77cfa46535e91742d8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#https://s7.iptv-24.net/1452/playlist.m3u8
+#http://46.244.99.71:8181/stream/74/index.m3u8
+#https://r.eu.cdn-redge.media/livehls/oeu/mt/live/eurosport_2/live.livx/playlist.m3u8
+#http://185.228.163.146:8000/play/a048/index.m3u8
+#http://89.44.231.73:7000/eurosport2
+#http://45.134.141.161:2200/ARG/Eurosport_2_HD/index.m3u8
+#http://88.212.7.14/live/test_esp2_hevc_tizen/playlist.m3u8
+#http://88.212.7.14/live/esp2_hun/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/fast-sport-am.png" tvg-id="fast-sport-am",Fast Sport
+https://go.skym3u.dev/live/9b33d7/3b2d75a6c5b023f69d4f8b7c32a3011530c8bedc16e6fdaca8b15dd2fd0593566883f67a9b6ab06fc72de331fe47493af753ac091dfbdbabb77f05db77ec3c354519f8a80bff.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/FOX%20SPORTS%201%20US.png",Fox Sports 1
+https://go.skym3u.dev/live/9b33d7/39ef1d8c796085fc9e70b1dc077191b3d29f9d52566be1f9e18a9886fb47f44db9b90213c1ada98e351e8b37122f10fbb8f1ea63c7fdd647b2a496e6416bbf6188d24c5a05ed5239aada52132e27775be49af3.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/FOX%20SPORTS%202%20US.png",Fox Sports 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/tvplay-sports.png" tvg-id="tvplay-sports",Go3 Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/tvplay-sports-plus.png",Go3 Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/tv3-sport-3.png" tvg-id="tv3-sport-3",Go3 Sport 3
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/go3-sport4.png" tvg-id="go3-sport4",Go3 Sport 4
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/tv3-sport-open.png" tvg-id="tv3-sport-open",Go3 Sport Open
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/idman.png" tvg-id="idman",Idman
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/NFL%20Network%20HD%20US.png",NFL Network
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/ONE%202%20HD%20IL.png",ONE 2 IL
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/one-il.png" tvg-id="one-il",ONE IL
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/polsat-sport.png" tvg-id="polsat-sport",Polsat Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/polsat-sport-extra.png" tvg-id="polsat-sport-extra",Polsat Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/prima-sport-1.png" tvg-id="prima-sport-1",Prima Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/prima-sport-2.png" tvg-id="prima-sport-2",Prima Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Q%20Arena%20HD%20KZ.png" tvg-id="qsport-kz",Q Arena
+#http://ru1.plist.link:3355/RNaoWLSkV5b520076/index.m3u8?token=ktSlluyLH7abBHsNCf4k1yGTZonRrsnvMcsPPKBxVIPBzHok8VMy2u5iwb048Irn.zmeich
+https://go.skym3u.dev/live/9b33d7/b9a340db38f78f2c766a812fee53cb26096ac96268f805c142bd9563c03796ba802730ddd64387f8ec4cd332601a850c7e05a16f0b377bbfc0754d8b6fa22da096f441d819eaeb9cb7cf803ea1dfc0604ed1fc082f337f48e84f3c.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/kazsport.png" tvg-id="kazsport",Qazsport
+https://go.skym3u.dev/live/9b33d7/7384dcd716b4741c8e475cd6b684091ddeeb6907efc273c5aee92258db1aa3c54baa1212ed39455086e949e8dfab785f548b227d16d894a9811408c1d20d90e1528bfb3b33de.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b0474/index.m3u8?token=ktSlluyLH7abBHsNCf4k15Zd2lIgmc2p1XsaSdo3CQZnOBidjewWXUyZVjJ5Z-VG.zmeich
+#http://r9jgzc02.russtv.net/iptv/RDXD2KKG257QK5/14032/index.m3u8
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Ragbi%20TV.png",Ragbi TV
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/setanta-kz.png" tvg-id="setanta-kz",Setanta Qazaqstan
+#http://ru1.plist.link:3355/RNaoWLSkV5b020071/index.m3u8?token=ktSlluyLH7abBHsNCf4k15fUksgfhtvPijAIvKQ3wlZxLr_Dg-f11ZsV4FQ33iWw.zmeich
+https://go.skym3u.dev/live/9b33d7/ea047ac15a528500bb75b86e522c47fcba20c7cd539283ff9eb066a7dc07de5ccd2a56eef9b19269233fccabdd4ca1fa88f581bc3d0e0c6e131c601ad75138d6a8a10144d512c4045fc6095db4b094f6570c8986416f317d46ce3e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd1.png" tvg-id="sky-sport-hd1",Sky Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd2.png" tvg-id="sky-sport-hd2",Sky Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd3.png" tvg-id="sky-sport-hd3",Sky Sport 3
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd4.png" tvg-id="sky-sport-hd4",Sky Sport 4
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd5.png" tvg-id="sky-sport-hd5",Sky Sport 5
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd6.png" tvg-id="sky-sport-hd6",Sky Sport 6
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd7.png" tvg-id="sky-sport-hd7",Sky Sport 7
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd8.png" tvg-id="sky-sport-hd8",Sky Sport 8
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-hd9.png" tvg-id="sky-sport-hd9",Sky Sport 9
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/SKY%20SPORTS%20MIX%20UK.png" tvg-id="sky-sport-mix-de",Sky Sport Mix
+https://go.skym3u.dev/live/9b33d7/a231ae490eb0ac7b6e0009492a4c86daa74425fbb80646c41e4212a114d36bb820c039617eefe710c3624fa64de170d6bacfa56ab991e8e32cabd8bc45d896fd3e0511631f107ec8d6c5047e7c36774c0370969ef907fd74c8f8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-news-de.png" tvg-id="sky-sport-news-de",Sky Sport News
+https://go.skym3u.dev/live/9b33d7/ce55aabef4084daa10ace4a7582ed80b10e35cdf985e074acf4443c269ad95eaa27f098f10912accab343dffeca8e3acbe45d24b4cf320c68334dd4776b8eb8e9ec4c56b6eb64574763a7dbb2b6a600fd866854fa1fb174e1ede.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-top-event-de.png" tvg-id="sky-sport-top-event-de",Sky Sport Top Event
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sports-mix.png" tvg-id="sky-sports-mix",Sky Sports Mix
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/spor-smart-tr.png" tvg-id="spor-smart-tr",Spor Smart
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport1ua.png" tvg-id="sport1-ua",Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport1-baltic.png" tvg-id="sport1-baltic",Sport 1 Baltic
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport2ua.png" tvg-id="sport2-ua",Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport3-ua.png" tvg-id="sport3-ua",Sport 3
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Sport%203%20HD%20IL.png",Sport 3 IL
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport4-ua.png" tvg-id="sport4-ua",Sport 4
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/SPORT%204%20HD%20IL.png",Sport 4 IL
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport5.png" tvg-id="sport5",Sport 5
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/SPORT%205%20GOLD%20IL.png",Sport 5 Gold IL
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport5.png",Sport 5 IL
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/SPORT%205%20LIVE%20HD%20IL.png",Sport 5 Live IL
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/5max.png",Sport 5 Max IL
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Sport%205%20plus%20HD.png",Sport 5 Plus IL
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Sport%205%20Stars%20HD%20IL.png",Sport 5 Stars IL
+#EXTINF:0 group-title="Спорт",sport m
+#EXTINF:0 group-title="Спорт" tvg-logo="http://icon.ru-tv.site/icon/Sport%20Plus%20Qazaqstan%20HD%20KZ.png" tvg-id="sport-plus-kz",Sport Plus Qazaqstan
+https://go.skym3u.dev/live/9b33d7/447e0c3ab4f4a1f38afff2adce9f3b9a3baa617850feb27849c470df4411471c818afadbda176a2258bf9b35e6a30126fe942dd08be45b514947826f23a16f5b63e05af4282ca065b778e2ac375ab5948e45342e507e313f2dd0620794adb3082970a17ae59b455a6d4f6753f32b86c00c1898695e9d33c5ae519174b30969840158c14ca3a53f3dbd0133700fc33b8f3943c6ada4c59fd1bad917ebdb1c963fa8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sporttv1-pt.png" tvg-id="sporttv1-pt",Sport TV 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sporttv2-pt.png" tvg-id="sporttv2-pt",Sport TV 2
+#EXTINF:0 group-title="Спорт",SPORT TV5
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/uzsport.png" tvg-id="uzsport",Sport UZ
+#EXTINF:0 group-title="Спорт",Sportdigital Free
+#EXTINF:0 group-title="Спорт",Sportv +
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/supertennis.png" tvg-id="supertennis",Super Tennis
+https://go.skym3u.dev/live/9b33d7/55d3370cf394d979b74fc00c6a94d9591c29df4ca3c0a60fc38fbea63adae940bf753f570ca7f34955e40c799fcb45b7e52b98b4de9150e6a31dcb22452539d1ee6837794f.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/bt-sport1.png" tvg-id="bt-sport1",TNT Sport 1
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/bt-sport2.png" tvg-id="bt-sport2",TNT Sport 2
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/bt-sport3.png" tvg-id="bt-sport3",TNT Sport 3
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/trt-3-hd.png" tvg-id="trt-3-hd",TRT SPOR
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/viasat-sport.png" tvg-id="viasat-sport",Viju+ Sport
+https://go.skym3u.dev/live/9b33d7/80686f447b893372923941e97d033132f1a0c0120e0e37ddcca0e3a8f52689ffa134ee29fd4de95048e369803d7f5020e0a318ed0b5a3b49fdf5fee6dc9da5d31084340117f01b70f17121695bb2c9.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#https://s7.iptv-24.net/1229/tracks-v1a1a1/mono.m3u8
+#http://ru1.plist.link:3355/RNaoWLSkV5b9475/index.m3u8?token=ktSlluyLH7abBHsNCf4k1wVoH7BablWViMOA0keeGxhIsNqxwNK0LwSClrplIHjh.zmeich
+#EXTINF:0 group-title="Спорт",beIN Sports 1 Turk
+https://go.skym3u.dev/live/9b33d7/314d3dda7a29167f62b16dcc7d11e62f5eea52c900112589c0c7ed627ada073582c70eb24604b293c4eb5dd4f29f364ca773c7561e53955d7fff973671ab2971fd30b228f5595828ac.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",ACI Sport TV SD
+https://go.skym3u.dev/live/9b33d7/adf49027ad7a356ccc88f4afa164a573586cf3bfe14f69f06b3ff0844981fcad7c3bc036141d583700ea4bfcf1185c1296039accdd5f89207744485600c9bad29f36562c54da378821c27016f71b41f18d15677dcb49b179431fa822f7f5fd0d20a5a28c0001c05e55bf59f7.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://webstream.multistream.it/memfs/e2cb3629-c1a2-495b-b43a-9eb386f04ed8.m3u8
+#https://webstream.multistream.it/memfs/e2cb3629-c1a2-495b-b43a-9eb386f04ed8_output_0.m3u8
+#EXTINF:0 group-title="Спорт",AntenaSport
+https://go.skym3u.dev/live/9b33d7/c6feda4aaa0652b64833a54c31ec3f4c68788fd97ed0f5b0bd1d2036c56c793b7df069b1e2d65b79f9ace65e0841c74ddd245a568b599a1dee1cf56deb895bb546798cf98eedeb9367eb055db9f8b61132.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Arena Sport 1 Premium (Serbia)
+https://go.skym3u.dev/live/9b33d7/efb74288b2d504cc30161dd06d67dd09de072a7a0d354c81108987adb1614ebda44ac13ecf235766df077258b1f92dd9c8810d85cbc446df300536053e7db0112e873f3adebdf3083feafdb9fd1172d241ed3661a054432bd67c5286ec0950a2a758085c4ec284087e8456fac5b89515ec445863930ed6c512a46475cbc69d.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",AS3 Sport TV
+https://go.skym3u.dev/live/9b33d7/ed07f4c4ebc67b1523b6fe32172b16cc387376fadcd2104eca0998b87887cd2e542ba2f16da7e42dd0fc175e6db38a1b19b95e40347299d10cf175ff431981a3522e5ab6ce57506f9548d264b5f022b30ab6.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Canal+ Sport (France)
+https://go.skym3u.dev/live/9b33d7/082317765eb209bc51ba6d54cc94d10711a298d75f26a05b1d8dc27dc791c1131f78d8286af6bf57fe1de338c4eb2e6caba76e590cde2d8940c88b7c25cce753e04847568a86f30252ed89b65c070d342f5e6a1ffa7fd42e59e5142638.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Canal Showsport
+https://go.skym3u.dev/live/9b33d7/ecea296da8249fb3030ca0addd6765177546b21b6a255a98d2e140903b1b93c2788c0569af752e8f5c41f2a9e3144de21fe462c1d18ee14d7ce3318e995a95bacfc8a8b11dc84a31a68d7b6883c7.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Claro Sports
+https://go.skym3u.dev/live/9b33d7/ef276cb0292113eff0f4c4123d5f0e87f2329a2bf4762553816d10f4cfd0a903108df67c776ac30d7d3f64df68f9fbfa871b10dda6420e6e05be9b5e9c8264ef524c5fc4935617acb6.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",ESPN 2 Latin America Colombia
+https://go.skym3u.dev/live/9b33d7/0f9278913223337ad4e1007e3e78d713525f39d058363abc6a11a702fbc90428c7aa8a8cf7da9180c9c776dd26cbc3a4c22a3378abc30147442799b5e59a40629b19ffc0ca7be4e48d.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",ESPN Premium (Argentina)
+https://go.skym3u.dev/live/9b33d7/60e793e3a8c4e40db37f6dc466d82e17549789b2cbaa620c81fe81818381d45649a414cd429ca86e08047a6c3cd21d7dd0cbf6945b8af92cb100031c0c7c4d795cf6ee62b164ae5c39044a8a51489b48896e7601e1a11af0cf02299cfe6bb1640cf95e2ca8014657807c.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://158.172.155.130:8000/play/a0ao/index.m3u8
+#EXTINF:0 group-title="Спорт",ESPN 4 (Brazil)
+https://go.skym3u.dev/live/9b33d7/36c1794b3b1ab2c7822e35ede7b44b6fb1b6962b8d3cbb9f621e0afb136d7a6542a39a445be189c5ef1eaec3527ed8159aed0f004c2516128df9417556d9ad594a3e3f8517aa22016a02.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",FTF Sports
+https://go.skym3u.dev/live/9b33d7/73cdd9fa2c6b5abc7ce8a9e98a38559d0648d8793b2ebe3d03a93912dc4e589b489eee2f75b2ddfb33027eba09478a3e5199de34e6243235e07d9d3ab45ecb20e6e97f5671168b9fedba26c336fb.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Eurosport (India)
+https://go.skym3u.dev/live/9b33d7/9c0fb1f4e99036cc5aa1cf9d82857574cc792a953410b13c3587f1c77baa6ef7c3d45684550ffd9e30488e1be086a1f6284bf2959a4aff09fff85de0981c15bbd62d2b0514ae511cd2f456f942aecd9dfb7bbf0f38ea36b9.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Eurosport 4K Romania
+https://go.skym3u.dev/live/9b33d7/665855240fd422ab025225c40fd07231a950ba8509a3888e3f8d52271bb5e4b59f443d4f4f0d1cfb3d8bbdbe9e0a471cbd6c7343cfe8770f52fb7516438442f01cfa1bff522fed2da28baf86483472e72fe6795e45ab6ee187c2c321.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/match4-hu.png" tvg-id="match4-hu",Match4
+https://go.skym3u.dev/live/9b33d7/2fa9546ced9019ad7b93ec7559e656fe055a2015a33442858b97f3692fdb88a83d0751566e2054e8ef421a87219ba3b5507ca8fc6394d43c2796d216715d0ae81fa055cc44.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/orf-sport-plus.png" tvg-id="orf-sport-plus",ORF Sport+
+https://go.skym3u.dev/live/9b33d7/0f1c5262f6be922b989c4899d6925bfca666c608dbfa32d746be2c7a9af3f26fbe81b8d8e59e533fae766c69e395478ae064a5bbb8b54c8d2f945c0ad68874258388f400c9bd9c05a340a200a831f09e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport-extra-ro.png" tvg-id="sport-extra-ro",Sport Extra
+https://go.skym3u.dev/live/9b33d7/a47f688f5d03c1be975c413f74c4c1abd71f42d75ef7f18d6400012e2bf42f44ad86d265577cdb81c93939e776810805045d09ad29ab5bb90ee161077f4623a5738a1d8edc.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sportitalia-it.png" tvg-id="sportitalia-it",Sportitalia
+https://go.skym3u.dev/live/9b33d7/2b9bc886c51f98187f71e5f51ab55a7d3dea9ff2958bbfe8ca3203cbc7b9640c44d91e78840206e78ce1e03617e85cb0c9228a7eb6b53440c981b66ff2987901af00abc8c3e93f6411b12eb0c0a29f12d6e6bd642ea1c5e11acb30.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Sports Television
+https://go.skym3u.dev/live/9b33d7/ef9c78c854db29f106604fb7c5a4f77419b879f60b829fa0f950f1c2047b8e3cf59483c55a4fb4de5487bc0b333fd11b19364c8a9b14ae83dc2cdb4cc5b0b68518292fcbab0c79.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",SportsMax News
+https://go.skym3u.dev/live/9b33d7/0699914f59d74b5d2f8f8245ab62924dd488237b47cb9c80d88a7c3f11df0cbb9cc7b7bf1d7970025a2d8778aa3a5e92b2da83d77e33fcfa7b8da52949918f3d5f5f0d04b8d83ca60ba8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Star Sports 2 Telugu
+https://go.skym3u.dev/live/9b33d7/edc311ded35094ffc10b1922b96e423b37699044cced02abc0996a6c932d5280df030bc5458efa2839508f1e5edbc78a3d11950bf406a86c3a4bfeee2d562d6801a539ca75eeb8a5e2adb94f1228b9e6ba4165.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",TNT Sports (Chile)
+https://go.skym3u.dev/live/9b33d7/64741057090d1ee4b8d793a7ccbdddfddcdc8e9f3c16548d914e14003277a2d8b4c008d866e24b2c5717e68c29616e344e87949bb7f317debcf467a2d979109060c26449d5d7c1f9ae59b1.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/tnt-sports-prem-ar.png" tvg-id="tnt-sports-prem-ar",TNT Sports Premium (Argentina)
+https://go.skym3u.dev/live/9b33d7/52496d2dc5531efd9c8a1cd2e1cfa7f16265e9246cbdd68900b26fd270aad0df34d8c122c636c5af98f90151b2619879bdcc1005643b5e61b5df058c5fc7f1f704034b57b15abad5a8c947769fd0abde79f2177f.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://181.78.79.131:8000/play/a0q9
+#EXTINF:0 group-title="Спорт",TNT Sports (Argentina)
+https://go.skym3u.dev/live/9b33d7/c678517adaabbe964c8320640eaafbfd989094e2f084c7c586b8f785a3d99f239fa1ddd85aeae311fc0d5278033c62a176e01763e32af5d7602010db41ff58.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://45.184.109.10/live/69393EAE6ADBC65A68F942022362A202/86.m3u8
+#EXTINF:0 group-title="Спорт",TyC Sports USA
+https://go.skym3u.dev/live/9b33d7/6e23b6b816a146b30d9f36cd2e19aafc27d2f777b68c7372064445c640dea3efc55dce3819dab378df4f2dc7be740d2339496aba3711d1ce06ab3c8d96d45b689335cf81419bdb1412e9f5.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Win Sports
+https://go.skym3u.dev/live/9b33d7/1f8c10c43581953ee5071380ee1db3247416ea414d9b72b37dab29cc9f675b4f7e0e66f7c08ff0e9c73dd5bbf10b9e76581de403c3bb3862f0563a8211ec3a4aba8a7b2d5dbfc4297346f6.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Win+ Futbol
+https://go.skym3u.dev/live/9b33d7/3fdcf6e58301024a0b1e51eb50d694a0522301cc69b6e7e93a006564a46143614ea32f95a43b1bd8cfb6e51d5c24189a38b6b39fd0faed5635f669c1833abf5ebebaed70e14a4bc55ebd11.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Esport3 Originals
+https://go.skym3u.dev/live/9b33d7/57e75eb8d94c2770c63e6f71899345072f9164dfbfff9f3ea60a4038fc7eea72b04fc4407f9cce4bcc6aab8d8f04d34ea39d301514800ef49ac1df08d0c2fae5c0dd9790878cd22f9f42cd5e859bc97ad7241b9e1cfb0dae840780625335fc7226502df4f75270f3c6.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Al Iraqia Sport
+https://go.skym3u.dev/live/9b33d7/b48335810e08873479001e832e9514e66f3ce1548d5a9ee7324afb77e05c722b0322632d81bc70f3c4cc391d75a956f78a6efcf8f029a742661977b7ef49b02ab4455d7705af42c0b0d8d0bf05e0d46157fcb8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",CRTV Sports and Entertainment SD
+https://go.skym3u.dev/live/9b33d7/7c2ff2370426b182eb79fe9c318fba1b5c5aeb8f1e7cedc2912b70e83d59744702b7867912c2f06e2952db651435a22408fd6748a4b59ac917acb732fdd6574e5df5e365fb24821ca49c0331bcc87386c07d33b46cf42cfa1ab2b2099d3f3287.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Sky Sports 2 (Mexico)
+https://go.skym3u.dev/live/9b33d7/cec2b5e2a43e99c756e06c8a8e156b296e14aeadefc46d51584f7e8c4550e237cd1f91da249ff43a9c21e363cb0a91a4a3125e8116b3183db2c73536a35dbf88b6a9b52c3bf7cbc4bc6ae7f99a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/fox-sports1-ar.png" tvg-id="fox-sports1-ar",Fox Sports (Argentina)
+https://go.skym3u.dev/live/9b33d7/66f61e84e1badcfea57ec98e294f60920437ffd998bc1e6acb5763a7eee65e4b6f47bf6deadc6444ea4de4c0608054d87a41668c24343848f0aad23dfa5dfe79fc85e2dd3a24b01a1547.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://45.184.109.10/live/69393EAE6ADBC65A68F942022362A202/1552.m3u8
+#EXTINF:0 group-title="Спорт",M Sports
+https://go.skym3u.dev/live/9b33d7/b9e5bc6efcae7ac15e63e6a9cecf3ba2eb31ebcebd29589419bd18acbea4e2ecc8ca6387fc7e09f391927ca1e2e933049f61ca4f1282e5d6e949c67aca74ea22cb5acd294eb699d8.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Arena Sport 1 Premium (Slovenia)
+https://go.skym3u.dev/live/9b33d7/c014ae41a0bc0dfaaeffa0bd7f54e21f5aeece02058647651401f7b83d3aa734aed2abb9824f608c47791e99da8a070b8c27e7e421a2deccf79f7f6176e3ffc70f0bf733e951fd2ca0c5879c4308522851f9a516e67a56cc1f38739f39307caf3b4dada5fda4ee728d7fd8315f0b5e040b46d330f37c19f67d8241c11d9fb7.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",ESPN Latin America Colombia
+https://go.skym3u.dev/live/9b33d7/3b91bab8ae5a5502f5545be6ab583aea3127df0e025d58cd2a660b4cb04d125634ddf34c601c09b904a038597235c764c7589ffa9c3338f861e144bf391cbdd0c0b0f1bab0d009ec4f.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Voyo Sport 1
+https://go.skym3u.dev/live/9b33d7/f424343a7bd7cc67f61b45ffc541eaf4ec0838da307a8895f0cb8f85cca003030dd47621ed86b2d3cfa9afac69c721c4effccd673f0ad88be598ab4c58bf0cb16810d7e11a5b7ccc996667c65e5b87cd96604e818ecb1246ddd648d206.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",ESPN (Brazil)
+https://go.skym3u.dev/live/9b33d7/cb210802f141d297d5406c80fca0f6d6caad40d2c237fb4bc715b23ce852da900b6501507a3cf08959b8802aeb9dd9e7a0bbfcc08d83bc9207950e122dfb57b9ef1f9ecf093b9868f54e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sportitalia-solocalcio-it.png" tvg-id="sportitalia-solocalcio-it",Sportitalia Solocalcio
+https://go.skym3u.dev/live/9b33d7/eb87daee8c6429a181b7800155d99ccb663f6dcfe4586890e69a5b4e9c1779dee8f88c98de622624ea482362c906c60cf0019b8aa99096fae90e50dbda9a3a46bb80691f6294ed36332dae5354bd50526aad423e34b23baf19397fd8922443c27d7c16c46e7e7c32b4dda7f29322.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Eurosport (Asia)
+https://go.skym3u.dev/live/9b33d7/cebc514221884813f45a938cf419b94058bbf57fc4896945330bb6bad984f727edc8dee70a9d744b71afefca81af2529ec1c8d5dcbadbc58f6d874535225d458f5b7ede88c65ebb602f238f2.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Sky Sports 1 (Mexico)
+https://go.skym3u.dev/live/9b33d7/6c397638857880ca0a6edbb587a059e2116f129d9aca6218fe674469f53dca25d84f3e488f952cbf1b59358821e5f3c101e23b523552ebfe17a1f5527a3d02b383c026d619ec3755b4.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",T Sports 7
+https://go.skym3u.dev/live/9b33d7/71caee1b6e83cc8a98f765d26bae14fac2d26e02bf41d5beef86aa15fbd0e504b60f0060d27736a6f6116a0397389e72f8c46926c05286609ff960a56fa66b10950127549fc8f016b84cdb2d38f62bfd5b3b234ac5e5783da3f1.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sports-2.png" tvg-id="eleven-sports-2",Eleven Sports 2
+https://go.skym3u.dev/live/9b33d7/a16d15590b7bc2b49e82b43c642fe2d643a274ec27628b278124fed76ff6cf4686a1080cb8d3d03087754a0426d615a7340481b9a769b425414a71a6ba4e9fa483a125d4fb4fbacc68.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Arena Sport Premium M1
+https://go.skym3u.dev/live/9b33d7/c63a5e6b44900e88890716d5781c0a9e3457d522c2d099eb0bb509e251fe990d699f4084e53a79411aa11e8c92e965433e6f6e13da4060cd3b05c0cf08d3cb2846306c9824d3297159f2eff0bfae9cbdb08ae734b5a442730f6e702d24e65e06d8f1fffb785d3a879dbc4257eb7d3ce059a6de3507469d25caa4f080c3abca.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/espn-u-us.png" tvg-id="espn-u-us",ESPNU
+https://go.skym3u.dev/live/9b33d7/ffcb9f2a96e5aa3a02a1860fdc76d0eb7f199ed021652e897e1eb5b90e3cd8de18cec5c81397ec3021bfb52ca30c905c400b7af2ef0e28f6f41070cf7f87ba0ae73533fbabbdde537eb9d940a2a51fdf.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sports-3.png" tvg-id="eleven-sports-3",Eleven Sports 3
+https://go.skym3u.dev/live/9b33d7/20fbb41ac53a81683c6f8d067bcd1ff2684063442c8fc19c49128667d6e4d17b22a3a48c4cf84e348a33db2a0d26c5bd673b5dec46138616af86b312af0e277e59670bcd29788d6a0e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Arena Sport Premium M2
+https://go.skym3u.dev/live/9b33d7/c7f6aed4dbad3b08d31ac8fd1d620ab4dcb0a2d443e9d2cfd9bbdfce96127ac8f9688c4656f4670460f48f850d2563a22c5468e0d479e8eadefb8749d96ba60d98631a1052b2d4c0f91a4f71de8f12b432b084db67fafce4ef9eee8a3be4ce274a5987cf7a298dabaa2ad2666c1b015b9f51e263434ba68f45a8b54ba93d88.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/eleven-sports-4.png" tvg-id="eleven-sports-4",Eleven Sports 4
+https://go.skym3u.dev/live/9b33d7/3bd807eb98c61b1ee84d88915d21e22b1abf17980affd243ccb75921d481b7f0d42da20c3a13aa8049410a95d22fcb26a5d8462dace8f506966d17cc34f9b6b8fec44c0dab91fb6b4a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Arena Sport Premium M3
+https://go.skym3u.dev/live/9b33d7/877f7f8229a716e5bcbc75e9dbe5b3c1376010fda9e301ded55376b53927535566ed9d91b19875c8d8c187cf392e31909adb6fc6667b00805d22d63cec3f34f9247ad19ecbc410d6bd7a9e893ba746b26978487a40b1efe37756d092fd4a07488140616257fd515b2f8c6119758379e542bc8426081cb496d8b1b0e1fcd497.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/m4sport-hu.png" tvg-id="m4sport-hu",M4 Sport
+https://go.skym3u.dev/live/9b33d7/452dc3ab26be4c2ac60dcec0c1229631ee6417ce2155cc3eb7774da0b7294453a7bcafad299f30d08bf4177be8b7c323129e67be6925f431222dd22eeaf91fbe0080bf3f04ea262455.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport-1-cz.png" tvg-id="sport-1-cz",Sport 1 (Czechia)
+https://go.skym3u.dev/live/9b33d7/8c044a9e6cabab7502d1c2346cbc92b9845f9a6002a87094a1984935f1f58770f97bd921c3839fe8960db1ab02137ced2ecb16c4f431ef770a453b9668ed5ccc261f2ad71855d9f78200c3ca81dea9dafc528b.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport-1-hu.png" tvg-id="sport-1-hu",Sport 1 (Hungary)
+https://go.skym3u.dev/live/9b33d7/6d7272b49e65ce74984c0385e09148a57836b34729ae766527019f2a96d26623cbebc9ffcf234cf6d1a724debdd828cc0587caa123301859d8fe0f3da07f1d549f8eac3bd0427b02e3.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport-2-cz.png" tvg-id="sport-2-cz",Sport 2 (Czechia)
+https://go.skym3u.dev/live/9b33d7/0059ef5d0729bf2775a9eeb095647fbeb4b35f98daaf30d5bbacd1bbea5afaec958922cc072244c6bf7d95d4e0bbf08f67cb9b481bac5b89739cdd9a409ff4a51a1dde603e9c78de9c6847e6e2e132b37dcb69.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport-2-hu.png" tvg-id="sport-2-hu",Sport 2 (Hungary)
+https://go.skym3u.dev/live/9b33d7/f941cb5a569c8c87bcdf600b6b2ea9d093c77971fd9ad5af95d5d148b45dab4401ca6c1c45ef114f822700f243d235bc3b5c996bc93bf8331c5db10fc337a9fc3e836eb3b3a7c375b3.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Futbol
+https://go.skym3u.dev/live/9b33d7/2e6388c11fb0ba90754aa9ba14392ef0ee86c8372b89f6a4ff78a8d700552f74c6f7af8639904496e80d4fbc9023ba84e9d6c45bad4df94c42ccd8545a3aae523e7b3a5e6a23bba332f7da.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",Tennis Channel 2
+https://go.skym3u.dev/live/9b33d7/d9883a6d3a0847759b655760e405a36a61cc6aa28f2663d016ecb24047e77178939f7c60e4b2e2ef970cf3e5794fabea987f00a5ca7be856f6d1d222aa3f2164bfd18c41fbf9a8d7b87830ef03d0a5ddab.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт",DD Sports
+https://go.skym3u.dev/live/9b33d7/fa6c802e983fbf12660efa71d2a99db80d260a8aeb436392851b49a620b09ff2d190350bed1f0581229ed58740004e2d110053de480ec719d2871a09b5c864b515a48b3072e07b38b438f1.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport1-gr.png" tvg-id="cosmote-sport1-gr",Cosmote Sport 1 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport2-gr.png" tvg-id="cosmote-sport2-gr",Cosmote Sport 2 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport3-gr.png" tvg-id="cosmote-sport3-gr",Cosmote Sport 3 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport4-gr.png" tvg-id="cosmote-sport4-gr",Cosmote Sport 4 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport6-gr.png" tvg-id="cosmote-sport6-gr",Cosmote Sport 6 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport5-gr.png" tvg-id="cosmote-sport5-gr",Cosmote Sport 5 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport7-gr.png" tvg-id="cosmote-sport7-gr",Cosmote Sport 7 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport8-gr.png" tvg-id="cosmote-sport8-gr",Cosmote Sport 8 (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/cosmote-sport9-gr.png" tvg-id="cosmote-sport9-gr",Cosmote Sport 9 (GR)
+#EXTINF:0 group-title="Спорт",Cosmote Sport Highlights (GR)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/v-sport-premium-se.png" tvg-id="v-sport-premium-se",V Sport Premium (SE)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/qsport-kg.png" tvg-id="qsport-kg",QSport (KG)
+#EXTINF:0 group-title="Спорт",Media Sport
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport-tv-by.png" tvg-id="sport-tv-by",Спорт ТВ (Беларусь)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sport1-de.png" tvg-id="sport1-de",Sport1 DE
+#EXTINF:0 group-title="Спорт",Sky Sport 10 (DE)
+#EXTINF:0 group-title="Спорт" tvg-logo="https://iptvx.one/picons/sky-sport-tennis-de.png" tvg-id="sky-sport-tennis-de",Sky Sport Tennis (DE)
+# Ziggo
+#EXTINF:0 group-title="Ziggo" tvg-logo="https://iptvx.one/picons/ziggo-sport1-nl.png" tvg-id="ziggo-sport1-nl",Sport
+#EXTINF:0 group-title="Ziggo" tvg-logo="https://iptvx.one/picons/ziggo-sport2-nl.png" tvg-id="ziggo-sport2-nl",Sport 2
+#EXTINF:0 group-title="Ziggo" tvg-logo="https://iptvx.one/picons/ziggo-sport3-nl.png" tvg-id="ziggo-sport3-nl",Sport 3
+#EXTINF:0 group-title="Ziggo" tvg-logo="https://iptvx.one/picons/ziggo-sport4-nl.png" tvg-id="ziggo-sport4-nl",Sport 4
+#EXTINF:0 group-title="Ziggo" tvg-logo="https://iptvx.one/picons/ziggo-sport5-nl.png" tvg-id="ziggo-sport5-nl",Sport 5
+#EXTINF:0 group-title="Ziggo" tvg-logo="https://iptvx.one/picons/ziggo-sport6-nl.png" tvg-id="ziggo-sport6-nl",Sport 6
+https://go.skym3u.dev/live/9b33d7/ed0a79018a4a6f30f540f1ac9aa0b315885ef992b188389a5ee06341a62f4bdd318fbb06fa49f419f46e7531f0390f1ebd9e2b3b3c1e966e93ee5d7aa7ec1babfe4cf8f1db035e95dee0e6055df4d5.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#https://s7.iptv-24.net/1229/tracks-v1a1a1/mono.m3u8
+#http://ru1.plist.link:3355/RNaoWLSkV5b9475/index.m3u8?token=ktSlluyLH7abBHsNCf4k1wVoH7BablWViMOA0keeGxhIsNqxwNK0LwSClrplIHjh.zmeich
+# Футбол
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/footbolny.png" tvg-id="footbolny",Мяч
+https://go.skym3u.dev/live/9b33d7/98054dbb6c0168b715b093cb87726f04cfb9140d07b1469d004f90af62cf1a49d956112223fb81db6b4cb610288666b7ec3d8cfeb45253de2527c9cf4df2ec39c9dce3bd3b4fb6aee49033ed5675a4cb5a09b248115803e36e01e0b8a380a101a36f43342c9126f07deca03775f86882934a395713affed09f9fc81af5258a5bc947725475cb1b5d2d77676939d67e88d1f0ba07701f254a17c597a07615a4ff6b.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/football-ru.png" tvg-id="football-ru",Футбол
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/benfica-tv.png" tvg-id="benfica-tv",Benfica TV
+#EXTINF:0 group-title="Футбол",CCTV-Storm Football
+https://go.skym3u.dev/live/9b33d7/d88bb72dab08a11c97332a9131c39269a09b0c3233858629fa3ed558e6de91d46d7ec82e79e5eda1f2d9eb00ca7c902afc8d1a2618312771f3758def7402cf1d00f961a0568b5db373b4e0c2f7eaf492e49c91e3ca0a94.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/dynamo-kyiv-tv.png" tvg-id="dynamo-kyiv-tv",Dynamo Kyiv TV
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/fifa-plus-uk.png" tvg-id="fifa-plus-uk",Fifa+
+https://go.skym3u.dev/live/9b33d7/53ec1915f1b0761be521a16f1c735d6e90e453d0cbecee7cc9ecb37350b9e2d0c41d3e11178bf96bb7d9460e330b185b73fafbebb6b35fdb01eac5c7406d55ac1686eeafe4f966b9deeff926e2011d3c7dcc7b1fbdbcc9d3e2fdf188374bd5abd874ca438cbf52f35faecb8b97f5e7de1c16b801674b538c38d940eed052c6d5341bea7aac4e80eb310d1e70b8b58ebc071c3b1322bcf2734c71b9ef097314.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/inter-it.png" tvg-id="inter-it",Inter TV
+https://go.skym3u.dev/live/9b33d7/37caf2b3d7540d084f4e51e20d6f5f4b9d5057543fbcb35538981cd611074158ca19b56c2a806359bd0f62d1ea950d8c10385db7a780928d011accc2668a434fdba1db6c2582.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/okko-football.png" tvg-id="okko-football",Футбол
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/q-sport-ext.png" tvg-id="q-sport-ext",Q League
+https://go.skym3u.dev/live/9b33d7/68bd5305902c68976e61145ead135307301cfdb012208a3cb18e88cd37b35465e7e795d4e726ce0f506dfaf07d92aa57fdaed4d8a173dc8aa6629cb884fd2c1e3bc26d5687026ba7ad7361a79eadc35199335f87b30007938de58a60ec4c84c371ce9e955056fcfb4f64077fc0b6ae9863b22d816998d64a1ba9c2d7eb01608753e19657af105a9c3b8968f0dfc9a093bfbb5454ca34dec4f9e31167e7ae3f416b.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://r9jgzc02.russtv.net/iptv/RDXD2KKG257QK5/20062/index.m3u8
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/QFootball%20HD%20KZ.png",QFootball
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/setanta-sports.png" tvg-id="setanta-sports",Setanta Sports 1
+https://go.skym3u.dev/live/9b33d7/b56de00f17ddba318b95076dcc203cf5617cbfdf1026e5963bca32f82b984341765be190c94e68556293bac396da5df8cca6f834ff4d0bd54abd04cc7fdc806bdc7ba4a4c6a4c85bb5e34647b11afbf679d535212488c5b3a19ca9b086f8ec59d116143165f3cbbee2231362855a1a9ec7348f6aefc2af1cb40b79c04ae066d1f074344bf5aec0fd217edf28be8d7a9a5ef0971d1187b1f79d87086049d6d944.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://ru1.plist.link:3355/RNaoWLSkV5b220072/index.m3u8?token=ktSlluyLH7abBHsNCf4k18fx5YjcbGrynDFVbIAnxNdcm3iHkZb07e1Wg5yal8r8.zmeich
+#EXTINF:0 group-title="Футбол",Setanta Sports 1 Baltic
+https://go.skym3u.dev/live/9b33d7/704892f65146bce617ba16564c868d6b90f3bb2425a9270fb4ab91bbcb85fc3cce05cc7a699d68b76347a1693d0f285221156999faab8cdb9872aefb52d4f2f0644031e3a483d065c7519fb2da05b1eec1d382a3965250de90335adecdb4c1db07eaf956561f7c8ceaf1e10cfaa26a37d107cb3ca40452abf41f66d8b535a835882d7b6263a21660196cc693274eee59fa86e100ce1ffd8a1569c240d550532a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/setanta-prem-ua.png" tvg-id="setanta-prem-ua",Setanta Sports Premium
+https://go.skym3u.dev/live/9b33d7/a9f57606ca107b0a32d227aa1aa78b86d3c6ee3e83271ed90453a8b0a11a827d3af8ca80f26a4bf71ac0c9a3a04d1ff5e4b02d27853046201c80fcc1639333fee3bec8ba228686127641fc110248165f3ec16fe3e0018334da1c0cdd2f7104060532d9388850c228ff53a3f8c8436562c0e75f7a9a6d0e0ccd2bace2330d0eab814a2938e507b753852d9c5b169730d15f12eb9cf82401bf641844efac064598.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/setanta-ua.png" tvg-id="setanta-ua",Setanta Sports Ukraine
+#http://ru1.plist.link:3355/RNaoWLSkV5b2146/index.m3u8?token=nLVo5iYzf6PuKC_59pJYa3nTUajvBD3WDPAx27NuPQQKaHQgm0B2K0SEllR21p9C.zmeich
+https://go.skym3u.dev/live/9b33d7/273c76b1a876458c2bafa13a1394c814f857e1a83cce98a97c7191d28ee17bb48a2802a3edfda1c2e32efe005a9075aa0c9770e87ce44088c724655ff03aa3f7690853936760b0dc9efac43cee32daae62b6729b93f7d9b2a2.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://r9jgzc02.russtv.net/iptv/RDXD2KKG257QK5/15183/index.m3u8
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/setanta-sports-plus.png" tvg-id="setanta-sports-plus",Setanta Sports+
+#http://ru1.plist.link:3355/RNaoWLSkV5b920073/index.m3u8?token=ktSlluyLH7abBHsNCf4k1-RVJmC8aSJWGYetqhj1krlgkyjIUg0OAi7uinnFApz9.zmeich
+https://go.skym3u.dev/live/9b33d7/b80968d903ed01e27a5c03905e384bb75b4ad73ed7ee5fccee3039bb6dc26507a9ce4547cfa330839950d86d838a545a63ebab74e285a1bb9b5b3cd3f8f56de8b9578e9ff55dde7941c4dddc85fd63c1d85b974856e4cc52aee898.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#http://r9jgzc02.russtv.net/iptv/RDXD2KKG257QK5/5068/index.m3u8
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/setanta-plus-ua.png" tvg-id="setanta-plus-ua",Setanta Sports+ Ukraine
+https://go.skym3u.dev/live/9b33d7/6542cd16ecbc131f9faa5537bc5dfde507991c9d95a8294b9b00e6154c464407906ed37002b975d765aafc689b68c689d038f580c40f17742af397fad9d0a13d19ae5a7d36e3ab115c29da99f83b198269981c53662a12fde9e139d1c93989a571ccb4332715e29b8fd112c48b3f1b6b57483bcd3dcee443cf905f75c8d05d8f5e203ea0e215a6a79943312dac3ed725b5603a832025875d898dd715cdf754.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/Sky%20Sport%20Bundesliga%20HD%20DE.png",Sky Sport Bundesliga
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sport-bl1.png" tvg-id="sky-sport-bl1",Sky Sport Bundesliga 1
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/Sky%20Sport%20Bundesliga%2010%20DE.png",Sky Sport Bundesliga 10
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sport-bl2.png" tvg-id="sky-sport-bl2",Sky Sport Bundesliga 2
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sport-bl3.png" tvg-id="sky-sport-bl3",Sky Sport Bundesliga 3
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sport-bl4.png" tvg-id="sky-sport-bl4",Sky Sport Bundesliga 4
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sport-bl5.png" tvg-id="sky-sport-bl5",Sky Sport Bundesliga 5
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sport-bl6.png" tvg-id="sky-sport-bl6",Sky Sport Bundesliga 6
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/Sky%20Sport%20Bundesliga%207%20DE.png",Sky Sport Bundesliga 7
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/Sky%20Sport%20Bundesliga%208%20DE.png",Sky Sport Bundesliga 8
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/Sky%20Sport%20Bundesliga%209%20HD%20DE.png",Sky Sport Bundesliga 9
+#EXTINF:0 group-title="Футбол" tvg-logo="http://icon.ru-tv.site/icon/SKY%20SPORTS%20PREMIER%20LEAGUE%20UK.png",Sky Sport Prem League
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sports-football.png" tvg-id="sky-sports-football",Sky Sports Football
+https://go.skym3u.dev/live/9b33d7/c78618b018adac9ad805b3d715a6b6721ffb5d7df4b3f98b5041776a4ed69e3425f6faa6ae1062e7967255dad0ca2702ec6a012be39abb4e4ea3f46932d824d22d349a0f4d93a016a7170eb664086bb363692ad336f5bd0f3877.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/sky-sports-apl.png" tvg-id="sky-sports-apl",Sky Sports Premier League
+https://go.skym3u.dev/live/9b33d7/ce47b736ae2d2b761ef33952c9c0bd8c0fe668606afd9d0cbcbb438aefe50a2e065bbd9cd4a78a3740954057e64ca7b12f825ff104fc666d09039022d0319688115475a1bde789aa4f50b638b2a58ef522e3b57600ac68bc6dee.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Футбол",Sporting TV
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/upltv.png" tvg-id="upltv",UPL.TV
+#EXTINF:0 group-title="Футбол" tvg-logo="https://iptvx.one/picons/setanta2-kz.png" tvg-id="setanta2-kz",Setanta Sports 2 KZ
+#EXTINF:0 group-title="Футбол",QSport 1 League (KZ)
+# Хоккей
+#EXTINF:0 group-title="Хоккей" tvg-logo="https://iptvx.one/picons/xokkejny.png" tvg-id="xokkejny",Хоккей ТВ
+https://go.skym3u.dev/live/9b33d7/56a20ecaac136485e7f590345cffc8436ca06fe48eb158752a9d2fd74dc22c28e31acd0f08e514f807d008927355a4254a88f326f224b907d32f38ff0780ecda72cb722ff56d35800cd5b946a96eecd4801b90499d38d480681aea173273aee897d873db18887a35c35e1ec1c6318b777dc951943e36265cf39f7dc8ee52bace1ecee0cc21af4b6063ed5dd12e7c9e0275efd8445988cf9e5a4f970b3c29a712b9.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Хоккей" tvg-logo="https://iptvx.one/picons/kxl.png" tvg-id="kxl",KHL
+#http://ru1.plist.link:3355/RNaoWLSkV5b0034/index.m3u8?token=ktSlluyLH7abBHsNCf4k1_9GswedXhRs4Zy19pzWvdMQosyTXxm5f3511zKoOoaF.zmeich
+#EXTINF:0 group-title="Хоккей" tvg-logo="https://iptvx.one/picons/kxl-hd.png" tvg-id="kxl-hd",KHL Prime
+https://go.skym3u.dev/live/9b33d7/71cae4c102d5689a26a88ab793476632b66ca1607be9a55efb7b2b29abaa52d31035c723974a926ce84de9d83bafab36eb136288fcaeef13c81771cb63f46650706c2ae9f38f64816284047602879300a6c5ffb2c8be644c43ca88efb1adef4dff4cab129fda76769fe4c754afe8d144b3c9a6123a82f88cae4bd80273fe3485abfcda78be335cb9d17006bbd13138108a7eddadd5576cf1bb78a5cd09387e.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Хоккей" tvg-logo="https://iptvx.one/picons/nhl-network-us.png" tvg-id="nhl-network-us",NHL Network
+#EXTINF:0 group-title="Хоккей",NHL AntenaPlay
+https://go.skym3u.dev/live/9b33d7/ca6b58ad77c032b0f0a9f408c9ec75ced373750548799b208160e289e730ca93e59ccb1c64c7b1cedd7710696e26bfe0a34c5127e18e01727fcabf38757a9a5dbbefa5fcff013d0eb091d2523e9f8f53230ae49585fedc03619a.m3u8?s=a79dc12c&id=uy2qkk.m3u
+# Экстрим
+#EXTINF:0 group-title="Экстрим" tvg-logo="https://iptvx.one/picons/fastfunbox-hd.png" tvg-id="fastfunbox-hd",Fast & Fun Box
+https://go.skym3u.dev/live/9b33d7/5cb56dc13ff9b004a463856e1bd1c63663df3025a72af25a3b0558cdca33e2db4d9018d9d9a925fc53ebb1e1c6799d228a0cfa2d2843cd1c3dfcd20b72b5259524db85296be7a058d63482b7665128d9ad02c93158304157b7e64b1b381677ff22d9cb3b7098d5e80ea76ad27096810152ef3ccb72d41ad33aa5ae3d80fb88a230be114e2c8d7bb85a655a8f1f56db84f423541970e42ee112bdc1b05265f18f350c627b29fe8be01238b54bf8cd44860e2596cb6049b527bf3a2b50914e86a1216569bfa3e6f301f89796232112f43363955c5a3cfe985ee57e73daccfa.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#https://1a3566cb46914c5499fbc86fbc4ac87e.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-932-WORBUKENFAST-WHALETVPLUS/932/whaletvplus/hls/master/playlist.m3u8
+#EXTINF:0 group-title="Экстрим" tvg-logo="https://iptvx.one/picons/russky-ekstrim.png" tvg-id="russky-ekstrim",Русский Экстрим
+#EXTINF:0 group-title="Экстрим" tvg-logo="https://iptvx.one/picons/extreme-sports.png" tvg-id="extreme-sports",Extreme Sports
+https://go.skym3u.dev/live/9b33d7/c58a848b9c922a4326f91570bad7cab582d91a04daa5b8647b6f506deefb34d3ce60e01d0b21d8689e7d29d70b2b5400348614a9dddc655e022c8f80e9c2c339bebf6da2.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#EXTINF:0 group-title="Экстрим" tvg-logo="https://iptvx.one/picons/russian-extreme-uhd.png" tvg-id="russian-extreme-uhd",Russian Extreme Ultra
+#http://ru1.plist.link:3355/RNaoWLSkV5b6378/index.m3u8?token=RnB2Bv92G9VHcaJG_xDsy6zY00c50sf0058s9lzpXszVW_NghYgEl61RbUgorVKa.zmeich
+#http://tv.ott.pp.ru/85c377fea16afe752aba5691e3c0a/video.m3u8?token=88ye8zibkt
+#EXTINF:0 group-title="Экстрим" tvg-logo="https://iptvx.one/picons/trace-sport-stars.png" tvg-id="trace-sport-stars",Trace Sport Stars
+https://go.skym3u.dev/live/9b33d7/160f2f9aa5b722cfdf2d09984064009e78fb5525fea31d01c4c6d3486e3f4b481013341861f230c978090c9fd05e8825611fdef25793d09e0f6cc7fe6ce1872b70bca968.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#https://channels.trace.plus/Traceprod/TRACE_SPORT_STARS_sd/index.m3u8
+#http://stream.mcquack.net/256/tracks-v1a1/mono.ts.m3u8
+#https://s7.iptv-24.net/1274/tracks-v1a2a1/mono.m3u8
+#https://s7.iptv-24.net/1274/tracks-v1a1a1/mono.m3u8
+#EXTINF:0 group-title="Экстрим",Red Bull TV
+https://go.skym3u.dev/live/9b33d7/705b33823cb475d2ad26284489fe53793c7d90493a7509bce5667521bad9539396535aec9d0422fb04b0737ee048f6cce146a2f116090c0f1e7b11c1b5b324e379020c0a39f59a5d560783059337ec5d52045d658718ee26d5c5dfeb80b67df75eb00bd67774c35adb67b6f5e432c924ba7c6c59b558cada1c7a466b499d99ee522000a319bd744b1ccbc92a14cbd4d51a9296ba6d3183.m3u8?s=a79dc12c&id=uy2qkk.m3u
+#https://886bd3fbc782459f8de7555d32d7e9ce.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-957-WORBLATAMESFAST-WHALETVPLUS/957/whaletvplus/hls/master/playlist.m3u8
+#https://46cfeb23c7f74853bba7a256655a3119.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-582-WORBDACHDEFAST-WHALETVPLUS/582/whaletvplus/hls/master/playlist.m3u8
+#https://db34cc6127ac459db55cab5f97cd66b9.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-680-WORBAUENFAST-WHALETVPLUS/680/whaletvplus/hls/master/playlist.m3u8
+#https://0b73ace69ebb45eaa249bb87837cb958.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-644-WORBUSENFAST-LG_US/644/lgtv/hls/master/playlist.m3u8
+#https://d03ae6b5c6724c24867e97a3dc04934a.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-1026-WORBBRPTFAST-WHALETVPLUS/1026/hls/master/playlist.m3u8
+#https://1a3566cb46914c5499fbc86fbc4ac87e.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-932-WORBUKENFAST-WHALETVPLUS/932/whaletvplus/hls/master/playlist.m3u8
+# Триколор
+#EXTINF:0 group-title="Триколор",Триколор Спорт 1
+#EXTINF:0 group-title="Триколор",Триколор Спорт 2
+#EXTINF:0 group-title="Триколор",Триколор Спорт 4
+#EXTINF:0 group-title="Триколор",Триколор Спорт 3
+#EXTINF:0 group-title="Триколор",Триколор Спорт 5
+#EXTINF:0 group-title="Триколор",Триколор Спорт 10
+#EXTINF:0 group-title="Триколор",Триколор Спорт 12
+#EXTINF:0 group-title="Триколор",Триколор Спорт 11
+#EXTINF:0 group-title="Триколор",Триколор Спорт 13
+#EXTINF:0 group-title="Триколор",Триколор Спорт 14
+#EXTINF:0 group-title="Триколор",Триколор Спорт 15
+#EXTINF:0 group-title="Триколор",Триколор Спорт 16
+#EXTINF:0 group-title="Триколор",Триколор Спорт 17
+#EXTINF:0 group-title="Триколор",Триколор Спорт 19
+#EXTINF:0 group-title="Триколор",Триколор Спорт 20
+#EXTINF:0 group-title="Триколор",Триколор Спорт 21
+#EXTINF:0 group-title="Триколор",Триколор Спорт 22
+#EXTINF:0 group-title="Триколор",Триколор Спорт 23
+#EXTINF:0 group-title="Триколор",Триколор Спорт 24
+# ViP
+#EXTINF:0 group-title="ViP",ViP Sport 1
+#EXTINF:0 group-title="ViP",ViP Sport 2
+#EXTINF:0 group-title="ViP",ViP Sport 3
+#EXTINF:0 group-title="ViP",ViP Sport 4
+#EXTINF:0 group-title="ViP",ViP Sport 5
+#EXTINF:0 group-title="ViP",ViP Sport 6
+#EXTINF:0 group-title="ViP",ViP Sport 7
+#EXTINF:0 group-title="ViP",ViP Sport 8
+#EXTINF:0 group-title="ViP",ViP Sport 9
+#EXTINF:0 group-title="ViP",ViP Sport 10
+#EXTINF:0 group-title="ViP",ViP Sport 12
+#EXTINF:0 group-title="ViP",ViP Sport 11
+#EXTINF:0 group-title="ViP",ViP Sport 13
+#EXTINF:0 group-title="ViP",ViP Sport 14
+#EXTINF:0 group-title="ViP",ViP Sport 15
+#EXTINF:0 group-title="ViP",ViP Sport 16
+#EXTINF:0 group-title="ViP",ViP Sport 17

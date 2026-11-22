@@ -1,0 +1,515 @@
+#EXTM3U x-tvg-url=""
+#EXTINF:-1 tvg-logo="https://imgur.com/ocyTxpw.png" group-title="SkyM3U Promo",Skym3u Official - Visit Skym3u.dev
+https://vods2.aynaott.com/gseriesDrama/tracks-v1a1/mono.ts.m3u8
+#EXTINF:-1 tvg-id="00sReplay.us@SD" tvg-logo="https://images.pluto.tv/channels/62ba60f059624e000781c436/colorLogoPNG.png" group-title="Movies",00s Replay
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e571815705270116604515654085f5f035e49105240095d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="24HourFreeMovies.us@SD" tvg-logo="https://i.imgur.com/iSVnzR1.png" group-title="Movies",24 Hour Free Movies (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5e5e540d44574747185a5812421b1a4f2f4124422d5d0d161f560a1b1b151b1b03174a1f0713055f56114624412c4112531016544a405e0053561e550607.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="30ATVClassicMovies.us@SD" tvg-logo="" group-title="Movies",30A TV Classic Movies (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e175c5f554b0c054810501e4d074f49510a0c304e215e70015303454e0200420f1d00481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="70sCinema.us@SD" tvg-logo="https://i.imgur.com/mgXeEE4.png" group-title="Movies",70s Cinema
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4a011d1b770c24173b035a0002085f5f03024a16514b0d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="80sRewind.us@SD" tvg-logo="https://i.imgur.com/nkEeYfI.png" group-title="Movies",80s Rewind
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4f544c11755676116f500650040f5e0a075f4c4005450c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="90sKids.us@SD" tvg-logo="https://images.pluto.tv/channels/6452c814939a590008567a3b/colorLogoPNG_1731836283044.png" group-title="Kids",90's Kids
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c18004b407805741d6c0b025708085f5f0c534e4407405d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="90sKidsTV2.us@SD" tvg-logo="https://images.pluto.tv/channels/6452c77ed3fdde00080eb3a8/colorLogoPNG.png" group-title="Kids",90s Kids TV 2
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c18004b40770325406c54070654085f5f0c561d115512075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="90sThrowback.us@SD" tvg-logo="https://i.imgur.com/KoGko6M.png" group-title="Movies",90s Throwback
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4a011d1b765275156601565a50085f5f03541a4a514b5a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ABCKids.au@Sydney" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/2/29/ABC_Kids_%282020%29.svg/revision/latest/scale-to-width-down/512" group-title="Kids",ABC Kids
+https://go.skym3u.dev/live/339d5/28502b4210581e170c41590c105d08091012000207475c1d506e59735167.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="AkiliKids.ke@SD" tvg-logo="https://i.imgur.com/xFm2co6.png" group-title="Kids",Akili Kids!
+https://go.skym3u.dev/live/339d5/28502b4210581e1702591a0a110503105b1d4c08450354124a2c5d2b4d3b414d015e16040a1b07131a0a1a541a0612045f58104f6f442c45265e0a114516025c415e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="AlloCine.cm@SD" tvg-logo="https://raw.githubusercontent.com/songwenhui239/Songwenhui239/refs/heads/main/Allo%20Cine.jpeg" group-title="Movies",Allo Cine (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5e4d0a4e11004757011803581c1b1a4f2f4124422d5d0d161f560a1b1b10495c0b124c070713051f024b1123027045670356010001560b0d0548160040091057031d1f511815785576163d025a0600170c0c1953131e55094c471812135f45490c21582c4b715f501709.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="AMC.us@EastHD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png" group-title="Movies",AMC (United States) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c410655415d55421141545b12150d400c2159230b365c07074916025c415e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="AmericanHorrors.us@SD" tvg-logo="https://image.roku.com/developer_channels/prod/16f5571a82819e8992a748c70b256cbe63105f4b546b73d129668dc2cb701d91.png" group-title="Movies",American Horrors (480p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f581a574e4448441142545310140541126f442c45265e0a1145170e025c090a5c161f5e0a0e0859581b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Aqlvoy.uz@SD" tvg-logo="https://i.imgur.com/ekF5cAi.png" group-title="Kids",Aqlvoy
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e5e5d5c1a0c04584d58180d354e6f156d02564d454a0e0c5f15550557120e5c0f0e44431b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="AXNBlack.us@Hungary" tvg-logo="https://i.imgur.com/Peo1QiZ.png" group-title="Movies",AXN Black (United States) Hungary (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095b5e1a5f4c5d574a0c5d5752054d4d177c22582147341d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BabySharkTV.us@SD" tvg-logo="https://i.imgur.com/SbBKr8L.png" group-title="Kids",Baby Shark TV (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17010a430f1c10095e5d1200185944540b4834426d157247104c4357041a1a110d010a5d4b054d11464d4c154a33406e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BabyFirst.us@US" tvg-logo="https://i.imgur.com/WxLHBwu.png" group-title="Kids",BabyFirst (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a481e12150711191511045f500b55295725577044524d52500e015a03145c572c553154581e1c70107c14422852167a272e1e550e015d001d00125d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BabyTV.uk@UK" tvg-logo="https://i.imgur.com/4BDJ5FT.png" group-title="Kids",BabyTV (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d58410554405d54400e5d53561b160d491b701b73156f1d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BBCKids.us@SD" tvg-logo="https://i.imgur.com/vKUD64a.png" group-title="Kids",BBC Kids (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b024657104715185b120e58420256154c35502656305c174c5f5d1b40440a190a0a1a4c074c0c19590d.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BETCinema.us@SD" tvg-logo="https://images.pluto.tv/channels/58af4c093a41ca9d4ecabe96/colorLogoPNG_1759338280891.png" group-title="Movies",BET Cinema
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f14541f17230479173e06520150010b5b51051911034a095d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BETComedyMovies.us@SD" tvg-logo="https://images.pluto.tv/channels/68c32d88f56983aba40052bd/colorLogoPNG_1759246622596.png" group-title="Movies",BET Comedy Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c14564a11240c78426a045a5a02590d0e0056484654115b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BETVisionaries.us@SD" tvg-logo="https://images.pluto.tv/channels/663946c1b18d700008d9c168/colorLogoPNG_1759338795452.png" group-title="Movies",BET Visionaries
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1a064017765771466e0a075501085f5f0c0241105745075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Boomerang.us@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Boomerang_2014_logo.svg/960px-Boomerang_2014_logo.svg.png" group-title="Kids",Boomerang (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d212d7e752a3d75283f5c0f1d5b161a4f471f4041.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="BratTV.us@SD" tvg-logo="https://i.imgur.com/Kkcp9Bk.png" group-title="Kids",Brat TV (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e154111000d074b5f415757361b3615705f0211455d1d4002574917514a5d4253031d1b504b457503711d6c06050609080c0e0552494052460c4455534b4f025613740477163d045b4f555b590e19521c46035e064b0307074a064c15225578406a0255511e48030e4d0a1100125d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CampSpoopy.us@SD" tvg-logo="https://img2.static-ottera.com/prod/tg/linear_channel/logo/640x360/camp-spoopy-2021_1920-x-1080_option-5.jpg" group-title="Kids",Camp Spoopy (576p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e48125b004c0e5e58500b426e40360b2f5e021b5d511c1b1a0b4b065e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CartoonitoCEE.uk@Poland" tvg-logo="https://i.imgur.com/9MrzLb1.png" group-title="Kids",Cartoonito CEE Poland (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d58410554405d54400e5d53561b160d491b701b73146c1d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CBeebies.pl@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/1/16/CBeebies.svg/960px-CBeebies.svg.png" group-title="Kids",CBeebies (Poland) (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e015d4105574c5d5e46114b555b121c044e0c3058215d70535352051706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Charge.us@SD" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/09/Charge!_network_logo.png/revision/latest/scale-to-width-down/512/" group-title="Movies",Charge! (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17090e471255100e12511d070d590246104d2358214d2d41170d434103065a035610091e10302a20786b70564a2e50255c715f501709.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CINDIETV.br@HD" tvg-logo="https://a.jsrdn.com/hls/23208/cindie-tv/logo_20250225_222520_68.png" group-title="Movies",CINDIE TV (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0c190e09045e060a01530f59445f1a0d215f21493e5b19075516010a40490b100e165b060e045803461a4b255035483a7f0211455d1d4007534a5d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CineRomantico.us@SD" tvg-logo="https://i.imgur.com/FUrrDrb.png" group-title="Movies",Cine Romantico (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5e470f4b1d57004b470c0a4d4e1b1a4f2f4124422d5d0d161f560a1b1b5748465641104b5a59121a0548126f5c2c57705f0211455d1d4159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CineSony.us@SD" tvg-logo="https://i.imgur.com/bZWoDTg.png" group-title="Movies",Cine Sony (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e425702165d0d1f500406155c0256164e6f5829523a034c0158560a3003544803490353121b0d435f41574e734178.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CinemaWorld.my@SD" tvg-logo="https://i.imgur.com/D2qNVZ7.png" group-title="Movies",CinemaWorld (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e5602041a0f1712161811100d0c1019054c136f002750291f0f0b475d5f590d49111d0216475d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Cinemax.us@West" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Cinemax_2016.svg/960px-Cinemax_2016.svg.png" group-title="Movies",Cinemax (United States) West (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d202b7f7d222e6c392f363527101a0c054f541b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CinemaxClassics.us@East" tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/6/66/Cinemax_Classics_Logo.png/960px-Cinemax_Classics_Logo.png" group-title="Movies",Cinemax Classics (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d563165793d22753e571a08175a0b4c0c19590d.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CinemaxHits.us@East" tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/Cinemax_Hits_Logo.png/960px-Cinemax_Hits_Logo.png" group-title="Movies",Cinemax Hits (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d2e2d637d222e6c49111d0216475d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Cinevault80s.us@SD" tvg-logo="https://i.imgur.com/xaCyyDd.png" group-title="Movies",Cinevault 80s (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e0a530f0b5e051f5006060758435b0d0e711a34513d5b4d14585c0a001b03194207110a17534c4c19004d0e745276467250535157155d5905571e10024a0b415756055c59185a2c5d3350715f501709.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ClassicCinema.us@SD" tvg-logo="https://i.imgur.com/FJoPnTb.png" group-title="Movies",Classic Cinema (240p) [Not 24/7]
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1f5a481a1c1c094b054c0245411a1e5633556f432a41024f52540e1c470f1b100f1d5a1e034e4342511c5b6e59735167.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ClassicMoviesChannel.us@SD" tvg-logo="https://i.imgur.com/pQJxov2.png" group-title="Movies",Classic Movies Channel
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f1a041a16220424453b53565357005f5f00054c175e460a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="CTBPerthMoviesChannel.au@SD" tvg-logo="https://i.imgur.com/VB8gtCy.jpeg" group-title="Movies",CTB Perth Movies Channel (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170200420f1d0048104b11120458585d574d25406e452a1d0b0e42171c1b4603191e481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DiscoveryKids.in@SD" tvg-logo="https://i.imgur.com/0iNQvoL.png" group-title="Kids",Discovery Kids (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b1d5f5000025605571d4c065a4f51170d2e51340b335b15071e5c061c57090e16140a60180b055973541b516f5d2e403a4a4d0f024d57.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyChannel.in@HD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_DISNEY_CHANNEL_HD/images/LOGO_HD/image.png" group-title="Kids",Disney Channel (India) HD (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0e594105564a5d5741095d535110140549136f442c45261d0252000b40065a021d0b481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyChannel.pl@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/3/3d/2022_Disney_Channel_logo.svg" group-title="Kids",Disney Channel (Poland) (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d58410554405d54400e5d53561b160d491b701b7213671d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyChannel.us@East" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/2024_Disney_Channel_text_logo.svg/960px-2024_Disney_Channel_text_logo.svg.png" group-title="Kids",Disney Channel (United States) (720p) [Geo-blocked]
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5e5d1a53564252471142575705485c0a4d254d6f4d3156061a1f555c1a0c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyInternationalHD.in@SD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_DISNEY_INTERNATIONAL_HD/images/LOGO_HD/image.png" group-title="Kids",Disney International HD (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010957405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyJunior.in@SD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_DISNEY_JUNIOR/images/LOGO_HD/image.png" group-title="Kids",Disney Junior (India) (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010959405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyJunior.us@East" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/2024_Disney_Jr._Logo.svg/960px-2024_Disney_Jr._Logo.svg.png" group-title="Kids",Disney Junior (United States) (480p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191c51084d5d070a51121102455c50574d25406f4036410d07481706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DisneyXD.us@East" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/2015_Disney_XD_logo.svg/960px-2015_Disney_XD_logo.svg.png" group-title="Kids",Disney XD (United States) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d272b62762a366b3e3c5c0f1d5b161a4f471f4041.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DoraTV.us@CA" tvg-logo="https://i.imgur.com/zJuSbmU.png" group-title="Kids",Dora TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e5040167106751c3e00550605085f5f03044b4355475c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ducktv.sk@HD" tvg-logo="https://i.imgur.com/gRFQ35W.png" group-title="Kids",ducktv HD
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e470e4b5d071d4b1a094f59471a154a36516f402a51083d454e40065a021d0b481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="DUST.us@SD" tvg-logo="https://i.imgur.com/FxYhME9.png" group-title="Movies",DUST (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b1e5d51190a124150415607440256154c35502656305c174c5f5d1b40440a190a0a1a4c074c0c19590d.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ETVBalBharat.in@SD" tvg-logo="https://i.imgur.com/zsTxPV9.png" group-title="Kids",ETV Bal Bharat (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a57404648410b5d53521e16064913711b0570091f21237d152d2775343927491a511707190441060c1b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Filmazia.pk@SD" tvg-logo="https://i.imgur.com/hpTCANa.png" group-title="Movies",Filmazia (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a544d434841075d555510140549136f442c45261d0252035340065a021d0b481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FILMBOXPlusAction.pl@HD" tvg-logo="https://spiintl.com/data/files/kcfinderUploadDir/images/filmboxplus/filmbox%2Baction.png" group-title="Movies",FILMBOX+ Action (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e015d4105574c5d5e46114b555b121c05410c3058215d70535352061706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FILMBOXPlusComedy.pl@Romania" tvg-logo="https://spiintl.com/data/files/kcfinderUploadDir/images/filmboxplus/filmbox%2Bcomedy.png" group-title="Movies",FILMBOX+ Comedy Romania
+https://go.skym3u.dev/live/339d5/28502b4210581e170100470f1f1d071f0e5d030f5e495b18532c55390a2d5d4c0a5d4b4009564b1b1c0b165b0a4f094e035c1747254c6e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FILMBOXPlusFestival.pl@SD" tvg-logo="https://spiintl.com/data/files/kcfinderUploadDir/images/filmboxplus/filmbox%2Bfestival.png" group-title="Movies",FILMBOX+ Festival
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0e470e4b5d071d4b1a094f59471a154a36516f503a41173d575103025609002c07014b1b0d1459496a18572b6b71166f024c125d5916035d150c5d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FILMBOXPlusFestival.pl@HD" tvg-logo="https://spiintl.com/data/files/kcfinderUploadDir/images/filmboxplus/filmbox%2Bfestival.png" group-title="Movies",FILMBOX+ Festival HD (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170100470f1f1d071f0e5d030f5e495b18532c55390a2d5d4c0a5d4b4009564b1e1615075605030d074451564a2e50255c715f501709.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FILMBOXPlusLoveCrime.pl@Romania" tvg-logo="https://spiintl.com/data/files/kcfinderUploadDir/images/filmboxplus/filmbox%2Blove-and-crime.png" group-title="Movies",FILMBOX+ Love & Crime Romania
+https://go.skym3u.dev/live/339d5/28502b4210581e170100470f1f1d071f0e5d030f5e495b18532c55390a2d5d4c0a5d4b4009564b141c101612120c05074f47104e25193340705b0d0654404102071340.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FilmRiseForensicFiles.us@SD" tvg-logo="https://i.imgur.com/8j2npVc.png" group-title="Movies",FilmRise Forensic Files (720p) [Geo-blocked]
+https://go.skym3u.dev/live/339d5/28502b4210581e171f0d191e4102150b4d0606085b15514b0d215f21493e5b19075516010a40490f1604054b074d171b030441167800231739010250500c0b090c49404b5e4b094353550541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FlicksofFury.us@SD" tvg-logo="https://i.imgur.com/rtL5L81.png" group-title="Movies",Flicks of Fury
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f14504c16220574453b0a065b520b595b50534d155142085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ForeverKids.us@SD" tvg-logo="https://i.imgur.com/deeQqYZ.png" group-title="Kids",Forever Kids
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f1a044e12265526453b53565357005f5f00054c115243595d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="FrightFlix.us@SD" tvg-logo="https://i.imgur.com/rgNQYAl.png" group-title="Movies",FrightFlix (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4b064c5e0700595818480d275134542a500f0b5259410c5b0b57030a12461f0b125e02584a5678.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GarfieldandFriends.us@US" tvg-logo="https://i.imgur.com/evzfe9C.png" group-title="Kids",Garfield and Friends
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b021f1a720375116b54575155590b5b56554a465e125e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GiggleMug.us@SD" tvg-logo="https://i.imgur.com/NbNHJXo.png" group-title="Kids",Giggle Mug (576p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171b19470316454812461d030e5e581b1a4c2d1b3950291d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GirlfriendsFilms.us@SD" tvg-logo="https://i.imgur.com/hCcdrOv.png" group-title="Movies",Girlfriends Films
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1a571812250074106905555050085f5f0c534d10024b085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GravitasMovies.us@SD" tvg-logo="https://i.imgur.com/H2hD4vT.png" group-title="Movies",Gravitas Movies (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5950014b160416561b5550520256154c35502656305c174c5f5d1b40731419050f075e003d2c455a5c1c506e59735167.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GREATmovies.uk@UK" tvg-logo="https://d2n0069hmnqmmx.cloudfront.net/epgdata/1.0/newchanlogos/512/512/skychb3709.png" group-title="Movies",GREAT! movies (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649445340121d0313584d41105525412b093e5f0452000f5a5c5755551f015e58114f50121f0657532c55394b2a46104c5f571841550b19140f5d4b054d11464d4c154a33406f4532555353060d5c425a070a010707560507144101520b4621402d4b295b06111c5408085649081f070a531a11150441060c1b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GREATromance.uk@UK" tvg-logo="https://d2n0069hmnqmmx.cloudfront.net/epgdata/1.0/newchanlogos/512/512/skychb3643.png" group-title="Movies",GREAT! romance (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649445340121d0313584d41105525412b093e5f0452000f5a5c5754551f015e58114f50121f0757532c55394b2a46104c5f571841550b19140f5d4b054d11464d4c154a33406f4532555353060d5c425a070a010707560507144101520b462140234c2d5b10165c591c4258011f11490353121b0d435f41574e734178.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="GrjngoWesternMovies.de@SD" tvg-logo="https://i.imgur.com/wFqhK3p.png" group-title="Movies",Grjngo Western Movies (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e025b01171d0307481c1019074b47134d275b6d177256084c4259021c41081f5d11064d1f4c155c03451542395829572b1c0e514400.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="HallmarkMoviesMore.us@SD" tvg-logo="https://provider-static.plex.tv/epg/cms/production/29af70d1-d3ba-4a16-bc4d-bd99e7e7def4/hallmark-movies-and-more_color.png" group-title="Movies",Hallmark Movies & More (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0d46044c4a1619500a0f061e0256154c35502656305c174c5f5d1b404257571e07004b16104e194a501a10250123453c015a03040a0d5d05554a155f10094501591948541c13740724476e0507561e481d0050391c1600124a1f163e525958160e215933093e45104d5c591c1b5114561e550607.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="HappyKids.us@SD" tvg-logo="https://i.imgur.com/cPrUCFw.png" group-title="Kids",HappyKids (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b06585f001710015a0712514c0256154c35502656305c174c5f5d1b405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="HITSMovies.sg@SD" tvg-logo="https://i.imgur.com/kyE3vXf.png" group-title="Movies",HITS Movies (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010907405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="iCarly.se@SE" tvg-logo="https://images.pluto.tv/channels/61c0b9aab7facb0007913908/colorLogoPNG.png" group-title="Kids",iCarly (Sweden)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d56481b7504741d3a02010654085f5f035e4a435640065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="iCarly.se@DK" tvg-logo="https://images.pluto.tv/channels/61c0b9aab7facb0007913908/colorLogoPNG.png" group-title="Kids",iCarly (Sweden) DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564941795521466854020153085f5f035f49405f43075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="iCarly.se@NO" tvg-logo="https://images.pluto.tv/channels/61c0b9aab7facb0007913908/colorLogoPNG.png" group-title="Kids",iCarly (Sweden) NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564847795673153e0b005100085f5f0c0040160346085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="IFC.us@East" tvg-logo="https://i.imgur.com/bQdkyF9.png" group-title="Movies",IFC (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d2a24721706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="iFilmEnglish.ir@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/b/b9/IFILM.png" group-title="Movies",iFilm English
+https://go.skym3u.dev/live/339d5/28502b4210581e1703064203560314164c001617044f5a57562b1b28482c1d0a045854020a5a481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="IuniorTV.it@SD" tvg-logo="https://i.imgur.com/FBOJnfT.png" group-title="Kids",Iunior TV (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e175a0906541c4450160d4152041b02460d5125552d483051084c5f5d1b405d13161a09014b054d085f425c165134426f4737470d095d511c1b6b114f44524b084a51531202584a5678.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="JimJamEurope.uk@SD" tvg-logo="https://i.imgur.com/ODhkYyx.png" group-title="Kids",JimJam Europe (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5e5d1a53564252471142575710140541136f5e294935530e4d58560b0a4c481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="KartoonChannel.us@SD" tvg-logo="https://i.imgur.com/1luzP3T.png" group-title="Kids",Kartoon Channel! (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170306530e0c1d0f1d585e040f4c0146184e33412e433e47104c50550e085d480c05490353121b0d435f41574e734178.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="KetchupTV.us@SD" tvg-logo="https://i.imgur.com/XRGioQX.png" group-title="Kids",Ketchup TV (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5d00164107104148461b0e58421b1a4f2f4124422d5d0d161f560a1b1b101717481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="KidoodleTV.ca@SD" tvg-logo="https://i.imgur.com/MaFtbM5.png" group-title="Kids",Kidoodle.TV (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e0253564f4553401212120c4901541444700376116c515a4f4259021c41081f5e1300124b55551a02451542395b35502c1c0d0d46160e025501115d120510030e0053405c0a576e59735167.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="KidsZone.pk@SD" tvg-logo="https://i.imgur.com/mJWBVH1.png" group-title="Kids",Kids Zone (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a544d434841075d555510140549136f442c45261d0252055540065a021d0b481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="LegoChannel.us@SD" tvg-logo="https://i.imgur.com/xePwW13.png" group-title="Kids",Lego Channel (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b03400f0911090b550450504e0256154c35502656305c174c5f5d1b405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="LEGOKidsTV.us@SD" tvg-logo="https://i.imgur.com/tMfEsVr.png" group-title="Kids",LEGO Kids TV
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1c531b1371557210680b560307085f5f03504a15034b0c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="LifetimeMovies.us@East" tvg-logo="https://i.imgur.com/BWmqYTO.png" group-title="Movies",Lifetime Movies (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d2f2f7f1706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="LittleStarsUniverse.us@SD" tvg-logo="https://i.imgur.com/RasrA0s.png" group-title="Kids",Little Stars Universe
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f1d564e16260322466954515453595e0c505648435641595d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MadeInHollywood.us@SD" tvg-logo="https://i.imgur.com/p16HNIM.png" group-title="Movies",Made In Hollywood
+https://go.skym3u.dev/live/339d5/28502b4210581e170c005a081d10121a501d514c4f4241544d3a1a33453241160c5616181a460a5607105c4f1f03184645460d0d2d07351c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MaverickBlackCinema.us@SD" tvg-logo="https://images.fubo.tv/station_logos/maverick_black_cinema_c.png" group-title="Movies",Maverick Black Cinema (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17020e42030a1a0518121e03174f5e5c1a486d562c453c594e0158560a02554b4b5e130011010d0a5f02420c512c1a345270420f034854061c40481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MBC3USA.us@SD" tvg-logo="https://i.imgur.com/PVt8OPN.png" group-title="Kids",MBC 3 USA (1080p) [Geo-blocked]
+https://go.skym3u.dev/live/339d5/28502b4210581e171c07504b1f10165e531a14040449511e462e5138503c560d4c5f5d1b40580f0e16491156070f0e5c455b544e22576d17724710031e0d0b5a0c544e46074b094103551d1a511a14260d771266060206555a5a0b5102571a08175a0b4c0c19590d.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MBCBollywood.ae@SD" tvg-logo="https://i.imgur.com/TTAGFHG.png" group-title="Movies",MBC Bollywood (1080p) [Geo-blocked]
+https://go.skym3u.dev/live/339d5/28502b4210581e171c07504b1f10165e531a14040449511e462e5138503c560d4c5f5d1b40580f0e16491156070f0e5c455b544e22576d46305e0f1b4657000b1b534c4503110b4306564e4f534042720479166a070706030c56590d564b445047101a0c054f541b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MerryChristmasfromViafree.se@SE" tvg-logo="https://images.pluto.tv/channels/63048147b09fd60007847a08/colorLogoPNG.png" group-title="Movies",Merry Christmas from Viafree
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f054d1b750021476902545155085f5f03544d4a00160e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MerryChristmasfromViafree.se@DK" tvg-logo="https://images.pluto.tv/channels/63048147b09fd60007847a08/colorLogoPNG.png" group-title="Movies",Merry Christmas from Viafree DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f054d1b710077466f0b050607085f5f035e4c440743075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MerryChristmasfromViafree.se@NO" tvg-logo="https://images.pluto.tv/channels/63048147b09fd60007847a08/colorLogoPNG.png" group-title="Movies",Merry Christmas from Viafree NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f054d14225076466f05515453085f5f035f4d4052425b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MinikaGo.tr@SD" tvg-logo="https://i.imgur.com/qIoipDq.png" group-title="Kids",Minika Go (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171d0140120f1e0c10561d4c155f5e5e1746341a25563c560d4c5f5d1b405805081e101659111b0e05415c174a2b55274b705f0a0c58530e085b481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MinimaxCEE.cz@SD" tvg-logo="https://i.imgur.com/WWOlm1x.png" group-title="Kids",Minimax CEE (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e00574106574a5d574611425b4e4645431c0c34513350005f0a0c58550e171b1614121f1f5600164f471f4041.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MoonbugKids.uk@SD" tvg-logo="https://i.imgur.com/vZHtxQb.png" group-title="Kids",Moonbug Kids (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e1702005b081a06015e4d1c09145f5f1b184e2153290a2b444c125d5916035d150c5d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MoviesAction.sa@SD" tvg-logo="https://i.imgur.com/NIVhISa.png" group-title="Movies",Movies Action (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c07504b191e015e591211150449511e462e5138503c560d4c5f5d1b40401e4842575c4f1f03184645460d0d2d07351c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MoviesNow.in@HD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_MOVIES_NOW/images/LOGO_HD/image.png" group-title="Movies",Movies Now HD (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010a18405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MoviesThriller.sa@SD" tvg-logo="https://i.imgur.com/JWihdcl.png" group-title="Movies",Movies Thriller (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c07504b191e015e591211150449511e462e5138503c560d4c5f5d1b40401e4842545c4f1f03184645460d0d2d07351c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Movies.us@SD" tvg-logo="https://i.imgur.com/gAGn3mK.png" group-title="Movies",Movies! (480p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170d004e1c0c054810501e4d055c5e531513731b2840364006014517070b5d141d10125e50050308581d18144c365d25577e1d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Movies.us@KPVMLD" tvg-logo="https://i.imgur.com/gAGn3mK.png" group-title="Movies",Movies! KPVM-LD
+https://go.skym3u.dev/live/339d5/28502b4210581e175d4252150b5e545d4c0710044b415d16503451320a3c5d0e4d4154305e06565741564507465a4c1e18044b1a76066d1570420f034854061c40481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MovieSphere.us@US" tvg-logo="https://i.imgur.com/h1ejU90.png" group-title="Movies",MovieSphere (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e02535648405340121f0b0e445f521857254734513b5b0c4f5c5719065115081b03015a5e1a14474318034b7541700a3e5f020558161b191b1614121f1f5600164f471f4041.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MovieSphere.us@AU" tvg-logo="https://i.imgur.com/h1ejU90.png" group-title="Movies",MovieSphere AU (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e02535648405340121f0b0e445f5218572552294832410a4f5c5719065115081b03015a121712075f541450355a27452a1f54134b500941550b19140f5d4b054d11464d4c154a33406f4532555352020d5c42580f171d15145e0707074340580a4a6d592f5236571012595d1d0a55130b5e15125200170f4d4d4056532c5539483641174c5c0b1a57.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MovieSphere.us@CA" tvg-logo="https://i.imgur.com/h1ejU90.png" group-title="Movies",MovieSphere CA
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c18544a47790226146902065a02085f5f0c071e4551470a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MovieSphere.us@UK" tvg-logo="https://i.imgur.com/h1ejU90.png" group-title="Movies",MovieSphere UK (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170200420f1d00161b5a010714410146184e33412e432a594d035c5908061a120e5c161f5e0a0e0859581b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MovieSphereGold.us@WFXT" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/MovieSphere_Gold_2025_logo.svg/500px-MovieSphere_Gold_2025_logo.svg.png" group-title="Movies",MovieSphere Gold WFXT (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a4b0d04545e4f010d050458460f116e552d45385b4d16471703065a0319014912521452501e1f0d544637472356364213115257021f5508551a091d520a11154f5e4c545721562c4b70420f034854061c40481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MyCinemaEurope.ch@SD" tvg-logo="https://i.imgur.com/jz0d8tH.png" group-title="Movies",My Cinema Europe
+https://go.skym3u.dev/live/339d5/28502b4210581e17001f19010a1c13030e5e0604445f4d0f4a335d2f4a37564e531f5c0a0147480c05491b101b535905455b1d46381a2d172a0a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MyTimeMovieNetwork.uk@SD" tvg-logo="https://i.imgur.com/pw4NZK1.png" group-title="Movies",MyTime Movie Network (United Kingdom) (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e1f440a1d0714165a5e0f185e45581c562b193245344717075f160e025501115d120510030e0053405c0a576e59735167.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="MyTimeMovieNetworkEast.us@SD" tvg-logo="https://i.imgur.com/HYgxPVQ.png" group-title="Movies",MyTime Movie Network East (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e1f440a1d0714165a5e0f185e45581c42351933453241160c56160e025501115d120510030e0053405c0a576e59735167.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NEWKMOVIES.us@SD" tvg-logo="https://i.imgur.com/wCgirjc.png" group-title="Movies",NEW K.MOVIES (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e0b47481107155e511615084e025b1c576f55304d705f020c585e0a1c40481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickJr.in@SD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_NICK_JUNIOR/images/LOGO_HD/image.png" group-title="Kids",Nick Jr. (India) (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a57404648410b5d53521e16064913711b0e6d1c794e28631706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickJr.it@SD" tvg-logo="https://i.imgur.com/6p3eFgf.png" group-title="Kids",Nick Jr. (Italy) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5d1a574a4a484207454c50121e0f41126f5a2947341d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickJr.us@East" tvg-logo="https://i.imgur.com/KT4tdQs.png" group-title="Kids",Nick Jr. (United States) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5e5d1a53564252471142575710140541136f5a29473458114d58560b0a4c481540134b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickJr.us@EastHD" tvg-logo="https://i.imgur.com/KT4tdQs.png" group-title="Kids",Nick Jr. (United States) East HD (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f581a574e444842095d535212035b10402b5e320b365c07074916025c415e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickJrPlutoTV.us@US" tvg-logo="https://images.pluto.tv/channels/62bdb75c3afd1200079146a6/colorLogoPNG.png" group-title="Kids",Nick Jr. Pluto TV (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4f544f14740c211768505b5a530a595600514a170717065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickJrPlutoTV.us@CA" tvg-logo="https://images.pluto.tv/channels/62bdb75c3afd1200079146a6/colorLogoPNG.png" group-title="Kids",Nick Jr. Pluto TV CA
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e571d41770123173e54075303085f5f035f49475012095d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nickelodeon.ru@SD" tvg-logo="https://i.imgur.com/w8iE8dV.png" group-title="Kids",Nickelodeon (Russia) (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4b1b1d5107155d0b104e06030241025b1c576f007417705b0d0654404102071340.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nickelodeon.uk@SD" tvg-logo="https://i.imgur.com/E84jnP8.png" group-title="Kids",Nickelodeon (United Kingdom) (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191c51084f5d070a51121102455c50574d25406f4a3651080e5e5c0a0e5a49111d0216475d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nickelodeon.us@East" tvg-logo="https://i.imgur.com/E84jnP8.png" group-title="Kids",Nickelodeon (United States) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0956571a53405d57430b5d5b5110140c411a6f5a294734570f0d555d00011b0f1617030b111e511412.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nickelodeonenespanol.us@SD" tvg-logo="https://images.pluto.tv/channels/5d8d08395f39465da6fb3ec4/colorLogoPNG.png" group-title="Kids",Nickelodeon en espanol
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f480d1d137807791139015a56070d0b0e02001a4003100b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NickelodeonGlobal.uk@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Nickelodeon_2009_logo.svg/960px-Nickelodeon_2009_logo.svg.png" group-title="Kids",Nickelodeon Global (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c03010958405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nicktoons.pl@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/d/d8/Nicktoons_UK_Logo_2014.png" group-title="Kids",Nicktoons (Poland) (576i)
+https://go.skym3u.dev/live/339d5/28502b42594d1e015d4105574c5d5e46114b555b121c044a0c3058215d70535352091706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nicktoons.us@East" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons (United States) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0c5e4106564d5d5f401142575505627c3a68147b0f6a0c1d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Nicktoons.us@CA" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons (United States) CA
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19011a42775279163c03075102085f5f0c501a45564b5c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NinjaKidzTV.us@SD" tvg-logo="https://i.imgur.com/7EngqUi.png" group-title="Kids",Ninja Kidz TV (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5c0c504011521d464310064e4a1b1a4f2f4124422d5d0d161f560a1b1b1614121f1f5600164f471f4041.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NollyAfrica.uk@SD" tvg-logo="https://i.imgur.com/IxtGpti.png" group-title="Movies",Nolly Africa (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e0253564a445e4712120f061a1e02411723066d453255130e45085f5f0648081f070a5006164f4443424a0d21592143361c17141e4c1c4251135504575e51414d11464d4c154a33406f453255535006005b42550b1f43544407470153074d581e532c4070146f004c125d5916035d150c5d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NonStopKungFu.se@SE" tvg-logo="https://images.pluto.tv/channels/6728d2be529ac9000830dc15/colorLogoPNG_1732110461260.png" group-title="Movies",NonStop Kung Fu
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b074147730726146c02025052085f5f0c031c1552115a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NonStopKungFu.se@DK" tvg-logo="https://images.pluto.tv/channels/6728d2be529ac9000830dc15/colorLogoPNG_1732110461260.png" group-title="Movies",NonStop Kung Fu DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b074147725625116d0b020108085f5f0c55481705420a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NonStopKungFu.se@NO" tvg-logo="https://images.pluto.tv/channels/6728d2be529ac9000830dc15/colorLogoPNG_1732110461260.png" group-title="Movies",NonStop Kung Fu NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b074147730423403e53075557085f5f0c5e49175f44065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="NOST.us@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/NOST-1080x1080.jpg/250px-NOST-1080x1080.jpg" group-title="Movies",NOST (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e425702165d0d1f500406155c0256164e6f5829523a004c0c5e4b1b3003544803490353121b0d435f41574e734178.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="OSNMoviesAction.ae@SD" tvg-logo="https://i.imgur.com/uOzyKup.png" group-title="Movies",OSN Movies Action (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095e591a5f485d57410f5d53541b160d4913701b30483e4b4c03015917405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ParamountMovieChannel.us@SD" tvg-logo="https://i.imgur.com/sj5h9bl.png" group-title="Movies",Paramount Movie Channel
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4f574940215177456b045256010e090951551e4654420c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ParamountPlusPicks.us@SD" tvg-logo="https://images.pluto.tv/channels/5ff8c708653d080007361b14/featuredImage.jpg" group-title="Movies",Paramount+ Picks
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4a534140770478126a01075209085f5f03554e4204420b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PeppaPig.us@SD" tvg-logo="https://images.pluto.tv/channels/5d14fb6c84dd37df3b4290c5/colorLogoPNG_1730733871298.png" group-title="Kids",Peppa Pig
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f48044d452202231c6b560751065c095c56524a4a56100a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVAction.us@US" tvg-logo="https://i.imgur.com/tDapGal.png" group-title="Movies",Pluto TV Action (United States)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f1a041d14240078103b515401090f585f005e4c4a57475e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVActionMovies.us@CA" tvg-logo="https://images.pluto.tv/channels/62ea3c2e4823db00072788ed/colorLogoPNG.png" group-title="Movies",Pluto TV Action Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e501810230625106700500653085f5f03544f4b5e165b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVBudTerence.se@SE" tvg-logo="https://images.pluto.tv/channels/64be7398e4391c0008cdedfe/colorLogoPNG_1776936976930.png" group-title="Movies",Pluto TV Bud & Terence (Sweden)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19574012770372143b0b020005085f5f0c554b1555410c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVBudTerence.se@DK" tvg-logo="https://images.pluto.tv/channels/64be7398e4391c0008cdedfe/colorLogoPNG_1776936976930.png" group-title="Movies",Pluto TV Bud & Terence (Sweden) DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19574012755671403c03530305085f5f0c024d40514a085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVBudTerence.se@NO" tvg-logo="https://images.pluto.tv/channels/64be7398e4391c0008cdedfe/colorLogoPNG_1776936976930.png" group-title="Movies",Pluto TV Bud & Terence (Sweden) NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19574012765123173e54555155085f5f0c521b465e470e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVCrimeDrama.us@SD" tvg-logo="https://images.pluto.tv/channels/62e92708a7ce600007b2676a/colorLogoPNG.png" group-title="Movies",Pluto TV Crime Drama
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4a064845240522103c07525254085f5f03571b4057430c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVCrimeDrama.us@CA" tvg-logo="https://images.pluto.tv/channels/62e92708a7ce600007b2676a/colorLogoPNG.png" group-title="Movies",Pluto TV Crime Drama CA
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e504011770478456851065401085f5f03044a4551455e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVCrimeMovies.us@SD" tvg-logo="https://i.imgur.com/SJcqknt.png" group-title="Movies",Pluto TV Crime Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4a011d1b750d74413d0b545b52085f5f035148450216085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVCultFilms.de@GB" tvg-logo="https://images.pluto.tv/channels/5c5c31f2f21b553c1f673fb0/colorLogoPNG.png" group-title="Movies",Pluto TV Cult Films (Germany)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4f001a10715272426d030157040b0c5e52504f4000110f5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVCultFilms.us@US" tvg-logo="https://i.imgur.com/xoaIAus.png" group-title="Movies",Pluto TV Cult Films (United States)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4f034f162456734169515353530f5d0c005f4f4404100d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVDrama.us@US" tvg-logo="https://i.imgur.com/PvhbHTZ.png" group-title="Movies",Pluto TV Drama
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4e011c1a7251741266060052030f0d0a02031b1605160e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVDramaMovies.us@CA" tvg-logo="https://images.pluto.tv/channels/62bdb0bcd707b9000739d2e5/colorLogoPNG.png" group-title="Movies",Pluto TV Drama Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e571d41705623406802540008085f5f0355411754160a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVFamilyMovieClub.de@GB" tvg-logo="https://images.pluto.tv/channels/5dc3fc6b9133f500099c7d98/colorLogoPNG.png" group-title="Movies",Pluto TV Family Movie Club
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f48564a452302221d6e01500404085f5f0d5f1b44024a075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVFantasyHorror.de@GB" tvg-logo="https://images.pluto.tv/channels/685041d936c9361b1921c26c/colorLogoPNG_1753696741486.png" group-title="Movies",Pluto TV Fantasy & Horror
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c140049177150791769515a5107090d5e0d54491054455c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVFilm.se@SE" tvg-logo="https://images.pluto.tv/channels/61c09515fbb4b50007d221f5/colorLogoPNG.png" group-title="Movies",Pluto TV Film (Sweden)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564942265570456f0b010054085f5f035e1e4b5544075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVFilm.se@DK" tvg-logo="https://images.pluto.tv/channels/61c09515fbb4b50007d221f5/colorLogoPNG.png" group-title="Movies",Pluto TV Film (Sweden) DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d56491a750575423d50570004085f5f03024a4157150a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVFilm.se@NO" tvg-logo="https://images.pluto.tv/channels/61c09515fbb4b50007d221f5/colorLogoPNG.png" group-title="Movies",Pluto TV Film (Sweden) NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564846715175113b57060401085f5f0353191602435c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVFranchiseFavorites.us@SD" tvg-logo="https://images.pluto.tv/channels/68fbf8101d26140175db8b58/colorLogoPNG_1762383685562.png" group-title="Movies",Pluto TV Franchise Favorites
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c14531b45780570153b00555305085e5801021a4b0446075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVHarlequin.se@SE" tvg-logo="https://images.pluto.tv/channels/68c01afa3efb41cd9759dafb/colorLogoPNG_1770018342774.png" group-title="Movies",Pluto TV Harlequin
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c14564912225124116f0a0103040858090402481702450f5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVHarlequin.se@DK" tvg-logo="https://images.pluto.tv/channels/68c01afa3efb41cd9759dafb/colorLogoPNG_1770018342774.png" group-title="Movies",Pluto TV Harlequin DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c14564912215221173a540156005b0b560353411707155d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVHarlequin.se@NO" tvg-logo="https://images.pluto.tv/channels/68c01afa3efb41cd9759dafb/colorLogoPNG_1770018342774.png" group-title="Movies",Pluto TV Harlequin NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c14564912220d21123d560004025a560e02521e1604105c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVIcons.us@SD" tvg-logo="https://images.pluto.tv/channels/64b585f84ea480000838e446/colorLogoPNG.png" group-title="Movies",Pluto TV Icons
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c18574c1b755278103a53575a01085f5f0c5540165247095d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVJohnWayne.se@SE" tvg-logo="https://images.pluto.tv/channels/655ca7aa635c3c000855d655/colorLogoPNG.png" group-title="Movies",Pluto TV John Wayne
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19001a42215521476f54005a09085f5f0c501e46024a065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVJohnWayne.se@DK" tvg-logo="https://images.pluto.tv/channels/655ca7aa635c3c000855d655/colorLogoPNG.png" group-title="Movies",Pluto TV John Wayne DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19001a42775521126c07005152085f5f0c534d1750460a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVJohnWayne.se@NO" tvg-logo="https://images.pluto.tv/channels/655ca7aa635c3c000855d655/colorLogoPNG.png" group-title="Movies",Pluto TV John Wayne NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19001a42790d24423d51525753085f5f0c571e41564a5c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVJuniorklubben.se@SE" tvg-logo="https://images.pluto.tv/channels/61c09a78bd194c0008decc28/colorLogoPNG_1748329348443.png" group-title="Kids",Pluto TV Juniorklubben (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d5649417751221c66005a0705085f5f03001e4657410a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVJuniorklubben.se@DK" tvg-logo="https://images.pluto.tv/channels/61c09a78bd194c0008decc28/colorLogoPNG_1748329348443.png" group-title="Kids",Pluto TV Juniorklubben DK (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d56491a210378463b035a5652085f5f0c021d100541075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVJuniorklubben.se@NO" tvg-logo="https://images.pluto.tv/channels/61c09a78bd194c0008decc28/colorLogoPNG_1748329348443.png" group-title="Kids",Pluto TV Juniorklubben NO (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564847740179423d50570004085f5f03024a475047085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVKultfilmer.se@SE" tvg-logo="https://images.pluto.tv/channels/63dbe80f60bc8f0008aa7c78/colorLogoPNG.png" group-title="Movies",Pluto TV Kultfilmer
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f511b4678577845660b565500085f5f0c514f4a5e120c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVKultfilmer.se@NO" tvg-logo="https://images.pluto.tv/channels/63dbe80f60bc8f0008aa7c78/colorLogoPNG.png" group-title="Movies",Pluto TV Kultfilmer NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f511b46780426126f50005a57085f5f0c0719440544075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVMovies.de@GB" tvg-logo="https://images.pluto.tv/channels/5c5c3b948002db3c3e0b262e/colorLogoPNG.png" group-title="Movies",Pluto TV Movies GB
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4d514147735573153d0b5650070f0a5d06531d470343065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVParanormal.de@GB" tvg-logo="https://images.pluto.tv/channels/5f98487036af340008da1e37/colorLogoPNG.png" group-title="Movies",Pluto TV Paranormal (Germany) GB
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f480118457252264566075354505a5d5657004b4b0540075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVParanormal.se@SE" tvg-logo="https://images.pluto.tv/channels/62b30beb81f89900071fc7b9/colorLogoPNG.png" group-title="Movies",Pluto TV Paranormal (Sweden)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e5748467405781d3907070003085f5f03001e4355115a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVParanormal.se@DK" tvg-logo="https://images.pluto.tv/channels/62b30beb81f89900071fc7b9/colorLogoPNG.png" group-title="Movies",Pluto TV Paranormal (Sweden) DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e574a132251221c6e545b5b08085f5f03571e105111065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVReaction.us@SD" tvg-logo="https://i.imgur.com/H9k3OXN.png" group-title="Movies",Pluto TV Reaction
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d021b10775673126e57530455085f5f0c051e175e100a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVRetroKid.us@CA" tvg-logo="https://images.pluto.tv/channels/6408b41b83f58900081d91ad/colorLogoPNG.png" group-title="Kids",Pluto TV Retro Kid
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c180541417405221c6c54565a08085f5f0c571c4a57125b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVRomantik.se@SE" tvg-logo="https://images.pluto.tv/channels/63a1c954d3897300079fcb12/colorLogoPNG_1767773445743.png" group-title="Movies",Pluto TV Romantik
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f54481a2455761c6b05025208085f5f03004a4056175e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVRomantik.se@DK" tvg-logo="https://images.pluto.tv/channels/63a1c954d3897300079fcb12/colorLogoPNG_1767773445743.png" group-title="Movies",Pluto TV Romantik DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f544840790174406c0a5a5502085f5f035f1e1004420d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVSpotlight.us@SD" tvg-logo="https://i.imgur.com/UmuJkVB.png" group-title="Movies",Pluto TV Spotlight
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4e544a45220d23103d02545a5408095c03071c405216075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVStaffPicks.us@SD" tvg-logo="https://i.imgur.com/JzwO8IO.png" group-title="Movies",Pluto TV Staff Picks
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4a011d1b7607221d6750575301085f5f03501b1756450e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVTecknadeklassiker.se@SE" tvg-logo="https://images.pluto.tv/channels/67f5095a3481170e6843d95d/colorLogoPNG_1748955339418.png" group-title="Kids",Pluto TV Tecknade klassiker (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b534c13790121176b0a525306080a590c524b175f465b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVTecknat.se@SE" tvg-logo="https://images.pluto.tv/channels/61c0b6f028e94c000782684a/colorLogoPNG_1749627909756.png" group-title="Kids",Pluto TV Tecknat (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d5649417652701667575a5652085f5f035e4a455e475e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVTegnefilm.se@NO" tvg-logo="https://images.pluto.tv/channels/61c09938e0d3a700072b68b1/colorLogoPNG_1749627293329.png" group-title="Kids",Pluto TV Tegnefilm NO (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d56484679057446390a005703085f5f0307414000150e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVTerror.us@SD" tvg-logo="https://i.imgur.com/eWtoHDM.png" group-title="Movies",Pluto TV Terror
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4f031d40780c26473b005050050a5a0e0203481556455a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVThrillers.de@GB" tvg-logo="https://images.pluto.tv/channels/5f1ac8a87cd38d000745d7cf/colorLogoPNG.png" group-title="Movies",Pluto TV Thrillers (Germany) GB
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f48571f46245723476a04505209085f5f0d044e4300475e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVThrillers.us@US" tvg-logo="https://i.imgur.com/ULKvDN7.png" group-title="Movies",Pluto TV Thrillers (United States)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4e011c157951701c6d0b5253050f0d0b0452194a0017085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVTrendingNow.us@SD" tvg-logo="https://images.pluto.tv/channels/673247127d5da5000817b4d6/colorLogoPNG_1732662634386.png" group-title="Movies",Pluto TV Trending Now
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b064b17770572133b07070304085f5f0c574f115217095d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVUngdomsserier.se@SE" tvg-logo="https://images.pluto.tv/channels/67f3fb1cdea1c5e0d588ac1b/colorLogoPNG_1748270797322.png" group-title="Kids",Pluto TV Ungdomsserier (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b534a452305771468565100500c5e5d05041c405212075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVUngdomsserier.se@DK" tvg-logo="https://images.pluto.tv/channels/67f3fb1cdea1c5e0d588ac1b/colorLogoPNG_1748270797322.png" group-title="Kids",Pluto TV Ungdomsserier DK (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b534a45220523403a535201045d5f0b015e401205425d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVUngdomsserier.se@NO" tvg-logo="https://images.pluto.tv/channels/67f3fb1cdea1c5e0d588ac1b/colorLogoPNG_1748270797322.png" group-title="Kids",Pluto TV Ungdomsserier NO (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1b534a452203241468565100500c5e5d05041c43054b5d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVWesterns.de@GB" tvg-logo="https://images.pluto.tv/channels/5d4bdb635ce813b38639e6a3/colorLogoPNG.png" group-title="Movies",Pluto TV Westerns (Germany)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f48011b47220273113c575b53025a5c570255411650120c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVWesterns.us@US" tvg-logo="https://images.pluto.tv/channels/62bdacc96a3751000811842d/colorLogoPNG.png" group-title="Movies",Pluto TV Westerns (United States)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f4e011c1a740678163b060601090f0d0b57041a4b51105b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PlutoTVWesterns.us@CA" tvg-logo="https://images.pluto.tv/channels/62bdacc96a3751000811842d/colorLogoPNG.png" group-title="Movies",Pluto TV Westerns (United States) CA
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e571d42235779123e01545700085f5f0c57494b52415b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="pocketwatch.us@SD" tvg-logo="https://i.imgur.com/T0V90Lz.png" group-title="Kids",pocket.watch (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0303521f03011e51115508120256154c35502656305c174c5f5d1b4044091b18030748121602427372184e257b2e0a3201165a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PolsatJimJam.pl@SD" tvg-logo="https://i.imgur.com/GjppUlg.png" group-title="Kids",Polsat JimJam (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e09575a1a544a4448400b5d535613160d491b701b2a4d3258020f1e51010b511e561e550607.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="PopUp.uk@SD" tvg-logo="https://i.imgur.com/GdSotmS.png" group-title="Kids",Pop Up (1080p) [Geo-blocked]
+https://go.skym3u.dev/live/339d5/28502b4210581e170e0253564944534012120f061a1d024c10230d6d573e5f10175f5f4208564b4043564611030e005343400d506e5a2f5371530e035651411b42490c004b164a5e155007420756532c5539483641174d5055085f05514d404b1d5e0110005e45431c562b19304b2f47134f4259021c41081f14045c4f1f03184645460d0d2d07351c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Quadro.ru@4K" tvg-logo="https://i.imgur.com/P4c53HA.png" group-title="Movies",Quadro (2160p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0d58410554405d54400e5d53561b160d491b701b7315691d0a0c555d174159550d4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVActionMovies.es@Finland" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Action Movies Finland (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170d0c5553194754425e4452021e1a541d1a710525423b020256060e580c00041e5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e094355540541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVActionMovies.es@UK" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Action Movies UK (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e175a5b04524d1556100b4304051e18071a1b22047640390254545059095e515e4d5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e094354540541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVComedyMovies.es@Finland" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Comedy Movies Finland (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e5c045619155f4b5a4352561e1a504b42235272176b040556025d5b585602495d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e09425b500541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVComedyMovies.es@UK" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Comedy Movies UK (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17560d5151404002450a4101051e4e05401a235276173a030701000b5b0c00074b5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e09425a500541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVDramaMovies.es@Finland" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Drama Movies Finland (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b58515e1d165510064156051e1f054c427057711c6b020507080c0c5a50554e5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e094252530541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVDramaMovies.es@UK" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Drama Movies UK (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17090a51564115024509465a501e4a0048417907794669565252075b095a52504e5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e09435b520541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVTopMovies.es@Finland" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Top Movies Finland (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e175e0b0504481752105d4503041e4f06481a780124156c00515306015a590d531a5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e094357560541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RakutenTVTopMovies.es@UK" tvg-logo="https://i.imgur.com/Meew6eX.png" group-title="Movies",Rakuten TV Top Movies UK (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e175f5e00534c46574a084603571e4e064c1b760271136f5407505400090e005e4e5d0b165b1a03154b455916516e513509285710161c09410e5907021c081248004c0245411a0f126f5921572b57114d010d5b5852574045524a5d175559124e501a142202774668065507050f595804004d465e110911504e5a5e5a1d562340294b311f2f0b475d2c07550816160a5e0a4a5a560541540a5725466e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Runtime.us@SD" tvg-logo="https://i.imgur.com/2USCMvP.png" group-title="Movies",Runtime (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1c0d4f47735274166f54005a04085f5f03531e4b0211595d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="RyanandFriends.us@SD" tvg-logo="https://i.imgur.com/jcIprmt.png" group-title="Kids",Ryan and Friends (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171d165508191d02154d1a070f4e5f180a422d47354a3853164c50550e085d480c05490353121b0d435f41574e734178.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SCorbyTV.us@HD" tvg-logo="https://i.postimg.cc/432q9g12/In-Shot-20260908-063951605.png" group-title="Kids",S Corby TV (480p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17190050051c1d48115e1e000e450156154c35506e47305f4c0e584e0a0758155745074a594b5b034f1c034a13740075116c005257030d595c1b0b190012164d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SkwadPlay.us@SD" tvg-logo="https://i.imgur.com/cP56PrG.png" group-title="Kids",Skwad Play (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4b064c5e0700595818480d275134542a500f0b5259410c5b0b57030a12461f0b125e02584a5678.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SmurfTV.us@SD" tvg-logo="https://img.static-ottera.com/prod/tg/linear_channel/thumbnails/widescreen/EJIyYyBMkbW5UntSCAkGp-uLla7Z8KWHvDjyEqoOf3k.jpg" group-title="Kids",Smurf TV (480p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e48125b004c0e5e58500b426e40360b2f5e021b5d511c1b1a0b4b065e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SonyPix.in@HD" tvg-logo="https://i.postimg.cc/Z5G8j67L/PIX-HD-WHITE.png" group-title="Movies",Sony Pix HD (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a574d4248450f5d53571816074811721b30483e4b4c0301090b405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SpongeBobSquarePants.us@CA" tvg-logo="https://images.pluto.tv/channels/63f87d057533d80008ab9549/colorLogoPNG.png" group-title="Kids",SpongeBob SquarePants (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f534114240475136a01500609085f5f0c071a4a5347065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarChannel.bg@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Star_Channel_2020.svg/960px-Star_Channel_2020.svg.png" group-title="Movies",Star Channel (Bulgaria) (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e50031c05544f5d00015a160d155e024116537a0c701c6f1d21256e7e20371b101117031c111e511412.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarMovies.in@HD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_STAR_MOVIES/images/LOGO_HD/image.png" group-title="Movies",Star Movies (India) HD (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e095f5c1a57404648410b5d53521e16064913711b13503e404e2f5e4e060a4749111d0216475d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarTrekMovies.se@SE" tvg-logo="https://images.pluto.tv/channels/6400c281dff38e00083f59da/colorLogoPNG.png" group-title="Movies",Star Trek Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c18054940725576473d06520305085f5f0c021a1653115c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarTrekMovies.se@DK" tvg-logo="https://images.pluto.tv/channels/6400c281dff38e00083f59da/colorLogoPNG.png" group-title="Movies",Star Trek Movies DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c18054940720c71403954505a54085f5f0c551e465f175e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarTrekMovies.se@NO" tvg-logo="https://images.pluto.tv/channels/6400c281dff38e00083f59da/colorLogoPNG.png" group-title="Movies",Star Trek Movies NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1805494072067810660a505b02085f5f0c5140125f11085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarzCinema.us@East" tvg-logo="https://i.imgur.com/ghzzKoT.png" group-title="Movies",Starz Cinema (720p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d3036706a3530772f36362b32101a0c054f541b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="StarzKidsFamily.us@East" tvg-logo="https://i.imgur.com/eE9FzEP.png" group-title="Kids",Starz Kids & Family (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0a5c4106554f5d57430b5d53511c160d491b701b15771e6d3036706a35307227353a2a2a101a0c054f541b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SummerofMovies.us@CA" tvg-logo="https://images.pluto.tv/channels/6654adb1f99922000854388c/colorLogoPNG.png" group-title="Movies",Summer of Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1a004d4224567142660b5a5003085f5f0c534c405e4b5c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SuperSimpleSongs.us@SD" tvg-logo="https://i.imgur.com/3k4F7O9.png" group-title="Kids",Super Simple Songs (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17050e5a15171d4b004a030713594558094f25472f4a38414e531c4d1c414609130648044a010e4f5e5a1a094f214d2c4d2c464d0f024d57.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SvampBobFyrkant.se@SE" tvg-logo="https://images.pluto.tv/channels/61c0ba0816e2fd00086cb6b1/colorLogoPNG.png" group-title="Kids",SvampBob Fyrkant (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564941210478156957510455085f5f0c501b1150110e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SvampeBobFirkant.se@DK" tvg-logo="https://images.pluto.tv/channels/61c09ac98a80a4000703f992/colorLogoPNG.png" group-title="Kids",SvampeBob Firkant (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d56491a2157791c3e0a530305085f5f03564b155f4a0d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="SvampeBobFirkant.se@NO" tvg-logo="https://images.pluto.tv/channels/61c09ac98a80a4000703f992/colorLogoPNG.png" group-title="Kids",SvampeBob Firkant NO (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564847750d21166b06065701085f5f035340425e450e5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TeenNick.il@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/TeenNick_2019_logo.svg/960px-TeenNick_2019_logo.svg.png" group-title="Kids",TeenNick (Israel) (406p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e005641075556415f5d0e42575b121c0d490c1451254a115b00091e51010b511e561e550607.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TeenNick.pl@SD" tvg-logo="https://i.imgur.com/KZq73CE.png" group-title="Kids",TeenNick (Poland) (576i)
+https://go.skym3u.dev/live/339d5/28502b42594d1e015d4105574c5d5e46114b555b121c04490c3058215d70535352081706015003005d0b404a4b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TeenNick.us@East" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/TeenNick_2019_logo.svg/960px-TeenNick_2019_logo.svg.png" group-title="Kids",TeenNick (United States) (432p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e4c191c51084f5d070a51121102455c50574d25406f503a570d0c585b04405d081c161e5d52401759.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="Teletubbies.uk@SD" tvg-logo="https://i.imgur.com/J9iWjWL.png" group-title="Kids",Teletubbies (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b190c0a0b01024b59160116130256154c35502656305c174c5f5d1b4059070b070301111e511412.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TGJunior.us@SD" tvg-logo="https://i.imgur.com/aqane40.png" group-title="Kids",TG Junior (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5c5d500d0317124e090d12431d1b1a4f2f4124422d5d0d161f560a1b1b121f5c0c016006114e5e4b6a13511f41330a3201165a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TheFilmDetective.us@SD" tvg-logo="https://i.imgur.com/yfOwmsP.png" group-title="Movies",The Film Detective (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170c065a031c1a011e12160c154f5e41184a2e59254a2b1f000d4348421b5c031e1a0a1e5b16160449585c0f466d056d512c1c0c0c5e16181a460a5607105c4f1f03184645460d0d2d07351c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TinyPop.uk@SD" tvg-logo="https://i.imgur.com/zCTf71x.png" group-title="Kids",Tiny Pop (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e02535649445340121d0313584d41105525412b093e5f0452000f5a5c5757551f015e58114f50121f0557532c55394b2a46104c5f571841550b19140f5d4b054d11464d4c154a33406f4532555353060d5c425a070a01070756050714410141104d39442f54725e040553171f03551f141a1507111e511412.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TomAndJerry.do@HD" tvg-logo="https://gia.tv/streams/pptv/208314.jpg?1750373428" group-title="Kids",Tom And Jerry (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17030642034a434811500918155c0256164e6f5329452b44130e5041001a405157140f124b054f531a140648176f442c45265e0a114516025c415e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ToonGoggles.us@SD" tvg-logo="https://i.imgur.com/JMnxswq.png" group-title="Kids",ToonGoggles (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170e0253564940544a121c16154f5e54104d2319344b305c040d565f030a474b0b120b004a1d05005f01541d0e74576e453253040b1f4c1940440a190a0a1a4c074d00474b054810720d6d4b2b4606105051010c1912171c08145014050d4f5f180a422d47354a3853164d41540e16580f0b07481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TortuesNinjaTV.us@CA" tvg-logo="https://images.pluto.tv/channels/62e9566e27ce19000732ec85/colorLogoPNG.png" group-title="Kids",Tortues Ninja TV (United States) (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e504016760225166851065308085f5f03554a16054b0a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TotallyTurtles.de@GB" tvg-logo="https://images.pluto.tv/channels/5d6792bd6be2998ad0ccce30/colorLogoPNG.png" group-title="Kids",Totally Turtles (Germany) GB
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c19031c45745526106d04520150085f5f0c551b4b0040085d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TotallyTurtles.se@SE" tvg-logo="https://images.pluto.tv/channels/61c0bbd95df1da0007bed5a0/colorLogoPNG.png" group-title="Kids",Totally Turtles (Sweden) (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d56481b755173123953055b03085f5f0300484704455a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TotallyTurtles.se@DK" tvg-logo="https://images.pluto.tv/channels/61c0bbd95df1da0007bed5a0/colorLogoPNG.png" group-title="Kids",Totally Turtles (Sweden) DK (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d564941225079113b54520650085f5f03041d1753120f5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TotallyTurtles.se@NO" tvg-logo="https://images.pluto.tv/channels/61c0bbd95df1da0007bed5a0/colorLogoPNG.png" group-title="Kids",Totally Turtles (Sweden) NO (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1d5648472103711c3e0a530305085f5f03564c4357405a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TotallyTurtles.us@US" tvg-logo="https://images.pluto.tv/channels/62e95265c9fd030007268fb9/colorLogoPNG.png" group-title="Kids",Totally Turtles (United States)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f48051a127650761c6906565654590b5807551c435e15075d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TotallyTurtles.us@CA" tvg-logo="https://images.pluto.tv/channels/62e95265c9fd030007268fb9/colorLogoPNG.png" group-title="Kids",Totally Turtles (United States) CA (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e504016720275476654075202085f5f03544e4b0011065d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TransformersTV.us@SD" tvg-logo="https://images.pluto.tv/channels/63da36dea995710008727d4d/colorLogoPNG.png" group-title="Kids",Transformers TV (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1c531b13750777156d54515050085f5f03001e4252170d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TransformersTV.us@CA" tvg-logo="https://images.pluto.tv/channels/63da36dea995710008727d4d/colorLogoPNG.png" group-title="Kids",Transformers TV CA
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1f51181076502545660b565500085f5f0c514a4402475b5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVLandDrama.us@SD" tvg-logo="https://i.imgur.com/y1rXIAS.png" group-title="Movies",TV Land Drama
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1f48014941255623113a010750060d5f0e06544b4a02445a5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVCARiBCinema.sx@SD" tvg-logo="https://i.imgur.com/fvGlwKo.png" group-title="Movies",TVCARiB Cinema (720p) [Not 24/7]
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a48150a051f500606125e5e50184e6e5d2f0b375e104d5d51190a1b040a1c07175c1211150540060f502c43744d705b0d0654404102071340.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVCARiBKidsTeens.sx@SD" tvg-logo="https://i.imgur.com/fvGlwKo.png" group-title="Kids",TVCARiB Kids & Teens (720p) [Not 24/7]
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a48150a051f500606125e5e50184e6e5d2f0b375e104d5d51190a1b040a1c07175c1211150542471612795f724c705b0d0654404102071340.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVOKids.ca@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tvokids-logo.svg/960px-Tvokids-logo.svg.png" group-title="Kids",TVOKids (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e17090e4712140a481f5605074f485e5c1e4b34572f523a1c000d5c17595c025f404657450d4353501803400a0e2555335072034c53040b595b02564a43564210161b2b424e721a4a0f5d0a6d0a482a537f51261c7d082a46053076452b0a5a74633a69791a255d155d01517f0826055b0f1b343c1d5c1e0e0c66416317402d623a472607532c03755c0a5911113f2539572a502f5c48624c1318062c4f16580c0b7c6c3a157a0c29412b3776042f256f45793a692c550710367d0a285c613721040430181311781f503b79195c1a4e2c5a216c0d5801516b5423027a101a202f00761e0e1b49557c4f6a2d7e334507680f2e697a1c366c0a112a313d4d3f3a2f5c486d33491a67714c3c75080b7d7b25155031311a291a75043b397843572e653750071d2d68345658742c255c022f220f3c53000b2c7e794f374911060d6016452e267451373c430f191d340376190d086446784b6c145371690b6b1a2f757d17225d2c415d1c217a4504251366421d410e78156d1407190547543b2e423e3b22553b5a1627545a1c4c3113105073090e1d130e504103064712551b0a00111e511412.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVSDriveInMovie.us@SD" tvg-logo="https://i.imgur.com/OR9APjb.png" group-title="Movies",TVS Drive In Movie (360p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1f5a481a1c1c094b054c0245411a1e5633556f432a41024f454e1c0b460f0e160f1d521c14084f035c1747254c6e496c475b.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVSFilmNoirNetwork.us@SD" tvg-logo="https://i.imgur.com/A4yWhQw.png" group-title="Movies",TVS Film Noir Network (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1f5a481a1c1c094b054c0245411a0d512e04710b384710031c6c393c720f141e281c56014d08444850010d2d07351c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVSHiTops.us@SD" tvg-logo="https://i.imgur.com/RiWg1IA.png" group-title="Kids",TVS Hi Tops (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1f5a481a1c1c094b054c0245411a1e5633556f432a41024f59511b004415571a08175a0b4c0c19590d.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="TVSPinballNetwork.us@SD" tvg-logo="https://i.imgur.com/HHmc14i.png" group-title="Kids",TVS Pinball Network (480p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171d1f5a481a1c1c094b054c0245411a1e5633556f432a41024f656e3c2c55140c1c091d71161616455e5e564a2e50255c715f501709.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ViafreeMovies.se@SE" tvg-logo="https://images.pluto.tv/channels/62bebc3459624e00078209c3/colorLogoPNG.png" group-title="Movies",Viafree Movies
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e534f17255779413d03535604085f5f035440100717095d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ViafreeMovies.se@DK" tvg-logo="https://images.pluto.tv/channels/62bebc3459624e00078209c3/colorLogoPNG.png" group-title="Movies",Viafree Movies DK
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e571c41230774116604515654085f5f035e4a435f100c5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ViafreeMovies.se@NO" tvg-logo="https://images.pluto.tv/channels/62bebc3459624e00078209c3/colorLogoPNG.png" group-title="Movies",Viafree Movies NO
+https://go.skym3u.dev/live/339d5/28502b4210581e170502445456060d5c4f1f174c1c1e571c41740025173e54075303085f5f035f494602425d5d0f525f14.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ViasatKino.ua@SD" tvg-logo="https://i.imgur.com/io0WAkA.png" group-title="Movies",Viasat Kino (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e5c1b191a10171f481d5a074c144b036310423355347b145b0d0d1e51010b511e561e550607.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ViasatKino.ua@Balkan" tvg-logo="https://i.imgur.com/io0WAkA.png" group-title="Movies",Viasat Kino Balkan (1080p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e0958591a50495d5746085d50541a03612f127004700b365c07074916025c415e.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ViasatKinoAction.ua@SD" tvg-logo="https://i.imgur.com/HwsNIDK.png" group-title="Movies",Viasat Kino Action (576p)
+https://go.skym3u.dev/live/339d5/28502b42594d1e5c1b191a10171f481d5a074c144b036310423355347b145b0d0d6e790c1b5d09162c2e37101a0c054f541b1410350c.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="WatchitKID.us@SD" tvg-logo="https://i.imgur.com/YNx0j1b.png" group-title="Kids",Watch it KID! (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4b064c5e0700595818480d275134542a500f0b5259410c5b0b57030a12461f0b125e02584a5678.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="WatchitScream.us@SD" tvg-logo="https://i.imgur.com/bz3Caum.png" group-title="Movies",Watch it Scream! (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e171c1b4603191e4b064c5e0700595818480d275134542a500f0b5259410c5b0b57030a12461f0b125e02584a5678.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="WhiplashCinema.us@SD" tvg-logo="https://whiplash.cc/assets/img/channels/whiplashcinema.png" group-title="Movies",Whiplash Cinema (480p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170c0b5a480f1b0f0353121109044f565654285d30483e410b4f5251010a5907571a08175a0b4c0c19590d.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="WuTangCollection.us@SD" tvg-logo="https://i.imgur.com/sz55sBl.png" group-title="Movies",Wu Tang Collection (720p)
+https://go.skym3u.dev/live/339d5/28502b4210581e170b0d46044c4a1619500a0f061e0256154c35502656305c174c5f5d1b4005564843575c064a5b581b1b014c0c2858330b32531016544a4102071340.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="YAAAS.uk@HD" tvg-logo="https://www.freeview.co.uk/sites/default/files/styles/255_wide/public/2019-12/yaas-logo250x144.png" group-title="Kids",YAAAS! (720p) [Geo-blocked]
+https://go.skym3u.dev/live/339d5/28502b4210581e170b5c5f08091c0706590508144d1f1b1a4f2f4124422d5d0d161f560a1b1b1f1900481e0c065a.m3u8?s=7ac2&id=qz8o.m3u
+#EXTINF:-1 tvg-id="ZooMoo.sg@SD" tvg-logo="https://i.imgur.com/ciTJrnl.png" group-title="Kids",ZooMoo (1080p)
+https://go.skym3u.dev/live/339d5/28502b4210581e1715005b0b171c4b005e1e1114444b540c0d21592143361c17141e48030e4d0a1100125d52401759.m3u8?s=7ac2&id=qz8o.m3u

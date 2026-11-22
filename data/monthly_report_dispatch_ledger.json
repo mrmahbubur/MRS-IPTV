@@ -1,0 +1,17 @@
+{
+  "dispatchedMonths": [
+    "2026-10"
+  ],
+  "lastDispatchedMonthKey": "2026-10",
+  "lastDispatchedAt": "2026-10-01T00:00:00.000Z",
+  "history": [
+    {
+      "monthKey": "2026-10",
+      "dispatchedAt": "2026-10-01T00:00:00.000Z",
+      "recipient": "mr216873@gmail.com",
+      "smtpSuccess": true,
+      "subject": "[M R S IPTV] Monthly Executive System, Visitor & VIP Report",
+      "trigger": "AUTOMATED_MONTH_END"
+    }
+  ]
+}

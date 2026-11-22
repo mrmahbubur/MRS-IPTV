@@ -1,0 +1,172 @@
+{
+  "activatedCodes": [
+    [
+      "8349201561",
+      {
+        "code": "8349201561",
+        "deviceId": "TEST_TV_DEVICE_001",
+        "activatedAt": "2026-11-02T13:15:54.136Z",
+        "expiryDate": "2026-12-02T13:15:54.136Z",
+        "durationMonths": 1
+      }
+    ],
+    [
+      "7293846511",
+      {
+        "code": "7293846511",
+        "deviceId": "TV_DEVICE_A",
+        "activatedAt": "2026-11-02T13:18:37.919Z",
+        "expiryDate": "2026-12-02T13:18:37.919Z",
+        "durationMonths": 1
+      }
+    ]
+  ],
+  "blacklistedCodes": [],
+  "paymentRequests": [
+    {
+      "id": "REQ_mvzabbqh_v1cu",
+      "userType": "bd",
+      "mobile": "+8801792322734",
+      "email": "tv-user@mrsiptv.com",
+      "packageMonths": 1,
+      "price": "110 TK",
+      "currency": "BDT",
+      "paymentMethod": "NAGAD",
+      "transactionId": "TX12345678",
+      "hasScreenshot": false,
+      "notes": "",
+      "createdAt": "2026-11-02T13:18:23.273Z",
+      "status": "pending"
+    },
+    {
+      "id": "REQ_mvza92cy_gtiv",
+      "userType": "bd",
+      "mobile": "+8801792322734",
+      "email": "tv-user@mrsiptv.com",
+      "packageMonths": 1,
+      "price": "110 TK",
+      "currency": "BDT",
+      "paymentMethod": "NAGAD",
+      "transactionId": "TXN_TEST_9988",
+      "hasScreenshot": false,
+      "notes": "Submitted from Android TV Device",
+      "createdAt": "2026-11-02T13:16:37.810Z",
+      "status": "pending"
+    },
+    {
+      "id": "REQ_mvvd88iu_3xst",
+      "userType": "bd",
+      "mobile": "+8801792322734",
+      "email": "testvip@example.com",
+      "packageMonths": 1,
+      "price": "110 TK",
+      "currency": "BDT",
+      "paymentMethod": "Nagad Personal (+8801792322734)",
+      "transactionId": "TESTTRX9988",
+      "screenshotImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+      "hasScreenshot": true,
+      "notes": "",
+      "createdAt": "2026-10-30T19:28:53.286Z",
+      "status": "pending"
+    },
+    {
+      "id": "REQ_mvvcjsum_gs0r",
+      "userType": "international",
+      "mobile": "+491512345678",
+      "email": "payoneeruser@example.com",
+      "packageMonths": 6,
+      "price": "$6",
+      "currency": "USD",
+      "paymentMethod": "Payoneer (Customer ID: 108003450)",
+      "transactionId": "PAYONEER_PAY_778899",
+      "notes": "",
+      "createdAt": "2026-10-30T19:09:53.230Z",
+      "status": "pending"
+    },
+    {
+      "id": "REQ_mvvcjn97_vmu2",
+      "userType": "international",
+      "mobile": "+447911123456",
+      "email": "skrilluser@example.com",
+      "packageMonths": 2,
+      "price": "$2",
+      "currency": "USD",
+      "paymentMethod": "Skrill (Customer ID: 407108385)",
+      "transactionId": "SKRILL_TX_12345678",
+      "notes": "",
+      "createdAt": "2026-10-30T19:09:45.979Z",
+      "status": "pending"
+    },
+    {
+      "id": "REQ_mvvcjd18_or4m",
+      "userType": "international",
+      "mobile": "+1234567890",
+      "email": "testuser@example.com",
+      "packageMonths": 1,
+      "price": "$1",
+      "currency": "USD",
+      "paymentMethod": "Binance Pay / Crypto (Binance UID: 38927942, Binance ID: mrxshahin)",
+      "transactionId": "BINANCE_PAY_987654321",
+      "notes": "",
+      "createdAt": "2026-10-30T19:09:32.732Z",
+      "status": "pending"
+    }
+  ],
+  "referrals": {
+    "visits": [
+      [
+        "MRS-IPTV-SHAHIN",
+        [
+          {
+            "referrerCode": "MRS-IPTV-SHAHIN",
+            "referredDeviceId": "TEST_DEV_998877",
+            "referredIp": "127.0.0.1",
+            "userAgent": "",
+            "firstSeen": 1791108431457,
+            "lastSeen": 1791108431457,
+            "totalStaySeconds": 120,
+            "purchasedVip": false,
+            "deviceType": "Desktop",
+            "browser": "Chrome"
+          }
+        ]
+      ]
+    ],
+    "rewards": [],
+    "deviceMap": [
+      [
+        "TEST_DEV_998877",
+        "MRS-IPTV-SHAHIN"
+      ]
+    ],
+    "codeToDeviceMap": []
+  },
+  "visitorAnalytics": {
+    "cumulativeVisitors": [
+      "182.252.74.192_Mozilla/5.0 (Windows NT 10.0; ",
+      "182.252.74.192_Mozilla/5.0 (Linux; Android 10",
+      "182.252.74.194_Mozilla/5.0 (Linux; Android 10",
+      "182.252.74.195_Mozilla/5.0 (Linux; Android 10",
+      "182.252.74.193_Mozilla/5.0 (Windows NT 10.0; ",
+      "182.252.74.194_Mozilla/5.0 (Windows NT 10.0; ",
+      "182.252.74.195_Mozilla/5.0 (Windows NT 10.0; ",
+      "127.0.0.1_node",
+      "2404:1c40:160:d590:18e4:351e:d76d:ee76_Mozilla/5.0 (Linux; Android 10",
+      "103.146.2.77_Mozilla/5.0 (Linux; Android 10",
+      "2404:1c40:39f:ce3:18e7:a07f:fae1:7c4f_Mozilla/5.0 (Linux; Android 10",
+      "182.252.74.193_Mozilla/5.0 (Linux; Android 10",
+      "2404:1c40:469:197a:18e9:f8c2:6280:4ed4_Mozilla/5.0 (Linux; Android 10",
+      "2404:1c40:3c4:ef2f:18ea:886:1c07:36ec_Mozilla/5.0 (Linux; Android 10",
+      "103.159.173.124_Mozilla/5.0 (Windows NT 10.0; "
+    ],
+    "totalPageViews": 1739,
+    "totalStreamSessions": 168
+  },
+  "monthlyReportDispatch": {
+    "dispatchedMonths": [
+      "2026-10"
+    ],
+    "lastDispatchedMonthKey": "2026-10",
+    "lastDispatchedAt": "2026-10-01T00:00:00.000Z"
+  }
+}

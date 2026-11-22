@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- M R S IPTV Universal Ad Rules & Mobile Web Protection Shield -->
+    <script>
+      (function() {
+        var AD_DOMAINS = [
+          '5gvci.com', 'quge5.com', 'uplcm.com',
+          'al5sm.com', 'whomeehe.com', 'monetag'
+        ];
+
+        function isAdUrl(url) {
+          if (!url || typeof url !== 'string') return false;
+          for (var i = 0; i < AD_DOMAINS.length; i++) {
+            if (url.indexOf(AD_DOMAINS[i]) !== -1) return true;
+          }
+          return false;
+        }
+
+        // 1. Strict VIP Verification (checks both cookies and localStorage across all mobile & desktop browsers)
+        function checkVipStatus() {
+          try {
+            if (document.cookie && document.cookie.indexOf('mrs_vip_active=1') !== -1) return true;
+            var raw = localStorage.getItem('shahintv_adfree_activation');
+            if (raw) {
+              var data = JSON.parse(raw);
+              if (data && (data.isActive === true || data.isAdFree === true)) {
+                if (data.expiryDate) {
+                  var expMs = new Date(data.expiryDate).getTime();
+                  if (!isNaN(expMs) && expMs > Date.now()) {
+                    return true;
+                  }
+                } else {
+                  return true;
+                }
+              }
+            }
+          } catch (e) {}
+          return false;
+        }
+
+        var isVip = checkVipStatus();
+        window.__MRS_IS_VIP = isVip;
+
+        // 2. Mobile Web Core UI Touch Lock (Prevents Monetag from hijacking channel clicks & player controls)
+        window.__MRS_UI_TOUCH_LOCKED = false;
+        var unlockTimer = null;
+
+        function lockUiTouch() {
+          window.__MRS_UI_TOUCH_LOCKED = true;
+          if (unlockTimer) clearTimeout(unlockTimer);
+          unlockTimer = setTimeout(function() {
+            window.__MRS_UI_TOUCH_LOCKED = false;
+          }, 800);
+        }
+
+        // 3. Sandboxed window.open: Enforces VIP Ad-Free Immunity, Core UI Protection & 3-Min Cooldown
+        var origWindowOpen = window.open;
+        window.open = function(url, target, features) {
+          // Rule 1: Active VIP users NEVER receive popunders or ad tabs
+          if (window.__MRS_IS_VIP) {
+            if (!url || isAdUrl(url)) {
+              return null;
+            }
+          }
+
+          // Rule 2 & 3: For free users on mobile web, protect core UI interactions and enforce cooldown
+          if (isAdUrl(url)) {
+            if (window.__MRS_UI_TOUCH_LOCKED) {
+              return null; // Tapping channel or player control must NEVER open an ad!
+            }
+            try {
+              var lastAd = parseInt(localStorage.getItem('shahintv_last_interstitial') || '0', 10);
+              if (Date.now() - lastAd < 180000) {
+                return null; // 3-minute interstitial cooldown
+              }
+              localStorage.setItem('shahintv_last_interstitial', String(Date.now()));
+            } catch (e) {}
+          }
+          return origWindowOpen.call(window, url, target, features);
+        };
+
+        // 4. Capture Mobile Web Touch & Pointer Events on Core UI Elements
+        function handleMobileUiTouch(e) {
+          var target = e.target;
+          if (!target) return;
+          var isCoreUi = target.closest && target.closest(
+            'button, [data-player-control], .player-ctrl-btn, video, nav, [role="button"], [role="tab"], input, select, [data-channel-card], .channel-card, a:not([data-ad-link])'
+          );
+          if (isCoreUi) {
+            lockUiTouch();
+          }
+        }
+
+        window.addEventListener('touchstart', handleMobileUiTouch, { capture: true, passive: true });
+        window.addEventListener('pointerdown', handleMobileUiTouch, { capture: true, passive: true });
+        window.addEventListener('click', handleMobileUiTouch, { capture: true, passive: true });
+
+        // 5. Block any late script or iframe injection of Monetag if VIP is active
+        if (isVip) {
+          var origAppend = Element.prototype.appendChild;
+          Element.prototype.appendChild = function(child) {
+            if (window.__MRS_IS_VIP && child) {
+              var tag = (child.tagName || '').toLowerCase();
+              if (tag === 'script' || tag === 'iframe') {
+                var src = child.src || child.getAttribute('src') || '';
+                if (isAdUrl(src)) {
+                  return child;
+                }
+              }
+            }
+            return origAppend.call(this, child);
+          };
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#070A11" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>M R S IPTV</title>
+    <meta name="description" content="A premium Android-style live sports streaming application featuring Camellia Stream Doctor, real-time M3U playlist processing, direct m3u8 playback, and TV mode navigation." />
+    <meta property="og:title" content="M R S IPTV" />
+    <meta property="og:description" content="A premium Android-style live sports streaming application featuring Camellia Stream Doctor, real-time M3U playlist processing, direct m3u8 playback, and TV mode navigation." />
+    <!-- Monetag Publisher Verification Code -->
+    <meta name="monetag" content="fa9656182dbc7301dcd9a2326441dcf3" />
+    <link rel="icon" type="image/png" href="/mrs-iptv-logo.png" />
+    <link rel="apple-touch-icon" href="/mrs-iptv-logo.png" />
+    <link rel="shortcut icon" href="/mrs-iptv-logo.png" />
+    <!-- Google Fonts Preconnect and Link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Preconnect to image CDNs & Sponsor Networks for ultra-fast asset delivery -->
+    <link rel="preconnect" href="https://i.postimg.cc" crossorigin />
+    <link rel="preconnect" href="https://uplcm.com" />
+    <link rel="dns-prefetch" href="https://i.postimg.cc" />
+    <link rel="dns-prefetch" href="https://uplcm.com" />
+    <!-- Google Cast Sender SDK (loaded asynchronously so it never blocks page load) -->
+    <script async defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+    
+    <!-- Legacy Android & Older Chrome Polyfill Suite -->
+    <script>
+      (function() {
+        // 1. globalThis Polyfill
+        if (typeof globalThis === 'undefined') {
+          if (typeof self !== 'undefined') { self.globalThis = self; }
+          else if (typeof window !== 'undefined') { window.globalThis = window; }
+          else if (typeof global !== 'undefined') { global.globalThis = global; }
+        }
+
+        // 2. Object Polyfills
+        if (!Object.assign) {
+          Object.assign = function(target) {
+            if (target == null) throw new TypeError('Cannot convert undefined or null to object');
+            var to = Object(target);
+            for (var index = 1; index < arguments.length; index++) {
+              var nextSource = arguments[index];
+              if (nextSource != null) {
+                for (var key in nextSource) {
+                  if (Object.prototype.hasOwnProperty.call(nextSource, key)) {
+                    to[key] = nextSource[key];
+                  }
+                }
+              }
+            }
+            return to;
+          };
+        }
+        if (!Object.fromEntries) {
+          Object.fromEntries = function(iterable) {
+            return Array.from(iterable).reduce(function(obj, pair) {
+              obj[pair[0]] = pair[1];
+              return obj;
+            }, {});
+          };
+        }
+        if (!Object.hasOwn) {
+          Object.hasOwn = function(object, property) {
+            return Object.prototype.hasOwnProperty.call(object, property);
+          };
+        }
+
+        // 3. String Polyfills
+        if (!String.prototype.includes) {
+          String.prototype.includes = function(search, start) {
+            if (typeof start !== 'number') start = 0;
+            if (start + search.length > this.length) return false;
+            return this.indexOf(search, start) !== -1;
+          };
+        }
+        if (!String.prototype.startsWith) {
+          String.prototype.startsWith = function(search, pos) {
+            return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+          };
+        }
+        if (!String.prototype.endsWith) {
+          String.prototype.endsWith = function(search, this_len) {
+            if (this_len === undefined || this_len > this.length) this_len = this.length;
+            return this.substring(this_len - search.length, this_len) === search;
+          };
+        }
+        if (!String.prototype.padStart) {
+          String.prototype.padStart = function(targetLength, padString) {
+            targetLength = targetLength >> 0;
+            padString = String(typeof padString !== 'undefined' ? padString : ' ');
+            if (this.length >= targetLength) return String(this);
+            targetLength = targetLength - this.length;
+            if (targetLength > padString.length) padString += padString.repeat(targetLength / padString.length);
+            return padString.slice(0, targetLength) + String(this);
+          };
+        }
+        if (!String.prototype.replaceAll) {
+          String.prototype.replaceAll = function(str, newStr) {
+            if (Object.prototype.toString.call(str) === '[object RegExp]') {
+              return this.replace(str, newStr);
+            }
+            return this.replace(new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), newStr);
+          };
+        }
+
+        // 4. Array Polyfills
+        if (!Array.prototype.includes) {
+          Array.prototype.includes = function(searchElement, fromIndex) {
+            var O = Object(this);
+            var len = parseInt(O.length, 10) || 0;
+            if (len === 0) return false;
+            var n = parseInt(fromIndex, 10) || 0;
+            var k;
+            if (n >= 0) { k = n; } else { k = len + n; if (k < 0) k = 0; }
+            while (k < len) {
+              if (searchElement === O[k] || (searchElement !== searchElement && O[k] !== O[k])) return true;
+              k++;
+            }
+            return false;
+          };
+        }
+        if (!Array.prototype.flat) {
+          Array.prototype.flat = function(depth) {
+            var flattype = function(arr, d) {
+              return d > 0 ? arr.reduce(function(acc, val) {
+                return acc.concat(Array.isArray(val) ? flattype(val, d - 1) : val);
+              }, []) : arr.slice();
+            };
+            return flattype(this, depth === undefined ? 1 : Number(depth));
+          };
+        }
+        if (!Array.prototype.flatMap) {
+          Array.prototype.flatMap = function(callback, thisArg) {
+            return this.map(callback, thisArg).flat(1);
+          };
+        }
+
+        // 5. Promise Polyfills
+        if (!Promise.prototype.finally) {
+          Promise.prototype.finally = function(callback) {
+            var P = this.constructor;
+            return this.then(
+              function(value) { return P.resolve(callback()).then(function() { return value; }); },
+              function(reason) { return P.resolve(callback()).then(function() { throw reason; }); }
+            );
+          };
+        }
+        if (!Promise.allSettled) {
+          Promise.allSettled = function(promises) {
+            return Promise.all(promises.map(function(p) {
+              return Promise.resolve(p).then(
+                function(value) { return { status: 'fulfilled', value: value }; },
+                function(reason) { return { status: 'rejected', reason: reason }; }
+              );
+            }));
+          };
+        }
+
+        // 6. DOM Element Methods (append, prepend, remove)
+        if (typeof Element !== 'undefined') {
+          if (!Element.prototype.remove) {
+            Element.prototype.remove = function() {
+              if (this.parentNode) { this.parentNode.removeChild(this); }
+            };
+          }
+          if (!Element.prototype.append) {
+            Element.prototype.append = function() {
+              var argArr = Array.prototype.slice.call(arguments);
+              var docFrag = document.createDocumentFragment();
+              argArr.forEach(function(argItem) {
+                var isNode = argItem instanceof Node;
+                docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
+              });
+              this.appendChild(docFrag);
+            };
+          }
+        }
+
+        // 7. queueMicrotask Polyfill
+        if (typeof queueMicrotask === 'undefined') {
+          window.queueMicrotask = function(callback) {
+            Promise.resolve().then(callback).catch(function(err) {
+              setTimeout(function() { throw err; }, 0);
+            });
+          };
+        }
+
+        // 8. CustomEvent Polyfill
+        if (typeof window.CustomEvent !== "function") {
+          function CustomEvent(event, params) {
+            params = params || { bubbles: false, cancelable: false, detail: null };
+            var evt = document.createEvent('CustomEvent');
+            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+            return evt;
+          }
+          window.CustomEvent = CustomEvent;
+        }
+
+        // 9. AbortController
+        if (typeof AbortController === 'undefined') {
+          window.AbortController = function AbortController() {
+            this.signal = {
+              aborted: false,
+              addEventListener: function() {},
+              removeEventListener: function() {},
+              dispatchEvent: function() { return true; }
+            };
+            this.abort = function() {
+              this.signal.aborted = true;
+            };
+          };
+        }
+
+        // 10. ResizeObserver Fallback
+        if (typeof ResizeObserver === 'undefined') {
+          window.ResizeObserver = function ResizeObserver(callback) {
+            this.observe = function(target) {
+              if (!target) return;
+              var lastW = target.clientWidth;
+              var lastH = target.clientHeight;
+              this._interval = setInterval(function() {
+                if (target.clientWidth !== lastW || target.clientHeight !== lastH) {
+                  lastW = target.clientWidth;
+                  lastH = target.clientHeight;
+                  callback([{ target: target, contentRect: { width: lastW, height: lastH } }], this);
+                }
+              }, 600);
+            };
+            this.unobserve = function() { clearInterval(this._interval); };
+            this.disconnect = function() { clearInterval(this._interval); };
+          };
+        }
+
+        // 11. IntersectionObserver Fallback
+        if (typeof IntersectionObserver === 'undefined') {
+          window.IntersectionObserver = function IntersectionObserver(callback) {
+            this.observe = function(target) {
+              if (target) {
+                callback([{ isIntersecting: true, target: target, intersectionRatio: 1 }], this);
+              }
+            };
+            this.unobserve = function() {};
+            this.disconnect = function() {};
+          };
+        }
+
+        // 12. structuredClone Fallback
+        if (typeof structuredClone === 'undefined') {
+          window.structuredClone = function structuredClone(obj) {
+            try {
+              return JSON.parse(JSON.stringify(obj));
+            } catch(e) {
+              return obj;
+            }
+          };
+        }
+      })();
+    </script>
+    <style>
+      html, body {
+        background-color: #050816;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <div style="font-family: sans-serif; text-align: center; padding: 50px; color: white; background-color: #050816; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h1 style="color: #00D9FF; font-size: 2rem; margin-bottom: 20px;">JavaScript is Required</h1>
+        <p style="color: #C9D1E0; max-width: 500px; line-height: 1.6;">M R S IPTV requires JavaScript to be enabled in order to stream live World Cup and global sports channels. Please enable JavaScript in your browser settings or use a supported browser.</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      (function() {
+        // Fallback loader for Android 5 / older WebViews (Chrome < 61) that ignore <script type="module">
+        if (!('noModule' in HTMLScriptElement.prototype)) {
+          var loadFallback = function() {
+            var modScripts = document.querySelectorAll('script[type="module"]');
+            for (var i = 0; i < modScripts.length; i++) {
+              var s = modScripts[i];
+              if (s.src && !s.getAttribute('data-legacy-loaded')) {
+                s.setAttribute('data-legacy-loaded', 'true');
+                var legacyScript = document.createElement('script');
+                legacyScript.src = s.src;
+                legacyScript.defer = true;
+                document.body.appendChild(legacyScript);
+              }
+            }
+          };
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadFallback);
+          } else {
+            loadFallback();
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
+

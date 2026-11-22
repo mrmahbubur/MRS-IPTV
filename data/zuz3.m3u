@@ -1,0 +1,12 @@
+#EXTM3U x-tvg-url=""
+#EXTINF:-1 tvg-logo="https://imgur.com/79g2kMA.png" group-title="SkyM3U Promo",Skym3u Official - Visit Skym3u.dev
+https://ls-station.github.io/promo-tv/stream/stream.m3u8
+#EXTM3U
+# name: SonyLiv Matches Full Data
+# telegram: https://t.me/livesportsplay
+# owner: Md Sohanur Rahman Hady
+# last_update: 02:20:37 PM 15-11-2026
+#EXTINF:-1 tvg-id="sonyliv-1090554161" tvg-logo="https://origin-staticv2.sonyliv.com/videoasset_images/manage_file/1000029027/1794655981421358_NZvsIND_5th_ODI_landscape_thumb.jpg" group-title="Cricket", 5th ODI | India Tour of New Zealand 2026 [English]
+https://go.skym3u.dev/live/9b33d7/c72079600181bff89450047f805e54da561633dc9ac0e62478ec7514df1fc180d7adbd166b4e8603944c02734e61c4ff4d4ca3549f84de71ed5830e73d3b8b09949d24679da14bdc91019a11048e82d205f7481a3f391b0eb1cb82c7b3e45c2c4e1a12e4bc38245d81645ffa58479e0dc2329ae4dad1b2ed3ba5d286478c3b3ab6538385290cbcdd5c21fb4032d363cafa10f947e00357b414f0bc53dbea8f845b7975e83a0ea7f0e3d652fac0646e93a4b0ab9bea4ff39477355a2150d948e09d9c6f56cf6a6f4b60a686c0319fd6dc880c504f41c4f931013ebfd914e7e5e9214cf6ee161cfd003f87bff96605a3d9db.m3u8?s=58aa78f7&id=zuz3.m3u
+#EXTINF:-1 tvg-id="sonyliv-1090554163" tvg-logo="https://origin-staticv2.sonyliv.com/videoasset_images/manage_file/1000028796/1794398880189427_DP_World_Tour_Championship_Dubai_day4_landscape_thumb.jpg" group-title="Golf", DP World Tour Championship, Dubai - Day 4 | DP World Tour [English]
+https://go.skym3u.dev/live/9b33d7/2b8959ca7879d4d7d7f4a135b084261f2636b1fa8e511b116faba7efae3b3c7a480ac1369c511aa6b4a7dd6c88d0233e336024f9a4c4f69a757b6e33e3ffb73faf8e235e0355b731c8a6e81c8b2631c3f24da8e40e7088af02913d1748a4dfd03c30cd1a816736f244dde3f68ba705dc17549e0b97f068066a2abd079de5197996c96528ec920c619a243414951f0fa8e9f445f4ba94ca811a51ccc1b87628751254842caf32b3c609770ebb9e4ca9bdb3274abcbaf0fe772130befdcc9a3733555663346fa766e0f1ab3ab7e8d350691b68f3c4a8cf85eaf5dc832ac6062248c6638fa28de7d283812c4d7a69c0b3b72adb12049ec975fa119c64c50e1a9ea4ff396ab9efef341e8e4327648cac0a9a38cbe27eb6ceb47e0c7f3fb09083ede61e287a93ab93e6b51d6f5d0ab26944d31c85727337a169e0.m3u8?s=58aa78f7&id=zuz3.m3u

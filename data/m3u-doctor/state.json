@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "totals": {
+    "scanned": 26576,
+    "tested": 4831,
+    "deferred": 21745,
+    "alive": 103,
+    "removed": 4722,
+    "pending": 43
+  },
+  "running": true,
+  "currentMode": "full",
+  "lastFullScanAt": "2026-11-15T09:02:11.578Z"
+}

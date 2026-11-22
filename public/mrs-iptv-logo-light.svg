@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120" role="img" aria-label="M R S IPTV logo">
+  <title>M R S IPTV logo</title>
+  <defs>
+    <linearGradient id="mrsLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D9FF" />
+      <stop offset="50%" stop-color="#176BFF" />
+      <stop offset="100%" stop-color="#B832F5" />
+    </linearGradient>
+    <linearGradient id="mrsLightWordGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D9FF" />
+      <stop offset="50%" stop-color="#176BFF" />
+      <stop offset="100%" stop-color="#B832F5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Compact Horizontal Symbol on Left for Light Backgrounds -->
+  <g transform="translate(8, 10)">
+    <rect x="0" y="6" width="104" height="74" rx="13" fill="#050816" stroke="#050816" stroke-width="5" />
+    <rect x="8" y="14" width="88" height="58" rx="8" fill="#050816" stroke="url(#mrsLightGrad)" stroke-width="3" />
+    <path d="M39 26.5 C39 24.2 41.5 22.8 43.5 24 L71.5 40.5 C73.5 41.7 73.5 44.5 71.5 45.7 L43.5 62.2 C41.5 63.4 39 62 39 59.7 Z" fill="url(#mrsLightGrad)" />
+    <path d="M44.5 33 L61.5 43.1 L44.5 53.2 Z" fill="#FFFFFF" />
+    <path d="M32 90 L72 90" stroke="#050816" stroke-width="5" stroke-linecap="round" />
+    <path d="M44 80 L41 90 M60 80 L63 90" stroke="#050816" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M113 27 A 19 19 0 0 1 113 59" fill="none" stroke="#176BFF" stroke-width="4" stroke-linecap="round" />
+    <path d="M122 19 A 30 30 0 0 1 122 67" fill="none" stroke="url(#mrsLightGrad)" stroke-width="4" stroke-linecap="round" />
+  </g>
+
+  <!-- Dark Lettering for M R S + Brand Gradient for IPTV -->
+  <text x="152" y="75" font-family="'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="52" font-weight="900" letter-spacing="2.5">
+    <tspan fill="#050816">M R S </tspan>
+    <tspan fill="url(#mrsLightWordGrad)">IPTV</tspan>
+  </text>
+</svg>

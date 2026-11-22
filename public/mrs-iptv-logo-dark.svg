@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120" role="img" aria-label="M R S IPTV logo">
+  <title>M R S IPTV logo</title>
+  <defs>
+    <linearGradient id="mrsDarkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D9FF" />
+      <stop offset="50%" stop-color="#176BFF" />
+      <stop offset="100%" stop-color="#B832F5" />
+    </linearGradient>
+    <linearGradient id="mrsDarkWordGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D9FF" />
+      <stop offset="52%" stop-color="#176BFF" />
+      <stop offset="100%" stop-color="#B832F5" />
+    </linearGradient>
+    <linearGradient id="mrsDarkSilver" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#C9D1E0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Compact Horizontal Symbol on Left (Transparent Background) -->
+  <g transform="translate(8, 10)">
+    <rect x="0" y="6" width="104" height="74" rx="13" fill="#050816" stroke="url(#mrsDarkSilver)" stroke-width="5" />
+    <rect x="8" y="14" width="88" height="58" rx="8" fill="#050816" stroke="url(#mrsDarkGrad)" stroke-width="3" />
+    <path d="M39 26.5 C39 24.2 41.5 22.8 43.5 24 L71.5 40.5 C73.5 41.7 73.5 44.5 71.5 45.7 L43.5 62.2 C41.5 63.4 39 62 39 59.7 Z" fill="url(#mrsDarkGrad)" />
+    <path d="M44.5 33 L61.5 43.1 L44.5 53.2 Z" fill="#FFFFFF" opacity="0.95" />
+    <path d="M32 90 L72 90" stroke="#C9D1E0" stroke-width="5" stroke-linecap="round" />
+    <path d="M44 80 L41 90 M60 80 L63 90" stroke="#C9D1E0" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M113 27 A 19 19 0 0 1 113 59" fill="none" stroke="#00D9FF" stroke-width="4" stroke-linecap="round" />
+    <path d="M122 19 A 30 30 0 0 1 122 67" fill="none" stroke="url(#mrsDarkGrad)" stroke-width="4" stroke-linecap="round" />
+  </g>
+
+  <!-- Exact Brand Name on Right: M R S IPTV -->
+  <text x="152" y="75" font-family="'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="52" font-weight="900" letter-spacing="2.5">
+    <tspan fill="#FFFFFF">M R S </tspan>
+    <tspan fill="url(#mrsDarkWordGrad)">IPTV</tspan>
+  </text>
+</svg>

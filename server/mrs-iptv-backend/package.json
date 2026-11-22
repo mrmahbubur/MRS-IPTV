@@ -1,0 +1,28 @@
+{
+  "name": "mrs-iptv-payment-backend",
+  "version": "1.0.0",
+  "description": "Payment verification + activation-code delivery backend for the M R S IPTV VIP Pass",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test --test-concurrency=1 \"test/**/*.test.js\"",
+    "codes:generate": "node scripts/generate-codes.js",
+    "codes:import": "node scripts/import-codes.js",
+    "sms:test": "node scripts/sms-test.js",
+    "api-key:create": "node scripts/create-api-key.js",
+    "access:revoke": "node scripts/revoke-access.js",
+    "worker": "node scripts/worker.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.22.3",
+    "express-rate-limit": "^8.7.3",
+    "helmet": "^8.3.0",
+    "multer": "^2.5.0",
+    "nodemailer": "^10.4.0"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "note": "Editable starter legal free-to-air / demo channel metadata. Live playlists load from /api/channels & .m3u sources.",
+  "channels": [
+    {
+      "id": "fta-mux-1",
+      "name": "M R S Sports Spotlight",
+      "logo": "/mrs-iptv-logo.png",
+      "category": "Sports",
+      "language": "English",
+      "quality": "FHD",
+      "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "isVIP": false
+    },
+    {
+      "id": "fta-apple-bipbop",
+      "name": "M R S Cinema Showcase",
+      "logo": "/mrs-iptv-logo.png",
+      "category": "Movies",
+      "language": "English",
+      "quality": "FHD",
+      "streamUrl": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8",
+      "isVIP": false
+    },
+    {
+      "id": "vip-sports-ultra",
+      "name": "M R S VIP Cricket 4K",
+      "logo": "/mrs-iptv-logo.png",
+      "category": "Sports",
+      "language": "Bengali / English",
+      "quality": "FHD",
+      "streamUrl": "",
+      "isVIP": true
+    },
+    {
+      "id": "vip-football-arena",
+      "name": "M R S VIP Football HD",
+      "logo": "/mrs-iptv-logo.png",
+      "category": "Sports",
+      "language": "English",
+      "quality": "HD",
+      "streamUrl": "",
+      "isVIP": true
+    }
+  ]
+}

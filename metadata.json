@@ -1,0 +1,10 @@
+{
+  "name": "M R S IPTV",
+  "description": "A premium Android-style live sports streaming application featuring Camellia Stream Doctor, real-time M3U playlist processing, direct m3u8 playback, and TV mode navigation.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

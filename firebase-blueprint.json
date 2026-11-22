@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "A message sent in a live channel chatroom",
+      "type": "object",
+      "properties": {
+        "channelId": {
+          "type": "string",
+          "description": "The ID of the channel this message belongs to"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user who sent the message"
+        },
+        "username": {
+          "type": "string",
+          "description": "The display name of the user"
+        },
+        "avatarColor": {
+          "type": "string",
+          "description": "The CSS classes for the user's avatar"
+        },
+        "text": {
+          "type": "string",
+          "description": "The content of the message"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "The server timestamp when the message was sent"
+        },
+        "badge": {
+          "type": "string",
+          "description": "The user's badge"
+        }
+      },
+      "required": ["channelId", "userId", "username", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/ChatMessage"
+      },
+      "description": "A global collection of chat messages for all channels."
+    }
+  }
+}

@@ -1,0 +1,1017 @@
+{
+  "savedAt": "2026-11-21T09:33:41.967Z",
+  "stats": {
+    "totalThreatsBlocked": 6884,
+    "blockedByType": {
+      "SSRF_ATTEMPT": 4,
+      "BRUTE_FORCE": 0,
+      "WAF_ATTACK": 5820,
+      "RATE_LIMIT_EXCEEDED": 1059,
+      "TAMPER_DETECTED": 1,
+      "UNAUTHORIZED_ADMIN": 0
+    },
+    "lastThreatDetectedAt": "2026-11-21T09:33:41.966Z"
+  },
+  "events": [
+    {
+      "id": "sec_1795253621966_02282c12",
+      "timestamp": "2026-11-21T09:33:41.966Z",
+      "ip": "127.0.*.*",
+      "type": "SSRF_ATTEMPT",
+      "severity": "HIGH",
+      "detail": "Forbidden internal address or loopback target: 127.0.0.1",
+      "path": "/api/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1795253564781_2b2c8432",
+      "timestamp": "2026-11-21T09:32:44.781Z",
+      "ip": "127.0.*.*",
+      "type": "SSRF_ATTEMPT",
+      "severity": "HIGH",
+      "detail": "Forbidden internal address or loopback target: 127.0.0.1",
+      "path": "/api/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793625513050_2f1c2ad4",
+      "timestamp": "2026-11-02T13:18:33.050Z",
+      "ip": "127.0.*.*",
+      "type": "TAMPER_DETECTED",
+      "severity": "HIGH",
+      "detail": "Unauthorized multi-device sharing attempt for VIP pass 8349201561. Bound to TEST_TV_DEVICE_001, attempted by DIFFERENT_DEVICE_999",
+      "path": "/api/activate-code",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793558772674_e13226c0",
+      "timestamp": "2026-11-01T18:46:12.674Z",
+      "ip": "127.0.*.*",
+      "type": "WAF_ATTACK",
+      "severity": "HIGH",
+      "detail": "Malicious payload detected in request body (SQL_INJECTION)",
+      "path": "/api/m3u/inspect-and-check",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793558768506_07b8898a",
+      "timestamp": "2026-11-01T18:46:08.506Z",
+      "ip": "127.0.*.*",
+      "type": "WAF_ATTACK",
+      "severity": "HIGH",
+      "detail": "Malicious payload detected in request body (SQL_INJECTION)",
+      "path": "/api/m3u/inspect-and-check",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588544_720e0289",
+      "timestamp": "2026-10-31T05:13:08.544Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588542_e461c729",
+      "timestamp": "2026-10-31T05:13:08.542Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588535_3c0dfb49",
+      "timestamp": "2026-10-31T05:13:08.537Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588533_9145e0ca",
+      "timestamp": "2026-10-31T05:13:08.533Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588527_df25e93d",
+      "timestamp": "2026-10-31T05:13:08.527Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588522_f42c21ba",
+      "timestamp": "2026-10-31T05:13:08.522Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588517_d408f6db",
+      "timestamp": "2026-10-31T05:13:08.517Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588508_89d7b5bf",
+      "timestamp": "2026-10-31T05:13:08.508Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588507_b6048e19",
+      "timestamp": "2026-10-31T05:13:08.507Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588501_0f6e73c3",
+      "timestamp": "2026-10-31T05:13:08.502Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588500_5b121501",
+      "timestamp": "2026-10-31T05:13:08.500Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588497_82b1c50c",
+      "timestamp": "2026-10-31T05:13:08.497Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588496_0daeb027",
+      "timestamp": "2026-10-31T05:13:08.496Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588492_a1dafec1",
+      "timestamp": "2026-10-31T05:13:08.493Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588488_173402ff",
+      "timestamp": "2026-10-31T05:13:08.488Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588486_8e9d98f4",
+      "timestamp": "2026-10-31T05:13:08.487Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588486_83eabaf8",
+      "timestamp": "2026-10-31T05:13:08.486Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588485_212a5aa7",
+      "timestamp": "2026-10-31T05:13:08.485Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588483_835455d7",
+      "timestamp": "2026-10-31T05:13:08.483Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588480_5a6216df",
+      "timestamp": "2026-10-31T05:13:08.480Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588464_5b224812",
+      "timestamp": "2026-10-31T05:13:08.464Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588462_44ff07a0",
+      "timestamp": "2026-10-31T05:13:08.462Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588459_61967d4a",
+      "timestamp": "2026-10-31T05:13:08.459Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588452_2bdf0b1b",
+      "timestamp": "2026-10-31T05:13:08.452Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588451_33e6a5f4",
+      "timestamp": "2026-10-31T05:13:08.452Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588450_350e956e",
+      "timestamp": "2026-10-31T05:13:08.450Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588448_1877ba46",
+      "timestamp": "2026-10-31T05:13:08.448Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588445_9714ed8f",
+      "timestamp": "2026-10-31T05:13:08.445Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588438_9757690f",
+      "timestamp": "2026-10-31T05:13:08.440Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588432_29e83e03",
+      "timestamp": "2026-10-31T05:13:08.433Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588426_5209703e",
+      "timestamp": "2026-10-31T05:13:08.429Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588421_cb82af55",
+      "timestamp": "2026-10-31T05:13:08.421Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588416_6e1c74a8",
+      "timestamp": "2026-10-31T05:13:08.417Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588408_54ddda38",
+      "timestamp": "2026-10-31T05:13:08.408Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588406_398ec108",
+      "timestamp": "2026-10-31T05:13:08.406Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588400_87654f90",
+      "timestamp": "2026-10-31T05:13:08.400Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588392_f4d93645",
+      "timestamp": "2026-10-31T05:13:08.393Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588390_4563bbf4",
+      "timestamp": "2026-10-31T05:13:08.390Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588374_cecf953b",
+      "timestamp": "2026-10-31T05:13:08.374Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588371_813e8873",
+      "timestamp": "2026-10-31T05:13:08.371Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588369_20bbb82f",
+      "timestamp": "2026-10-31T05:13:08.369Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588367_bbcfffe0",
+      "timestamp": "2026-10-31T05:13:08.367Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588365_92a52d6f",
+      "timestamp": "2026-10-31T05:13:08.365Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423588363_678dbb61",
+      "timestamp": "2026-10-31T05:13:08.363Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423587436_67ce993a",
+      "timestamp": "2026-10-31T05:13:07.436Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423587433_2438c036",
+      "timestamp": "2026-10-31T05:13:07.434Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586365_6a9b8cdd",
+      "timestamp": "2026-10-31T05:13:06.365Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586363_315eaf1c",
+      "timestamp": "2026-10-31T05:13:06.364Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586360_0959969c",
+      "timestamp": "2026-10-31T05:13:06.360Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586356_3fb32ed3",
+      "timestamp": "2026-10-31T05:13:06.356Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586350_2931ea70",
+      "timestamp": "2026-10-31T05:13:06.351Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586348_d1df9b6e",
+      "timestamp": "2026-10-31T05:13:06.348Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586345_3c701b00",
+      "timestamp": "2026-10-31T05:13:06.345Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586343_f74ea9a7",
+      "timestamp": "2026-10-31T05:13:06.343Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586341_e61c8c73",
+      "timestamp": "2026-10-31T05:13:06.341Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586337_e92a48db",
+      "timestamp": "2026-10-31T05:13:06.337Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586330_029e6c5f",
+      "timestamp": "2026-10-31T05:13:06.332Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586327_4df51b66",
+      "timestamp": "2026-10-31T05:13:06.328Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586326_13a77eb9",
+      "timestamp": "2026-10-31T05:13:06.326Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586323_a0cb4c68",
+      "timestamp": "2026-10-31T05:13:06.324Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586317_f4529bd4",
+      "timestamp": "2026-10-31T05:13:06.317Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586314_50acd28c",
+      "timestamp": "2026-10-31T05:13:06.314Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586309_0d99c3f2",
+      "timestamp": "2026-10-31T05:13:06.309Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586301_1cc301e2",
+      "timestamp": "2026-10-31T05:13:06.302Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586294_e878f940",
+      "timestamp": "2026-10-31T05:13:06.294Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586285_978e3d1a",
+      "timestamp": "2026-10-31T05:13:06.287Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586274_2f17ac7c",
+      "timestamp": "2026-10-31T05:13:06.278Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586273_e6d068c9",
+      "timestamp": "2026-10-31T05:13:06.273Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586271_816d7da3",
+      "timestamp": "2026-10-31T05:13:06.272Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586263_fc6090e2",
+      "timestamp": "2026-10-31T05:13:06.267Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586257_00255550",
+      "timestamp": "2026-10-31T05:13:06.258Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586255_e3680c53",
+      "timestamp": "2026-10-31T05:13:06.255Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586248_4dc6e371",
+      "timestamp": "2026-10-31T05:13:06.248Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586245_43980de2",
+      "timestamp": "2026-10-31T05:13:06.245Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586240_ee5ad54f",
+      "timestamp": "2026-10-31T05:13:06.240Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586235_eeb13a7e",
+      "timestamp": "2026-10-31T05:13:06.237Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586234_34a83df0",
+      "timestamp": "2026-10-31T05:13:06.234Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586232_d4a02002",
+      "timestamp": "2026-10-31T05:13:06.232Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586228_8fc71c77",
+      "timestamp": "2026-10-31T05:13:06.228Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586225_5b13bb1b",
+      "timestamp": "2026-10-31T05:13:06.225Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586222_e7e8b5b0",
+      "timestamp": "2026-10-31T05:13:06.222Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586220_105de8a4",
+      "timestamp": "2026-10-31T05:13:06.220Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586217_cdc97faa",
+      "timestamp": "2026-10-31T05:13:06.217Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586213_ea4fc464",
+      "timestamp": "2026-10-31T05:13:06.213Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586212_08354747",
+      "timestamp": "2026-10-31T05:13:06.212Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586211_43074919",
+      "timestamp": "2026-10-31T05:13:06.211Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586206_340821f0",
+      "timestamp": "2026-10-31T05:13:06.206Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586199_6ed5d613",
+      "timestamp": "2026-10-31T05:13:06.200Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586197_c583d5e2",
+      "timestamp": "2026-10-31T05:13:06.197Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586195_9dfc8e79",
+      "timestamp": "2026-10-31T05:13:06.195Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586192_26af259b",
+      "timestamp": "2026-10-31T05:13:06.192Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586188_ff6f59ae",
+      "timestamp": "2026-10-31T05:13:06.188Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586182_c6d803f4",
+      "timestamp": "2026-10-31T05:13:06.183Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586178_e258e446",
+      "timestamp": "2026-10-31T05:13:06.179Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    },
+    {
+      "id": "sec_1793423586171_172bc1a8",
+      "timestamp": "2026-10-31T05:13:06.171Z",
+      "ip": "127.0.*.*",
+      "type": "RATE_LIMIT_EXCEEDED",
+      "severity": "MEDIUM",
+      "detail": "Rate limit exceeded on [Global API]: 350/350 in 60s",
+      "path": "/proxy",
+      "blocked": true
+    }
+  ]
+}
