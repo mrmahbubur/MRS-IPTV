@@ -62,6 +62,8 @@ data/uploads/
 data/outbox/
 data/backups/
 data/security_events.json
+data/codes-backup-*.csv
+data/worker-heartbeat.json
 data/m3u-doctor/report.json
 data/m3u-doctor/clean.m3u
 data/m3u-doctor/removed.m3u

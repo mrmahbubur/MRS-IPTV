@@ -220,15 +220,32 @@ async function startServer() {
   // 0. Health check endpoints BEFORE WAF/rate-limiters so Cloud Run startup/liveness probes succeed immediately
   app.get(["/api/health", "/health"], (_req, res) => {
     let stockSummary: Record<string, unknown> | undefined;
+    let livecheckSummary: Record<string, unknown> | undefined;
     try {
       stockSummary = getCodeStock();
     } catch {
       // Keep health probe resilient even if SQLite is recovering
     }
+    try {
+      const checker = getCheckerProgress();
+      livecheckSummary = {
+        total: checker.total,
+        live: checker.live,
+        dead: checker.dead,
+        waiting: checker.waiting,
+        percentChecked: checker.percentChecked,
+        running: checker.running,
+      };
+    } catch {
+      // Keep health probe resilient even if SQLite is initializing
+    }
     res.json({
       ok: true,
       status: "ok",
+      service: "M R S IPTV",
+      uptimeSeconds: Math.floor(process.uptime()),
       timestamp: new Date().toISOString(),
+      ...(livecheckSummary ? { livecheck: livecheckSummary } : {}),
       ...(stockSummary ? { stock: stockSummary } : {}),
     });
   });
