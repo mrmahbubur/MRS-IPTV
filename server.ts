@@ -14,6 +14,7 @@ import nodemailer from "nodemailer";
 import { 
   getConfiguredGeminiKey,
   getGeminiDiagnosticStatus,
+  warmupGeminiDnsIpv4,
   handleAiChatRequest, 
   handleAiDiagnoseStream, 
   handleAiRecommendPersonalized, 
@@ -3232,6 +3233,7 @@ async function startServer() {
   function launchBackgroundEngines() {
     if (backgroundEnginesStarted) return;
     backgroundEnginesStarted = true;
+    void warmupGeminiDnsIpv4(true);
 
     // Schedule Daily Maintenance every 24 hours
     setInterval(() => {
@@ -4121,7 +4123,7 @@ async function startServer() {
 
   app.post(['/admin/checker/run', '/api/admin/checker/run'], requireAdmin, async (req, res) => {
     try {
-      const limit = Number(req.body?.limit) || 2000;
+      const limit = Math.min(Number(req.body?.limit) || backendConfig.checker.batchSize, 200);
       const sync = await syncLiveSources(loadCheckerSources(m3uPlaylistSources), buildExtraWcEntries());
       const check = await runLiveChecks({ limit });
       lastChannelsFetchedAt = 0;
@@ -4820,7 +4822,7 @@ async function startServer() {
 
       // Sync new source into SQLite livecheck pipeline and start immediate verification pass
       syncLiveSources([{ url, name: cleanName, prefix: cleanPrefix }])
-        .then(() => runLiveChecks({ limit: 400 }))
+        .then(() => runLiveChecks({ limit: backendConfig.checker.batchSize }))
         .then(() => {
           lastChannelsFetchedAt = 0;
           return refreshAllChannelsServer();

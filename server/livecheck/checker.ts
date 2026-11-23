@@ -114,6 +114,47 @@ async function resolvePublicHostIps(hostname: string): Promise<string[]> {
   return ips;
 }
 
+export async function prewarmIpv4Host(hostname: string): Promise<void> {
+  const cleanHost = String(hostname || '').replace(/^\[|\]$/g, '').trim().toLowerCase();
+  if (!cleanHost || cleanHost === 'localhost' || net.isIP(cleanHost)) return;
+  const cached = dnsResolutionCache.get(cleanHost);
+  if (cached && cached.expiresAt > Date.now()) return;
+  try {
+    const res = await Promise.race([
+      dns.lookup(cleanHost, { family: 4 }),
+      sleep(2000).then(() => null),
+    ]);
+    if (res && typeof res === 'object' && 'address' in res && res.address && !isPrivateIp(res.address)) {
+      if (dnsResolutionCache.size >= DNS_CACHE_MAX_ENTRIES) {
+        const oldestKey = dnsResolutionCache.keys().next().value;
+        if (oldestKey) dnsResolutionCache.delete(oldestKey);
+      }
+      dnsResolutionCache.set(cleanHost, { ips: [res.address], expiresAt: Date.now() + DNS_CACHE_TTL_MS });
+    }
+  } catch {
+    // Non-fatal DNS IPv4 pre-warming fallback
+  }
+}
+
+export async function prewarmDnsHosts(urls: string[], maxHosts = 20): Promise<void> {
+  const seen = new Set<string>();
+  const hosts: string[] = [];
+  for (const rawUrl of urls) {
+    try {
+      const h = new URL(rawUrl).hostname.replace(/^\[|\]$/g, '').toLowerCase();
+      if (!h || h === 'localhost' || net.isIP(h) || seen.has(h)) continue;
+      seen.add(h);
+      hosts.push(h);
+      if (hosts.length >= maxHosts) break;
+    } catch {
+      // ignore invalid URL
+    }
+  }
+  for (let i = 0; i < hosts.length; i += 2) {
+    await Promise.all(hosts.slice(i, i + 2).map((h) => prewarmIpv4Host(h)));
+  }
+}
+
 export async function assertPublic(urlStr: string, allowPrivate: boolean): Promise<URL> {
   const u = new URL(urlStr);
   if (!/^https?:$/.test(u.protocol)) throw new Error('bad_protocol');

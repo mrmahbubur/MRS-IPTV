@@ -251,7 +251,7 @@ export async function inspectAndCheckM3u(params: {
   sourceName?: string;
   maxChannelsToCheck?: number;
 }): Promise<M3uBatchInspectionResult> {
-  const { url, rawM3u, sourceName = 'Imported M3U Playlist', maxChannelsToCheck = 100 } = params;
+  const { url, rawM3u, sourceName = 'Imported M3U Playlist', maxChannelsToCheck = 60 } = params;
 
   let m3uContent = rawM3u || '';
   if (!m3uContent && url) {
@@ -269,8 +269,8 @@ export async function inspectAndCheckM3u(params: {
 
   const channelsToCheck = rawParsed.slice(0, maxChannelsToCheck);
 
-  // Bounded parallel live verification pool (6 concurrent workers to prevent socket/DNS saturation)
-  const CONCURRENCY = 6;
+  // Bounded parallel live verification pool (4 concurrent workers to prevent socket/DNS saturation)
+  const CONCURRENCY = 4;
   const inspectedChannels: InspectedChannel[] = [];
 
   for (let i = 0; i < channelsToCheck.length; i += CONCURRENCY) {
@@ -300,7 +300,7 @@ export async function inspectAndCheckM3u(params: {
     );
     inspectedChannels.push(...sliceResults);
     if (i + CONCURRENCY < channelsToCheck.length) {
-      await new Promise((r) => setTimeout(r, 150));
+      await new Promise((r) => setTimeout(r, 300));
     }
   }
 

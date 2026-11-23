@@ -345,7 +345,7 @@ export class M3uDoctorService {
     this.log(`Starting livecheck ${mode} verification pass...`);
     try {
       const sync = await syncSources(loadSources());
-      const limit = mode === 'retry' ? 100 : 200;
+      const limit = mode === 'retry' ? 40 : 80;
       const check = await runChecks({ limit });
       this.lastScanAt = new Date().toISOString();
       invalidateLiveIndex();

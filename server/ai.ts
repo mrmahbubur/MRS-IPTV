@@ -72,13 +72,29 @@ function getGenAiClient(): GoogleGenAI | null {
   return genAiClient;
 }
 
-async function warmupGeminiDnsIpv4() {
+let lastGeminiDnsWarmupAt = 0;
+const GEMINI_DNS_WARMUP_TTL_MS = 50_000;
+
+export async function warmupGeminiDnsIpv4(force = false) {
+  const now = Date.now();
+  if (!force && now - lastGeminiDnsWarmupAt < GEMINI_DNS_WARMUP_TTL_MS) {
+    return;
+  }
   try {
-    await dns.promises.lookup("generativelanguage.googleapis.com", { family: 4 });
+    await Promise.race([
+      dns.promises.lookup("generativelanguage.googleapis.com", { family: 4 }),
+      new Promise((resolve) => setTimeout(resolve, 2500))
+    ]);
+    lastGeminiDnsWarmupAt = Date.now();
   } catch {
     // Non-fatal pre-warm
   }
 }
+
+void warmupGeminiDnsIpv4(true);
+setInterval(() => {
+  void warmupGeminiDnsIpv4(true);
+}, GEMINI_DNS_WARMUP_TTL_MS).unref();
 
 async function generateContentWithRetry(
   ai: GoogleGenAI,

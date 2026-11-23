@@ -8,8 +8,11 @@ import { loadSources, syncSources, runChecks, stats, liveChannels } from '../ser
   console.log('sync', await syncSources(sources));
   let t: { checked: number; live: number; dead: number };
   do {
-    t = await runChecks({ limit: 2000 });
+    t = await runChecks({ limit: 40 });
     console.log('checked', t);
+    if (t.checked > 0) {
+      await new Promise((r) => setTimeout(r, 1500));
+    }
   } while (t.checked > 0);
   console.log(JSON.stringify(stats(), null, 2));
   console.log('live channels:', liveChannels({}).length);

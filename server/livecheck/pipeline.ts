@@ -3,7 +3,7 @@ import path from 'node:path';
 import { config } from '../mrs-iptv-backend/src/config.js';
 import { db, audit, isDatabaseMalformedError, verifyAndRepairDatabase } from '../mrs-iptv-backend/src/db.js';
 import { parseM3u, normName } from './m3u.js';
-import { checkStream, CheckStreamOverrides, CheckStreamResult, PROFILE_USER_AGENTS } from './checker.js';
+import { checkStream, prewarmDnsHosts, CheckStreamOverrides, CheckStreamResult, PROFILE_USER_AGENTS } from './checker.js';
 
 function withDbRepair<T>(fn: () => T): T {
   try {
@@ -114,7 +114,7 @@ async function pool<T extends { url: string }>(
   let remaining = items.length;
   const inFlight = new Map<string, number>();
   const waiters: Array<() => void> = [];
-  const effectivePerHost = Math.max(1, perHost || 4);
+  const effectivePerHost = Math.max(1, perHost || config.checker.perHostLimit || 1);
   const workerCount = Math.max(1, Math.min(limit, items.length));
 
   const tryClaimNext = (): { host: string; item: T } | null => {
@@ -762,6 +762,10 @@ export async function runChecks({
     return tally;
   }
 
+  if (!overrides?.allowPrivateNetworks) {
+    await prewarmDnsHosts(batch.map((b) => unwrapStreamUrl(b.url)));
+  }
+
   const threshold = Number(process.env.FAIL_THRESHOLD || config.checker.failThreshold || 2);
   const stmtOk = db.prepare(
     `UPDATE channels SET status='live', fail_count=0, ok_count=ok_count+1, last_reason=?, latency_ms=?, kind=?, best_profile=?, cors=?, last_checked=?, last_ok=? WHERE id=?`
@@ -1012,7 +1016,8 @@ export function startScheduler(
           console.warn('[livecheck scheduler] source sync warning:', syncErr?.message || syncErr);
         }
       }
-      // Drain due backlog across small bounded batches per tick so egress NAT and AI calls stay responsive
+      // Drain due backlog across small bounded batches per tick with mandatory sleep so sockets, DNS, and AI calls stay responsive
+      const batchSleepMs = Math.max(1000, config.checker.batchSleepMs || 2000);
       for (let i = 0; i < 2 && !schedulerStopped; i++) {
         await waitIfAiActive();
         const res = await runChecks({
@@ -1024,9 +1029,9 @@ export function startScheduler(
           onBatchComplete();
         }
         if (res.checked === 0) break;
+        await sleepMs(batchSleepMs);
         const st = stats();
         if (st.byStatus.unknown === 0) break;
-        await sleepMs(1200);
       }
     } catch (e: any) {
       console.error('[livecheck scheduler]', e?.message || e);
