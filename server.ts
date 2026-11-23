@@ -1,6 +1,8 @@
 import "dotenv/config";
 import dns from "dns";
+import net from "node:net";
 dns.setDefaultResultOrder("ipv4first");
+net.setDefaultAutoSelectFamilyAttemptTimeout?.(400);
 
 import express from "express";
 import path from "path";

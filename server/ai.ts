@@ -1,4 +1,9 @@
+import dns from "node:dns";
+import net from "node:net";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+
+dns.setDefaultResultOrder("ipv4first");
+net.setDefaultAutoSelectFamilyAttemptTimeout?.(400);
 
 const DEFAULT_GEMINI_MODEL = "gemini-4-hydrogen";
 
@@ -73,7 +78,7 @@ async function generateContentWithRetry(
     contents: any;
     config?: any;
   },
-  maxRetries = 2
+  maxRetries = 3
 ) {
   let lastError: any = null;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -112,7 +117,7 @@ async function generateContentWithRetry(
           lastError: message.slice(0, 200),
           hasText: false
         };
-        console.warn(`[Smart Recommendation Engine] Gemini API rate limit/quota reached (${status || "429"}). Switching to built-in heuristic intelligence.`);
+        console.warn(`[Smart Recommendation Engine] Gemini API rate limit/quota reached (${status || "429"}).`);
         return null;
       }
 
@@ -154,7 +159,7 @@ async function generateContentWithRetry(
         message.includes("overloaded");
 
       if (isTransient && attempt < maxRetries) {
-        const delay = (attempt + 1) * 1000 + Math.floor(Math.random() * 300);
+        const delay = 1500 * Math.pow(2, attempt) + Math.floor(Math.random() * 400);
         await new Promise((res) => setTimeout(res, delay));
         continue;
       }
@@ -170,10 +175,12 @@ async function generateContentWithRetry(
       };
 
       if (getConfiguredGeminiKey()) {
-        if (status && status !== 400 && status !== 403) {
+        if (isNetworkFailure) {
+          console.warn(`[Gemini AI] Transient network timeout calling ${params.model} after ${maxRetries + 1} attempts: ${detail}`);
+        } else if (status && status !== 400 && status !== 403) {
           console.warn(`[Gemini AI] Model call (${params.model}) failed (${status}): ${detail}`);
-        } else if (!status || status === 400 || status === 403) {
-          console.warn(`[Gemini AI] Model call (${params.model}) error:`, detail || lastError);
+        } else {
+          console.warn(`[Gemini AI] Model call (${params.model}) warning (${status || 'API'}):`, detail || lastError);
         }
       }
       return null;

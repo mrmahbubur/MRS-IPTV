@@ -993,8 +993,8 @@ export function startScheduler(
           console.warn('[livecheck scheduler] source sync warning:', syncErr?.message || syncErr);
         }
       }
-      // Drain due backlog across batches while keeping event loop responsive
-      for (let i = 0; i < 100 && !schedulerStopped; i++) {
+      // Drain due backlog across bounded batches per tick so egress NAT and AI calls stay responsive
+      for (let i = 0; i < 3 && !schedulerStopped; i++) {
         const res = await runChecks({
           limit: config.checker.batchSize,
           concurrency: config.checker.concurrency,
@@ -1006,7 +1006,7 @@ export function startScheduler(
         if (res.checked === 0) break;
         const st = stats();
         if (st.byStatus.unknown === 0) break;
-        await sleepMs(250);
+        await sleepMs(1000);
       }
     } catch (e: any) {
       console.error('[livecheck scheduler]', e?.message || e);
