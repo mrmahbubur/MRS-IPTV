@@ -476,16 +476,34 @@ export class Abort extends Error {
   constructor(reason, detail) { super(reason); this.reason = reason; this.detail = detail; }
 }
 
-/** Synchronous transaction. node:sqlite is single-threaded, so this is atomic. */
+/** Synchronous transaction (re-entrant via SAVEPOINT). node:sqlite is single-threaded, so this is atomic. */
+let txDepth = 0;
 export function tx(fn) {
-  db.exec('BEGIN IMMEDIATE');
+  const depth = txDepth++;
+  const sp = `sp_${depth}`;
+  if (depth === 0) {
+    db.exec('BEGIN IMMEDIATE');
+  } else {
+    db.exec(`SAVEPOINT ${sp}`);
+  }
   try {
     const result = fn();
-    db.exec('COMMIT');
+    if (depth === 0) {
+      db.exec('COMMIT');
+    } else {
+      db.exec(`RELEASE SAVEPOINT ${sp}`);
+    }
     return result;
   } catch (err) {
-    try { db.exec('ROLLBACK'); } catch { /* already rolled back */ }
+    if (depth === 0) {
+      try { db.exec('ROLLBACK'); } catch { /* already rolled back */ }
+    } else {
+      try { db.exec(`ROLLBACK TO SAVEPOINT ${sp}`); } catch { /* ignore */ }
+      try { db.exec(`RELEASE SAVEPOINT ${sp}`); } catch { /* ignore */ }
+    }
     throw err;
+  } finally {
+    txDepth--;
   }
 }
 

@@ -45,4 +45,8 @@ M R S IPTV is a full-stack live sports, TV, news, and entertainment streaming pl
 ### 7. Strict Logo Immutability Rule
 - **Absolute Logo Protection Directive**: The official site logo (`src/assets/images/site_logo_emblem_1791948138398.jpg`, `src/components/MrsIptvLogo.tsx`, and `public/mrs-iptv-logo.png`) CANNOT be changed, replaced, regenerated, or altered under any circumstances without explicit, exact instructions from the user specifically commanding to change the logo. Routine tasks, responsive optimizations, layout tweaks, or refactoring MUST NOT touch or alter the official logo.
 
+### 8. Platform Subsystems & Operational Tooling
+- **Live-Only Channel Checker Pipeline**: Continuous background verification in `server/livecheck/` filters dead, HTML-spoofed, stale, and non-live manifests via SQLite persistence (`/api/channels`, `/api/all-channels`, `/api/checker/status`, `/api/admin/checker/*`).
+- **Real VIP Payment & Activation System**: Multi-method payment ledger verification (bKash, Nagad, Binance Pay, Skrill, Payoneer) paired with signed entitlements, 12-hour delayed activation fallback, and single/multi-device enforcement (`/api/payments/submit`, `/api/activate`, `/api/status`, `/api/internal/*`).
+- **Cloudinary Media Utility**: Automated media asset listing, signed upload parameter generation, collection syncing, and direct uploads via `scripts/cloudinary.mjs` (`npm run cloudinary`).
 

@@ -985,9 +985,13 @@ export function startScheduler(
       if (t - lastSchedulerSync > 30 * 60000) {
         lastSchedulerSync = t;
         progress.lastSync = t;
-        const runtime = runtimeSourcesProvider ? runtimeSourcesProvider() : [];
-        const extras = extraEntriesProvider ? extraEntriesProvider() : [];
-        progress.lastSyncResult = await syncSources(loadSources(runtime), extras);
+        try {
+          const runtime = runtimeSourcesProvider ? runtimeSourcesProvider() : [];
+          const extras = extraEntriesProvider ? extraEntriesProvider() : [];
+          progress.lastSyncResult = await syncSources(loadSources(runtime), extras);
+        } catch (syncErr: any) {
+          console.warn('[livecheck scheduler] source sync warning:', syncErr?.message || syncErr);
+        }
       }
       // Drain due backlog across batches while keeping event loop responsive
       for (let i = 0; i < 100 && !schedulerStopped; i++) {

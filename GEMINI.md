@@ -17,6 +17,9 @@
   - Monitors player buffer health, automatically detects playback stalls/errors on old and new Android/Chrome devices, and dynamically reconfigures player proxy profiles (`vlc`, `smarters`, `chrome`, `smarttv`) to guarantee maximum playback stability.
   - **Daily Automated System Checkup & Upgrades**: Periodically checks and repairs channels, optimizes stream latency for faster and smoother watching, cleans expired activation codes, verifies single-device locks, and records visitor traffic.
   - **Daily Deep-Thinking AI Report**: Uses deep reasoning to formulate system speed/stability improvements and formats a complete daily report accessible in chat and via API.
+  - **Live-Only Checker Endpoints**: `/api/checker/status` and `/api/admin/checker/*` continuously probe every configured M3U playlist and stream URL, keeping only verified live channels (`alive`) in the public catalog.
+  - **VIP Payment & Activation Endpoints**: `/api/payments/submit`, `/api/activate`, `/api/plans`, `/api/payment-methods`, and `/api/internal/*` (scoped Bearer API keys + HMAC-SHA256 webhooks) power single-use code issuance, verification, and entitlement enforcement.
+  - **Cloudinary Media Utility**: `scripts/cloudinary.mjs` (`npm run cloudinary`) manages signed uploads, collection/folder queries, and `data/cloudinary-assets.json` sync via `.env` credentials without touching the official site logo.
 - **Strict Logo Immutability Rule**:
   - The official site logo (`src/assets/images/site_logo_emblem_1791948138398.jpg`, `src/components/MrsIptvLogo.tsx`, and `public/mrs-iptv-logo.png`) CANNOT be changed, replaced, or regenerated without explicit, exact instructions from the user specifically commanding to change the logo.
 

@@ -34,8 +34,7 @@ export function createInternalRouter(channelLookupFn = null) {
 
   // Helper: Verify HMAC-SHA256 signature for payment confirmation
   const verifyHmacSignature = (rawBody, headerSig, secret) => {
-    if (!secret) return true;
-    if (!headerSig) return false;
+    if (!secret || !headerSig) return false;
     const match = String(headerSig).match(/^sha256=([a-f0-9]{64})$/i);
     if (!match) return false;
     const expected = createHmac('sha256', secret).update(rawBody).digest('hex');

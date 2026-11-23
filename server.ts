@@ -22,6 +22,7 @@ import {
 } from "./server/ai";
 import { requireAdmin, verifyAdminCredentials } from "./src/middleware/auth";
 import { config as backendConfig } from "./server/mrs-iptv-backend/src/config.js";
+import { stock as getCodeStock } from "./server/mrs-iptv-backend/src/codes.js";
 import { adminDb } from "./src/lib/firebase-admin";
 import geoip from "geoip-lite";
 import {
@@ -218,7 +219,18 @@ async function startServer() {
 
   // 0. Health check endpoints BEFORE WAF/rate-limiters so Cloud Run startup/liveness probes succeed immediately
   app.get(["/api/health", "/health"], (_req, res) => {
-    res.json({ status: "ok", timestamp: new Date().toISOString() });
+    let stockSummary: Record<string, unknown> | undefined;
+    try {
+      stockSummary = getCodeStock();
+    } catch {
+      // Keep health probe resilient even if SQLite is recovering
+    }
+    res.json({
+      ok: true,
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      ...(stockSummary ? { stock: stockSummary } : {}),
+    });
   });
 
   // 1. Enterprise HTTP Security Headers (CSP, HSTS, NoSniff, SameOrigin, Conceal Fingerprinting)
@@ -362,7 +374,7 @@ async function startServer() {
     ios: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
   };
 
-  const PROXY_SIGNING_SECRET = process.env.TOKEN_SECRET || backendConfig.tokenSecret || 'mrs-proxy-fallback-secret';
+  const PROXY_SIGNING_SECRET = process.env.TOKEN_SECRET || backendConfig.tokenSecret;
 
   function signProxyChildUrl(urlStr: string, expUnix: number): string {
     return createHmac('sha256', PROXY_SIGNING_SECRET)
@@ -3229,19 +3241,15 @@ async function startServer() {
     // Initialize continuous SQLite livecheck pipeline shortly after server binds port
     if (process.env.LIVECHECK_SCHEDULER !== '0') {
       setTimeout(() => {
-        syncLiveSources(loadCheckerSources(m3uPlaylistSources), buildExtraWcEntries())
-          .then(() => {
-            refreshAllChannelsServer();
-            startLiveCheckScheduler(
-              () => m3uPlaylistSources,
-              buildExtraWcEntries,
-              () => {
-                lastChannelsFetchedAt = 0;
-                refreshAllChannelsServer().catch(() => {});
-              }
-            );
-          })
-          .catch((e) => console.warn('[livecheck] initial sync error:', e?.message || e));
+        refreshAllChannelsServer().catch(() => {});
+        startLiveCheckScheduler(
+          () => m3uPlaylistSources,
+          buildExtraWcEntries,
+          () => {
+            lastChannelsFetchedAt = 0;
+            refreshAllChannelsServer().catch(() => {});
+          }
+        );
       }, 1500);
     } else {
       setTimeout(() => {

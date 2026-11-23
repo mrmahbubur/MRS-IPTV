@@ -15,7 +15,8 @@
     "codes:export": "node scripts/export-codes.js",
     "test:payments": "node --test server/mrs-iptv-backend/test/system.test.js",
     "check-channels": "tsx scripts/check-channels.ts",
-    "test:livecheck": "tsx --test tests/livecheck.test.ts"
+    "test:livecheck": "tsx --test tests/livecheck.test.ts",
+    "cloudinary": "node scripts/cloudinary.mjs"
   },
   "dependencies": {
     "@google/genai": "^3.6.1",

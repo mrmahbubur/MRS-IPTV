@@ -13,6 +13,7 @@ import express from 'express';
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
+import { config as backendConfig } from './mrs-iptv-backend/src/config.js';
 
 // --- Types & Data Structures ---
 
@@ -485,7 +486,7 @@ export function clearFailedCodeAttempts(req: express.Request): void {
 
 // --- 5. VIP Pass Cryptographic Signature Engine ---
 
-const SERVER_SECRET = process.env.SECURITY_SECRET || 'mrs_iptv_autonomous_security_engine_key_2026';
+const SERVER_SECRET = process.env.SECURITY_SECRET || backendConfig.securitySecret;
 
 export function signVipDeviceToken(code: string, deviceId: string, expiryIso: string): string {
   const payload = `${code}:${deviceId}:${expiryIso}`;

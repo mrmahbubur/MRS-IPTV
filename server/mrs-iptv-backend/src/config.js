@@ -1,4 +1,7 @@
 // Central configuration. Everything tunable lives here or in .env (see .env.example).
+import fs from 'node:fs';
+import path from 'node:path';
+import { randomBytes } from 'node:crypto';
 try { process.loadEnvFile(); } catch { /* no .env file – environment variables only */ }
 
 const env = process.env;
@@ -33,22 +36,62 @@ export const CHANNELS = {
 };
 
 const production = env.NODE_ENV === 'production';
-const devSecret = (name) => `mrs-${name}-sec-8f2c6e1a4d9b0e3f7a1c5e9d2b4f6a8c`;
+const dbPath = env.DB_PATH || 'data/mrs.sqlite';
+const ephemeralSecrets = new Map();
+let persistedSecretsCache = null;
+
+const runtimeSecret = (name) => {
+  if (ephemeralSecrets.has(name)) return ephemeralSecrets.get(name);
+  const useMemoryOnly = env.NODE_ENV === 'test' || dbPath === ':memory:';
+  const secretsFile = path.join(path.dirname(path.resolve(dbPath)), '.runtime-secrets.json');
+
+  if (!useMemoryOnly) {
+    if (!persistedSecretsCache) {
+      try {
+        persistedSecretsCache = fs.existsSync(secretsFile)
+          ? JSON.parse(fs.readFileSync(secretsFile, 'utf8'))
+          : {};
+      } catch {
+        persistedSecretsCache = {};
+      }
+    }
+    if (typeof persistedSecretsCache[name] === 'string' && persistedSecretsCache[name].length >= 32) {
+      ephemeralSecrets.set(name, persistedSecretsCache[name]);
+      return persistedSecretsCache[name];
+    }
+  }
+
+  const generated = randomBytes(32).toString('hex');
+  ephemeralSecrets.set(name, generated);
+
+  if (!useMemoryOnly) {
+    try {
+      persistedSecretsCache[name] = generated;
+      fs.mkdirSync(path.dirname(secretsFile), { recursive: true });
+      fs.writeFileSync(secretsFile, JSON.stringify(persistedSecretsCache, null, 2), { mode: 0o600 });
+    } catch {
+      // Fall back to in-memory secret if filesystem is read-only
+    }
+  }
+
+  return generated;
+};
 
 export const config = {
   production,
   port: int(env.PORT, 8787),
   host: env.HOST || '0.0.0.0',
-  dbPath: env.DB_PATH || 'data/mrs.sqlite',
+  dbPath,
   uploadDir: env.UPLOAD_DIR || 'data/uploads',
   siteOrigins: list(env.SITE_ORIGINS, ['https://shahin-iptv.ai.studio']),
   trustProxy: int(env.TRUST_PROXY, 0),
 
-  adminToken: env.ADMIN_TOKEN || devSecret('admin'),
-  ingestKey: env.INGEST_KEY || devSecret('ingest'),
-  smsWebhookSecret: env.SMS_WEBHOOK_SECRET || env.INGEST_KEY || devSecret('ingest'),
-  tokenSecret: env.TOKEN_SECRET || devSecret('token'),
-  internalWebhookSecret: env.INTERNAL_WEBHOOK_SECRET || devSecret('internal-webhook'),
+  adminToken: env.ADMIN_TOKEN || runtimeSecret('admin'),
+  ingestKey: env.INGEST_KEY || runtimeSecret('ingest'),
+  smsWebhookSecret: env.SMS_WEBHOOK_SECRET || env.INGEST_KEY || runtimeSecret('ingest'),
+  tokenSecret: env.TOKEN_SECRET || runtimeSecret('token'),
+  securitySecret: env.SECURITY_SECRET || runtimeSecret('security'),
+  internalWebhookSecret: env.INTERNAL_WEBHOOK_SECRET || runtimeSecret('internal-webhook'),
   orderTtlMinutes: int(env.ORDER_TTL_MINUTES, 60),
 
   // Activation codes
