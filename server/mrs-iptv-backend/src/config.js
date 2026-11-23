@@ -232,7 +232,7 @@ export const config = {
   // Live-channel verification engine (mrs-iptv-backend livecheck)
   checker: {
     sourcesFile: env.SOURCES_FILE || 'data/sources.json',
-    concurrency: int(env.CHECK_CONCURRENCY, 10),
+    concurrency: int(env.CHECK_CONCURRENCY, 6),
     timeoutMs: int(env.CHECK_TIMEOUT_MS, 5000),
     liveRecheckMs: int(env.LIVE_RECHECK_MIN, 10) * 60000,
     deadRecheckMs: int(env.DEAD_RECHECK_MIN, 360) * 60000,
@@ -242,8 +242,8 @@ export const config = {
     acceptVod: bool(env.ACCEPT_VOD, false),
     allowPrivateNetworks: bool(env.ALLOW_PRIVATE_NETWORKS, false),
     tickMs: int(env.CHECK_TICK_SEC, 30) * 1000,
-    batchSize: int(env.CHECK_BATCH, 100),
-    perHostLimit: int(env.CHECK_PER_HOST, 3),
+    batchSize: int(env.CHECK_BATCH, 60),
+    perHostLimit: int(env.CHECK_PER_HOST, 2),
     userAgent: env.CHECK_USER_AGENT || 'Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36',
   },
 };

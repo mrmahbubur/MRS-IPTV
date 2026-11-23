@@ -7,9 +7,13 @@
  *  4. HLS freshness: live playlist sequence / segment list advances (rejects frozen/looping streams)
  *  5. Direct streams: first bytes match real media container magic bytes
  */
+import dnsDefault from 'node:dns';
 import dns from 'node:dns/promises';
 import net from 'node:net';
 import { config } from '../mrs-iptv-backend/src/config.js';
+
+dnsDefault.setDefaultResultOrder('ipv4first');
+net.setDefaultAutoSelectFamilyAttemptTimeout?.(400);
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -82,6 +86,34 @@ function isBlockedHostByEnv(hostname: string): boolean {
   return blocked.some((b) => host === b || host.endsWith(`.${b}`));
 }
 
+const DNS_CACHE_TTL_MS = 60_000;
+const DNS_CACHE_MAX_ENTRIES = 1000;
+const dnsResolutionCache = new Map<string, { ips: string[]; expiresAt: number }>();
+
+async function resolvePublicHostIps(hostname: string): Promise<string[]> {
+  if (net.isIP(hostname)) return [hostname];
+  const key = hostname.toLowerCase();
+  const now = Date.now();
+  const cached = dnsResolutionCache.get(key);
+  if (cached && cached.expiresAt > now) {
+    return cached.ips;
+  }
+  const ips = await Promise.race([
+    dns.lookup(hostname, { all: true }).then((rows) => rows.map((r) => r.address)),
+    sleep(3500).then(() => {
+      throw new Error('dns_timeout');
+    }),
+  ]);
+  if (ips.length) {
+    if (dnsResolutionCache.size >= DNS_CACHE_MAX_ENTRIES) {
+      const oldestKey = dnsResolutionCache.keys().next().value;
+      if (oldestKey) dnsResolutionCache.delete(oldestKey);
+    }
+    dnsResolutionCache.set(key, { ips, expiresAt: now + DNS_CACHE_TTL_MS });
+  }
+  return ips;
+}
+
 export async function assertPublic(urlStr: string, allowPrivate: boolean): Promise<URL> {
   const u = new URL(urlStr);
   if (!/^https?:$/.test(u.protocol)) throw new Error('bad_protocol');
@@ -89,14 +121,7 @@ export async function assertPublic(urlStr: string, allowPrivate: boolean): Promi
   if (isBlockedHostByEnv(host)) throw new Error('blocked_source_host');
   if (allowPrivate) return u;
   if (host.toLowerCase() === 'localhost') throw new Error('blocked_private_address');
-  const ips = net.isIP(host)
-    ? [host]
-    : await Promise.race([
-        dns.lookup(host, { all: true }).then((rows) => rows.map((r) => r.address)),
-        sleep(3500).then(() => {
-          throw new Error('dns_timeout');
-        }),
-      ]);
+  const ips = await resolvePublicHostIps(host);
   if (!ips.length || ips.some(isPrivateIp)) throw new Error('blocked_private_address');
   return u;
 }

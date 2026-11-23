@@ -49,6 +49,24 @@ export interface ChannelRow {
 
 const nowMs = () => Date.now();
 const sleepMs = (ms: number) => new Promise((r) => setTimeout(r, ms));
+let activeAiCalls = 0;
+let aiPriorityUntil = 0;
+
+export function beginAiPriorityWindow(maxHoldMs = 15000) {
+  activeAiCalls++;
+  aiPriorityUntil = Math.max(aiPriorityUntil, Date.now() + maxHoldMs);
+}
+
+export function endAiPriorityWindow() {
+  activeAiCalls = Math.max(0, activeAiCalls - 1);
+  if (activeAiCalls === 0) aiPriorityUntil = 0;
+}
+
+async function waitIfAiActive() {
+  while (activeAiCalls > 0 && Date.now() < aiPriorityUntil) {
+    await sleepMs(250);
+  }
+}
 const hostOf = (rawUrl: string) => {
   try {
     return new URL(rawUrl).host;
@@ -156,6 +174,7 @@ async function pool<T extends { url: string }>(
   await Promise.all(
     Array.from({ length: workerCount }, async () => {
       while (true) {
+        await waitIfAiActive();
         const claimed = await acquireNext();
         if (!claimed) break;
         const { host: h, item } = claimed;
@@ -993,8 +1012,9 @@ export function startScheduler(
           console.warn('[livecheck scheduler] source sync warning:', syncErr?.message || syncErr);
         }
       }
-      // Drain due backlog across bounded batches per tick so egress NAT and AI calls stay responsive
-      for (let i = 0; i < 3 && !schedulerStopped; i++) {
+      // Drain due backlog across small bounded batches per tick so egress NAT and AI calls stay responsive
+      for (let i = 0; i < 2 && !schedulerStopped; i++) {
+        await waitIfAiActive();
         const res = await runChecks({
           limit: config.checker.batchSize,
           concurrency: config.checker.concurrency,
@@ -1006,7 +1026,7 @@ export function startScheduler(
         if (res.checked === 0) break;
         const st = stats();
         if (st.byStatus.unknown === 0) break;
-        await sleepMs(1000);
+        await sleepMs(1200);
       }
     } catch (e: any) {
       console.error('[livecheck scheduler]', e?.message || e);

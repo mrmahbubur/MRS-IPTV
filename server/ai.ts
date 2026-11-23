@@ -1,6 +1,7 @@
 import dns from "node:dns";
 import net from "node:net";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { beginAiPriorityWindow, endAiPriorityWindow } from "./livecheck/pipeline.js";
 
 dns.setDefaultResultOrder("ipv4first");
 net.setDefaultAutoSelectFamilyAttemptTimeout?.(400);
@@ -57,7 +58,7 @@ function getGenAiClient(): GoogleGenAI | null {
           headers: {
             "User-Agent": "aistudio-build"
           },
-          timeout: 90000
+          timeout: 30000
         }
       });
       cachedGeminiApiKey = apiKey;
@@ -71,6 +72,14 @@ function getGenAiClient(): GoogleGenAI | null {
   return genAiClient;
 }
 
+async function warmupGeminiDnsIpv4() {
+  try {
+    await dns.promises.lookup("generativelanguage.googleapis.com", { family: 4 });
+  } catch {
+    // Non-fatal pre-warm
+  }
+}
+
 async function generateContentWithRetry(
   ai: GoogleGenAI,
   params: {
@@ -81,18 +90,21 @@ async function generateContentWithRetry(
   maxRetries = 3
 ) {
   let lastError: any = null;
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      const response = await ai.models.generateContent(params);
-      lastGeminiDiagnostic = {
-        model: params.model,
-        lastCallAt: new Date().toISOString(),
-        lastOk: true,
-        lastStatus: 200,
-        lastError: null,
-        hasText: Boolean(response?.text && response.text.trim().length > 0)
-      };
-      return response;
+  beginAiPriorityWindow(35000);
+  try {
+    await warmupGeminiDnsIpv4();
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await ai.models.generateContent(params);
+        lastGeminiDiagnostic = {
+          model: params.model,
+          lastCallAt: new Date().toISOString(),
+          lastOk: true,
+          lastStatus: 200,
+          lastError: null,
+          hasText: Boolean(response?.text && response.text.trim().length > 0)
+        };
+        return response;
     } catch (err: any) {
       lastError = err;
       const errName = String(err?.name || "");
@@ -187,6 +199,9 @@ async function generateContentWithRetry(
     }
   }
   return null;
+  } finally {
+    endAiPriorityWindow();
+  }
 }
 
 export async function generateDailyDeepThinkingReport(params: {
