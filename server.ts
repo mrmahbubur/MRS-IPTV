@@ -208,12 +208,22 @@ const paymentRequestsStore: any[] = [];
 
 async function startServer() {
   const app = express();
-  app.set('trust proxy', backendConfig.trustProxy || 1);
 
-  // Port resolution: AI Studio dev sandbox strictly requires port 3000 (nginx reverse proxy),
+  // Port & platform resolution: AI Studio dev sandbox strictly requires port 3000 (nginx reverse proxy),
   // while Render / Cloud Run production containers route traffic via process.env.PORT (e.g. 10000 / 8080).
   const isDevSandbox = Boolean(process.env.CONTROL_PLANE_PORT);
-  const isRender = Boolean(process.env.RENDER || process.env.RENDER_EXTERNAL_URL);
+  const isRender = Boolean(
+    process.env.RENDER ||
+    process.env.RENDER_EXTERNAL_URL ||
+    process.env.RENDER_SERVICE_ID ||
+    process.env.RENDER_INSTANCE_ID
+  );
+  const trustProxyHops =
+    process.env.TRUST_PROXY !== undefined && process.env.TRUST_PROXY !== ''
+      ? backendConfig.trustProxy
+      : (isRender || isDevSandbox || process.env.NODE_ENV === 'production' ? 1 : 0);
+  app.set('trust proxy', trustProxyHops);
+
   const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
   // Enable HTTP response compression for ultra-fast transfers
@@ -249,7 +259,18 @@ async function startServer() {
       status: "ok",
       service: "M R S IPTV",
       platform: isRender ? "render" : isDevSandbox ? "sandbox" : "node",
+      environment: process.env.NODE_ENV || (isDevSandbox ? "development" : "production"),
       nodeVersion: process.version,
+      trustProxy: trustProxyHops,
+      ...(isRender
+        ? {
+            render: {
+              serviceName: process.env.RENDER_SERVICE_NAME || "mrs-iptv",
+              externalUrl: process.env.RENDER_EXTERNAL_URL || undefined,
+              gitBranch: process.env.RENDER_GIT_BRANCH || undefined,
+            },
+          }
+        : {}),
       uptimeSeconds: Math.floor(process.uptime()),
       timestamp: new Date().toISOString(),
       ...(livecheckSummary ? { livecheck: livecheckSummary } : {}),

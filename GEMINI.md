@@ -20,6 +20,7 @@
   - **Live-Only Checker Endpoints**: `/api/checker/status` and `/api/admin/checker/*` continuously probe every configured M3U playlist and stream URL, keeping only verified live channels (`alive`) in the public catalog.
   - **VIP Payment & Activation Endpoints**: `/api/payments/submit`, `/api/activate`, `/api/plans`, `/api/payment-methods`, and `/api/internal/*` (scoped Bearer API keys + HMAC-SHA256 webhooks) power single-use code issuance, verification, and entitlement enforcement.
   - **Cloudinary Media Utility**: `scripts/cloudinary.mjs` (`npm run cloudinary`) manages signed uploads, collection/folder queries, and `data/cloudinary-assets.json` sync via `.env` credentials without touching the official site logo.
+  - **Render Production Deployment & Health Telemetry**: Pinned to Node.js `>=22.13.0` (`.node-version` `22.14.0`, `package.json` `engines`, `render.yaml`), automatically enables Express `trust proxy` and `RENDER_EXTERNAL_URL` CORS allowance on Render, and reports platform, Node version, and service readiness via `/api/health`.
 - **Strict Logo Immutability Rule**:
   - The official site logo (`src/assets/images/site_logo_emblem_1791948138398.jpg`, `src/components/MrsIptvLogo.tsx`, and `public/mrs-iptv-logo.png`) CANNOT be changed, replaced, or regenerated without explicit, exact instructions from the user specifically commanding to change the logo.
 

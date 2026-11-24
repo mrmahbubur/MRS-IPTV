@@ -320,9 +320,21 @@ function inspectValueForThreats(val: any, keyName?: string): { isThreat: boolean
   return { isThreat: false };
 }
 
+function getTrustedClientIp(req: express.Request): string {
+  const resolved = req.ip || req.socket?.remoteAddress;
+  if (resolved && resolved !== 'unknown') {
+    return resolved.replace(/^::ffff:/, '');
+  }
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string' && forwarded.trim()) {
+    return forwarded.split(',')[0].trim();
+  }
+  return 'unknown';
+}
+
 export function wafInspectionMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
-  // Extract client IP safely
-  const clientIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+  // Extract client IP safely via Express trust proxy resolution
+  const clientIp = getTrustedClientIp(req);
 
   const isLoopback = clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === 'localhost' || clientIp === '::ffff:127.0.0.1' || clientIp.startsWith('127.');
 
@@ -393,7 +405,7 @@ export function createSlidingWindowLimiter(options: {
   }, options.windowMs);
 
   return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const defaultKey = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+    const defaultKey = getTrustedClientIp(req);
     const clientKey = options.keyGenerator ? options.keyGenerator(req) : defaultKey;
     const now = Date.now();
 
@@ -447,7 +459,7 @@ export const aiEndpointRateLimiter = createSlidingWindowLimiter({
 const bruteForceFailedAttempts = new Map<string, { count: number; lockedUntil: number }>();
 
 export function checkBruteForceLock(req: express.Request): { locked: boolean; remainingSec: number } {
-  const ip = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+  const ip = getTrustedClientIp(req);
   const deviceId = req.body?.deviceId || req.query.deviceId || '';
   const key = `${ip}_${deviceId}`;
   const now = Date.now();
@@ -460,7 +472,7 @@ export function checkBruteForceLock(req: express.Request): { locked: boolean; re
 }
 
 export function recordFailedCodeAttempt(req: express.Request): void {
-  const ip = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+  const ip = getTrustedClientIp(req);
   const deviceId = req.body?.deviceId || req.query.deviceId || '';
   const key = `${ip}_${deviceId}`;
   const now = Date.now();
@@ -478,7 +490,7 @@ export function recordFailedCodeAttempt(req: express.Request): void {
 }
 
 export function clearFailedCodeAttempts(req: express.Request): void {
-  const ip = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+  const ip = getTrustedClientIp(req);
   const deviceId = req.body?.deviceId || req.query.deviceId || '';
   const key = `${ip}_${deviceId}`;
   bruteForceFailedAttempts.delete(key);

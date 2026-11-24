@@ -118,7 +118,16 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
   // -------------------------------------------------------------------------
   // 1. PUBLIC PAYMENT, ORDER, ACTIVATION & ACCOUNT ENDPOINTS
   // -------------------------------------------------------------------------
-  router.get('/health', (_req, res) => res.json({ ok: true, time: nowIso(), stock: stock() }));
+  router.get('/health', (_req, res) =>
+    res.json({
+      ok: true,
+      platform: config.isRender ? 'render' : 'node',
+      nodeVersion: process.version,
+      uptimeSeconds: Math.floor(process.uptime()),
+      time: nowIso(),
+      stock: stock(),
+    })
+  );
 
   router.get('/plans', (_req, res) =>
     res.json({

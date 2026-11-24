@@ -36,6 +36,7 @@ export const CHANNELS = {
 };
 
 const production = env.NODE_ENV === 'production';
+const isRender = Boolean(env.RENDER || env.RENDER_EXTERNAL_URL || env.RENDER_SERVICE_ID || env.RENDER_INSTANCE_ID);
 const dataDir = String(env.DATA_DIR || '').trim();
 const dbPath = env.DB_PATH || (dataDir ? path.join(dataDir, 'mrs.sqlite') : 'data/mrs.sqlite');
 const renderExternalUrl = String(env.RENDER_EXTERNAL_URL || '').trim().replace(/\/+$/, '');
@@ -83,6 +84,7 @@ const runtimeSecret = (name) => {
 
 export const config = {
   production,
+  isRender,
   port: int(env.PORT, 8787),
   host: env.HOST || '0.0.0.0',
   dbPath,
@@ -93,7 +95,7 @@ export const config = {
     ...(appUrl ? [appUrl] : []),
     ...(siteUrlEnv ? [siteUrlEnv] : []),
   ])),
-  trustProxy: int(env.TRUST_PROXY, (env.RENDER || renderExternalUrl || production) ? 1 : 0),
+  trustProxy: int(env.TRUST_PROXY, (isRender || production) ? 1 : 0),
 
   adminToken: env.ADMIN_TOKEN || runtimeSecret('admin'),
   ingestKey: env.INGEST_KEY || runtimeSecret('ingest'),
