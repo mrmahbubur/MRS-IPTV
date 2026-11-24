@@ -75,7 +75,8 @@ import {
   signVipDeviceToken,
   verifyVipDeviceToken,
   getSecurityHealthSnapshot,
-  flushSecurityBlacklist
+  flushSecurityBlacklist,
+  getTrustedClientIp
 } from "./server/security";
 
 // Disable SSL certificate verification for proxying external streaming sources
@@ -3323,7 +3324,7 @@ async function startServer() {
   app.post('/api/analytics/ping', express.json(), (req, res) => {
     try {
       const { sessionId, path, channelWatched } = req.body || {};
-      const ipRaw = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '127.0.0.1').split(',')[0].trim();
+      const ipRaw = getTrustedClientIp(req);
       const uaString = req.headers['user-agent'] || '';
       
       const sid = sessionId || `${ipRaw}_${uaString.slice(0, 30)}`;
@@ -3634,51 +3635,9 @@ async function startServer() {
     return flags[c] || '🌐';
   }
 
-  // Extract public client IP from reverse proxy and CDN headers
+  // Centralized client IP extraction honoring Express trust proxy & reverse proxy headers
   function extractClientIp(req: express.Request): string {
-    const cfIp = req.headers['cf-connecting-ip'] as string;
-    if (cfIp && typeof cfIp === 'string' && cfIp.trim()) return cfIp.trim();
-
-    const gcpIp = (req.headers['x-client-ip'] as string) || (req.headers['fastly-client-ip'] as string);
-    if (gcpIp && typeof gcpIp === 'string' && gcpIp.trim()) return gcpIp.trim();
-
-    const forwarded = req.headers['x-forwarded-for'];
-    if (typeof forwarded === 'string' && forwarded.trim()) {
-      const parts = forwarded.split(',');
-      for (const part of parts) {
-        const candidate = part.trim();
-        if (
-          candidate &&
-          candidate !== 'unknown' &&
-          candidate !== '127.0.0.1' &&
-          !candidate.startsWith('10.') &&
-          !candidate.startsWith('192.168.') &&
-          !candidate.startsWith('172.16.') &&
-          !candidate.startsWith('172.17.') &&
-          !candidate.startsWith('172.18.') &&
-          !candidate.startsWith('172.19.') &&
-          !candidate.startsWith('172.2') &&
-          !candidate.startsWith('172.3') &&
-          !candidate.startsWith('::1')
-        ) {
-          return candidate;
-        }
-      }
-      if (parts[0] && parts[0].trim()) {
-        return parts[0].trim();
-      }
-    }
-
-    const realIp = req.headers['x-real-ip'];
-    if (typeof realIp === 'string' && realIp.trim()) {
-      return realIp.trim();
-    }
-
-    let remote = req.socket.remoteAddress || '';
-    if (remote.startsWith('::ffff:')) {
-      remote = remote.slice(7);
-    }
-    return remote;
+    return getTrustedClientIp(req);
   }
 
   interface ClientGeoProfile {
@@ -6587,7 +6546,7 @@ M R S IPTV Team
         });
       }
 
-      const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || '127.0.0.1';
+      const ip = getTrustedClientIp(req);
       const parsedUA = parseUserAgent(userAgent || req.headers['user-agent']);
 
       referredDeviceToReferrerMap.set(cleanDeviceId, cleanCode);
@@ -6813,7 +6772,7 @@ M R S IPTV Team
         return res.json({ success: false, message: "Self-referral ignored" });
       }
 
-      const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || '127.0.0.1';
+      const ip = getTrustedClientIp(req);
       const parsedUA = parseUserAgent(userAgent || req.headers['user-agent']);
 
       // Map device to this referrer

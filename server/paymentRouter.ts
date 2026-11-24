@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import { getTrustedClientIp } from './security.js';
 
 // Import from the payment backend engine
 import { config, PLANS, CHANNELS, PLAN_IDS } from './mrs-iptv-backend/src/config.js';
@@ -111,6 +112,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
       limit: max,
       standardHeaders: true,
       legacyHeaders: false,
+      keyGenerator: (req: Request) => ipKeyGenerator(getTrustedClientIp(req)),
       message: { error: { code: 'rate_limited', message: 'Too many requests. Please wait a moment and try again.' } },
       ...extra,
     });
@@ -159,9 +161,10 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
   });
 
   const submitOrderHandler = wrap(async (req: any, res: any) => {
-    const shield = await verifyCheckoutSubmission(req.body || {}, req.ip || '');
+    const clientIp = getTrustedClientIp(req);
+    const shield = await verifyCheckoutSubmission(req.body || {}, clientIp);
     if (!shield.ok) {
-      audit('shield', 'checkout_blocked', null, { code: shield.code, ip: req.ip });
+      audit('shield', 'checkout_blocked', null, { code: shield.code, ip: clientIp });
       return res.status(shield.status || 400).json({
         error: {
           code: shield.code,
@@ -170,7 +173,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
       });
     }
     const { order, created } = await createOrder(req.body || {}, req.file, {
-      ip: req.ip,
+      ip: clientIp,
       userAgent: req.get('user-agent'),
     });
     res.status(created ? 201 : 200).json(publicOrder(order));
@@ -201,7 +204,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
   });
 
   router.post('/redeem', limiter(15 * 60_000, config.production ? 12 : 1000, { skipSuccessfulRequests: true }), (req: Request, res: Response) => {
-    const lockKey = `${req.ip}:redeem`;
+    const lockKey = `${getTrustedClientIp(req)}:redeem`;
     const lock = checkActivationLockout(lockKey);
     if (lock.blocked) {
       return res.status(429).json({ error: { code: 'TOO_MANY_ATTEMPTS', message: `Too many failed attempts. Try again in ${lock.retryAfterSeconds}s.` } });
@@ -214,7 +217,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
   });
 
   router.post('/activate', limiter(15 * 60_000, config.production ? 12 : 1000, { skipSuccessfulRequests: true }), (req: Request, res: Response) => {
-    const lockKey = `${req.ip}:${String(req.body?.email || '').toLowerCase()}`;
+    const lockKey = `${getTrustedClientIp(req)}:${String(req.body?.email || '').toLowerCase()}`;
     const lock = checkActivationLockout(lockKey);
     if (lock.blocked) {
       return res.status(429).json({ ok: false, error: { code: 'TOO_MANY_ATTEMPTS', message: `Too many failed attempts. Try again in ${lock.retryAfterSeconds}s.` } });
@@ -266,7 +269,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
       emailCheck.value,
       subject,
       message,
-      req.ip || null,
+      getTrustedClientIp(req) || null,
       nowIso()
     );
     audit('user', 'support_contact', null, { id: Number(ins.lastInsertRowid), email: emailCheck.value, subject });

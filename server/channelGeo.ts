@@ -71,6 +71,10 @@ function extractTrustedIp(req: express.Request): string | null {
 
   const behindTrustedProxy = Boolean(
     process.env.K_SERVICE ||
+    process.env.RENDER ||
+    process.env.RENDER_EXTERNAL_URL ||
+    process.env.RENDER_SERVICE_ID ||
+    process.env.RENDER_INSTANCE_ID ||
     process.env.TRUST_PROXY === '1' ||
     process.env.TRUST_CDN_GEO === '1'
   );

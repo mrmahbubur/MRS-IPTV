@@ -320,20 +320,58 @@ function inspectValueForThreats(val: any, keyName?: string): { isThreat: boolean
   return { isThreat: false };
 }
 
-function getTrustedClientIp(req: express.Request): string {
-  const resolved = req.ip || req.socket?.remoteAddress;
-  if (resolved && resolved !== 'unknown') {
-    return resolved.replace(/^::ffff:/, '');
+function normalizeIp(raw: string | undefined | null): string {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  return s.startsWith('::ffff:') ? s.slice(7) : s;
+}
+
+function isInternalOrLoopbackIp(ip: string): boolean {
+  if (!ip) return true;
+  if (ip === '127.0.0.1' || ip === '::1' || ip === 'localhost') return true;
+  if (ip.startsWith('10.') || ip.startsWith('192.168.') || ip.startsWith('169.254.')) return true;
+  if (/^172\.(1[6-9]|2\d|3[0-1])\./.test(ip)) return true;
+  const lower = ip.toLowerCase();
+  if (lower.startsWith('fc') || lower.startsWith('fd') || lower.startsWith('fe80:')) return true;
+  return false;
+}
+
+export function getTrustedClientIp(req: express.Request): string {
+  const trustProxySetting = req.app?.get?.('trust proxy');
+  const trustProxyEnabled = Boolean(
+    (typeof trustProxySetting === 'number' && trustProxySetting > 0) ||
+    trustProxySetting === true ||
+    process.env.RENDER ||
+    process.env.RENDER_EXTERNAL_URL ||
+    process.env.RENDER_SERVICE_ID ||
+    process.env.K_SERVICE ||
+    process.env.TRUST_PROXY === '1'
+  );
+
+  const expressIp = normalizeIp(req.ip);
+  const remoteIp = normalizeIp(req.socket?.remoteAddress);
+
+  if (trustProxyEnabled && (!remoteIp || isInternalOrLoopbackIp(remoteIp))) {
+    if (expressIp && !isInternalOrLoopbackIp(expressIp)) {
+      return expressIp;
+    }
+    const cfIp = normalizeIp(req.headers?.['cf-connecting-ip'] as string);
+    if (cfIp && !isInternalOrLoopbackIp(cfIp)) return cfIp;
+
+    const forwarded = req.headers?.['x-forwarded-for'];
+    if (typeof forwarded === 'string' && forwarded.trim()) {
+      const hops = forwarded.split(',').map((h) => normalizeIp(h)).filter(Boolean);
+      for (let i = hops.length - 1; i >= 0; i--) {
+        if (!isInternalOrLoopbackIp(hops[i])) return hops[i];
+      }
+    }
   }
-  const forwarded = req.headers['x-forwarded-for'];
-  if (typeof forwarded === 'string' && forwarded.trim()) {
-    return forwarded.split(',')[0].trim();
-  }
-  return 'unknown';
+
+  return expressIp || remoteIp || '127.0.0.1';
 }
 
 export function wafInspectionMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
-  // Extract client IP safely via Express trust proxy resolution
+  // Extract client IP safely via centralized trusted proxy resolution
   const clientIp = getTrustedClientIp(req);
 
   const isLoopback = clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === 'localhost' || clientIp === '::ffff:127.0.0.1' || clientIp.startsWith('127.');
