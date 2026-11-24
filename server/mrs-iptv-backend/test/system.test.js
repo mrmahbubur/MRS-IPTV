@@ -837,6 +837,40 @@ test('checkout anti-spam shield: honeypot trap, valid SHA-256 PoW, replay block,
   const badRes = await order(bd({ trxId: 'POWBADSIG1', challengeToken: `${b64}.tamperedSig123`, challengeSolution: solution }));
   assert.equal(badRes.status, 400);
   assert.equal(badRes.body.error.code, 'challenge_failed');
+
+  // 5. Optional Turnstile / hCaptcha enforcement when server secret keys are configured
+  const prevTurnstileSite = config.checkoutShield.turnstileSiteKey;
+  const prevTurnstileSecret = config.checkoutShield.turnstileSecretKey;
+  const prevHcaptchaSite = config.checkoutShield.hcaptchaSiteKey;
+  const prevHcaptchaSecret = config.checkoutShield.hcaptchaSecretKey;
+  try {
+    config.checkoutShield.turnstileSiteKey = '1x00000000000000000000AA';
+    config.checkoutShield.turnstileSecretKey = 'test-turnstile-secret';
+    const tsCh = await j(await fetch(`${base}/api/payments/challenge`));
+    assert.equal(tsCh.captchaProvider, 'turnstile');
+    assert.equal(tsCh.turnstileSiteKey, '1x00000000000000000000AA');
+
+    const noCap = await order(bd({ trxId: 'NOCAP00001' }));
+    assert.equal(noCap.status, 400);
+    assert.equal(noCap.body.error.code, 'captcha_required');
+
+    config.checkoutShield.turnstileSiteKey = '';
+    config.checkoutShield.turnstileSecretKey = '';
+    config.checkoutShield.hcaptchaSiteKey = '10000000-ffff-ffff-ffff-000000000001';
+    config.checkoutShield.hcaptchaSecretKey = 'test-hcaptcha-secret';
+    const hcCh = await j(await fetch(`${base}/api/payments/challenge`));
+    assert.equal(hcCh.captchaProvider, 'hcaptcha');
+    assert.equal(hcCh.hcaptchaSiteKey, '10000000-ffff-ffff-ffff-000000000001');
+
+    const noHCap = await order(bd({ trxId: 'NOCAP00002' }));
+    assert.equal(noHCap.status, 400);
+    assert.equal(noHCap.body.error.code, 'captcha_required');
+  } finally {
+    config.checkoutShield.turnstileSiteKey = prevTurnstileSite;
+    config.checkoutShield.turnstileSecretKey = prevTurnstileSecret;
+    config.checkoutShield.hcaptchaSiteKey = prevHcaptchaSite;
+    config.checkoutShield.hcaptchaSecretKey = prevHcaptchaSecret;
+  }
 });
 
 test('backend AI payment verifier enforces receiving account match and recent payment timestamp', async () => {

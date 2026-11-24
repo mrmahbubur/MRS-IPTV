@@ -23,6 +23,7 @@ import {
 import { AdFreeState } from '../types';
 import { useRealtimeVipCountdown } from '../lib/adSystem';
 import { WatchAdVipButton } from './WatchAdVipButton';
+import { CaptchaChallengeWidget } from './CaptchaChallengeWidget';
 
 interface PremiumModalProps {
   isOpen: boolean;
@@ -67,7 +68,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [captchaToken, setCaptchaToken] = useState('');
   const [checkoutChallenge, setCheckoutChallenge] = useState<CheckoutChallenge | null>(null);
-  const captchaContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
 
   // Handle Payment Document / Screenshot Upload (JPG, PNG, WebP, or PDF)
   const handleImageFile = (file: File) => {
@@ -213,53 +214,6 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
     }
   }, [isOpen, onStateChange]);
 
-  useEffect(() => {
-    if (!isOpen || !checkoutChallenge) return;
-    const turnstileKey = checkoutChallenge.turnstileSiteKey;
-    const hcaptchaKey = checkoutChallenge.hcaptchaSiteKey;
-    if (!turnstileKey && !hcaptchaKey) return;
-
-    const scriptId = turnstileKey ? 'cf-turnstile-script' : 'hcaptcha-script';
-    const scriptSrc = turnstileKey
-      ? 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
-      : 'https://js.hcaptcha.com/1/api.js?render=explicit';
-
-    const renderWidget = () => {
-      const container = captchaContainerRef.current;
-      if (!container) return;
-      container.innerHTML = '';
-      try {
-        if (turnstileKey && (window as any).turnstile) {
-          (window as any).turnstile.render(container, {
-            sitekey: turnstileKey,
-            theme: 'dark',
-            callback: (tok: string) => setCaptchaToken(tok || ''),
-            'expired-callback': () => setCaptchaToken(''),
-          });
-        } else if (hcaptchaKey && (window as any).hcaptcha) {
-          (window as any).hcaptcha.render(container, {
-            sitekey: hcaptchaKey,
-            theme: 'dark',
-            callback: (tok: string) => setCaptchaToken(tok || ''),
-            'expired-callback': () => setCaptchaToken(''),
-          });
-        }
-      } catch {}
-    };
-
-    if (!document.getElementById(scriptId)) {
-      const s = document.createElement('script');
-      s.id = scriptId;
-      s.src = scriptSrc;
-      s.async = true;
-      s.defer = true;
-      s.onload = renderWidget;
-      document.head.appendChild(s);
-    } else {
-      renderWidget();
-    }
-  }, [isOpen, checkoutChallenge]);
-
   if (!isOpen) return null;
 
   const handleCopy = (text: string, key: string) => {
@@ -399,6 +353,11 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
       return;
     }
 
+    if ((checkoutChallenge?.turnstileSiteKey || checkoutChallenge?.hcaptchaSiteKey) && !captchaToken) {
+      setFormError('Please complete the security CAPTCHA check before submitting your order.');
+      return;
+    }
+
     setIsSubmitting(true);
     const activeInfo = getActivePaymentInfo();
     const formattedPaymentMethod = `${activeInfo.title} (${activeInfo.fields.map(f => `${f.label}: ${f.value}`).join(', ')})`;
@@ -426,6 +385,8 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
       });
 
       setIsSubmitting(false);
+      setCaptchaToken('');
+      setCaptchaResetKey((k) => k + 1);
       getCheckoutChallenge().then(setCheckoutChallenge).catch(() => {});
 
       const whatsappPhone = supportMeta.whatsapp.replace(/[^\d]/g, '') || '8801810853282';
@@ -493,6 +454,8 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
       }
     } catch (err: any) {
       setIsSubmitting(false);
+      setCaptchaToken('');
+      setCaptchaResetKey((k) => k + 1);
       getCheckoutChallenge().then(setCheckoutChallenge).catch(() => {});
       if (err.fields) {
         setFieldErrors(err.fields);
@@ -1141,11 +1104,12 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                     />
                   </div>
 
-                  {(checkoutChallenge?.turnstileSiteKey || checkoutChallenge?.hcaptchaSiteKey) && (
-                    <div className="flex justify-center py-1">
-                      <div ref={captchaContainerRef} />
-                    </div>
-                  )}
+                  <CaptchaChallengeWidget
+                    turnstileSiteKey={checkoutChallenge?.turnstileSiteKey}
+                    hcaptchaSiteKey={checkoutChallenge?.hcaptchaSiteKey}
+                    resetKey={captchaResetKey}
+                    onTokenChange={setCaptchaToken}
+                  />
 
                   {formError && (
                     <p className="text-xs font-semibold text-white bg-[#F43F5E]/20 border border-[#F43F5E]/50 p-3 rounded-lg">

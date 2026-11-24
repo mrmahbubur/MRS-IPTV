@@ -43,16 +43,19 @@ Production full-stack streaming platform featuring a dark premium UI, HLS live T
 │       ├── mailer.js               # Bilingual EN/BN HTML+text email templates & retry queue
 │       ├── validators.js           # Zod input schemas & sanitization
 │       ├── parsers.js              # bKash & Nagad SMS parser
+│       ├── checkoutShield.js       # Single-use HMAC PoW, honeypot & Turnstile/hCaptcha verifier
 │       ├── server.js               # Route handlers, HMAC/signature checks & rate limiters
 │       └── providers/              # Modular adapters (bkash, nagad, binance, skrill, payoneer)
 ├── src/
-│   ├── lib/mrsVip.ts               # Client SDK (API_BASE_URL, checkout, status, activation, devices)
+│   ├── lib/mrsVip.ts               # Client SDK (API_BASE_URL, PoW challenge solver, checkout, status, activation, devices)
 │   ├── lib/codes.ts                # Server-validated VIP state & device fingerprint helper
 │   └── components/
+│       ├── CaptchaChallengeWidget.tsx # Optional Turnstile / hCaptcha checkout widget
 │       ├── PremiumModal.tsx        # VIP Plans, Free vs VIP table, Checkout & Activate flows
+│       ├── AndroidTvVipGate.tsx    # TV VIP unlock & challenge-protected checkout
 │       ├── AccountSupportModal.tsx # Account status, devices, favorites, support & FAQ
 │       ├── LegalPolicyModal.tsx    # Terms, Refund, Privacy, DMCA & About M R S TV
-│       └── AdminDashboardView.tsx  # #admin verification queue, revenue, audit log & stock
+│       └── AdminDashboardView.tsx  # #admin verification queue, SMTP health, revenue, audit log & stock
 └── .env.example                    # Complete documented environment template
 ```
 
@@ -76,7 +79,8 @@ cp .env.example .env
 Edit `.env` and set strong random values for:
 - `ADMIN_TOKEN` (used as Bearer token for `/api/admin/*`)
 - `INGEST_KEY` and `SMS_WEBHOOK_SECRET` (used by your Android SMS Forwarder app)
-- `TOKEN_SECRET` (HMAC secret for VIP entitlement session tokens)
+- `TOKEN_SECRET` and `SECURITY_SECRET` (HMAC secrets for VIP entitlement tokens and checkout Proof-of-Work challenges)
+- `CHECKOUT_CHALLENGE_REQUIRED` (`true`), `CHECKOUT_POW_DIFFICULTY` (`10`), plus optional `TURNSTILE_SITE_KEY`/`TURNSTILE_SECRET_KEY` or `HCAPTCHA_SITE_KEY`/`HCAPTCHA_SECRET_KEY` for external CAPTCHA verification
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ADMIN_EMAIL` (for Nodemailer code emails and `< 50` low-stock alerts)
 
 ### Initialize Database & Generate 1,200 Activation Codes Per Plan
@@ -148,7 +152,8 @@ On failure:
 | :--- | :--- | :--- |
 | `GET /api/plans` | — | Array of active plans (`1m`, `2m`, `6m`, `12m`) with BDT/USD prices and `durationDays` |
 | `GET /api/payment-methods` | — | Configured receiving accounts (bKash, Nagad, Binance Pay, Skrill, Payoneer), bilingual EN/BN instructions, and support links |
-| `POST /api/payments/submit` | `multipart/form-data`: `name`, `email`, `plan` (`1m`/`2m`/`6m`/`12m`), `method` (`bkash`/`nagad`/`binance`/`skrill`/`payoneer`), `trxId`, `senderNumber`, optional `screenshot` (png/jpg/webp <= 3MB), optional `Idempotency-Key` header | `{ ref, status: "pending", expiresAt, method, amountExpected, currency }` (never returns the code) |
+| `GET /api/payments/challenge` | — | Single-use HMAC-signed SHA-256 Proof-of-Work challenge (`challengeToken`, `nonce`, `difficulty`) + optional `turnstileSiteKey` / `hcaptchaSiteKey` |
+| `POST /api/payments/submit` | `multipart/form-data`: `name`, `email`, `plan` (`1m`/`2m`/`6m`/`12m`), `method` (`bkash`/`nagad`/`binance`/`skrill`/`payoneer`), `trxId`, `senderNumber`, optional `screenshot` (png/jpg/webp/pdf <= 3MB), `challengeToken`, `challengeSolution`, `website_url` (empty honeypot), optional `captchaToken`, optional `Idempotency-Key` header | `{ ref, status: "pending", expiresAt, method, amountExpected, currency }` (never returns the code) |
 | `GET /api/orders/:ref/status` | `?email=...` or `email` match | `{ ref, status: "pending" \| "verified" \| "rejected" \| "expired", plan, createdAt, verifiedAt, codeSent }` (never returns the code) |
 | `POST /api/activate` | JSON `{ code, email, deviceId }` | `{ token, plan, planLabel, expiresAt, daysRemaining, deviceCount, deviceLimit, extended }` — error codes: `INVALID_CODE`, `ALREADY_USED`, `REVOKED`, `EXPIRED`, `DEVICE_LIMIT` |
 | `GET /api/status` | `Authorization: Bearer <token>` | `{ active, plan, expiresAt, daysRemaining, deviceLimit, devices: [...] }` |
@@ -172,6 +177,7 @@ On failure:
 - `GET /api/admin/codes/stats`
 - `POST /api/admin/codes/generate` (`{ plan, count }`)
 - `POST /api/admin/codes/:id/revoke`
+- `POST /api/admin/mail/verify` (`{ sendTest, to }`) & `POST /api/admin/mail/flush`
 - `GET /api/admin/revenue`
 - `GET /api/admin/audit`
 

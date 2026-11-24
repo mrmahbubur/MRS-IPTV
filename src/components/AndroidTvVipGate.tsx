@@ -7,12 +7,15 @@ import {
 import { MrsIptvLogo } from './MrsIptvLogo';
 import { activateAdFreeCode, getDeviceId } from '../lib/codes';
 import {
+  CheckoutChallenge,
   formatActivationCodeInput,
+  getCheckoutChallenge,
   getPaymentMethods,
   PaymentMethodConfig,
   planFromMonths,
   submitOrder,
 } from '../lib/mrsVip';
+import { CaptchaChallengeWidget } from './CaptchaChallengeWidget';
 import { AdFreeState } from '../types';
 
 interface AndroidTvVipGateProps {
@@ -36,6 +39,11 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
   const [proofTxId, setProofTxId] = useState('');
   const [proofPackage, setProofPackage] = useState<'1' | '2' | '6' | '12'>('1');
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
+  const [proofError, setProofError] = useState('');
+  const [proofWebsiteUrl, setProofWebsiteUrl] = useState('');
+  const [proofCaptchaToken, setProofCaptchaToken] = useState('');
+  const [proofChallenge, setProofChallenge] = useState<CheckoutChallenge | null>(null);
+  const [proofCaptchaResetKey, setProofCaptchaResetKey] = useState(0);
   const [proofSuccess, setProofSuccess] = useState<{ orderId: string; status: string; message?: string } | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodConfig[]>([]);
   const [supportInfo, setSupportInfo] = useState<{ whatsapp: string; email: string }>({
@@ -51,6 +59,15 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (showProofModal) {
+      setProofError('');
+      setProofWebsiteUrl('');
+      setProofCaptchaToken('');
+      getCheckoutChallenge().then(setProofChallenge).catch(() => {});
+    }
+  }, [showProofModal]);
 
   // Spatial TV remote focus state
   const [focusedKeyIndex, setFocusedKeyIndex] = useState<number>(-1); // -1 = input, 0-11 keypad, 12 = activate button
@@ -108,8 +125,14 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
 
   const handleProofSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setProofError('');
     if (!proofSender.trim() || !proofTxId.trim() || !proofEmail.trim()) {
-      setErrorMessage('Please provide your sender account/phone, email, and Transaction ID.');
+      setProofError('Please provide your sender account/phone, email, and Transaction ID.');
+      return;
+    }
+
+    if ((proofChallenge?.turnstileSiteKey || proofChallenge?.hcaptchaSiteKey) && !proofCaptchaToken) {
+      setProofError('Please complete the security CAPTCHA check before submitting.');
       return;
     }
 
@@ -124,14 +147,25 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
         email: proofEmail.trim(),
         name: proofName.trim() || 'Android TV Viewer',
         trxId: proofTxId.trim(),
+        website_url: proofWebsiteUrl,
+        captchaToken: proofCaptchaToken || undefined,
+        challenge: proofChallenge,
       });
       setProofSuccess({
         orderId: order.orderId || 'SUBMITTED',
         status: order.status || 'pending',
         message: order.aiSummary || order.message,
       });
+      setProofCaptchaToken('');
+      setProofCaptchaResetKey((k) => k + 1);
+      getCheckoutChallenge().then(setProofChallenge).catch(() => {});
     } catch (err: any) {
-      setErrorMessage(err?.message || `Submission failed. Please email ${supportInfo.email}.`);
+      const msg = err?.message || `Submission failed. Please email ${supportInfo.email}.`;
+      setProofError(msg);
+      setErrorMessage(msg);
+      setProofCaptchaToken('');
+      setProofCaptchaResetKey((k) => k + 1);
+      getCheckoutChallenge().then(setProofChallenge).catch(() => {});
     } finally {
       setIsSubmittingProof(false);
     }
@@ -755,6 +789,34 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
                   </select>
                 </div>
 
+                {/* Anti-spam honeypot field (hidden from genuine users) */}
+                <div className="fixed -left-[9999px] top-0 w-px h-px overflow-hidden opacity-0 pointer-events-none" aria-hidden="true">
+                  <label htmlFor="tv_website_url">Website</label>
+                  <input
+                    id="tv_website_url"
+                    name="website_url"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={proofWebsiteUrl}
+                    onChange={(e) => setProofWebsiteUrl(e.target.value)}
+                  />
+                </div>
+
+                <CaptchaChallengeWidget
+                  turnstileSiteKey={proofChallenge?.turnstileSiteKey}
+                  hcaptchaSiteKey={proofChallenge?.hcaptchaSiteKey}
+                  resetKey={proofCaptchaResetKey}
+                  onTokenChange={setProofCaptchaToken}
+                />
+
+                {proofError && (
+                  <div className="p-2.5 rounded-lg bg-red-950/70 border border-red-500/50 text-xs text-red-200 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                    <span>{proofError}</span>
+                  </div>
+                )}
+
                 <div className="pt-2 flex gap-3">
                   <button
                     type="button"
@@ -771,6 +833,11 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
                     {isSubmittingProof ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                     <span>Submit Proof</span>
                   </button>
+                </div>
+
+                <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 pt-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Protected by Anti-Spam Checkout Shield</span>
                 </div>
               </form>
             )}

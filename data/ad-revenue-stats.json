@@ -1,8 +1,8 @@
 {
-  "totalImpressions": 110,
+  "totalImpressions": 111,
   "totalClicks": 0,
-  "estimatedRevenueUsd": 0.11334,
-  "lastUpdated": "2026-11-24T09:57:41.134Z",
+  "estimatedRevenueUsd": 0.1144,
+  "lastUpdated": "2026-11-24T10:31:59.008Z",
   "zones": {
     "300808": {
       "zoneId": "300808",
@@ -35,10 +35,10 @@
       "zoneId": "11242069",
       "network": "Monetag Direct",
       "url": "https://uplcm.com/4/11242069",
-      "impressions": 6,
+      "impressions": 7,
       "clicks": 0,
-      "revenueUsd": 0.00636,
-      "lastTriggered": "2026-11-24T09:57:41.134Z"
+      "revenueUsd": 0.00742,
+      "lastTriggered": "2026-11-24T10:31:59.008Z"
     },
     "11242745": {
       "zoneId": "11242745",
