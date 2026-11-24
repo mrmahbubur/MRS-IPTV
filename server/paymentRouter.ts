@@ -313,7 +313,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
     const rawBody = (req as any).rawBody || JSON.stringify(req.body || {});
     const r = verifier(req.headers, rawBody, req.body || {});
     if (!r.ok) {
-      audit('webhook', `${providerName}_rejected`, null, { code: r.code, ip: req.ip });
+      audit('webhook', `${providerName}_rejected`, null, { code: r.code, ip: getTrustedClientIp(req) });
       const status = r.code === 'provider_disabled' ? 501 : r.code === 'invalid_payload' ? 400 : 401;
       return res.status(status).json({ ok: false, error: { code: r.code, message: r.message } });
     }

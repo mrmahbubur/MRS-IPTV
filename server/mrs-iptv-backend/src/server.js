@@ -2,12 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import multer from 'multer';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import fs from 'node:fs';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import path from 'node:path';
 
 import { config, PLANS, CHANNELS, PLAN_IDS } from './config.js';
+import { getTrustedClientIp } from './clientIp.js';
 import { get, all, run, nowIso, audit } from './db.js';
 import { createOrder, getOrderByPublicId, listOrders, publicOrder, ApiError } from './orders.js';
 import { approveManually, rejectManually, verifyOrder, reconcilePending, expireOld } from './verify.js';
@@ -184,6 +185,7 @@ export function createApp() {
   const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: config.maxScreenshotBytes, files: 1, fields: 24 } });
   const limiter = (windowMs, max, extra = {}) => rateLimit({
     windowMs, limit: max, standardHeaders: true, legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(getTrustedClientIp(req)),
     message: { error: { code: 'rate_limited', message: 'Too many requests. Please wait a moment and try again.' } }, ...extra,
   });
 
@@ -211,9 +213,10 @@ export function createApp() {
   });
 
   const submitOrderHandler = wrap(async (req, res) => {
-    const shield = await verifyCheckoutSubmission(req.body || {}, req.ip || '');
+    const clientIp = getTrustedClientIp(req);
+    const shield = await verifyCheckoutSubmission(req.body || {}, clientIp);
     if (!shield.ok) {
-      audit('shield', 'checkout_blocked', null, { code: shield.code, ip: req.ip });
+      audit('shield', 'checkout_blocked', null, { code: shield.code, ip: clientIp });
       return res.status(shield.status || 400).json({
         error: {
           code: shield.code,
@@ -221,7 +224,7 @@ export function createApp() {
         },
       });
     }
-    const { order, created } = await createOrder(req.body || {}, req.file, { ip: req.ip, userAgent: req.get('user-agent') });
+    const { order, created } = await createOrder(req.body || {}, req.file, { ip: clientIp, userAgent: req.get('user-agent') });
     res.status(created ? 201 : 200).json(publicOrder(order));
   });
 
@@ -250,7 +253,7 @@ export function createApp() {
   });
 
   app.post('/api/redeem', limiter(15 * 60_000, config.production ? 10 : 1000, { skipSuccessfulRequests: true }), (req, res) => {
-    const lockKey = `${req.ip}:redeem`;
+    const lockKey = `${getTrustedClientIp(req)}:redeem`;
     const lock = checkActivationLockout(lockKey);
     if (lock.blocked) {
       return res.status(429).json({ error: { code: 'TOO_MANY_ATTEMPTS', message: `Too many failed attempts. Try again in ${lock.retryAfterSeconds}s.` } });
@@ -263,7 +266,7 @@ export function createApp() {
   });
 
   app.post('/api/activate', limiter(15 * 60_000, config.production ? 12 : 1000, { skipSuccessfulRequests: true }), (req, res) => {
-    const lockKey = `${req.ip}:${String(req.body?.email || '').toLowerCase()}`;
+    const lockKey = `${getTrustedClientIp(req)}:${String(req.body?.email || '').toLowerCase()}`;
     const lock = checkActivationLockout(lockKey);
     if (lock.blocked) {
       return res.status(429).json({ ok: false, error: { code: 'TOO_MANY_ATTEMPTS', message: `Too many failed code attempts. Try again in ${lock.retryAfterSeconds}s.` } });
@@ -311,7 +314,7 @@ export function createApp() {
     }
     const ins = run(
       `INSERT INTO support_messages(name, email, subject, message, status, ip, created_at) VALUES (?,?,?,?,'open',?,?)`,
-      name, emailCheck.value, subject, message, req.ip || null, nowIso()
+      name, emailCheck.value, subject, message, getTrustedClientIp(req) || null, nowIso()
     );
     audit('user', 'support_contact', null, { id: Number(ins.lastInsertRowid), email: emailCheck.value, subject });
     res.status(201).json({ ok: true, data: { ticketId: Number(ins.lastInsertRowid), message: 'Support inquiry received. Our team will reply shortly.' } });
@@ -348,7 +351,7 @@ export function createApp() {
   const handleProviderWebhook = (providerName, verifier) => (req, res) => {
     const r = verifier(req.headers, req.rawBody || JSON.stringify(req.body || {}), req.body || {});
     if (!r.ok) {
-      audit('webhook', `${providerName}_rejected`, null, { code: r.code, ip: req.ip });
+      audit('webhook', `${providerName}_rejected`, null, { code: r.code, ip: getTrustedClientIp(req) });
       const status = r.code === 'provider_disabled' ? 501 : r.code === 'invalid_payload' ? 400 : 401;
       return res.status(status).json({ ok: false, error: { code: r.code, message: r.message } });
     }

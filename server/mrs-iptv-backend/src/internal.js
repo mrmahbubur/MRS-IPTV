@@ -1,6 +1,7 @@
 import express from 'express';
 import { createHmac, timingSafeEqual, randomBytes } from 'node:crypto';
 import { config, PLANS, PLAN_IDS } from './config.js';
+import { getTrustedClientIp } from './clientIp.js';
 import { get, run, all, tx, nowIso, audit } from './db.js';
 import { verifyApiKey } from './apiKeys.js';
 import { normalizeEmail } from './validators.js';
@@ -108,7 +109,7 @@ export function createInternalRouter(channelLookupFn = null) {
       plan.id,
       expectedMinor,
       user.email,
-      req.ip || '127.0.0.1',
+      getTrustedClientIp(req),
       (req.get('user-agent') || 'internal-caller').slice(0, 200),
       now,
       now
@@ -147,7 +148,7 @@ export function createInternalRouter(channelLookupFn = null) {
 
     // Enforce HMAC-SHA256 signature
     if (!verifyHmacSignature(rawBody, signatureHeader, config.internalWebhookSecret)) {
-      audit('security', 'bad_internal_signature', null, { ip: req.ip });
+      audit('security', 'bad_internal_signature', null, { ip: getTrustedClientIp(req) });
       return res.status(401).json({
         error: {
           code: 'invalid_signature',

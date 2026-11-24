@@ -76,7 +76,8 @@ import {
   verifyVipDeviceToken,
   getSecurityHealthSnapshot,
   flushSecurityBlacklist,
-  getTrustedClientIp
+  getTrustedClientIp,
+  isPrivateIpAddress
 } from "./server/security";
 
 // Disable SSL certificate verification for proxying external streaming sources
@@ -469,7 +470,7 @@ async function startServer() {
       // Anti-SSRF (Server-Side Request Forgery) Stream Firewall Inspection
       const ssrfCheck = isBlockedSsrfTarget(targetUrl);
       if (ssrfCheck.blocked) {
-        const clientIp = extractClientIp(req);
+        const clientIp = getTrustedClientIp(req);
         logSecurityEvent(clientIp, 'SSRF_ATTEMPT', 'HIGH', ssrfCheck.reason || 'Blocked internal/private IP SSRF attempt', '/api/proxy');
         return res.status(403).send(`Forbidden: Target address blocked by Security Firewall (${ssrfCheck.reason})`);
       }
@@ -3635,10 +3636,6 @@ async function startServer() {
     return flags[c] || '🌐';
   }
 
-  // Centralized client IP extraction honoring Express trust proxy & reverse proxy headers
-  function extractClientIp(req: express.Request): string {
-    return getTrustedClientIp(req);
-  }
 
   interface ClientGeoProfile {
     code: string;
@@ -3685,43 +3682,24 @@ async function startServer() {
     }
 
     // 3. Real High-Speed IP Geolocation via GeoLite2 (Sub-millisecond local DB lookup)
-    const clientIp = extractClientIp(req);
-    if (clientIp) {
-      let lookupIp = clientIp;
-      if (lookupIp.startsWith('::ffff:')) {
-        lookupIp = lookupIp.slice(7);
-      }
-      const isPrivate = 
-        lookupIp === '127.0.0.1' || 
-        lookupIp === '::1' || 
-        lookupIp.startsWith('10.') || 
-        lookupIp.startsWith('192.168.') ||
-        lookupIp.startsWith('169.254.') ||
-        lookupIp.startsWith('172.16.') ||
-        lookupIp.startsWith('172.17.') ||
-        lookupIp.startsWith('172.18.') ||
-        lookupIp.startsWith('172.19.') ||
-        lookupIp.startsWith('172.2') ||
-        lookupIp.startsWith('172.3');
-
-      if (!isPrivate) {
-        try {
-          const geo = geoip.lookup(lookupIp);
-          if (geo && geo.country && geo.country.length === 2) {
-            const cCode = geo.country.toUpperCase();
-            return {
-              code: cCode,
-              name: getCountryNameFromCode(cCode),
-              city: geo.city || undefined,
-              timezone: geo.timezone || undefined,
-              flagEmoji: getCountryFlag(cCode),
-              detectionMethod: 'geoip',
-              ip: clientIp
-            };
-          }
-        } catch (err) {
-          console.warn('[Backend Geo] GeoIP lookup warning:', err);
+    const clientIp = getTrustedClientIp(req);
+    if (clientIp && !isPrivateIpAddress(clientIp)) {
+      try {
+        const geo = geoip.lookup(clientIp);
+        if (geo && geo.country && geo.country.length === 2) {
+          const cCode = geo.country.toUpperCase();
+          return {
+            code: cCode,
+            name: getCountryNameFromCode(cCode),
+            city: geo.city || undefined,
+            timezone: geo.timezone || undefined,
+            flagEmoji: getCountryFlag(cCode),
+            detectionMethod: 'geoip',
+            ip: clientIp
+          };
         }
+      } catch (err) {
+        console.warn('[Backend Geo] GeoIP lookup warning:', err);
       }
     }
 
@@ -4789,7 +4767,7 @@ async function startServer() {
         return res.status(400).json({ error: "Valid M3U URL is required" });
       }
       if (isBlockedSsrfTarget(String(url))) {
-        logSecurityEvent(extractClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF source add target: ${url}`, '/api/m3u/sources');
+        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF source add target: ${url}`, '/api/m3u/sources');
         return res.status(403).json({ error: "Forbidden target URL" });
       }
 
@@ -4863,7 +4841,7 @@ async function startServer() {
       const { url } = req.body;
       if (!url) return res.status(400).json({ error: "URL is required" });
       if (isBlockedSsrfTarget(String(url))) {
-        logSecurityEvent(extractClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF test target: ${url}`, '/api/m3u/test');
+        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF test target: ${url}`, '/api/m3u/test');
         return res.status(403).json({ valid: false, error: "Forbidden target URL" });
       }
 
@@ -4944,7 +4922,7 @@ async function startServer() {
         return res.status(400).json({ error: "Either M3U URL or raw M3U playlist text is required" });
       }
       if (url && isBlockedSsrfTarget(String(url))) {
-        logSecurityEvent(extractClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF inspect target: ${url}`, '/api/m3u/inspect-and-check');
+        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF inspect target: ${url}`, '/api/m3u/inspect-and-check');
         return res.status(403).json({ error: "Forbidden target URL" });
       }
       const inspection = await inspectAndCheckM3u({
@@ -6291,7 +6269,7 @@ M R S IPTV Team
         // Rule 1: Single Device restriction & Tamper Logging
         if (existing.deviceId !== deviceId) {
           recordFailedCodeAttempt(req);
-          const clientIp = extractClientIp(req);
+          const clientIp = getTrustedClientIp(req);
           logSecurityEvent(clientIp, 'TAMPER_DETECTED', 'HIGH', `Unauthorized multi-device sharing attempt for VIP pass ${cleanCode}. Bound to ${existing.deviceId}, attempted by ${deviceId}`, '/api/activate-code');
           return res.status(403).json({
             success: false,
@@ -7010,7 +6988,7 @@ M R S IPTV Team
       }
       if (sqlRow.device_id && deviceId && sqlRow.device_id !== deviceId) {
         recordFailedCodeAttempt(req);
-        const clientIp = extractClientIp(req);
+        const clientIp = getTrustedClientIp(req);
         logSecurityEvent(clientIp, 'TAMPER_DETECTED', 'MEDIUM', `SQLite device verification mismatch for code ${cleanCode}`, '/api/verify-code');
         return res.json({ isValid: false, reason: "Device mismatch - Code used on another device" });
       }
@@ -7020,7 +6998,7 @@ M R S IPTV Team
 
     if (record.deviceId !== deviceId) {
       recordFailedCodeAttempt(req);
-      const clientIp = extractClientIp(req);
+      const clientIp = getTrustedClientIp(req);
       logSecurityEvent(clientIp, 'TAMPER_DETECTED', 'MEDIUM', `Device verification mismatch for code ${cleanCode}`, '/api/verify-code');
       return res.json({ isValid: false, reason: "Device mismatch - Code used on another device" });
     }

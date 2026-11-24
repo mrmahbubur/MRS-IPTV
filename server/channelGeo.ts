@@ -1,5 +1,8 @@
 import type express from 'express';
 import geoip from 'geoip-lite';
+import { getTrustedClientIp, isPrivateIpAddress } from './security';
+
+export { isPrivateIpAddress };
 
 export interface CoarseLocation {
   country: string;
@@ -50,59 +53,7 @@ const COUNTRY_NAMES: Record<string, string> = {
   GLOBAL: 'Global',
 };
 
-export function isPrivateIpAddress(rawIp: string): boolean {
-  if (!rawIp) return true;
-  let ip = rawIp.trim();
-  if (ip.startsWith('::ffff:')) ip = ip.slice(7);
-  if (ip === '127.0.0.1' || ip === '::1' || ip === '0.0.0.0' || ip === 'localhost') return true;
-  if (ip.startsWith('10.') || ip.startsWith('192.168.') || ip.startsWith('169.254.')) return true;
-  if (/^172\.(1[6-9]|2\d|3[0-1])\./.test(ip)) return true;
-  if (ip.startsWith('fc') || ip.startsWith('fd') || ip.startsWith('fe80:')) return true;
-  return false;
-}
 
-/**
- * Extracts a verified socket/trusted-hop client IP without trusting spoofable arbitrary
- * X-Forwarded-For or query parameters when not running behind a verified proxy.
- */
-function extractTrustedIp(req: express.Request): string | null {
-  let remote = req.socket?.remoteAddress || '';
-  if (remote.startsWith('::ffff:')) remote = remote.slice(7);
-
-  const behindTrustedProxy = Boolean(
-    process.env.K_SERVICE ||
-    process.env.RENDER ||
-    process.env.RENDER_EXTERNAL_URL ||
-    process.env.RENDER_SERVICE_ID ||
-    process.env.RENDER_INSTANCE_ID ||
-    process.env.TRUST_PROXY === '1' ||
-    process.env.TRUST_CDN_GEO === '1'
-  );
-
-  // Only read forwarded headers when behind a verified proxy AND the socket peer is local/internal (or synthetic)
-  if (behindTrustedProxy && (!remote || isPrivateIpAddress(remote))) {
-    const xForwarded = req.headers['x-forwarded-for'];
-    if (typeof xForwarded === 'string' && xForwarded.trim()) {
-      const hops = xForwarded.split(',').map((h) => h.trim()).filter(Boolean);
-      for (let i = hops.length - 1; i >= 0; i--) {
-        const candidate = hops[i].startsWith('::ffff:') ? hops[i].slice(7) : hops[i];
-        if (candidate && !isPrivateIpAddress(candidate)) {
-          return candidate;
-        }
-      }
-    }
-    const gcpIp = req.headers['x-appengine-user-ip'];
-    if (typeof gcpIp === 'string' && gcpIp.trim()) {
-      const candidate = gcpIp.trim().startsWith('::ffff:') ? gcpIp.trim().slice(7) : gcpIp.trim();
-      if (!isPrivateIpAddress(candidate)) return candidate;
-    }
-  }
-
-  if (!remote || isPrivateIpAddress(remote)) {
-    return null;
-  }
-  return remote;
-}
 
 export function getRegionLabel(countryCode: string, regionCode?: string | null): string {
   const upperReg = (regionCode || '').toUpperCase().trim();
@@ -124,8 +75,8 @@ export function getRegionLabel(countryCode: string, regionCode?: string | null):
  * and geoip-lite. Never exposes the client IP, precise coordinates, or raw geoip payload.
  */
 export function trustedGeoLookup(req: express.Request): CoarseLocation | null {
-  const ip = extractTrustedIp(req);
-  if (!ip) return null;
+  const ip = getTrustedClientIp(req);
+  if (!ip || isPrivateIpAddress(ip)) return null;
 
   try {
     const geo = geoip.lookup(ip);
