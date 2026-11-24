@@ -36,7 +36,11 @@ export const CHANNELS = {
 };
 
 const production = env.NODE_ENV === 'production';
-const dbPath = env.DB_PATH || 'data/mrs.sqlite';
+const dataDir = String(env.DATA_DIR || '').trim();
+const dbPath = env.DB_PATH || (dataDir ? path.join(dataDir, 'mrs.sqlite') : 'data/mrs.sqlite');
+const renderExternalUrl = String(env.RENDER_EXTERNAL_URL || '').trim().replace(/\/+$/, '');
+const appUrl = String(env.APP_URL || '').trim().replace(/\/+$/, '');
+const siteUrlEnv = String(env.SITE_URL || '').trim().replace(/\/+$/, '');
 const ephemeralSecrets = new Map();
 let persistedSecretsCache = null;
 
@@ -82,9 +86,14 @@ export const config = {
   port: int(env.PORT, 8787),
   host: env.HOST || '0.0.0.0',
   dbPath,
-  uploadDir: env.UPLOAD_DIR || 'data/uploads',
-  siteOrigins: list(env.SITE_ORIGINS, ['https://shahin-iptv.ai.studio']),
-  trustProxy: int(env.TRUST_PROXY, 0),
+  uploadDir: env.UPLOAD_DIR || (dataDir ? path.join(dataDir, 'uploads') : 'data/uploads'),
+  siteOrigins: Array.from(new Set([
+    ...list(env.SITE_ORIGINS, ['https://shahin-iptv.ai.studio']),
+    ...(renderExternalUrl ? [renderExternalUrl] : []),
+    ...(appUrl ? [appUrl] : []),
+    ...(siteUrlEnv ? [siteUrlEnv] : []),
+  ])),
+  trustProxy: int(env.TRUST_PROXY, (env.RENDER || renderExternalUrl || production) ? 1 : 0),
 
   adminToken: env.ADMIN_TOKEN || runtimeSecret('admin'),
   ingestKey: env.INGEST_KEY || runtimeSecret('ingest'),
@@ -232,7 +241,7 @@ export const config = {
   brand: {
     name: 'M R S IPTV',
     tagline: 'TV NETWORK',
-    siteUrl: env.SITE_URL || 'https://shahin-iptv.ai.studio',
+    siteUrl: siteUrlEnv || appUrl || renderExternalUrl || 'https://shahin-iptv.ai.studio',
     supportWhatsApp: env.SUPPORT_WHATSAPP || '+8801810853282',
     supportTelegram: env.SUPPORT_TELEGRAM || 'https://t.me/mrsiptv',
     supportFacebook: env.SUPPORT_FACEBOOK || 'https://facebook.com/mrsiptv',

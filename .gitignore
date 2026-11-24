@@ -31,13 +31,13 @@ logs/
 node_modules/
 
 # Build output
-dist/
-build/
-.next/
-.nuxt/
-.output/
-out/
-server.js
+/dist/
+/build/
+/.next/
+/.nuxt/
+/.output/
+/out/
+/server.js
 
 # Cache & Coverage
 .cache/
@@ -79,4 +79,4 @@ ui-ux-pro-max-website/*
 /test-results/
 cli/playwright-report/
 cli/test-results/
-app/
+/app/

@@ -217,7 +217,35 @@ All requests pass the client-acquired Firebase Auth Google OAuth access token vi
 
 ## 4. Production Deployment Guide
 
-### Option A: Node.js Host + Persistent Disk (Railway / Render / VPS / Cloud Run)
+### Option A: Deploy from GitHub to Render (Recommended)
+
+This repository includes `.node-version` (`22.14.0`), `engines.node >= 22.13.0`, and `render.yaml` (Render Blueprint) pre-configured for zero-friction deployment.
+
+#### Method 1 — One-Click Blueprint (`render.yaml`)
+1. Push this repository to GitHub (make sure `.env` is **not** committed — `.gitignore` excludes it automatically).
+2. Open **Render Dashboard → New → Blueprint**, connect your GitHub repository, and Render will auto-detect `render.yaml`.
+3. Fill in the prompted `sync: false` secrets in Render (`GEMINI_API_KEY`, `SMTP_USER`, `SMTP_PASS`, `ADMIN_EMAIL`, and optional Turnstile/hCaptcha/Cloudinary keys). Internal secrets (`ADMIN_TOKEN`, `TOKEN_SECRET`, `SECURITY_SECRET`, etc.) are generated automatically by Render.
+4. Click **Apply**. Render builds the Vite client + CJS server bundle (`dist/server.cjs`) and verifies `/api/health`.
+
+#### Method 2 — Manual Render Web Service
+If you create a Web Service manually from GitHub in Render:
+- **Runtime**: `Node` (automatically picks up `.node-version` = `22.14.0` for built-in `node:sqlite`)
+- **Build Command**: `npm ci --include=dev && npm run build`
+- **Start Command**: `npm start`
+- **Health Check Path**: `/api/health`
+- **Required Environment Variables**:
+  - `NODE_VERSION=22.14.0`
+  - `NODE_ENV=production`
+  - `TRUST_PROXY=1`
+  - `ADMIN_TOKEN`, `INGEST_KEY`, `SMS_WEBHOOK_SECRET`, `TOKEN_SECRET`, `SECURITY_SECRET`, `INTERNAL_WEBHOOK_SECRET`, `CAMELLIA_TOKEN`
+  - `GEMINI_API_KEY`, `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`, `SMTP_USER`, `SMTP_PASS`, `ADMIN_EMAIL`, `MAIL_TRANSPORT=smtp`
+  - Optional: `SITE_ORIGINS` (Render's `RENDER_EXTERNAL_URL` is automatically trusted on startup; add any custom domain comma-separated).
+
+#### Persistent Storage Note (Free Tier vs Starter+)
+- **Free Tier**: SQLite (`data/mrs.sqlite`) and activation codes (`1,200` per plan) auto-initialize on every boot, so the app runs cleanly with zero extra setup, though runtime orders/uploads reset on redeploy/spin-down.
+- **Starter+ with Persistent Disk**: Add a Render Disk mounted at `/var/data`, uncomment the `disk:` section in `render.yaml`, and set `DATA_DIR=/var/data` (or `DB_PATH=/var/data/mrs.sqlite` and `UPLOAD_DIR=/var/data/uploads`) so orders, SQLite state, and screenshots persist across redeploys.
+
+### Option B: Node.js Host / VPS / Cloud Run
 1. Mount a persistent volume at `/app/data` so `data/mrs.sqlite` and `data/uploads/` survive container restarts.
 2. Build and run:
    ```bash

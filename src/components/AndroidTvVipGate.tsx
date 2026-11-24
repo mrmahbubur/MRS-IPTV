@@ -154,7 +154,7 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
       setProofSuccess({
         orderId: order.orderId || 'SUBMITTED',
         status: order.status || 'pending',
-        message: order.aiSummary || order.message,
+        message: order.message,
       });
       setProofCaptchaToken('');
       setProofCaptchaResetKey((k) => k + 1);
@@ -688,7 +688,7 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
               Submit Payment Confirmation
             </h3>
             <p className="text-xs text-slate-300 mb-4">
-              Send your payment details directly to M R S and Camellia. Your code will be dispatched immediately.
+              Submit your payment details below. Once verified, your activation code will be emailed to you.
             </p>
 
             {proofSuccess ? (
@@ -696,13 +696,13 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
                 <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
                 <h4 className="text-sm font-bold text-white">
                   {proofSuccess.status === 'verified'
-                    ? `AI Verified (${proofSuccess.orderId})`
+                    ? `Payment Verified (${proofSuccess.orderId})`
                     : `Order Submitted (${proofSuccess.orderId})`}
                 </h4>
                 <p className="text-xs text-emerald-200">
                   {proofSuccess.status === 'verified'
-                    ? `Your ${proofPackage}-Month VIP activation code has been automatically verified and emailed to `
-                    : 'Backend AI is verifying your payment details. Your exact-month VIP activation code will be emailed to '}
+                    ? `Your ${proofPackage}-Month VIP activation code has been verified and emailed to `
+                    : 'Your payment details have been submitted for verification. Once confirmed, your VIP activation code will be emailed to '}
                   <strong>{proofEmail}</strong>.
                 </p>
                 <button

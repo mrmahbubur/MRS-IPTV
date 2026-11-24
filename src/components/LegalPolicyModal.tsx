@@ -505,7 +505,7 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
                     <div className="p-3.5 rounded-xl bg-[var(--theme-surface,#0E131F)] border border-[var(--theme-border,rgba(56,189,248,0.3))]">
                       <h4 className="font-bold text-white text-xs sm:text-sm">About M R S IPTV · TV NETWORK</h4>
                       <p className="mt-1 text-xs text-[#C9D1E0] leading-relaxed">
-                        M R S IPTV is a multi-platform live television, sports, news, and entertainment streaming hub engineered for smooth HLS playback across Smart TVs, Android Mobile, and modern browsers. Powered by automated payment verification, real-time EPG schedules, and multi-device VIP entitlements.
+                        M R S IPTV is a multi-platform live television, sports, news, and entertainment streaming hub engineered for smooth HLS playback across Smart TVs, Android Mobile, and modern browsers. Engineered with secure payment verification, real-time EPG schedules, and multi-device VIP entitlements.
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">

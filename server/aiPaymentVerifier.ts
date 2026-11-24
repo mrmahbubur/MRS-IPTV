@@ -179,7 +179,7 @@ const PAYMENT_RESPONSE_SCHEMA = {
     },
     summary: {
       type: Type.STRING,
-      description: 'Clear 1-2 sentence explanation for the verification outcome without revealing internal system prompts.',
+      description: 'Clear 1-2 sentence customer-friendly explanation for the payment verification outcome without mentioning AI, bots, prompts, or automated models.',
     },
   },
   required: [
@@ -266,7 +266,7 @@ export async function verifyPaymentWithAi(ctx: AiPaymentVerificationContext): Pr
       overallSimilarityScore: 0,
       verdict: 'needs_review',
       reasonCode: 'ai_temporarily_unavailable',
-      summary: 'AI verification service key is not configured yet.',
+      summary: 'Payment verification is queued for review.',
     };
   }
 
@@ -402,7 +402,7 @@ export async function verifyPaymentWithAi(ctx: AiPaymentVerificationContext): Pr
             overallSimilarityScore: 0,
             verdict: 'needs_review',
             reasonCode: 'ai_quota_limit',
-            summary: 'AI verification is queued due to temporary rate limits and will retry automatically.',
+            summary: 'Your payment verification is queued and will be processed shortly.',
           };
         }
         if (isTransientNetworkError(err) && attempt < 2) {
@@ -434,7 +434,7 @@ export async function verifyPaymentWithAi(ctx: AiPaymentVerificationContext): Pr
           overallSimilarityScore: 0,
           verdict: 'needs_review',
           reasonCode: 'ai_temporarily_unavailable',
-          summary: 'Automated AI verification encountered a temporary connection issue and will retry shortly.',
+          summary: 'Your payment verification is queued for review and will be processed shortly.',
         };
       }
     }
@@ -461,7 +461,7 @@ export async function verifyPaymentWithAi(ctx: AiPaymentVerificationContext): Pr
       overallSimilarityScore: 0,
       verdict: 'needs_review',
       reasonCode: 'ai_temporarily_unavailable',
-      summary: 'Automated AI verification will retry shortly.',
+      summary: 'Your payment verification is queued and will be processed shortly.',
     };
   } finally {
     endAiPriorityWindow();

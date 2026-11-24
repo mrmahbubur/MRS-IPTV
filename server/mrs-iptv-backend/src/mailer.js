@@ -226,7 +226,7 @@ export function renderSubmissionCopyEmail({ order, recipientRole = 'customer' })
 
   const introText = isAdmin
     ? `Informational record copy: a customer submitted payment details on ${name}.`
-    : `We received your payment submission on ${name}. Our automated verification and team are reviewing your transaction. (বাংলা: আপনার পেমেন্ট তথ্য সফলভাবে জমা হয়েছে এবং যাচাই করা হচ্ছে।)`;
+    : `We received your payment submission on ${name}. Our team is reviewing your transaction details. (বাংলা: আপনার পেমেন্ট তথ্য সফলভাবে জমা হয়েছে এবং যাচাই করা হচ্ছে।)`;
 
   const footerNote = isAdmin
     ? `This email is a record-keeping copy of customer-submitted payment details. Reply directly to contact ${order.email}.`

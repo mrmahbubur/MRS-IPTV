@@ -1,0 +1,79 @@
+# Render Blueprint — Deploy M R S IPTV directly from GitHub
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: mrs-iptv
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    # NOTE: Persistent Disks require a paid Render instance (Starter+).
+    # When upgrading from Free to Starter+, uncomment the disk block below and set DATA_DIR=/var/data
+    # disk:
+    #   name: mrs-iptv-data
+    #   mountPath: /var/data
+    #   sizeGB: 5
+    envVars:
+      - key: NODE_VERSION
+        value: "22.14.0"
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATA_DIR
+        value: data
+      - key: LIVECHECK_SCHEDULER
+        value: "1"
+      - key: CHECKOUT_CHALLENGE_REQUIRED
+        value: "true"
+      - key: CHECKOUT_POW_DIFFICULTY
+        value: "10"
+      - key: AUTO_REFILL_CODES
+        value: "true"
+      - key: MAIL_TRANSPORT
+        value: smtp
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: INGEST_KEY
+        generateValue: true
+      - key: SMS_WEBHOOK_SECRET
+        generateValue: true
+      - key: TOKEN_SECRET
+        generateValue: true
+      - key: SECURITY_SECRET
+        generateValue: true
+      - key: INTERNAL_WEBHOOK_SECRET
+        generateValue: true
+      - key: CAMELLIA_TOKEN
+        generateValue: true
+      # Set these secret keys inside Render Dashboard -> Service -> Environment
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: TURNSTILE_SITE_KEY
+        sync: false
+      - key: TURNSTILE_SECRET_KEY
+        sync: false
+      - key: HCAPTCHA_SITE_KEY
+        sync: false
+      - key: HCAPTCHA_SECRET_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false

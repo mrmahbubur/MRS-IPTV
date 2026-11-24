@@ -208,10 +208,12 @@ const paymentRequestsStore: any[] = [];
 
 async function startServer() {
   const app = express();
-  
+  app.set('trust proxy', backendConfig.trustProxy || 1);
+
   // Port resolution: AI Studio dev sandbox strictly requires port 3000 (nginx reverse proxy),
-  // while live Cloud Run production containers dynamically route traffic via process.env.PORT (8080).
+  // while Render / Cloud Run production containers route traffic via process.env.PORT (e.g. 10000 / 8080).
   const isDevSandbox = Boolean(process.env.CONTROL_PLANE_PORT);
+  const isRender = Boolean(process.env.RENDER || process.env.RENDER_EXTERNAL_URL);
   const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
   // Enable HTTP response compression for ultra-fast transfers
@@ -220,7 +222,7 @@ async function startServer() {
     threshold: 512,
   }));
 
-  // 0. Health check endpoints BEFORE WAF/rate-limiters so Cloud Run startup/liveness probes succeed immediately
+  // 0. Health check endpoints BEFORE WAF/rate-limiters so Render / Cloud Run startup/liveness probes succeed immediately
   app.get(["/api/health", "/health"], (_req, res) => {
     let stockSummary: Record<string, unknown> | undefined;
     let livecheckSummary: Record<string, unknown> | undefined;
@@ -246,6 +248,8 @@ async function startServer() {
       ok: true,
       status: "ok",
       service: "M R S IPTV",
+      platform: isRender ? "render" : isDevSandbox ? "sandbox" : "node",
+      nodeVersion: process.version,
       uptimeSeconds: Math.floor(process.uptime()),
       timestamp: new Date().toISOString(),
       ...(livecheckSummary ? { livecheck: livecheckSummary } : {}),
@@ -7288,14 +7292,15 @@ M R S IPTV Team
   });
 
   const httpServer = app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://0.0.0.0:${PORT} (isDevSandbox=${isDevSandbox})`);
+    const ext = process.env.RENDER_EXTERNAL_URL ? ` external=${process.env.RENDER_EXTERNAL_URL}` : '';
+    console.log(`Server running on http://0.0.0.0:${PORT} (isDevSandbox=${isDevSandbox}, isRender=${isRender}${ext})`);
     launchBackgroundEngines();
   });
 
-  // In deployed production, if listening on a non-3000 port (e.g. 8080),
+  // In non-Render production, if listening on a non-3000 port (e.g. 8080),
   // optionally bind port 3000 as secondary listener if free
   let fallbackServer: ReturnType<typeof app.listen> | null = null;
-  if (!isDevSandbox && PORT !== 3000) {
+  if (!isDevSandbox && !isRender && PORT !== 3000) {
     try {
       fallbackServer = app.listen(3000, "0.0.0.0", () => {
         console.log(`Secondary listener active on http://0.0.0.0:3000`);

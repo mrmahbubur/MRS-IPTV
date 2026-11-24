@@ -901,20 +901,20 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                     </div>
                   </div>
 
-                  {/* TWO PAYMENT CONFIRMATION OPTIONS (AI SIMILARITY & DOCUMENT VERIFICATION) */}
+                  {/* TWO PAYMENT CONFIRMATION OPTIONS */}
                   <div className="bg-[#050816] p-3.5 rounded-xl border border-[#00D9FF]/35 space-y-3">
                     <div className="flex items-center justify-between border-b border-white/10 pb-2 gap-2">
                       <div>
                         <span className="text-xs font-black text-white flex items-center gap-1.5">
                           <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                          <span>AI Automatic Payment Verification</span>
+                          <span>Payment Confirmation &amp; Verification</span>
                         </span>
                         <p className="text-[10px] text-[#C9D1E0]">
-                          Enter a real Transaction ID and/or upload any payment receipt (Screenshot or PDF). Backend AI verifies similarity &amp; emails your exact-month code automatically:
+                          Enter your Transaction ID and/or upload your payment receipt (Screenshot or PDF). Once verified against your selected payment method, your VIP code will be emailed to you:
                         </p>
                       </div>
                       <span className="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30 shrink-0">
-                        AI Verified
+                        Verified
                       </span>
                     </div>
 
@@ -1043,10 +1043,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                               <span className="truncate">{screenshotFileName || 'payment_proof'}</span>
                             </div>
                             <p className="text-[10px] font-mono text-emerald-400 mt-0.5 tabular-nums">
-                              ✓ Ready for AI verification ({screenshotFileSize})
+                              ✓ Document ready for verification ({screenshotFileSize})
                             </p>
                             <p className="text-[9px] text-[#C9D1E0]/70">
-                              Will be verified automatically against your selected payment method
+                              Matched with your selected payment method upon submission
                             </p>
                           </div>
                           <button
@@ -1061,7 +1061,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                         </div>
                       )}
                     </div>
-                    {/* Dynamic 3-Point AI Instant-Approval Checklist */}
+                    {/* Dynamic 3-Point Payment Verification Checklist */}
                     {(() => {
                       const info = getActivePaymentInfo();
                       const receiverTarget = info.fields.map((f) => f.value).join(' / ');
@@ -1069,7 +1069,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                         <div className="bg-[#070C1E] p-3 rounded-lg border border-emerald-400/25 space-y-1.5">
                           <p className="text-[10px] font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                            <span>3-Point AI Instant-Approval Checklist</span>
+                            <span>3-Point Payment Verification Checklist</span>
                           </p>
                           <div className="grid grid-cols-1 gap-1 text-[10px] text-[#C9D1E0]">
                             <div className="flex items-center gap-1.5">
@@ -1180,14 +1180,14 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       </div>
                       <div>
                         <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/50">
-                          {orderSuccess.verificationMethod === 'ai_auto' ? 'AI Payment Verified' : 'Payment Verified'}
+                          Payment Verified
                         </span>
                         <h4 className="text-base font-black text-white mt-1.5">
                           {orderSuccess.packageMonths}-Month Activation Code Sent via Email!
                         </h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          {orderSuccess.aiSummary || 'Your payment proof was automatically verified.'} Your unique{' '}
-                          <strong className="text-white">MRS-{orderSuccess.packageMonths}M-XXXX-XXXX-XXXX</strong> activation code has been dispatched exclusively to{' '}
+                          Your payment has been verified. Your unique{' '}
+                          <strong className="text-white">MRS-{orderSuccess.packageMonths}M-XXXX-XXXX-XXXX</strong> activation code has been sent to{' '}
                           <span className="font-mono text-emerald-400 font-bold">{orderSuccess.email}</span>.
                         </p>
                       </div>
@@ -1218,7 +1218,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                         </span>
                         <h4 className="text-base font-black text-white mt-1.5">Payment Verification in Progress</h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          {orderSuccess.aiSummary || orderSuccess.message || 'Our AI and admin team are verifying your submitted details.'} Your {orderSuccess.packageMonths}-Month VIP code will be emailed to{' '}
+                          {orderSuccess.message || 'Our team is reviewing your submitted payment details.'} Your {orderSuccess.packageMonths}-Month VIP code will be emailed to{' '}
                           <span className="font-mono text-amber-300">{orderSuccess.email}</span> once confirmed.
                         </p>
                       </div>
@@ -1245,7 +1245,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                           {orderSuccess.status === 'rejected' ? 'Verification Rejected' : 'Order Expired'}
                         </span>
                         <h4 className="text-base font-black text-white mt-1.5">
-                          {orderSuccess.aiSummary || orderSuccess.message || orderSuccess.reason || 'Payment could not be verified automatically'}
+                          {orderSuccess.message || orderSuccess.reason || 'Payment could not be verified'}
                         </h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
                           Please make sure your Transaction ID and uploaded payment document match your selected payment option and plan amount, or contact Admin on WhatsApp.
@@ -1283,11 +1283,11 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       <div>
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-black uppercase tracking-wider bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30">
                           <Radio className="w-3 h-3 text-[#00D9FF] shrink-0" />
-                          <span>AI Verification In Progress</span>
+                          <span>Verification In Progress</span>
                         </div>
-                        <h4 className="text-base font-black text-white mt-2">Checking Transaction Similarity &amp; Document...</h4>
+                        <h4 className="text-base font-black text-white mt-2">Checking Your Payment Details...</h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          {orderSuccess.aiSummary || 'Backend AI is verifying your Transaction ID and uploaded payment document against your selected payment method.'} Once verified, your {orderSuccess.packageMonths}-Month VIP code will be emailed automatically to{' '}
+                          We are verifying your Transaction ID and payment receipt for your selected payment method. Once confirmed, your {orderSuccess.packageMonths}-Month VIP code will be emailed to{' '}
                           <span className="text-white font-bold">{orderSuccess.email}</span>.
                         </p>
                       </div>
@@ -1554,7 +1554,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                 {[
                   {
                     q: 'How soon do I receive my activation code after paying?',
-                    a: 'bKash, Nagad, Binance Pay, and Skrill payments verified by SMS or signed provider webhook issue and email your code automatically within seconds. Manual reviews finish within minutes.'
+                    a: 'Once your payment submission is confirmed, your activation code is sent directly to your email (usually within minutes).'
                   },
                   {
                     q: 'Can I extend an active VIP Pass with another code?',
