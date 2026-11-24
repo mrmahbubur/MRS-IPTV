@@ -3,7 +3,7 @@ import {
   X, Crown, CheckCircle2, Copy, Smartphone, Tv,
   ArrowRight, Key, ShieldCheck, Zap, Check, ChevronDown,
   MessageCircle, ExternalLink, Coins, Wallet, CreditCard,
-  Upload, Image as ImageIcon, Trash2, Loader2, AlertCircle, Clock, Radio
+  Upload, Image as ImageIcon, FileText, Trash2, Loader2, AlertCircle, Clock, Radio
 } from 'lucide-react';
 import { activateAdFreeCode } from '../lib/codes';
 import { 
@@ -14,7 +14,9 @@ import {
   claimAutoActivatedOrder,
   syncPendingOrderVip,
   getPaymentMethods,
+  getCheckoutChallenge,
   formatActivationCodeInput,
+  CheckoutChallenge,
   PaymentMethodConfig,
   OrderResponse 
 } from '../lib/mrsVip';
@@ -62,8 +64,12 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
     email: 'mr216873@gmail.com',
   });
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [websiteUrl, setWebsiteUrl] = useState('');
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [checkoutChallenge, setCheckoutChallenge] = useState<CheckoutChallenge | null>(null);
+  const captchaContainerRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Handle Screenshot Upload with auto-compression
+  // Handle Payment Document / Screenshot Upload (JPG, PNG, WebP, or PDF)
   const handleImageFile = (file: File) => {
     setScreenshotError('');
     setFieldErrors(prev => {
@@ -71,8 +77,22 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
       delete next.screenshot;
       return next;
     });
-    if (!file.type.startsWith('image/')) {
-      setScreenshotError('Please upload a valid image file (JPG, PNG, WebP).');
+    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    const isImage = file.type.startsWith('image/');
+    if (!isImage && !isPdf) {
+      setScreenshotError('Please upload a valid payment document (JPG, PNG, WebP, or PDF).');
+      return;
+    }
+    if (isPdf) {
+      if (file.size > 3 * 1024 * 1024) {
+        setScreenshotError('PDF document is too large (max 3MB). Please choose a smaller file.');
+        return;
+      }
+      setUploadedFile(file);
+      setScreenshotImage('PDF_DOCUMENT');
+      setScreenshotFileName(file.name);
+      setScreenshotFileSize(`${Math.max(1, Math.round(file.size / 1024))} KB`);
+      setIsCompressingImage(false);
       return;
     }
     if (file.size > 15 * 1024 * 1024) {
@@ -110,6 +130,14 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
             setScreenshotFileName(file.name);
             const sizeInKb = Math.round((compressedDataUrl.length * 3 / 4) / 1024);
             setScreenshotFileSize(`${sizeInKb} KB`);
+            if (file.size > 2.8 * 1024 * 1024) {
+              canvas.toBlob((blob) => {
+                if (blob) {
+                  const baseName = file.name.replace(/\.[^.]+$/, '') || 'payment';
+                  setUploadedFile(new File([blob], `${baseName}.jpg`, { type: 'image/jpeg' }));
+                }
+              }, 'image/jpeg', 0.85);
+            }
           } else {
             setScreenshotImage(e.target?.result as string);
             setScreenshotFileName(file.name);
@@ -160,6 +188,9 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
     if (isOpen) {
       setFormError('');
       setRedeemResult(null);
+      setWebsiteUrl('');
+      setCaptchaToken('');
+      getCheckoutChallenge().then(setCheckoutChallenge).catch(() => {});
       getPaymentMethods()
         .then((res) => {
           if (Array.isArray(res?.methods)) setPaymentMethods(res.methods);
@@ -181,6 +212,53 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
       }).catch(() => {});
     }
   }, [isOpen, onStateChange]);
+
+  useEffect(() => {
+    if (!isOpen || !checkoutChallenge) return;
+    const turnstileKey = checkoutChallenge.turnstileSiteKey;
+    const hcaptchaKey = checkoutChallenge.hcaptchaSiteKey;
+    if (!turnstileKey && !hcaptchaKey) return;
+
+    const scriptId = turnstileKey ? 'cf-turnstile-script' : 'hcaptcha-script';
+    const scriptSrc = turnstileKey
+      ? 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+      : 'https://js.hcaptcha.com/1/api.js?render=explicit';
+
+    const renderWidget = () => {
+      const container = captchaContainerRef.current;
+      if (!container) return;
+      container.innerHTML = '';
+      try {
+        if (turnstileKey && (window as any).turnstile) {
+          (window as any).turnstile.render(container, {
+            sitekey: turnstileKey,
+            theme: 'dark',
+            callback: (tok: string) => setCaptchaToken(tok || ''),
+            'expired-callback': () => setCaptchaToken(''),
+          });
+        } else if (hcaptchaKey && (window as any).hcaptcha) {
+          (window as any).hcaptcha.render(container, {
+            sitekey: hcaptchaKey,
+            theme: 'dark',
+            callback: (tok: string) => setCaptchaToken(tok || ''),
+            'expired-callback': () => setCaptchaToken(''),
+          });
+        }
+      } catch {}
+    };
+
+    if (!document.getElementById(scriptId)) {
+      const s = document.createElement('script');
+      s.id = scriptId;
+      s.src = scriptSrc;
+      s.async = true;
+      s.defer = true;
+      s.onload = renderWidget;
+      document.head.appendChild(s);
+    } else {
+      renderWidget();
+    }
+  }, [isOpen, checkoutChallenge]);
 
   if (!isOpen) return null;
 
@@ -342,9 +420,13 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
         name: customerName.trim() || undefined,
         trxId: trxTrimmed || undefined,
         screenshot: uploadedFile || undefined,
+        website_url: websiteUrl,
+        captchaToken: captchaToken || undefined,
+        challenge: checkoutChallenge,
       });
 
       setIsSubmitting(false);
+      getCheckoutChallenge().then(setCheckoutChallenge).catch(() => {});
 
       const whatsappPhone = supportMeta.whatsapp.replace(/[^\d]/g, '') || '8801810853282';
       const whatsappText = `Hello Admin, I have submitted an order for ${selectedMonths} Month VIP Pass (${displayPrice}).\n👤 Name: ${customerName.trim() || 'Subscriber'}\n💳 Method: ${activeInfo.title}${trxTrimmed ? `\n🔗 TrxID / Ref: ${trxTrimmed}` : ''}${screenshotImage ? '\n📷 Proof: Payment Screenshot attached' : ''}\n📱 Mobile: ${phoneTrimmed}\n✉️ Email: ${emailTrimmed}\nOrder Ref: ${order.orderId}\n\nPlease verify payment and email my activation code.`;
@@ -356,6 +438,8 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
         step: order.step || (order.status === 'verified' ? 3 : order.status === 'needs_review' ? 2 : 1),
         reason: order.reason || null,
         message: order.message,
+        verificationMethod: order.verificationMethod || null,
+        aiSummary: order.aiSummary || null,
         whatsappUrl: `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappText)}`,
         mobile: phoneTrimmed,
         email: emailTrimmed,
@@ -383,6 +467,8 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
               step: latest.step || (latest.status === 'verified' ? 3 : latest.status === 'needs_review' ? 2 : 1),
               reason: latest.reason || prev.reason,
               message: latest.message || prev.message,
+              verificationMethod: latest.verificationMethod || prev.verificationMethod,
+              aiSummary: latest.aiSummary || prev.aiSummary,
               copyEmailStatus: latest.copyEmailStatus ?? prev.copyEmailStatus,
               autoActivateAt: latest.autoActivateAt || prev.autoActivateAt,
               autoActivatedAt: latest.autoActivatedAt || prev.autoActivatedAt
@@ -407,6 +493,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
       }
     } catch (err: any) {
       setIsSubmitting(false);
+      getCheckoutChallenge().then(setCheckoutChallenge).catch(() => {});
       if (err.fields) {
         setFieldErrors(err.fields);
       }
@@ -851,20 +938,20 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                     </div>
                   </div>
 
-                  {/* TWO PAYMENT CONFIRMATION OPTIONS (SUBMIT DETAILS & CONFIRMATION AT ONCE) */}
+                  {/* TWO PAYMENT CONFIRMATION OPTIONS (AI SIMILARITY & DOCUMENT VERIFICATION) */}
                   <div className="bg-[#050816] p-3.5 rounded-xl border border-[#00D9FF]/35 space-y-3">
                     <div className="flex items-center justify-between border-b border-white/10 pb-2 gap-2">
                       <div>
                         <span className="text-xs font-black text-white flex items-center gap-1.5">
                           <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                          <span>Payment Confirmation Options</span>
+                          <span>AI Automatic Payment Verification</span>
                         </span>
                         <p className="text-[10px] text-[#C9D1E0]">
-                          Submit details at once using Option 1, Option 2, or BOTH:
+                          Enter a real Transaction ID and/or upload any payment receipt (Screenshot or PDF). Backend AI verifies similarity &amp; emails your exact-month code automatically:
                         </p>
                       </div>
                       <span className="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30 shrink-0">
-                        2 Options
+                        AI Verified
                       </span>
                     </div>
 
@@ -873,7 +960,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       <div className="flex items-center justify-between">
                         <label className="text-[11px] font-black text-white flex items-center gap-1.5">
                           <span className="w-5 h-5 rounded-md bg-[#00D9FF]/20 text-[#00D9FF] border border-[#00D9FF]/40 flex items-center justify-center text-[10px] font-mono font-bold">1</span>
-                          <span>Option 1: Transaction ID / Sender Ref</span>
+                          <span>Option 1: Transaction ID / Payment Ref</span>
                         </label>
                         <span className="text-[9px] text-[#00D9FF] font-mono">Text TrxID</span>
                       </div>
@@ -894,9 +981,9 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                           paymentChannel === 'binance' 
                             ? 'e.g. Binance Pay Order ID / TxID or Binance Nickname'
                             : paymentChannel === 'skrill'
-                              ? 'e.g. Skrill Transaction ID or sender email'
+                              ? 'e.g. Skrill Transaction ID (8-12 digits)'
                               : paymentChannel === 'payoneer'
-                                ? 'e.g. Payoneer Transaction ID or sender email'
+                                ? 'e.g. Payoneer Payment ID'
                                 : 'e.g. bKash / Nagad TrxID (8-10 characters)'
                         }
                         className={`w-full min-h-[42px] px-3.5 py-2.5 bg-[#050816] border rounded-lg text-xs text-white placeholder-[#C9D1E0]/45 focus:outline-none ${
@@ -910,18 +997,18 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                         </p>
                       )}
                       <p className="text-[10px] text-[#C9D1E0]/70">
-                        Paste the Transaction ID / Ref from your payment SMS or app screen.
+                        Paste the real Transaction ID / Ref matching your selected payment option.
                       </p>
                     </div>
 
-                    {/* Option 2: Payment Screenshot / Receipt Upload */}
+                    {/* Option 2: Payment Document / Screenshot / PDF Upload */}
                     <div className="bg-[#080d21] p-3 rounded-lg border border-white/5 space-y-2">
                       <div className="flex items-center justify-between">
                         <label className="text-[11px] font-black text-white flex items-center gap-1.5">
                           <span className="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-[10px] font-mono font-bold">2</span>
-                          <span>Option 2: Upload Payment Screenshot / Receipt</span>
+                          <span>Option 2: Upload Payment Document / Receipt</span>
                         </label>
-                        <span className="text-[9px] text-emerald-400 font-mono font-bold">Image Proof</span>
+                        <span className="text-[9px] text-emerald-400 font-mono font-bold">Image / PDF</span>
                       </div>
 
                       {!screenshotImage ? (
@@ -938,7 +1025,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                           >
                             <input
                               type="file"
-                              accept="image/*"
+                              accept="image/jpeg,image/png,image/webp,application/pdf,.pdf"
                               className="hidden"
                               onChange={(e) => {
                                 if (e.target.files && e.target.files[0]) {
@@ -954,10 +1041,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                               )}
                             </div>
                             <p className="text-xs font-bold text-white text-center">
-                              {isCompressingImage ? 'Processing & Optimizing Image...' : 'Click to Upload or Drag & Drop Screenshot'}
+                              {isCompressingImage ? 'Processing & Optimizing Document...' : 'Click to Upload or Drag & Drop Receipt'}
                             </p>
                             <p className="text-[10px] text-[#C9D1E0]/70 mt-0.5 font-mono text-center">
-                              Upload payment confirmation receipt / screenshot (JPG, PNG, WebP)
+                              Upload any payment receipt / confirmation (JPG, PNG, WebP, or PDF)
                             </p>
                           </label>
                           {screenshotError && (
@@ -972,38 +1059,93 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                         </div>
                       ) : (
                         <div className="flex items-center gap-3 p-2.5 rounded-lg bg-[#050816] border border-emerald-400/40">
-                          <div className="w-14 h-14 rounded-lg bg-black border border-emerald-400/50 shrink-0 overflow-hidden relative">
-                            <img
-                              src={screenshotImage}
-                              alt="Payment Screenshot Preview"
-                              className="w-full h-full object-cover"
-                            />
+                          <div className="w-14 h-14 rounded-lg bg-black border border-emerald-400/50 shrink-0 overflow-hidden relative flex items-center justify-center">
+                            {screenshotImage === 'PDF_DOCUMENT' ? (
+                              <FileText className="w-7 h-7 text-emerald-400" />
+                            ) : (
+                              <img
+                                src={screenshotImage}
+                                alt="Payment Document Preview"
+                                className="w-full h-full object-cover"
+                              />
+                            )}
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-1.5 text-xs font-bold text-white truncate">
-                              <ImageIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                              <span className="truncate">{screenshotFileName || 'payment_proof.jpg'}</span>
+                              {screenshotImage === 'PDF_DOCUMENT' ? (
+                                <FileText className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                              ) : (
+                                <ImageIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                              )}
+                              <span className="truncate">{screenshotFileName || 'payment_proof'}</span>
                             </div>
                             <p className="text-[10px] font-mono text-emerald-400 mt-0.5 tabular-nums">
-                              ✓ Ready to submit ({screenshotFileSize})
+                              ✓ Ready for AI verification ({screenshotFileSize})
                             </p>
                             <p className="text-[9px] text-[#C9D1E0]/70">
-                              Will be attached and registered with your order
+                              Will be verified automatically against your selected payment method
                             </p>
                           </div>
                           <button
                             type="button"
-                            aria-label="Remove Screenshot"
+                            aria-label="Remove Document"
                             onClick={handleRemoveScreenshot}
                             className="w-9 h-9 rounded-lg flex items-center justify-center text-rose-400 hover:text-white hover:bg-rose-500/20 transition-all border border-rose-500/30 cursor-pointer shrink-0"
-                            title="Remove Screenshot"
+                            title="Remove Document"
                           >
                             <Trash2 className="w-4 h-4 shrink-0" />
                           </button>
                         </div>
                       )}
                     </div>
+                    {/* Dynamic 3-Point AI Instant-Approval Checklist */}
+                    {(() => {
+                      const info = getActivePaymentInfo();
+                      const receiverTarget = info.fields.map((f) => f.value).join(' / ');
+                      return (
+                        <div className="bg-[#070C1E] p-3 rounded-lg border border-emerald-400/25 space-y-1.5">
+                          <p className="text-[10px] font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                            <span>3-Point AI Instant-Approval Checklist</span>
+                          </p>
+                          <div className="grid grid-cols-1 gap-1 text-[10px] text-[#C9D1E0]">
+                            <div className="flex items-center gap-1.5">
+                              <Check className="w-3 h-3 text-emerald-400 shrink-0" />
+                              <span>Receiver Account / ID matches <strong className="text-white font-mono">{receiverTarget}</strong></span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Check className="w-3 h-3 text-emerald-400 shrink-0" />
+                              <span>Exact Plan Amount visible: <strong className="text-amber-300 font-mono">{displayPrice}</strong></span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Check className="w-3 h-3 text-emerald-400 shrink-0" />
+                              <span>Recent Payment Date/Time &amp; Transaction ID clearly visible</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
+
+                  {/* Anti-spam honeypot field (hidden from genuine users) */}
+                  <div className="fixed -left-[9999px] top-0 w-px h-px overflow-hidden opacity-0 pointer-events-none" aria-hidden="true">
+                    <label htmlFor="mrs_website_url">Website</label>
+                    <input
+                      id="mrs_website_url"
+                      name="website_url"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={websiteUrl}
+                      onChange={(e) => setWebsiteUrl(e.target.value)}
+                    />
+                  </div>
+
+                  {(checkoutChallenge?.turnstileSiteKey || checkoutChallenge?.hcaptchaSiteKey) && (
+                    <div className="flex justify-center py-1">
+                      <div ref={captchaContainerRef} />
+                    </div>
+                  )}
 
                   {formError && (
                     <p className="text-xs font-semibold text-white bg-[#F43F5E]/20 border border-[#F43F5E]/50 p-3 rounded-lg">
@@ -1028,6 +1170,11 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       </>
                     )}
                   </button>
+
+                  <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#94A3B8]">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Protected by Anti-Spam Checkout Shield (Single-Use Proof-of-Work)</span>
+                  </div>
                 </form>
               ) : (
                 <div className="space-y-4">
@@ -1069,11 +1216,15 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       </div>
                       <div>
                         <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/50">
-                          Payment Verified
+                          {orderSuccess.verificationMethod === 'ai_auto' ? 'AI Payment Verified' : 'Payment Verified'}
                         </span>
-                        <h4 className="text-base font-black text-white mt-1.5">Activation Code Sent via Email!</h4>
+                        <h4 className="text-base font-black text-white mt-1.5">
+                          {orderSuccess.packageMonths}-Month Activation Code Sent via Email!
+                        </h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          Your payment matched our verification ledger. For security, your unique <strong className="text-white">MRS-&lt;PLAN&gt;-XXXX-XXXX-XXXX</strong> activation code is sent exclusively to <span className="font-mono text-emerald-400 font-bold">{orderSuccess.email}</span>.
+                          {orderSuccess.aiSummary || 'Your payment proof was automatically verified.'} Your unique{' '}
+                          <strong className="text-white">MRS-{orderSuccess.packageMonths}M-XXXX-XXXX-XXXX</strong> activation code has been dispatched exclusively to{' '}
+                          <span className="font-mono text-emerald-400 font-bold">{orderSuccess.email}</span>.
                         </p>
                       </div>
 
@@ -1099,11 +1250,12 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       </div>
                       <div>
                         <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-400/50">
-                          Under Manual Review
+                          Under Review
                         </span>
                         <h4 className="text-base font-black text-white mt-1.5">Payment Verification in Progress</h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          Admin is manually reviewing your transaction details. Your VIP pass code will be dispatched to <span className="font-mono text-amber-300">{orderSuccess.email}</span> within a few minutes.
+                          {orderSuccess.aiSummary || orderSuccess.message || 'Our AI and admin team are verifying your submitted details.'} Your {orderSuccess.packageMonths}-Month VIP code will be emailed to{' '}
+                          <span className="font-mono text-amber-300">{orderSuccess.email}</span> once confirmed.
                         </p>
                       </div>
                       <div className="pt-2 flex justify-center">
@@ -1129,10 +1281,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                           {orderSuccess.status === 'rejected' ? 'Verification Rejected' : 'Order Expired'}
                         </span>
                         <h4 className="text-base font-black text-white mt-1.5">
-                          {orderSuccess.reason || 'Payment could not be verified automatically'}
+                          {orderSuccess.aiSummary || orderSuccess.message || orderSuccess.reason || 'Payment could not be verified automatically'}
                         </h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          Please check that your Transaction ID matches your receipt, or send your payment receipt directly to Admin on WhatsApp for instant manual activation.
+                          Please make sure your Transaction ID and uploaded payment document match your selected payment option and plan amount, or contact Admin on WhatsApp.
                         </p>
                       </div>
                       <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
@@ -1167,11 +1319,12 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       <div>
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-black uppercase tracking-wider bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30">
                           <Radio className="w-3 h-3 text-[#00D9FF] shrink-0" />
-                          <span>Live Verification In Progress</span>
+                          <span>AI Verification In Progress</span>
                         </div>
-                        <h4 className="text-base font-black text-white mt-2">Checking Payment Confirmation...</h4>
+                        <h4 className="text-base font-black text-white mt-2">Checking Transaction Similarity &amp; Document...</h4>
                         <p className="text-xs text-[#C9D1E0] mt-1 max-w-md mx-auto">
-                          Your submission is being checked against our payment verification ledger. Once verified, your 10-digit code will appear here and be sent to <span className="text-white font-bold">{orderSuccess.email}</span>.
+                          {orderSuccess.aiSummary || 'Backend AI is verifying your Transaction ID and uploaded payment document against your selected payment method.'} Once verified, your {orderSuccess.packageMonths}-Month VIP code will be emailed automatically to{' '}
+                          <span className="text-white font-bold">{orderSuccess.email}</span>.
                         </p>
                       </div>
 

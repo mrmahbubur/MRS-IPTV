@@ -9,7 +9,8 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 import { config, PLANS, CHANNELS, PLAN_IDS } from './mrs-iptv-backend/src/config.js';
 import { get, all, run, nowIso, tx, db, audit } from './mrs-iptv-backend/src/db.js';
 import { createOrder, getOrderByPublicId, listOrders, publicOrder } from './mrs-iptv-backend/src/orders.js';
-import { approveManually, rejectManually, verifyOrder, reconcilePending, expireOld, triggerDelayedActivations } from './mrs-iptv-backend/src/verify.js';
+import { approveManually, rejectManually, verifyOrder, verifyOrderWithAi, setAiPaymentVerifier, hasAiPaymentVerifier, reconcilePending, reconcileAiPending, expireOld, triggerDelayedActivations } from './mrs-iptv-backend/src/verify.js';
+import { verifyPaymentWithAi } from './aiPaymentVerifier.js';
 import {
   redeem,
   activatePass,
@@ -22,7 +23,8 @@ import {
   recordActivationAttempt,
 } from './mrs-iptv-backend/src/redeem.js';
 import { ingestSms, ingestEmail, pollBinance, addLedger, addManualLedger, listLedger } from './mrs-iptv-backend/src/ledger.js';
-import { processOutbox, requeueEmail } from './mrs-iptv-backend/src/mailer.js';
+import { processOutbox, requeueEmail, getMailHealth, verifySmtpConnection } from './mrs-iptv-backend/src/mailer.js';
+import { issueCheckoutChallenge, verifyCheckoutSubmission } from './mrs-iptv-backend/src/checkoutShield.js';
 import { generateCodes, ensureStock, stock } from './mrs-iptv-backend/src/codes.js';
 import { createInternalRouter } from './mrs-iptv-backend/src/internal.js';
 import { createApiKey, listApiKeys, revokeApiKey } from './mrs-iptv-backend/src/apiKeys.js';
@@ -83,6 +85,10 @@ const wrap = (fn: any) => (req: Request, res: Response, next: NextFunction) =>
 export function createPaymentRouter(options: { channelLookup?: (targetUrl: string) => boolean } = {}) {
   const router = express.Router();
 
+  if (process.env.NODE_ENV !== 'test') {
+    setAiPaymentVerifier(verifyPaymentWithAi);
+  }
+
   // Auto-ensure minimum 1200 available codes per plan on boot
   try {
     const created = ensureStock(1200, `boot-${Date.now()}`);
@@ -96,7 +102,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
 
   const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: config.maxScreenshotBytes, files: 1, fields: 16 },
+    limits: { fileSize: config.maxScreenshotBytes, files: 1, fields: 24 },
   });
 
   const limiter = (windowMs: number, max: number, extra: Record<string, any> = {}) =>
@@ -139,7 +145,21 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
     })
   );
 
+  router.get('/payments/challenge', limiter(60_000, 120), (_req: Request, res: Response) => {
+    res.set('Cache-Control', 'no-store').json(issueCheckoutChallenge());
+  });
+
   const submitOrderHandler = wrap(async (req: any, res: any) => {
+    const shield = await verifyCheckoutSubmission(req.body || {}, req.ip || '');
+    if (!shield.ok) {
+      audit('shield', 'checkout_blocked', null, { code: shield.code, ip: req.ip });
+      return res.status(shield.status || 400).json({
+        error: {
+          code: shield.code,
+          message: shield.message,
+        },
+      });
+    }
     const { order, created } = await createOrder(req.body || {}, req.file, {
       ip: req.ip,
       userAgent: req.get('user-agent'),
@@ -321,6 +341,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
       stock: stock(),
       outbox: Object.fromEntries(all('SELECT status, COUNT(*) n FROM email_outbox GROUP BY status').map((r: any) => [r.status, r.n])),
       unclaimedPayments: get('SELECT COUNT(*) n FROM ledger WHERE claimed_by_order IS NULL').n,
+      mail: getMailHealth(),
     })
   );
 
@@ -382,11 +403,15 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
     res.json(publicOrder(rejectManually(id, { reason: req.body?.reason })));
   });
 
-  admin.post('/orders/:id/recheck', (req: Request, res: Response) => {
+  admin.post('/orders/:id/recheck', wrap(async (req: Request, res: Response) => {
     const id = orderId(req);
     if (!id) return res.status(404).json({ error: { code: 'not_found', message: 'Order not found' } });
-    res.json(publicOrder(verifyOrder(id, { force: true })));
-  });
+    let result = verifyOrder(id, { force: true });
+    if (result.status !== 'verified' && hasAiPaymentVerifier()) {
+      result = await verifyOrderWithAi(id, { force: true });
+    }
+    res.json(publicOrder(result));
+  }));
 
   admin.post('/orders/:id/resend', wrap(async (req: Request, res: Response) => {
     const id = orderId(req);
@@ -487,8 +512,20 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
        LIMIT ?`,
       limit
     );
-    res.json({ emails: rows });
+    res.json({ emails: rows, mail: getMailHealth() });
   });
+
+  admin.post('/mail/verify', wrap(async (req: Request, res: Response) => {
+    const testRecipient = req.body?.sendTest ? (String(req.body?.to || '').trim() || config.mail.adminEmail) : null;
+    const result = await verifySmtpConnection(testRecipient);
+    res.status(result.ok ? 200 : 400).json(result);
+  }));
+
+  admin.post('/mail/flush', wrap(async (_req: Request, res: Response) => {
+    run("UPDATE email_outbox SET status='queued', next_attempt_at=? WHERE status='failed'", nowIso());
+    const sent = await processOutbox();
+    res.json({ ok: true, sent, mail: getMailHealth() });
+  }));
 
   admin.post('/auto-activate/run', (_req: Request, res: Response) => {
     const activated = triggerDelayedActivations();
@@ -552,8 +589,9 @@ export function startPaymentBackgroundJobs() {
       }
     }, ms).unref();
 
-  every(30_000, () => {
+  every(30_000, async () => {
     reconcilePending();
+    await reconcileAiPending(3);
     expireOld();
     triggerDelayedActivations();
   }, 'reconcile-and-auto-activate');

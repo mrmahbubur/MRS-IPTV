@@ -17,6 +17,7 @@ function detectType(buf) {
   if (buf.length > 12 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return { ext: 'jpg', mime: 'image/jpeg' };
   if (buf.length > 24 && buf.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return { ext: 'png', mime: 'image/png' };
   if (buf.length > 30 && buf.toString('latin1', 0, 4) === 'RIFF' && buf.toString('latin1', 8, 12) === 'WEBP') return { ext: 'webp', mime: 'image/webp' };
+  if (buf.length > 100 && buf.subarray(0, 5).toString('latin1') === '%PDF-') return { ext: 'pdf', mime: 'application/pdf' };
   return null;
 }
 
@@ -44,18 +45,22 @@ function dimensions(buf, ext) {
 
 const EDITOR_RE = /(Adobe Photoshop|Photoshop|GIMP|Pixlr|Canva|PicsArt|Facetune|Meitu|FaceApp|Photopea|Paint\.NET|Fotor)/i;
 
-/** Validate the upload. Returns { ok, error } or { ok, ext, sha256, flags, width, height }. */
+/** Validate the upload. Returns { ok, error } or { ok, ext, mime, sha256, flags, width, height }. */
 export function inspectUpload(buf, declaredMime) {
   if (!buf?.length) return { ok: false, error: 'The screenshot file is empty' };
-  if (buf.length > config.maxScreenshotBytes) return { ok: false, error: 'Screenshot is too large (max 5 MB)' };
+  if (buf.length > config.maxScreenshotBytes) return { ok: false, error: 'Screenshot is too large (max 3 MB)' };
   const type = detectType(buf);
-  if (!type) return { ok: false, error: 'Upload a real JPG, PNG or WebP screenshot' };
+  if (!type) return { ok: false, error: 'Upload a real JPG, PNG or WebP (or PDF) payment document' };
   if (declaredMime && !['application/octet-stream', type.mime].includes(declaredMime) && !(declaredMime === 'image/jpg' && type.ext === 'jpg')) {
     return { ok: false, error: 'The file type does not match its content' };
   }
-  const dim = dimensions(buf, type.ext);
-  if (!dim || dim.w < MIN_SIDE || dim.h < MIN_SIDE) return { ok: false, error: 'This image is too small to be a payment screenshot' };
-  if (dim.w * dim.h > 60_000_000) return { ok: false, error: 'Image dimensions are too large' };
+
+  let dim = { w: null, h: null };
+  if (type.ext !== 'pdf') {
+    dim = dimensions(buf, type.ext);
+    if (!dim || dim.w < MIN_SIDE || dim.h < MIN_SIDE) return { ok: false, error: 'This image is too small to be a payment screenshot' };
+    if (dim.w * dim.h > 60_000_000) return { ok: false, error: 'Image dimensions are too large' };
+  }
 
   const flags = [];
   const head = buf.toString('latin1', 0, Math.min(buf.length, 131072));

@@ -594,3 +594,355 @@ test('submitting payment details emails an informational record copy to customer
   assert.equal(pendingStatus.copyEmailStatus, 'sent');
   assert.equal(activationMailsTo('pending-copy@test.com').length, 0);
 });
+
+test('backend AI payment verification: auto-verifies matching TrxID + PNG/PDF documents, emails exact-month code, and enforces deterministic fraud guards', async () => {
+  const { setAiPaymentVerifier, reconcileAiPending } = await import('../src/verify.js');
+
+  const sendWithMime = async (fields, buf, mime, filename) => {
+    const fd = new FormData();
+    for (const [k, val] of Object.entries(fields)) if (val !== undefined) fd.append(k, val);
+    if (buf) fd.append('screenshot', new Blob([buf], { type: mime }), filename);
+    const r = await fetch(base + '/api/payments/submit', { method: 'POST', body: fd });
+    return { status: r.status, body: await r.json() };
+  };
+
+  try {
+    // 1. PDF receipt upload (no typed TrxID) for 6m Skrill -> AI extracts TrxID, verifies similarity & amount, emails MRS-6M-... code
+    const samplePdf = Buffer.from('%PDF-1.4\n1 0 obj\n<< /Type /Catalog >>\nendobj\n' + 'Skrill Payment Confirmed $6.00 Transaction ID: 8822334455 '.repeat(4) + '\n%%EOF');
+    setAiPaymentVerifier(async (ctx) => {
+      assert.equal(ctx.fileMime, 'application/pdf');
+      assert.equal(ctx.order.plan, '6m');
+      return {
+        model: 'gemini-4-hydrogen',
+        hasDocument: true,
+        isPaymentDocument: true,
+        detectedChannel: 'skrill',
+        channelMatchesSelected: true,
+        extractedTrxId: '8822334455',
+        trxIdMatchesInput: true,
+        trxIdLooksReal: true,
+        trxIdSimilarityScore: 95,
+        extractedAmount: 6,
+        extractedCurrency: 'USD',
+        extractedRecipient: '407108385',
+        paymentStatusSuccessful: true,
+        appearsAuthenticAndUnedited: true,
+        overallSimilarityScore: 94,
+        verdict: 'verify',
+        reasonCode: 'ai_verified',
+        summary: 'PDF receipt matches Skrill $6.00 transfer (TrxID 8822334455).',
+      };
+    });
+
+    const pdfOrd = await sendWithMime(
+      intl({ plan: '6m', channel: 'skrill', email: 'ai-pdf-6m@gmail.com' }),
+      samplePdf,
+      'application/pdf',
+      'skrill-receipt.pdf'
+    );
+    assert.equal(pdfOrd.status, 201);
+    assert.equal(pdfOrd.body.status, 'verified');
+    assert.equal(pdfOrd.body.verificationMethod, 'ai_auto');
+    assert.match(pdfOrd.body.aiSummary, /Skrill \$6\.00/);
+    assert.ok(!JSON.stringify(pdfOrd.body).includes('MRS-6M-'), 'code must NEVER appear in API HTTP response');
+
+    await processOutbox();
+    const code6m = codeFromMail('ai-pdf-6m@gmail.com');
+    assert.match(code6m, /^MRS-6M-/, 'must email exact 6-month plan code');
+
+    // 2. Duplicate TrxID caught deterministically by backend even if AI approves
+    setAiPaymentVerifier(async () => ({
+      model: 'gemini-4-hydrogen',
+      hasDocument: true,
+      isPaymentDocument: true,
+      detectedChannel: 'skrill',
+      channelMatchesSelected: true,
+      extractedTrxId: '8822334455',
+      trxIdMatchesInput: true,
+      trxIdLooksReal: true,
+      trxIdSimilarityScore: 95,
+      extractedAmount: 6,
+      extractedCurrency: 'USD',
+      extractedRecipient: '407108385',
+      paymentStatusSuccessful: true,
+      appearsAuthenticAndUnedited: true,
+      overallSimilarityScore: 95,
+      verdict: 'verify',
+      reasonCode: 'ai_verified',
+      summary: 'Duplicate TrxID test.',
+    }));
+    const dupTrxOrd = await sendWithMime(
+      intl({ plan: '6m', channel: 'skrill', trxId: '8822334455', email: 'ai-dup@gmail.com' }),
+      makePng(400, 400, 51),
+      'image/png',
+      'dup.png'
+    );
+    assert.equal(dupTrxOrd.status, 201);
+    assert.equal(dupTrxOrd.body.status, 'rejected');
+    assert.equal(dupTrxOrd.body.reason, 'trx_already_used');
+    assert.equal(activationMailsTo('ai-dup@gmail.com').length, 0);
+
+    // 3. Underpaid proof caught deterministically even if AI returns verdict='verify'
+    setAiPaymentVerifier(async () => ({
+      model: 'gemini-4-hydrogen',
+      hasDocument: true,
+      isPaymentDocument: true,
+      detectedChannel: 'bkash',
+      channelMatchesSelected: true,
+      extractedTrxId: 'BKAIUNDER1',
+      trxIdMatchesInput: true,
+      trxIdLooksReal: true,
+      trxIdSimilarityScore: 90,
+      extractedAmount: 110,
+      extractedCurrency: 'BDT',
+      extractedRecipient: '01810853282',
+      paymentStatusSuccessful: true,
+      appearsAuthenticAndUnedited: true,
+      overallSimilarityScore: 90,
+      verdict: 'verify',
+      reasonCode: 'ai_verified',
+      summary: 'bKash receipt for 110 TK.',
+    }));
+    const underOrd = await sendWithMime(
+      bd({ plan: '12m', trxId: 'BKAIUNDER1', email: 'ai-under@gmail.com' }),
+      makePng(400, 400, 52),
+      'image/png',
+      'under.png'
+    );
+    assert.equal(underOrd.body.status, 'rejected');
+    assert.equal(underOrd.body.reason, 'underpaid');
+    assert.equal(activationMailsTo('ai-under@gmail.com').length, 0);
+
+    // 4. TrxID-only submission for 12m Nagad verified by similarity -> issues MRS-12M-... code
+    setAiPaymentVerifier(async (ctx) => ({
+      model: 'gemini-4-hydrogen',
+      hasDocument: false,
+      isPaymentDocument: false,
+      detectedChannel: 'nagad',
+      channelMatchesSelected: true,
+      extractedTrxId: ctx.order.trx_id,
+      trxIdMatchesInput: true,
+      trxIdLooksReal: true,
+      trxIdSimilarityScore: 91,
+      extractedAmount: 0,
+      extractedCurrency: '',
+      extractedRecipient: '',
+      paymentStatusSuccessful: true,
+      appearsAuthenticAndUnedited: true,
+      overallSimilarityScore: 88,
+      verdict: 'verify',
+      reasonCode: 'ai_verified',
+      summary: 'Nagad Transaction ID matches genuine Nagad structure.',
+    }));
+    const nagad12m = await sendWithMime(
+      bd({ plan: '12m', channel: 'nagad', trxId: 'NG94K7P2MX', email: 'ai-nagad-12m@gmail.com' }),
+      null,
+      null,
+      null
+    );
+    assert.equal(nagad12m.status, 201);
+    assert.equal(nagad12m.body.status, 'verified');
+    await processOutbox();
+    assert.match(codeFromMail('ai-nagad-12m@gmail.com'), /^MRS-12M-/);
+
+    // 5. Outage / quota deferral NEVER fakes approval; retries via reconcileAiPending when AI recovers
+    setAiPaymentVerifier(async () => ({
+      deferred: true,
+      deferredReason: 'ai_quota_limit',
+      model: 'gemini-4-hydrogen',
+      summary: 'Temporary AI rate limit.',
+    }));
+    const defOrd = await sendWithMime(
+      bd({ plan: '2m', channel: 'bkash', trxId: 'BKDEFER99A', email: 'ai-defer@gmail.com' }),
+      null,
+      null,
+      null
+    );
+    assert.equal(defOrd.status, 201);
+    assert.equal(defOrd.body.status, 'pending', 'must never fake approval when AI is deferred');
+    assert.equal(activationMailsTo('ai-defer@gmail.com').length, 0);
+
+    setAiPaymentVerifier(async (ctx) => ({
+      model: 'gemini-4-hydrogen',
+      hasDocument: false,
+      isPaymentDocument: false,
+      detectedChannel: 'bkash',
+      channelMatchesSelected: true,
+      extractedTrxId: ctx.order.trx_id,
+      trxIdMatchesInput: true,
+      trxIdLooksReal: true,
+      trxIdSimilarityScore: 92,
+      extractedAmount: 0,
+      extractedCurrency: '',
+      extractedRecipient: '',
+      paymentStatusSuccessful: true,
+      appearsAuthenticAndUnedited: true,
+      overallSimilarityScore: 90,
+      verdict: 'verify',
+      reasonCode: 'ai_verified',
+      summary: 'Verified on background retry.',
+    }));
+    const retried = await reconcileAiPending(5);
+    assert.ok(retried >= 1);
+    await processOutbox();
+    assert.match(codeFromMail('ai-defer@gmail.com'), /^MRS-2M-/);
+  } finally {
+    setAiPaymentVerifier(null);
+  }
+});
+
+test('checkout anti-spam shield: honeypot trap, valid SHA-256 PoW, replay block, and signature tamper protection', async () => {
+  const chRes = await fetch(`${base}/api/payments/challenge`);
+  assert.equal(chRes.status, 200);
+  const ch = await chRes.json();
+  assert.equal(ch.ok, true);
+  assert.ok(ch.challengeToken);
+  assert.ok(ch.nonce);
+
+  // Solve leading-zero-bits PoW
+  const hasZeroBits = (buf, bits) => {
+    const full = Math.floor(bits / 8);
+    const rem = bits % 8;
+    for (let i = 0; i < full; i++) if (buf[i] !== 0) return false;
+    if (rem > 0 && (buf[full] & (0xff << (8 - rem))) !== 0) return false;
+    return true;
+  };
+  let solution = '';
+  for (let i = 0; i < 200_000; i++) {
+    const cand = i.toString(36);
+    const digest = crypto.createHash('sha256').update(`${ch.nonce}:${cand}`).digest();
+    if (hasZeroBits(digest, ch.difficulty)) {
+      solution = cand;
+      break;
+    }
+  }
+  assert.ok(solution, 'solved checkout PoW challenge');
+
+  // 1. Honeypot trap blocks submission
+  const spamRes = await order(bd({ trxId: 'SPAMBOT991', website_url: 'https://spam-bot.example', challengeToken: ch.challengeToken, challengeSolution: solution }));
+  assert.equal(spamRes.status, 400);
+  assert.equal(spamRes.body.error.code, 'spam_detected');
+
+  // 2. Valid challenge + clean honeypot passes (does NOT consume challenge until verified; spam blocked before step 3)
+  const validRes = await order(bd({ trxId: 'POWVALID01', website_url: '', challengeToken: ch.challengeToken, challengeSolution: solution }));
+  assert.equal(validRes.status, 201);
+
+  // 3. Replaying the exact same single-use challenge is blocked
+  const replayRes = await order(bd({ trxId: 'POWVALID02', challengeToken: ch.challengeToken, challengeSolution: solution }));
+  assert.equal(replayRes.status, 400);
+  assert.equal(replayRes.body.error.code, 'challenge_reused');
+
+  // 4. Tampered signature is blocked
+  const [b64] = ch.challengeToken.split('.');
+  const badRes = await order(bd({ trxId: 'POWBADSIG1', challengeToken: `${b64}.tamperedSig123`, challengeSolution: solution }));
+  assert.equal(badRes.status, 400);
+  assert.equal(badRes.body.error.code, 'challenge_failed');
+});
+
+test('backend AI payment verifier enforces receiving account match and recent payment timestamp', async () => {
+  const { setAiPaymentVerifier } = await import('../src/verify.js');
+
+  const submitProof = async (fields, seed = 77) => {
+    const fd = new FormData();
+    for (const [k, val] of Object.entries(fields)) if (val !== undefined) fd.append(k, val);
+    fd.append('screenshot', new Blob([makePng(400, 400, seed)], { type: 'image/png' }), `receipt-${seed}.png`);
+    const r = await fetch(base + '/api/payments/submit', { method: 'POST', body: fd });
+    return { status: r.status, body: await r.json() };
+  };
+
+  try {
+    // 1. Wrong receiving account -> needs_review (ai_recipient_mismatch), NO code issued
+    setAiPaymentVerifier(async () => ({
+      model: 'gemini-4-hydrogen',
+      hasDocument: true,
+      isPaymentDocument: true,
+      detectedChannel: 'bkash',
+      channelMatchesSelected: true,
+      extractedTrxId: 'BKWRREC991',
+      trxIdMatchesInput: true,
+      trxIdLooksReal: true,
+      trxIdSimilarityScore: 92,
+      extractedAmount: 110,
+      extractedCurrency: 'BDT',
+      extractedRecipient: '01999999999',
+      recipientMatchesAccount: false,
+      extractedTimestamp: new Date().toISOString(),
+      timestampLooksRecent: true,
+      paymentStatusSuccessful: true,
+      appearsAuthenticAndUnedited: true,
+      overallSimilarityScore: 90,
+      verdict: 'verify',
+      reasonCode: 'ai_verified',
+      summary: 'Receipt sent to another number.',
+    }));
+    const recErr = await submitProof(bd({ plan: '1m', trxId: 'BKWRREC991', email: 'ai-wrong-rec@gmail.com' }), 77);
+    assert.equal(recErr.status, 201);
+    assert.equal(recErr.body.status, 'needs_review');
+    assert.equal(recErr.body.reason, 'ai_recipient_mismatch');
+    assert.equal(activationMailsTo('ai-wrong-rec@gmail.com').length, 0);
+
+    // 2. Old / stale receipt timestamp -> needs_review (payment_too_old), NO code issued
+    setAiPaymentVerifier(async () => ({
+      model: 'gemini-4-hydrogen',
+      hasDocument: true,
+      isPaymentDocument: true,
+      detectedChannel: 'bkash',
+      channelMatchesSelected: true,
+      extractedTrxId: 'BKOLDTM991',
+      trxIdMatchesInput: true,
+      trxIdLooksReal: true,
+      trxIdSimilarityScore: 92,
+      extractedAmount: 110,
+      extractedCurrency: 'BDT',
+      extractedRecipient: '01810853282',
+      recipientMatchesAccount: true,
+      extractedTimestamp: '2025-01-01 10:00',
+      timestampLooksRecent: false,
+      paymentStatusSuccessful: true,
+      appearsAuthenticAndUnedited: true,
+      overallSimilarityScore: 90,
+      verdict: 'verify',
+      reasonCode: 'ai_verified',
+      summary: 'Receipt date is too old.',
+    }));
+    const timeErr = await submitProof(bd({ plan: '1m', trxId: 'BKOLDTM991', email: 'ai-old-time@gmail.com' }), 78);
+    assert.equal(timeErr.status, 201);
+    assert.equal(timeErr.body.status, 'needs_review');
+    assert.equal(timeErr.body.reason, 'payment_too_old');
+    assert.equal(activationMailsTo('ai-old-time@gmail.com').length, 0);
+  } finally {
+    setAiPaymentVerifier(null);
+  }
+});
+
+test('admin mail health, SMTP verification diagnostics, and outbox flush endpoints report real status', async () => {
+  const stats = await j(await fetch(`${base}/api/admin/stats`, { headers: ADMIN }));
+  assert.ok(stats.mail);
+  assert.equal(stats.mail.mode, 'json');
+  assert.equal(stats.mail.smtpConfigured, false);
+
+  const outbox = await j(await fetch(`${base}/api/admin/outbox`, { headers: ADMIN }));
+  assert.ok(outbox.mail);
+  assert.equal(outbox.mail.mode, 'json');
+
+  const verifyRes = await fetch(`${base}/api/admin/mail/verify`, {
+    method: 'POST',
+    headers: { ...ADMIN, 'content-type': 'application/json' },
+    body: JSON.stringify({ sendTest: false }),
+  });
+  assert.equal(verifyRes.status, 400);
+  const verifyBody = await verifyRes.json();
+  assert.equal(verifyBody.ok, false);
+  assert.equal(verifyBody.code, 'smtp_not_configured');
+
+  const flushRes = await fetch(`${base}/api/admin/mail/flush`, {
+    method: 'POST',
+    headers: { ...ADMIN, 'content-type': 'application/json' },
+  });
+  assert.equal(flushRes.status, 200);
+  const flushBody = await flushRes.json();
+  assert.equal(flushBody.ok, true);
+  assert.ok(flushBody.mail);
+});
+
+

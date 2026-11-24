@@ -111,6 +111,15 @@ export const config = {
   maxOrdersPerEmailPerDay: int(env.MAX_ORDERS_PER_EMAIL_PER_DAY, 6),
   maxScreenshotBytes: int(env.MAX_SCREENSHOT_BYTES, 3 * 1024 * 1024),
 
+  checkoutShield: {
+    requireChallenge: bool(env.CHECKOUT_CHALLENGE_REQUIRED, env.NODE_ENV !== 'test'),
+    difficulty: Math.max(8, Math.min(16, int(env.CHECKOUT_POW_DIFFICULTY, 10))),
+    turnstileSiteKey: String(env.TURNSTILE_SITE_KEY || '').trim(),
+    turnstileSecretKey: String(env.TURNSTILE_SECRET_KEY || '').trim(),
+    hcaptchaSiteKey: String(env.HCAPTCHA_SITE_KEY || '').trim(),
+    hcaptchaSecretKey: String(env.HCAPTCHA_SECRET_KEY || '').trim(),
+  },
+
   // Receiving accounts served dynamically to front end via GET /api/payment-methods
   receivingAccounts: {
     bkash: {

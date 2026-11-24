@@ -7,6 +7,9 @@ import { get, all, run, nowIso, audit } from './db.js';
 export const sentMail = []; // only filled in `json` transport mode (tests / dry runs)
 
 let transport;
+export function resetMailTransport() {
+  transport = undefined;
+}
 function getTransport() {
   if (transport) return transport;
   const m = config.mail;
@@ -465,5 +468,74 @@ export function requeueEmail(orderId) {
     queueActivationEmail(o, c.code);
   }
   return true;
+}
+
+export function getMailHealth() {
+  const m = config.mail;
+  const smtpConfigured = Boolean(m.host && m.user && m.pass);
+  const mode = m.transport === 'smtp' && smtpConfigured ? 'smtp' : m.transport;
+  const queuedCount = get("SELECT COUNT(*) n FROM email_outbox WHERE status='queued'")?.n ?? 0;
+  const failedCount = get("SELECT COUNT(*) n FROM email_outbox WHERE status='failed'")?.n ?? 0;
+  const sentCount = get("SELECT COUNT(*) n FROM email_outbox WHERE status='sent'")?.n ?? 0;
+  return {
+    mode,
+    transport: m.transport,
+    smtpConfigured,
+    host: m.host || null,
+    port: m.port || null,
+    user: m.user || null,
+    from: m.from,
+    adminEmail: m.adminEmail,
+    outbox: { queued: queuedCount, failed: failedCount, sent: sentCount },
+  };
+}
+
+export async function verifySmtpConnection(testRecipient = null) {
+  const m = config.mail;
+  if (m.transport !== 'smtp' || !m.pass || !m.user || !m.host) {
+    return {
+      ok: false,
+      mode: m.transport,
+      code: 'smtp_not_configured',
+      reason: 'SMTP credentials incomplete: set MAIL_TRANSPORT="smtp" and SMTP_PASS (16-char Gmail App Password) in .env to enable live SMTP delivery.',
+      message: 'SMTP credentials incomplete: set MAIL_TRANSPORT="smtp" and SMTP_PASS (16-char Gmail App Password) in .env to enable live SMTP delivery.',
+      mail: getMailHealth(),
+    };
+  }
+  try {
+    resetMailTransport();
+    const tr = getTransport();
+    await tr.verify();
+    if (testRecipient) {
+      await tr.sendMail({
+        from: m.from,
+        to: testRecipient,
+        subject: `[${config.brand.name}] SMTP Delivery Check Passed`,
+        text: `Live SMTP delivery from ${m.user} via ${m.host}:${m.port} is verified and active at ${nowIso()}.`,
+      });
+    }
+    return {
+      ok: true,
+      mode: 'smtp',
+      host: m.host,
+      port: m.port,
+      user: m.user,
+      testedRecipient: testRecipient || null,
+      testSentTo: testRecipient || null,
+      message: testRecipient
+        ? `SMTP verified and test email dispatched to ${testRecipient}.`
+        : `SMTP connection verified (${m.host}:${m.port} as ${m.user}).`,
+      mail: getMailHealth(),
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      mode: 'smtp',
+      code: 'smtp_verify_failed',
+      reason: `SMTP connection failed: ${String(err?.message || err).slice(0, 240)}`,
+      message: `SMTP connection failed: ${String(err?.message || err).slice(0, 240)}`,
+      mail: getMailHealth(),
+    };
+  }
 }
 

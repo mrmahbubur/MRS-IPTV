@@ -4,7 +4,7 @@ import { config, PLANS, CHANNELS } from './config.js';
 import { get, run, all, nowIso, audit } from './db.js';
 import { normalizeEmail, emailDomainCanReceive, normalizePhone, normalizeTrxInput, maskEmail } from './validators.js';
 import { inspectUpload, saveUpload, readText, ledgerIdsInText } from './screenshot.js';
-import { verifyOrder, userMessage } from './verify.js';
+import { verifyOrder, verifyOrderWithAi, hasAiPaymentVerifier, userMessage } from './verify.js';
 import { queuePaymentSubmissionCopy, processOutbox } from './mailer.js';
 
 export class ApiError extends Error {
@@ -12,12 +12,18 @@ export class ApiError extends Error {
 }
 
 export function publicOrder(order) {
+  let detail = null;
+  if (order.status_detail) {
+    try { detail = JSON.parse(order.status_detail); } catch { detail = null; }
+  }
   return {
     orderId: order.public_id,
     ref: order.public_id,
     status: order.status,
     reason: order.status_reason || null,
     message: userMessage(order),
+    verificationMethod: order.verification_method || null,
+    aiSummary: detail?.aiVerification?.summary || null,
     plan: order.plan,
     channel: order.channel,
     method: order.channel,
@@ -85,7 +91,13 @@ export async function createOrder(body, file, meta = {}) {
   if (trx.ok && !trx.empty) {
     const dup = get(`SELECT * FROM orders WHERE email=? AND channel=? AND trx_id=? AND plan=? AND status IN ('pending','needs_review','verified')`,
       email.value, channel.id, trx.value, plan.id);
-    if (dup) return { order: verifyOrder(dup.id), created: false };
+    if (dup) {
+      let existing = verifyOrder(dup.id);
+      if (existing.status !== 'verified' && existing.status !== 'rejected' && hasAiPaymentVerifier()) {
+        existing = await verifyOrderWithAi(existing.id);
+      }
+      return { order: existing, created: false };
+    }
   }
 
   const perDay = get('SELECT COUNT(*) n FROM orders WHERE email=? AND created_at > ?', email.value, new Date(Date.now() - 86400_000).toISOString()).n;
@@ -120,7 +132,10 @@ export async function createOrder(body, file, meta = {}) {
   audit('user', 'order_created', Number(id), { plan: plan.id, channel: channel.id, hasTrx: !trx.empty, hasShot: !!shot, flags: shot?.flags });
   const createdOrder = get('SELECT * FROM orders WHERE id=?', Number(id));
   queuePaymentSubmissionCopy(createdOrder);
-  const verified = verifyOrder(Number(id));
+  let verified = verifyOrder(Number(id));
+  if (verified.status !== 'verified' && verified.status !== 'rejected' && hasAiPaymentVerifier()) {
+    verified = await verifyOrderWithAi(verified.id);
+  }
   await Promise.race([
     processOutbox().catch(() => {}),
     new Promise((resolve) => setTimeout(resolve, 2500))

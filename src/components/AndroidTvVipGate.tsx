@@ -36,7 +36,7 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
   const [proofTxId, setProofTxId] = useState('');
   const [proofPackage, setProofPackage] = useState<'1' | '2' | '6' | '12'>('1');
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
-  const [proofSuccess, setProofSuccess] = useState<string | null>(null);
+  const [proofSuccess, setProofSuccess] = useState<{ orderId: string; status: string; message?: string } | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodConfig[]>([]);
   const [supportInfo, setSupportInfo] = useState<{ whatsapp: string; email: string }>({
     whatsapp: '+8801810853282',
@@ -125,7 +125,11 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
         name: proofName.trim() || 'Android TV Viewer',
         trxId: proofTxId.trim(),
       });
-      setProofSuccess(order.orderId || 'SUBMITTED');
+      setProofSuccess({
+        orderId: order.orderId || 'SUBMITTED',
+        status: order.status || 'pending',
+        message: order.aiSummary || order.message,
+      });
     } catch (err: any) {
       setErrorMessage(err?.message || `Submission failed. Please email ${supportInfo.email}.`);
     } finally {
@@ -656,9 +660,16 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
             {proofSuccess ? (
               <div className="p-4 bg-emerald-950/80 border border-emerald-500 rounded-xl text-center space-y-2">
                 <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
-                <h4 className="text-sm font-bold text-white">Order Submitted ({proofSuccess})</h4>
+                <h4 className="text-sm font-bold text-white">
+                  {proofSuccess.status === 'verified'
+                    ? `AI Verified (${proofSuccess.orderId})`
+                    : `Order Submitted (${proofSuccess.orderId})`}
+                </h4>
                 <p className="text-xs text-emerald-200">
-                  A copy of your payment submission has been logged. Once verified on the server, your VIP activation code will be emailed to <strong>{proofEmail}</strong>.
+                  {proofSuccess.status === 'verified'
+                    ? `Your ${proofPackage}-Month VIP activation code has been automatically verified and emailed to `
+                    : 'Backend AI is verifying your payment details. Your exact-month VIP activation code will be emailed to '}
+                  <strong>{proofEmail}</strong>.
                 </p>
                 <button
                   type="button"

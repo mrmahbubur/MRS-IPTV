@@ -4,15 +4,28 @@
 // (i.e. the money really arrived) AND every check below passes. Otherwise the
 // order waits, goes to manual review, or is rejected. Nothing is ever approved
 // because a form "looked right".
+import fs from 'node:fs';
+import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { config, PLANS, CHANNELS } from './config.js';
 import { get, all, run, tx, nowIso, audit, Abort } from './db.js';
 import { allocateCode, addMonths } from './codes.js';
 import { queueActivationEmail, queueAutoActivatedEmail, queueRejectionEmail, processOutbox } from './mailer.js';
-import { last10, normalizeEmail } from './validators.js';
+import { last10, normalizeEmail, normalizeTrxInput } from './validators.js';
+
+let aiPaymentVerifier = null;
+
+export function setAiPaymentVerifier(fn) {
+  aiPaymentVerifier = typeof fn === 'function' ? fn : null;
+}
+
+export function hasAiPaymentVerifier() {
+  return typeof aiPaymentVerifier === 'function';
+}
 
 export const MESSAGES = {
   verified: 'Payment verified. Your activation code has been emailed to you.',
+  ai_verified: 'Payment verified automatically by AI. Your exact-month VIP activation code has been emailed to you.',
   awaiting_payment: "We haven't seen this payment in our account yet. Keep this page open – it checks automatically. Confirmations can take a few minutes.",
   no_matching_payment: 'We could not find a matching payment in our account within the waiting period. Check the Transaction ID, or contact support on WhatsApp.',
   trx_already_used: 'This transaction has already been used for another order.',
@@ -27,18 +40,37 @@ export const MESSAGES = {
   screenshot_unreadable: 'We could not read a Transaction ID from your screenshot. Our team will review it manually.',
   ambiguous_screenshot: 'Your screenshot matches more than one payment. Our team will review it manually.',
   screenshot_edited: 'Your screenshot shows signs of editing. Our team will review it manually.',
+  ai_channel_mismatch: 'The submitted proof does not match the selected payment option. Please upload confirmation for the selected method.',
+  ai_trx_mismatch: 'The Transaction ID you entered does not match the Transaction ID found on your uploaded payment document.',
+  ai_recipient_mismatch: 'The receiving account on your uploaded document does not match our official receiving account for this method.',
+  ai_unverified_document: 'Could not confirm a clear, valid payment document for the selected payment option.',
+  ai_fake_proof: 'The submitted Transaction ID or document does not appear to be a genuine payment transaction.',
+  ai_needs_review: 'AI verification requires a quick check of your submitted details before releasing your code.',
   manual_reject: 'Payment verification was rejected by our team.',
   out_of_stock: 'Your payment is verified. Your code is being prepared and will be emailed shortly.',
   manual_review: 'Our team is reviewing this order.',
 };
 
+function safeDetail(raw) {
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch { return null; }
+}
+
 export function userMessage(order) {
-  const detail = order.status_detail ? JSON.parse(order.status_detail) : null;
-  if (order.status === 'verified') return MESSAGES.verified;
+  const detail = safeDetail(order.status_detail);
+  if (order.status === 'verified') {
+    return order.verification_method === 'ai_auto' ? MESSAGES.ai_verified : MESSAGES.verified;
+  }
   if (order.status_reason === 'underpaid' && detail) return `${MESSAGES.underpaid} We received ${detail.paid}, but this plan costs ${detail.expected}. Contact support on WhatsApp to top up the difference.`;
   if (order.status_reason === 'manual_reject' && detail?.note) return `Order rejected: ${detail.note}`;
+  if (order.status === 'rejected' && detail?.aiVerification?.summary && !MESSAGES[order.status_reason]) {
+    return `Order rejected: ${detail.aiVerification.summary}`;
+  }
   if (order.status === 'pending') return MESSAGES.awaiting_payment;
   if (order.status === 'expired') return MESSAGES.no_matching_payment;
+  if (order.status === 'needs_review' && detail?.aiVerification?.summary && !MESSAGES[order.status_reason]) {
+    return detail.aiVerification.summary;
+  }
   return MESSAGES[order.status_reason] || MESSAGES.manual_review;
 }
 
@@ -46,8 +78,15 @@ const money = (minor, cur) => `${cur === 'BDT' ? '' : '$'}${(minor / 100).toFixe
 const hours = (h) => h * 3600_000;
 
 function normCurrency(channel, cur) {
-  const c = String(cur || '').toUpperCase();
-  if (channel === 'binance') return config.binance.stableAssets.includes(c) ? 'USD' : c;
+  const c = String(cur || '').trim().toUpperCase();
+  if (!c) return '';
+  if (channel === 'bkash' || channel === 'nagad') {
+    if (['BDT', 'TK', 'TAKA', '৳'].includes(c)) return 'BDT';
+  }
+  if (channel === 'binance') return config.binance.stableAssets.includes(c) || c === '$' ? 'USD' : c;
+  if (channel === 'skrill' || channel === 'payoneer') {
+    if (['USD', '$', 'US$'].includes(c)) return 'USD';
+  }
   return c;
 }
 
@@ -58,7 +97,7 @@ function setOutcome(order, status, reason, detail, ledgerId) {
   const fresh = get('SELECT * FROM orders WHERE id=?', order.id);
   if (status === 'rejected') {
     try {
-      const reasonMsg = detail?.note || userMessage(fresh);
+      const reasonMsg = detail?.note || detail?.aiVerification?.summary || userMessage(fresh);
       queueRejectionEmail(fresh, reasonMsg);
       processOutbox().catch(() => {});
     } catch {}
@@ -188,11 +227,292 @@ export function verifyOrder(orderId, { force = false } = {}) {
   }
 }
 
+const MIME_BY_EXT = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+  '.pdf': 'application/pdf',
+};
+
+function readOrderUploadSafe(order) {
+  if (!order?.screenshot_path) return null;
+  const uploadRoot = path.resolve(config.uploadDir);
+  const resolved = path.resolve(order.screenshot_path);
+  if (!resolved.startsWith(uploadRoot + path.sep)) return null;
+  if (!fs.existsSync(resolved)) return null;
+  const ext = path.extname(resolved).toLowerCase();
+  const mime = MIME_BY_EXT[ext];
+  if (!mime) return null;
+  return { buffer: fs.readFileSync(resolved), mime, name: path.basename(resolved) };
+}
+
+/**
+ * Evaluate an unverified order using the Backend AI Payment Verifier (when configured).
+ * Applies strict server-side duplicate/amount/channel/similarity enforcement before
+ * atomically issuing the exact-month activation code and queueing the email.
+ */
+export async function verifyOrderWithAi(orderId, { force = false } = {}) {
+  const order = get('SELECT * FROM orders WHERE id=?', orderId);
+  if (!order) throw new Error('order not found');
+  if (order.status === 'verified') return order;
+  if (!force && order.status === 'rejected') return order;
+  if (!hasAiPaymentVerifier()) return order;
+
+  const ch = CHANNELS[order.channel];
+  const plan = PLANS[order.plan];
+  if (!ch || !plan) return order;
+
+  const flags = safeDetail(order.screenshot_flags) || [];
+  if (Array.isArray(flags) && flags.some((f) => String(f).startsWith('edited_by'))) {
+    return setOutcome(order, 'needs_review', 'screenshot_edited', {
+      aiVerification: {
+        status: 'needs_review',
+        summary: MESSAGES.screenshot_edited,
+        checkedAt: nowIso(),
+      },
+    }, order.ledger_id);
+  }
+
+  const upload = readOrderUploadSafe(order);
+  const hasDocument = Boolean(upload && upload.buffer?.length > 0);
+  if (!hasDocument && !order.trx_id) return order;
+
+  const aiRes = await aiPaymentVerifier({
+    order,
+    fileBuffer: upload?.buffer ?? null,
+    fileMime: upload?.mime ?? null,
+    fileName: upload?.name ?? null,
+    channelConfig: ch,
+    planConfig: plan,
+    receivingAccount: config.receivingAccounts?.[order.channel] || {},
+  });
+
+  if (!aiRes || aiRes.deferred) {
+    const existingDetail = safeDetail(order.status_detail) || {};
+    run('UPDATE orders SET status_detail=?, updated_at=? WHERE id=?', JSON.stringify({
+      ...existingDetail,
+      aiVerification: {
+        status: 'deferred',
+        reason: aiRes?.deferredReason || 'ai_temporarily_unavailable',
+        summary: aiRes?.summary || 'Automated AI verification will retry shortly.',
+        checkedAt: nowIso(),
+      },
+    }), nowIso(), order.id);
+    return get('SELECT * FROM orders WHERE id=?', order.id);
+  }
+
+  const aiMeta = {
+    status: aiRes.verdict,
+    model: aiRes.model || 'gemini-4-hydrogen',
+    hasDocument,
+    detectedChannel: aiRes.detectedChannel || 'unknown',
+    channelMatchesSelected: Boolean(aiRes.channelMatchesSelected),
+    extractedTrxId: aiRes.extractedTrxId || '',
+    trxIdMatchesInput: Boolean(aiRes.trxIdMatchesInput),
+    trxIdLooksReal: Boolean(aiRes.trxIdLooksReal),
+    trxIdSimilarityScore: Number(aiRes.trxIdSimilarityScore || 0),
+    extractedAmount: Number(aiRes.extractedAmount || 0),
+    extractedCurrency: aiRes.extractedCurrency || '',
+    extractedRecipient: aiRes.extractedRecipient || '',
+    recipientMatchesAccount: aiRes.recipientMatchesAccount !== false,
+    extractedTimestamp: aiRes.extractedTimestamp || '',
+    timestampLooksRecent: aiRes.timestampLooksRecent !== false,
+    overallSimilarityScore: Number(aiRes.overallSimilarityScore || 0),
+    reasonCode: aiRes.reasonCode || 'ai_needs_review',
+    summary: aiRes.summary || '',
+    checkedAt: nowIso(),
+  };
+
+  let effectiveTrxId = order.trx_id || null;
+  let effectiveTrxKind = order.trx_kind || null;
+  if (!effectiveTrxId && aiRes.extractedTrxId) {
+    const norm = normalizeTrxInput(order.channel, aiRes.extractedTrxId);
+    if (norm.ok && !norm.empty) {
+      effectiveTrxId = norm.value;
+      effectiveTrxKind = norm.kind;
+    }
+  }
+
+  // Deterministic duplicate check across both ledger & already-verified orders
+  if (effectiveTrxId && effectiveTrxKind === 'id') {
+    const claimedLedger = get(
+      'SELECT id FROM ledger WHERE channel=? AND trx_id=? AND claimed_by_order IS NOT NULL AND claimed_by_order<>?',
+      order.channel, effectiveTrxId, order.id
+    );
+    const verifiedOrder = get(
+      "SELECT id FROM orders WHERE channel=? AND trx_id=? AND status='verified' AND id<>?",
+      order.channel, effectiveTrxId, order.id
+    );
+    if (claimedLedger || verifiedOrder) {
+      return setOutcome(order, 'rejected', 'trx_already_used', { aiVerification: aiMeta });
+    }
+  }
+
+  if (hasDocument) {
+    if (!aiRes.isPaymentDocument || !aiRes.appearsAuthenticAndUnedited) {
+      if (aiRes.verdict === 'reject') {
+        return setOutcome(order, 'rejected', aiRes.reasonCode || 'ai_fake_proof', { aiVerification: aiMeta });
+      }
+      return setOutcome(order, 'needs_review', 'ai_unverified_document', { aiVerification: aiMeta });
+    }
+    if (!aiRes.channelMatchesSelected) {
+      return setOutcome(order, 'needs_review', 'ai_channel_mismatch', { aiVerification: aiMeta });
+    }
+    if (aiRes.recipientMatchesAccount === false) {
+      return setOutcome(order, 'needs_review', 'ai_recipient_mismatch', { aiVerification: aiMeta });
+    }
+    if (aiRes.timestampLooksRecent === false) {
+      return setOutcome(order, 'needs_review', 'payment_too_old', { aiVerification: aiMeta });
+    }
+    if (order.trx_id && order.trx_kind === 'id' && aiRes.extractedTrxId && aiRes.trxIdMatchesInput === false) {
+      return setOutcome(order, 'needs_review', 'ai_trx_mismatch', { aiVerification: aiMeta });
+    }
+    if (Number(aiRes.extractedAmount) > 0) {
+      const paidCurrency = normCurrency(order.channel, aiRes.extractedCurrency || order.currency);
+      if (paidCurrency && paidCurrency !== order.currency) {
+        return setOutcome(order, 'needs_review', 'currency_mismatch', { aiVerification: aiMeta });
+      }
+      const paidMinor = Math.round(Number(aiRes.extractedAmount) * 100);
+      const floor = Math.floor(order.expected_minor * (1 - config.amountTolerancePct / 100));
+      if (paidMinor < floor) {
+        return setOutcome(order, 'rejected', 'underpaid', {
+          paid: money(paidMinor, order.currency),
+          expected: money(order.expected_minor, order.currency),
+          aiVerification: aiMeta,
+        });
+      }
+      if (paidMinor > order.expected_minor) {
+        const exactOther = Object.values(PLANS).find(
+          (p) => p.id !== order.plan && Math.round(p.prices[order.currency] * 100) === paidMinor
+        );
+        if (exactOther) {
+          return setOutcome(order, 'needs_review', 'paid_for_other_plan', {
+            paidFor: exactOther.id,
+            aiVerification: aiMeta,
+          });
+        }
+      }
+    }
+    if (!aiRes.paymentStatusSuccessful) {
+      return setOutcome(
+        order,
+        aiRes.verdict === 'reject' ? 'rejected' : 'needs_review',
+        aiRes.reasonCode || 'ai_needs_review',
+        { aiVerification: aiMeta }
+      );
+    }
+  }
+
+  if (!aiRes.channelMatchesSelected) {
+    return setOutcome(order, 'needs_review', 'ai_channel_mismatch', { aiVerification: aiMeta });
+  }
+  if (aiRes.verdict === 'reject') {
+    return setOutcome(order, 'rejected', aiRes.reasonCode || 'ai_fake_proof', { aiVerification: aiMeta });
+  }
+  if (
+    aiRes.verdict !== 'verify' ||
+    !aiRes.trxIdLooksReal ||
+    Number(aiRes.overallSimilarityScore) < 75 ||
+    Number(aiRes.trxIdSimilarityScore) < 70
+  ) {
+    return setOutcome(order, 'needs_review', aiRes.reasonCode || 'ai_needs_review', { aiVerification: aiMeta });
+  }
+
+  // All AI similarity & deterministic server checks passed: atomically issue the exact-month code and email it
+  try {
+    const finalized = tx(() => {
+      const current = get('SELECT status FROM orders WHERE id=?', order.id);
+      if (current?.status === 'verified') return get('SELECT * FROM orders WHERE id=?', order.id);
+
+      if (effectiveTrxId && effectiveTrxKind === 'id') {
+        const dup = get(
+          "SELECT id FROM orders WHERE channel=? AND trx_id=? AND status='verified' AND id<>?",
+          order.channel, effectiveTrxId, order.id
+        );
+        if (dup) throw new Abort('trx_already_used');
+      }
+
+      const code = allocateCode(order.plan, order.id);
+      if (!code) throw new Abort('out_of_stock');
+
+      const autoActivateAt = new Date(Date.now() + 12 * 3600 * 1000).toISOString();
+      const now = nowIso();
+      run(
+        `UPDATE orders
+            SET status='verified',
+                status_reason='ai_verified',
+                status_detail=?,
+                trx_id=COALESCE(trx_id, ?),
+                trx_kind=COALESCE(trx_kind, ?),
+                code_id=?,
+                auto_activate_at=?,
+                verified_at=?,
+                verification_method='ai_auto',
+                updated_at=?
+          WHERE id=?`,
+        JSON.stringify({ aiVerification: aiMeta }),
+        effectiveTrxId,
+        effectiveTrxKind,
+        code.id,
+        autoActivateAt,
+        now,
+        now,
+        order.id
+      );
+      run('UPDATE codes SET auto_activate_at=? WHERE id=?', autoActivateAt, code.id);
+
+      const fresh = get('SELECT * FROM orders WHERE id=?', order.id);
+      queueActivationEmail(fresh, code.code);
+      audit('ai_verifier', 'order_verified_ai', order.id, {
+        plan: order.plan,
+        channel: order.channel,
+        similarity: aiRes.overallSimilarityScore,
+        trxSimilarity: aiRes.trxIdSimilarityScore,
+        hasDocument,
+        autoActivateAt,
+      });
+      return fresh;
+    });
+
+    processOutbox().catch(() => {});
+    return finalized;
+  } catch (err) {
+    if (err instanceof Abort) {
+      if (err.reason === 'out_of_stock') return setOutcome(order, 'needs_review', 'out_of_stock', { aiVerification: aiMeta });
+      return setOutcome(order, 'rejected', err.reason, { aiVerification: aiMeta });
+    }
+    throw err;
+  }
+}
+
 /** Re-run every pending order – called after each ledger ingest and by the timer. */
 export function reconcilePending() {
   const ids = all("SELECT id FROM orders WHERE status='pending' ORDER BY id").map((r) => r.id);
   let verified = 0;
   for (const id of ids) if (verifyOrder(id).status === 'verified') verified++;
+  return verified;
+}
+
+/** Retry any pending or deferred AI-verification orders in the background. */
+export async function reconcileAiPending(limit = 10) {
+  if (!hasAiPaymentVerifier()) return 0;
+  const rows = all(
+    `SELECT id FROM orders
+      WHERE status='pending'
+         OR (status='needs_review' AND status_detail LIKE '%"status":"deferred"%')
+      ORDER BY id DESC LIMIT ?`,
+    limit
+  );
+  let verified = 0;
+  for (const r of rows) {
+    try {
+      const updated = await verifyOrderWithAi(r.id);
+      if (updated?.status === 'verified') verified++;
+    } catch {
+      // Keep non-blocking in background loop
+    }
+  }
   return verified;
 }
 
