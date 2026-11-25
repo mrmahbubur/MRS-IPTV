@@ -42,6 +42,7 @@ import {
   pendingM3uBatches 
 } from "./server/m3uChecker";
 import { createPaymentRouter } from "./server/paymentRouter";
+import { createAdsRouter, isVipRequest } from "./server/adsRouter";
 import { createGoogleWorkspaceRouter } from "./server/googleWorkspaceRouter";
 import { M3uDoctorService, createM3uDoctorRouter } from "./server/m3uDoctor";
 import { triggerDelayedActivations, reconcilePending } from "./server/mrs-iptv-backend/src/verify.js";
@@ -382,6 +383,9 @@ async function startServer() {
 
   // 4b. M R S IPTV VIP Pass Payment Verification & Code Management Backend
   app.use('/api', createPaymentRouter({ channelLookup: isChannelInKnownCatalogue }));
+
+  // 4b-1. Central Ad Gate, Affiliate Redirect (/go/:offerId), Event Telemetry & Admin Report
+  app.use(createAdsRouter());
 
   // 4b-2. Backend Google Drive & Gmail Integration Routes (Bearer token auth)
   app.use(
@@ -1246,7 +1250,7 @@ async function startServer() {
     isVip: boolean;
   } {
     const cookieHeader = req.headers.cookie || '';
-    const isVip = cookieHeader.includes('mrs_vip_active=1');
+    const isVip = cookieHeader.includes('mrs_vip_active=1') || isVipRequest(req);
 
     const geo = detectClientCountry(req);
     const country = geo.code || 'BD';
@@ -1370,6 +1374,9 @@ async function startServer() {
       const clientCountry = (req.query.country as string || geo.code || '').trim();
 
       const midnightInfo = checkUserMidnightRegion(req);
+      if (midnightInfo.isVip) {
+        return res.status(204).end();
+      }
       const isActiveAdUser = !midnightInfo.isVip;
       const pickRandom = req.query.mode === 'random';
 
@@ -1489,6 +1496,17 @@ async function startServer() {
       const isTier1 = clientCountry && TIER1_HIGH_CPM_COUNTRIES.includes(clientCountry.toUpperCase());
 
       const midnightInfo = checkUserMidnightRegion(req);
+      if (midnightInfo.isVip) {
+        return res.json({
+          success: true,
+          isVip: true,
+          isMidnightActive: false,
+          alwaysShowAds: false,
+          currentAd: null,
+          redirectUrl: null,
+          totalClicks: backendAdsState.totalClicks
+        });
+      }
       const isActiveAdUser = !midnightInfo.isVip;
       const pickRandom = req.query.mode === 'random';
 
@@ -4479,6 +4497,9 @@ async function startServer() {
 
   app.post('/api/ads/track', (req, res) => {
     try {
+      if (isVipRequest(req) || (req.headers.cookie || '').includes('mrs_vip_active=1')) {
+        return res.json({ success: true, ignored: 'vip' });
+      }
       const { eventType, zoneId = 'unknown', network = 'Monetag Direct', url = '', estimatedCpmUsd = 3.5 } = req.body || {};
       const nowIso = new Date().toISOString();
       const cpm = Number(estimatedCpmUsd) || 3.5;
@@ -7316,21 +7337,8 @@ M R S IPTV Team
         }
       }
     }));
-    app.get('*', (req, res) => {
+    app.get('*', (_req, res) => {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      const cookieHeader = req.headers.cookie || '';
-      const isVip = cookieHeader.includes('mrs_vip_active=1');
-      if (isVip) {
-        try {
-          const indexPath = path.join(distPath, 'index.html');
-          if (fs.existsSync(indexPath)) {
-            let html = fs.readFileSync(indexPath, 'utf-8');
-            html = html.replace(/https:\/\/quge5\.com\/88\/tag\.min\.js/g, 'data:text/javascript;//monetag-blocked-for-vip');
-            res.setHeader('Content-Type', 'text/html; charset=utf-8');
-            return res.send(html);
-          }
-        } catch (e) {}
-      }
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }

@@ -443,6 +443,27 @@ CREATE TABLE IF NOT EXISTS channels (
 CREATE INDEX IF NOT EXISTS idx_channels_status ON channels(status, in_source, last_checked);
 CREATE INDEX IF NOT EXISTS idx_channels_norm   ON channels(norm_name);
 CREATE INDEX IF NOT EXISTS idx_channels_source ON channels(source, status);
+
+-- Ad Gate event metrics (views & clicks for free users only; never tracks VIP) & admin format config
+CREATE TABLE IF NOT EXISTS ad_events (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_type TEXT NOT NULL, -- 'view' | 'click'
+  format     TEXT NOT NULL, -- 'banner' | 'sticky' | 'popunder' | 'interstitial' | 'push' | 'affiliate'
+  placement  TEXT NOT NULL,
+  offer_id   TEXT NOT NULL,
+  network    TEXT NOT NULL DEFAULT 'Monetag Direct',
+  subid      TEXT,
+  ip_hash    TEXT,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_ad_events_created ON ad_events(created_at, event_type);
+CREATE INDEX IF NOT EXISTS idx_ad_events_offer   ON ad_events(offer_id, event_type);
+
+CREATE TABLE IF NOT EXISTS ad_settings (
+  key        TEXT PRIMARY KEY,
+  value_json TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
 `);
 
 try { db.exec('ALTER TABLE orders ADD COLUMN customer_name TEXT;'); } catch (_) {}

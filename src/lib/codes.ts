@@ -159,10 +159,12 @@ export function getStoredAdFreeState(): AdFreeState {
       if (!isTempReward && !entitlement) {
         return emptyState;
       }
-      try {
-        document.cookie = `mrs_vip_active=1; max-age=2592000; path=/; SameSite=Lax`;
-        if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = true;
-      } catch {}
+      if (!isTempReward && entitlement?.token) {
+        try {
+          document.cookie = `mrs_vip_active=1; max-age=2592000; path=/; SameSite=Lax`;
+          if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = true;
+        } catch {}
+      }
       return {
         ...data,
         deviceId,

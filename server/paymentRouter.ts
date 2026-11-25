@@ -245,8 +245,15 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
     const token = bearer(req) || String(req.query.token || '');
     const deviceId = String(req.get('x-device-id') || req.query.deviceId || '');
     const r = getEntitlementStatus({ token, deviceId });
-    if (!r.ok) return res.status(r.status).json({ ok: false, active: false, error: { code: r.code, message: r.message } });
-    res.json({ ok: true, data: r, ...r });
+    if (!r.ok) {
+      return res.status(r.status).json({
+        ok: false,
+        data: { active: false },
+        active: false,
+        error: { code: r.code, message: r.message },
+      });
+    }
+    res.json({ ok: true, data: r, ...r, error: null });
   });
 
   router.post('/entitlement', limiter(60_000, 120), (req: Request, res: Response) => {

@@ -387,6 +387,7 @@ export async function waitForVerification(
 
 // ---------------------------- redeem / activate + entitlement ---------------------------
 const KEY = 'mrs_vip_entitlement';
+const ADS_HINT_KEY = 'mrs_vip_ads_hint';
 
 export interface RegisteredDeviceInfo {
   deviceHash: string;
@@ -412,7 +413,7 @@ export interface EntitlementData {
   reason?: string;
 }
 
-const save = (e: any) =>
+const save = (e: any) => {
   store.set(
     KEY,
     JSON.stringify({
@@ -429,6 +430,11 @@ const save = (e: any) =>
       token: e.token,
     })
   );
+  if (e?.token && e?.expiresAt) {
+    store.set(ADS_HINT_KEY, JSON.stringify({ expiresAt: e.expiresAt }));
+    store.del('mrs_ads_expired_notice');
+  }
+};
 
 export function getCachedEntitlement(): EntitlementData | null {
   try {
@@ -447,12 +453,34 @@ export function getCachedEntitlement(): EntitlementData | null {
 /** Synchronous VIP flag checked cleanly against cached token; server verification runs via refreshEntitlement(). */
 export const isVip = (): boolean => !!getCachedEntitlement();
 
+export async function finalizeVipActivationReload(expiresAt?: string): Promise<void> {
+  if (expiresAt) {
+    store.set(ADS_HINT_KEY, JSON.stringify({ expiresAt }));
+  }
+  store.del('mrs_ads_expired_notice');
+  try {
+    const gate = typeof window !== 'undefined' ? (window as any).MRS_ADS : null;
+    if (gate && typeof gate.enterVipMode === 'function') {
+      await gate.enterVipMode(expiresAt);
+    }
+  } catch {}
+  try {
+    if (typeof window !== 'undefined' && window.location && typeof window.location.reload === 'function') {
+      window.location.reload();
+    }
+  } catch {}
+}
+
 export function clearVipSession() {
   store.del(KEY);
+  store.del(ADS_HINT_KEY);
   store.del('shahintv_adfree_activation');
   try {
     document.cookie = 'mrs_vip_active=0; max-age=0; path=/; SameSite=Lax';
-    if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = false;
+    if (typeof window !== 'undefined') {
+      (window as any).__MRS_IS_VIP = false;
+      (window as any).MRS_ADS?.refresh?.();
+    }
   } catch {}
 }
 

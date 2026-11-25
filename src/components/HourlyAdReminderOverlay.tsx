@@ -3,10 +3,8 @@ import { Gift, ExternalLink, X, Globe, Crown } from 'lucide-react';
 import hourlySupportBannerImg from '../assets/images/hourly_ad_support_banner_1791108106898.jpg';
 import {
   AdZoneConfig,
-  getNextAdZone,
   getRandomAdZone,
   recordAdEvent,
-  confirmAndOpenNextAdZone,
   grantRewardedAdFreeTime,
   getBackendAdRedirectUrl,
   canTriggerInterstitialAd,
@@ -14,6 +12,7 @@ import {
   hasUserViewedAdInLastHour
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
+import { useAdGate } from '../lib/useAdGate';
 
 interface LocalizedPromptData {
   langKey: string;
@@ -28,50 +27,50 @@ const CLIENT_LANGUAGE_FALLBACKS: Record<string, LocalizedPromptData> = {
   bn: {
     langKey: 'bn',
     languageName: 'বাংলা',
-    badge: 'ফ্রি লাইভ টিভি সাপোর্ট · ৫ সেকেন্ডের বার্তা',
+    badge: 'ফ্রি লাইভ টিভি সাপোর্ট · স্পনসর বার্তা',
     headline: 'ফ্রি স্ট্রিমিং চালু রাখতে একটি স্পনসর বিজ্ঞাপন দেখুন!',
-    subtext: 'আপনি এখনও কোনো বিজ্ঞাপন দেখেননি বা VIP পাস চালু করেননি। ৮,৮৯০+ চ্যানেল ফ্রি দেখতে নিচের বাটনে ট্যাপ করে ১ ঘণ্টার ফ্রি VIP আনলক করুন।',
-    ctaText: 'বিজ্ঞাপন দেখুন ও ১ ঘণ্টা ফ্রি VIP পান'
+    subtext: '৮,৮৯০+ চ্যানেল ফ্রি দেখতে নিচের বাটনে ট্যাপ করে স্পনসর অফার দেখুন অথবা VIP পাস নিন।',
+    ctaText: 'স্পনসর দেখুন'
   },
   hi: {
     langKey: 'hi',
     languageName: 'हिन्दी',
-    badge: 'फ्री लाइव टीवी सपोर्ट · 5 सेकंड का संदेश',
+    badge: 'फ्री लाइव टीवी सपोर्ट · स्पॉन्सर संदेश',
     headline: 'फ्री स्ट्रीमिंग जारी रखने के लिए एक स्पॉन्सर विज्ञापन देखें!',
-    subtext: 'आपने अभी तक कोई विज्ञापन नहीं देखा है और न ही VIP पास लिया है। 8,890+ लाइव चैनल फ्री देखने के लिए नीचे टैप करें और 1 घंटे का फ्री VIP पाएं।',
-    ctaText: 'विज्ञापन देखें और 1 घंटा फ्री VIP पाएं'
+    subtext: '8,890+ लाइव चैनल फ्री देखने के लिए नीचे टैप करें या VIP पास लें।',
+    ctaText: 'विज्ञापन देखें'
   },
   ur: {
     langKey: 'ur',
     languageName: 'اردو',
-    badge: 'فری لائیو ٹی وی سپورٹ · 5 سیکنڈ کا پیغام',
+    badge: 'فری لائیو ٹی وی سپورٹ',
     headline: 'فری اسٹریمنگ جاری رکھنے کے لیے ایک اسپانسر اشتہار دیکھیں!',
-    subtext: 'آپ نے ابھی تک کوئی اشتہار نہیں دیکھا اور نہ ہی VIP پاس لیا ہے۔ 8,890+ چینلز مفت دیکھنے اور 1 گھنٹہ فری VIP حاصل کرنے کے لیے نیچے کلک کریں۔',
-    ctaText: 'اشتہار دیکھیں اور 1 گھنٹہ فری VIP حاصل کریں'
+    subtext: 'چینلز مفت دیکھنے کے لیے نیچے کلک کریں یا VIP پاس لیں۔',
+    ctaText: 'اشتہار دیکھیں'
   },
   ar: {
     langKey: 'ar',
     languageName: 'العربية',
-    badge: 'دعم البث المباشر المجاني · رسالة 5 ثوانٍ',
+    badge: 'دعم البث المباشر المجاني',
     headline: 'شاهد إعلان الراعي لاستمرار البث المباشر مجاناً!',
-    subtext: 'لم تشاهد أي إعلان ولم تفعل اشتراك VIP بعد. اضغط أدناه لمشاهدة عرض الراعي والحصول على ساعة كاملة من البث بدون إعلانات.',
-    ctaText: 'شاهد الإعلان واحصل على ساعة VIP مجاناً'
+    subtext: 'اضغط أدناه لمشاهدة عرض الراعي أو احصل على VIP بدون إعلانات.',
+    ctaText: 'شاهد الإعلان'
   },
   es: {
     langKey: 'es',
     languageName: 'Español',
-    badge: 'Soporte de TV en Vivo · Aviso de 5s',
+    badge: 'Soporte de TV en Vivo',
     headline: '¡Mira un anuncio patrocinado para mantener la TV en vivo gratis!',
-    subtext: 'Aún no has visto anuncios ni tienes pase VIP. Toca abajo para apoyar el servidor gratuito y desbloquear 1 Hora VIP sin anuncios.',
-    ctaText: 'Ver Anuncio y Obtener 1h VIP Gratis'
+    subtext: 'Toca abajo para apoyar el servidor gratuito o obtén el pase VIP sin anuncios.',
+    ctaText: 'Ver Anuncio'
   },
   en: {
     langKey: 'en',
     languageName: 'English',
-    badge: 'Free Live TV Support · 5s Reminder',
-    headline: 'Watch a Quick Sponsor Ad to Keep 8,890+ Channels Free!',
-    subtext: 'You have not viewed any sponsor ads or activated a VIP Pass yet. Tap below to support our high-speed servers and unlock 1 Hour of Free VIP.',
-    ctaText: 'Watch Sponsor Ad & Get 1h Free VIP'
+    badge: 'Free Live TV Support · Sponsored',
+    headline: 'Support Free Live TV Streaming!',
+    subtext: 'Tap below to visit our partner sponsor and keep free channels streaming, or upgrade to VIP for zero ads.',
+    ctaText: 'Visit Sponsor Offer'
   }
 };
 
@@ -99,7 +98,10 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
   onRewardedGranted,
   onOpenVipModal
 }) => {
-  const isVip = !!(adFreeState?.isActive || adFreeState?.isAdFree);
+  const { isFreeMode, adConfig } = useAdGate();
+  const isTempPaused = Boolean(adFreeState?.isActive && adFreeState?.code === 'SPONSOR_REWARD_VIP');
+  const canOperate = isFreeMode && !isTempPaused && adConfig.formats.interstitial;
+
   const [isVisible, setIsVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(5);
   const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getRandomAdZone());
@@ -118,8 +120,8 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
     return () => window.removeEventListener('mrs_ad_zone_rotated', handleRotation);
   }, []);
 
-  // Fetch server-side geo + AI localized prompt on mount
   useEffect(() => {
+    if (!canOperate) return;
     const lang = typeof navigator !== 'undefined' ? navigator.language : 'en';
     let tz = '';
     try {
@@ -138,16 +140,29 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
         }
       })
       .catch(() => {});
-  }, []);
+  }, [canOperate]);
 
   useEffect(() => {
-    if (isVip) {
+    if (!canOperate) {
       setIsVisible(false);
       return;
     }
 
+    const isBlockedContext = () => {
+      try {
+        const docEl = document.documentElement;
+        if (docEl.getAttribute('data-mrs-player-active') === '1') return true;
+        if (docEl.getAttribute('data-mrs-modal-open') === '1') return true;
+        const v = (docEl.getAttribute('data-mrs-view') || '').toLowerCase();
+        if (v === 'admin' || v === 'checkout' || v === 'activate' || v === 'account' || v === 'support' || v === 'legal') {
+          return true;
+        }
+      } catch {}
+      return false;
+    };
+
     const checkAndShowHourlyReminder = () => {
-      if (isVip) return;
+      if (!canOperate || isBlockedContext()) return;
       try {
         if (!hasUserViewedAdInLastHour() && canTriggerInterstitialAd()) {
           const nextZone = getRandomAdZone();
@@ -160,11 +175,11 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
       } catch {}
     };
 
-    // Check after 2 minutes of initial stream watch, then periodically every 15 minutes
     const initialTimer = setTimeout(checkAndShowHourlyReminder, 2 * 60 * 1000);
     const periodicInterval = setInterval(checkAndShowHourlyReminder, 15 * 60 * 1000);
 
     const handleManualTrigger = () => {
+      if (!canOperate || isBlockedContext()) return;
       const nextZone = getRandomAdZone();
       setActiveZone(nextZone);
       recordAdEvent('impression', nextZone, 'hourly-visual-reminder');
@@ -178,7 +193,7 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
       clearInterval(periodicInterval);
       window.removeEventListener('mrs_trigger_hourly_ad_reminder', handleManualTrigger);
     };
-  }, [isVip]);
+  }, [canOperate]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -197,15 +212,13 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
     return () => clearInterval(countdownInterval);
   }, [isVisible]);
 
-  if (!isVisible || isVip) return null;
+  if (!isVisible || !canOperate) return null;
 
   const progressPct = ((5 - secondsLeft) / 5) * 100;
-
   const backendAdUrl = getBackendAdRedirectUrl('hourly-visual-reminder-click', activeZone.zoneId);
 
-  const handleWatchAdAndClaimVip = (_e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleWatchAdAndClaimVip = () => {
     recordAdEvent('click', activeZone, 'hourly-visual-reminder-click');
-    // Single click: browser natively opens backend redirect in new tab
     const newState = grantRewardedAdFreeTime(1);
     if (onRewardedGranted) {
       onRewardedGranted(newState);
@@ -216,9 +229,8 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
   };
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-200 select-none">
+    <div data-sponsored="true" className="ad-slot fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-200 select-none">
       <div className="relative w-full max-w-lg bg-[#0E1019] border border-amber-400/50 rounded-2xl shadow-2xl overflow-hidden">
-        {/* Top 5-Second Auto-Close Progress Bar */}
         <div className="w-full h-1.5 bg-[#07080D]">
           <div
             className="h-full bg-gradient-to-r from-amber-400 via-emerald-400 to-rose-500 transition-all duration-1000 ease-linear"
@@ -226,11 +238,10 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
           />
         </div>
 
-        {/* Visual Generated Image Banner with Native-Language Text Overlay */}
         <a
           href={backendAdUrl}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="sponsored nofollow noopener"
           data-ad-link="true"
           onClick={handleWatchAdAndClaimVip}
           className="relative block w-full aspect-video overflow-hidden bg-black group cursor-pointer"
@@ -268,12 +279,11 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
           </div>
         </a>
 
-        {/* Bottom Action Bar */}
         <div className="p-4 sm:p-5 bg-[#0E1019] space-y-2.5">
           <a
             href={backendAdUrl}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="sponsored nofollow noopener"
             data-ad-link="true"
             onClick={handleWatchAdAndClaimVip}
             className="w-full min-h-[46px] py-3.5 px-5 rounded-xl btn-premium-gold text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
@@ -291,10 +301,10 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
                   setIsVisible(false);
                   onOpenVipModal();
                 }}
-                className="min-h-[36px] px-2.5 py-1.5 rounded-lg text-xs font-bold text-amber-400 hover:text-amber-300 hover:bg-white/5 flex items-center gap-1.5 cursor-pointer"
+                className="mrs-free-upsell min-h-[36px] px-2.5 py-1.5 rounded-lg text-xs font-bold text-amber-400 hover:text-amber-300 hover:bg-white/5 flex items-center gap-1.5 cursor-pointer"
               >
                 <Crown className="w-3.5 h-3.5 shrink-0" />
-                <span>Get Permanent Ad-Free VIP Pass</span>
+                <span>Go ad-free with VIP</span>
               </button>
             ) : <span />}
 
@@ -303,7 +313,7 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
               onClick={() => setIsVisible(false)}
               className="min-h-[36px] px-2.5 py-1.5 rounded-lg text-xs font-semibold text-[#C9D1E0] hover:text-white hover:bg-white/5 flex items-center gap-1.5 cursor-pointer tabular-nums"
             >
-              <span>Auto-closing in {secondsLeft}s</span>
+              <span>Close ({secondsLeft}s)</span>
               <X className="w-3.5 h-3.5 shrink-0" />
             </button>
           </div>

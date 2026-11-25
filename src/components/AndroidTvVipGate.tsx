@@ -8,6 +8,7 @@ import { MrsIptvLogo } from './MrsIptvLogo';
 import { activateAdFreeCode, getDeviceId } from '../lib/codes';
 import {
   CheckoutChallenge,
+  finalizeVipActivationReload,
   formatActivationCodeInput,
   getCheckoutChallenge,
   getPaymentMethods,
@@ -110,9 +111,10 @@ export const AndroidTvVipGate: React.FC<AndroidTvVipGateProps> = ({ onActivated 
       const res = await activateAdFreeCode(code);
       if (res.success && res.state) {
         setSuccessMessage(res.message || 'VIP Access Unlocked Successfully!');
+        onActivated(res.state);
         setTimeout(() => {
-          onActivated(res.state!);
-        }, 1200);
+          finalizeVipActivationReload(res.state!.expiryDate);
+        }, 500);
       } else {
         setErrorMessage(res.message || 'Invalid VIP Pass code. Please verify your code and try again.');
       }

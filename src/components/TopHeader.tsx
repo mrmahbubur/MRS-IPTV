@@ -7,6 +7,7 @@ import { MrsIptvLogo } from './MrsIptvLogo';
 import { ChannelThumbnail } from './ChannelThumbnail';
 import { WatchAdVipButton } from './WatchAdVipButton';
 import { useDeviceDetection } from '../hooks/useDeviceDetection';
+import { useAdGate } from '../lib/useAdGate';
 
 interface TopHeaderProps {
   searchQuery: string;
@@ -66,8 +67,9 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   const { theme, setTheme, allThemes } = useBroadcastTheme();
   const { isSmallDevice } = useDeviceDetection();
 
+  const { isFreeMode, isVipLocked } = useAdGate();
   const vipCountdown = useRealtimeVipCountdown(adFreeState);
-  const isVipActive = vipCountdown.isActive;
+  const isVipActive = isVipLocked || vipCountdown.isActive;
 
   const showVoiceFeedbackError = useCallback((message: string) => {
     setVoiceError(message);
@@ -837,12 +839,14 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
             {/* Desktop Only Actions in Top Bar (Windows, Smart TV, Large Displays: hidden lg:flex) */}
             <div className="hidden lg:flex items-center gap-2">
-              {/* Watch Ad & Get 1 Hour Free VIP Icon Button */}
-              <WatchAdVipButton
-                variant="header"
-                adFreeState={adFreeState}
-                onRewardedGranted={onRewardedGranted}
-              />
+              {/* Watch Ad & Get 1 Hour Free VIP Icon Button (Free Mode Only) */}
+              {isFreeMode && (
+                <WatchAdVipButton
+                  variant="header"
+                  adFreeState={adFreeState}
+                  onRewardedGranted={onRewardedGranted}
+                />
+              )}
 
               {/* Premium VIP Pass Status CTA with Real-Time Countdown */}
               <button 
@@ -851,7 +855,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                 className={`flex items-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap shrink-0 motion-reduce:transition-none ${
                   isVipActive && vipCountdown.isTemporary ? 'btn-premium-emerald' : 'btn-premium-gold'
                 }`}
-                title={isVipActive ? "VIP Ad-Free Active" : "Upgrade to Ad-Free VIP Pass"}
+                title={isVipActive ? "VIP Membership Active" : "Upgrade to VIP Pass"}
                 id="premium-purchase-btn"
               >
                 <Crown className={`w-4 h-4 shrink-0 ${isVipActive && vipCountdown.isTemporary ? 'text-emerald-400' : 'text-amber-400'}`} />
@@ -988,13 +992,15 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           </div>
 
           {/* 2 & 3. Important Sections: 1-Hour VIP Pass & VIP Access Priority Buttons in HEAD */}
-          <div className="grid grid-cols-2 gap-2 w-full">
-            {/* 1-Hour Free VIP Pass Button */}
-            <WatchAdVipButton
-              variant="mobile-bar"
-              adFreeState={adFreeState}
-              onRewardedGranted={onRewardedGranted}
-            />
+          <div className={`grid ${isFreeMode ? 'grid-cols-2' : 'grid-cols-1'} gap-2 w-full`}>
+            {/* 1-Hour Free VIP Pass Button (Free Mode Only) */}
+            {isFreeMode && (
+              <WatchAdVipButton
+                variant="mobile-bar"
+                adFreeState={adFreeState}
+                onRewardedGranted={onRewardedGranted}
+              />
+            )}
 
             {/* VIP Access Button */}
             <button

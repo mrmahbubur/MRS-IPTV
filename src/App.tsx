@@ -48,6 +48,7 @@ import { AndroidTvVipGate } from './components/AndroidTvVipGate';
 import { setBackendDetectedCountry } from './lib/geoChannelNumbering';
 import { useRemoteConfig } from './hooks/useRemoteConfig';
 import { useBroadcastTheme } from './lib/themeSystem';
+import { useAdGate, getAdGateState, getAdRuntimeConfig } from './lib/useAdGate';
 
 
 const VideoPlayer = lazy(() => import('./components/VideoPlayer'));
@@ -56,6 +57,7 @@ export default function App() {
   useSpatialNavigation();
   useBroadcastTheme();
   const remoteConfig = useRemoteConfig();
+  const { isFreeMode, expiredNotice, dismissExpiredNotice, adConfig } = useAdGate();
   const [channels, setChannels] = useState<Channel[]>(() => {
     try {
       const cached = localStorage.getItem('shahintv_channels_cache');
@@ -239,9 +241,13 @@ export default function App() {
     }
   }, [pendingPlayAction]);
 
-  // Live Channel Ad Check Helper (Remote Config driven with auto-reset & cooldown)
+  // Live Channel Ad Check Helper (Remote Config + Ad Gate driven; never interrupts VIP or protected views)
   const triggerChannelAdCheckAndExecute = useCallback((onSuccessPlay: () => void) => {
-    if (!remoteConfig.adsConfig.enabled) {
+    if (!isFreeMode || !adConfig.formats.interstitial || !remoteConfig.adsConfig.enabled) {
+      onSuccessPlay();
+      return;
+    }
+    if (document.documentElement.dataset.mrsModalOpen === '1' || isAccountModalOpen || isLegalModalOpen || activeView === 'admin') {
       onSuccessPlay();
       return;
     }
@@ -262,7 +268,7 @@ export default function App() {
 
     setChannelPlayCount(prev => prev + 1);
     onSuccessPlay();
-  }, [channelPlayCount, remoteConfig.adsConfig]);
+  }, [channelPlayCount, remoteConfig.adsConfig, isFreeMode, adConfig.formats.interstitial, isAccountModalOpen, isLegalModalOpen, activeView]);
 
   useEffect(() => {
     try {
@@ -693,21 +699,66 @@ export default function App() {
     return () => window.removeEventListener('shahintv_adfree_updated', handleAdUpdated);
   }, []);
 
-  // Automated 5-minute VIP Ad Overlay Timer
+  // Automated 5-minute VIP Ad Overlay Timer (Free mode only, never during active playback or protected modals)
   const [isFiveMinAdVisible, setIsFiveMinAdVisible] = useState<boolean>(false);
 
   useEffect(() => {
     // Timer triggers 5 minutes (300,000 ms) after app opening
     const timer = setTimeout(() => {
+      const gate = getAdGateState();
+      const cfg = getAdRuntimeConfig();
       const current = getStoredAdFreeState();
-      // Only trigger if user does NOT currently have active Ad-Free VIP status and no interstitial recently appeared
-      if (!current.isActive && !current.isAdFree && canTriggerInterstitialAd()) {
+      const root = document.documentElement;
+      const isPlayerActive = root.dataset.mrsPlayerActive === '1';
+      const isModalOpen = root.dataset.mrsModalOpen === '1';
+      const currentView = root.dataset.mrsView || '';
+      if (
+        gate === 'free' &&
+        cfg.formats.interstitial &&
+        !current.isActive &&
+        !current.isAdFree &&
+        !isPlayerActive &&
+        !isModalOpen &&
+        currentView !== 'admin' &&
+        canTriggerInterstitialAd()
+      ) {
         setIsFiveMinAdVisible(true);
       }
     }, 5 * 60 * 1000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Sync player, modal, and active view markers onto <html> for the central ad-manager.js gate
+  useEffect(() => {
+    try {
+      const root = document.documentElement;
+      root.dataset.mrsPlayerActive = selectedChannel ? '1' : '0';
+      const anyProtectedModal = Boolean(
+        isPremiumModalOpen ||
+        isAccountModalOpen ||
+        isLegalModalOpen ||
+        isReferralModalOpen ||
+        isM3uModalOpen ||
+        isAiModalOpen ||
+        isCamelliaAutoDevOpen ||
+        isMonthlyReportOpen
+      );
+      root.dataset.mrsModalOpen = anyProtectedModal ? '1' : '0';
+      root.dataset.mrsView = activeView || 'home';
+    } catch {}
+  }, [
+    selectedChannel,
+    isPremiumModalOpen,
+    isAccountModalOpen,
+    isLegalModalOpen,
+    isReferralModalOpen,
+    isM3uModalOpen,
+    isAiModalOpen,
+    isCamelliaAutoDevOpen,
+    isMonthlyReportOpen,
+    activeView,
+  ]);
 
   // Automated Visitor Analytics Heartbeat Ping
   useEffect(() => {
@@ -917,7 +968,38 @@ export default function App() {
           </div>
         )}
 
-        {firstTimeVipExpiryTip && !adFreeState.isActive && !adFreeState.isAdFree && (
+        {expiredNotice && isFreeMode && (
+          <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[126] w-[92%] max-w-md p-3.5 rounded-xl bg-[rgba(12,18,40,0.96)] border border-amber-400/50 shadow-[0_18px_45px_rgba(0,0,0,0.92)] backdrop-blur-xl flex items-center justify-between gap-3 text-white">
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-amber-300">VIP Plan Expired</p>
+              <p className="text-[11px] text-white/80 leading-snug mt-0.5">
+                Your VIP plan has expired. Renew to go ad-free.
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  dismissExpiredNotice();
+                  setIsPremiumModalOpen(true);
+                }}
+                className="min-h-[36px] px-3 py-1.5 rounded-lg btn-premium-gold text-xs font-extrabold cursor-pointer shrink-0"
+              >
+                Renew VIP
+              </button>
+              <button
+                type="button"
+                aria-label="Dismiss VIP plan expired notice"
+                onClick={dismissExpiredNotice}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+              >
+                <X className="w-4 h-4 shrink-0" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {firstTimeVipExpiryTip && isFreeMode && !expiredNotice && !adFreeState.isActive && !adFreeState.isAdFree && (
           <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[125] w-[92%] max-w-md p-3.5 rounded-xl bg-[rgba(12,18,40,0.96)] border border-[#F5B301]/50 shadow-[0_18px_45px_rgba(0,0,0,0.92)] backdrop-blur-xl flex items-center justify-between gap-3 text-white midnight-glass-noise">
             <div className="min-w-0">
               <p className="text-xs font-bold text-[#F5B301]">1-Hour VIP Pass Expired</p>
@@ -946,17 +1028,19 @@ export default function App() {
           </div>
         )}
         
-        {/* Comfortable Rewarded Sponsor Gateway */}
-        <RewardedAdInterstitial
-          isOpen={isRewardedAdOpen}
-          onClose={() => setIsRewardedAdOpen(false)}
-          onProceed={handleProceedAfterAd}
-          onRewardedGranted={(newState) => {
-            setAdFreeState(newState);
-          }}
-          title={rewardedAdTitle}
-          dwellSeconds={remoteConfig.adsConfig.dwellTimerSeconds || 5}
-        />
+        {/* Comfortable Rewarded Sponsor Gateway (Free Mode Only) */}
+        {isFreeMode && (
+          <RewardedAdInterstitial
+            isOpen={isRewardedAdOpen}
+            onClose={() => setIsRewardedAdOpen(false)}
+            onProceed={handleProceedAfterAd}
+            onRewardedGranted={(newState) => {
+              setAdFreeState(newState);
+            }}
+            title={rewardedAdTitle}
+            dwellSeconds={remoteConfig.adsConfig.dwellTimerSeconds || 5}
+          />
+        )}
 
         {(!selectedChannel || isAppPip) && <TopHeader 
           searchQuery={searchQuery} 
@@ -1226,23 +1310,27 @@ export default function App() {
         onClose={() => setIsMonthlyReportOpen(false)}
       />
 
-      {/* Automated 5-Minute VIP Pass Promotion Ad Overlay */}
-      <ModernAdModal
-        isOpen={isFiveMinAdVisible}
-        onClose={() => setIsFiveMinAdVisible(false)}
-        onUpgradeClick={() => {
-          setIsFiveMinAdVisible(false);
-          setIsPremiumModalOpen(true);
-        }}
-        onRewardedGranted={(newState) => setAdFreeState(newState)}
-      />
+      {/* Automated 5-Minute VIP Pass Promotion Ad Overlay (Free Mode Only) */}
+      {isFreeMode && (
+        <ModernAdModal
+          isOpen={isFiveMinAdVisible}
+          onClose={() => setIsFiveMinAdVisible(false)}
+          onUpgradeClick={() => {
+            setIsFiveMinAdVisible(false);
+            setIsPremiumModalOpen(true);
+          }}
+          onRewardedGranted={(newState) => setAdFreeState(newState)}
+        />
+      )}
 
-      {/* 1-Hour Localized Visual Image Ad Reminder (5-Second Auto-Dismiss) */}
-      <HourlyAdReminderOverlay
-        adFreeState={adFreeState}
-        onRewardedGranted={(newState) => setAdFreeState(newState)}
-        onOpenVipModal={() => setIsPremiumModalOpen(true)}
-      />
+      {/* 1-Hour Localized Visual Image Ad Reminder (5-Second Auto-Dismiss, Free Mode Only) */}
+      {isFreeMode && (
+        <HourlyAdReminderOverlay
+          adFreeState={adFreeState}
+          onRewardedGranted={(newState) => setAdFreeState(newState)}
+          onOpenVipModal={() => setIsPremiumModalOpen(true)}
+        />
+      )}
 
       {/* Account, Devices, Favorites & Support Center Modal */}
       <AccountSupportModal
@@ -1269,11 +1357,13 @@ export default function App() {
         initialTab={legalInitialTab}
       />
 
-      {/* Monetag Multi-Tag & Push Ad System Manager (Enforces VIP Ad-Free Immunity & Telemetry) */}
-      <MonetagAdManager
-        adFreeState={adFreeState}
-        onRewardedGranted={(newState) => setAdFreeState(newState)}
-      />
+      {/* Monetag Multi-Tag & Push Ad System Manager (Free Mode Only; Enforces VIP Ad-Free Immunity & Telemetry) */}
+      {isFreeMode && (
+        <MonetagAdManager
+          adFreeState={adFreeState}
+          onRewardedGranted={(newState) => setAdFreeState(newState)}
+        />
+      )}
     </div>
   );
 }

@@ -675,9 +675,25 @@ export function useRealtimeVipCountdown(adFreeState?: AdFreeState) {
   };
 }
 
+export function getAffiliateGoUrl(
+  offerIdOrUrl: string,
+  placement: string = 'advertisement-category',
+  subid?: string
+): string {
+  const cleanId = offerIdOrUrl
+    .replace(/^https?:\/\/rzekl\.com\/g\//i, '')
+    .replace(/^https?:\/\/uplcm\.com\/4\//i, '')
+    .replace(/\/+$/, '')
+    .replace(/^(uplcm-|rzekl-)/, '');
+  const params = new URLSearchParams();
+  if (placement) params.set('placement', placement);
+  if (subid) params.set('subid', subid);
+  const qs = params.toString();
+  return `/go/${encodeURIComponent(cleanId)}${qs ? `?${qs}` : ''}`;
+}
+
 /**
- * Records an Ad Impression or Click both locally and on the backend server
- * so M R S can track exact impressions, clicks, eCPM, and revenue per stored link.
+ * Records an Ad Impression or Click ONLY in Free Mode (never when state === 'vip' or 'pending').
  */
 export function recordAdEvent(
   eventType: 'impression' | 'click',
@@ -685,6 +701,13 @@ export function recordAdEvent(
   placement: string = 'general'
 ): LocalAdStats {
   const stats = getLocalAdStats();
+  if (typeof window !== 'undefined') {
+    const gate = (window as any).MRS_ADS;
+    const state = gate && typeof gate.state === 'function' ? gate.state() : (window as any).MRS_AD_STATE;
+    if (state && state !== 'free') {
+      return stats;
+    }
+  }
   const nowIso = new Date().toISOString();
 
   if (!stats.byZone[zone.id]) {
@@ -720,23 +743,14 @@ export function recordAdEvent(
     localStorage.setItem(AD_STATS_STORAGE_KEY, JSON.stringify(stats));
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('mrs_ad_stats_updated', { detail: stats }));
-    }
-  } catch {}
-
-  try {
-    fetch('/api/ads/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventType,
-        zoneId: zone.zoneId,
-        network: zone.network,
-        url: zone.url,
+      (window as any).MRS_ADS_TRACK_EVENT?.({
+        eventType: eventType === 'click' ? 'click' : 'view',
+        format: zone.category === 'advertisement' ? 'affiliate' : 'banner',
         placement,
-        estimatedCpmUsd: zone.estimatedCpmUsd,
-        deviceId: getDeviceId()
-      })
-    }).catch(() => {});
+        offerId: zone.zoneId,
+        network: zone.network,
+      });
+    }
   } catch {}
 
   return stats;
@@ -762,9 +776,14 @@ export function getLocalAdStats(): LocalAdStats {
 
 /**
  * Triggers a confirmed sequential anchor navigation to the next un-opened Smartlink URL in a new tab.
- * Always verifies and advances through STORED_AD_ZONES[0..10] in strict order before opening.
  */
 export function openSponsorLink(customUrl?: string, placement: string = 'manual-sponsor'): string {
+  if (typeof window !== 'undefined') {
+    const gate = (window as any).MRS_ADS;
+    if (gate && typeof gate.state === 'function' && gate.state() !== 'free') {
+      return '';
+    }
+  }
   const { openedZone } = confirmAndOpenNextAdZone(placement);
   const targetUrl = customUrl || openedZone.url;
 
@@ -773,7 +792,7 @@ export function openSponsorLink(customUrl?: string, placement: string = 'manual-
       const anchor = document.createElement('a');
       anchor.href = targetUrl;
       anchor.target = '_blank';
-      anchor.rel = 'noopener noreferrer';
+      anchor.rel = 'sponsored nofollow noopener';
       anchor.style.display = 'none';
       document.body.appendChild(anchor);
       anchor.click();
@@ -788,7 +807,7 @@ export function openSponsorLink(customUrl?: string, placement: string = 'manual-
 }
 
 /**
- * Grants the user temporary rewarded Ad-Free VIP time (exact real-time 1 hour = 3,600,000 ms)
+ * Grants temporary rewarded sponsor cooldown for free users (does NOT write real VIP token or mrs_vip_active cookie).
  */
 export function grantRewardedAdFreeTime(hours: number = 1): AdFreeState {
   const deviceId = getDeviceId();
@@ -820,10 +839,7 @@ export function grantRewardedAdFreeTime(hours: number = 1): AdFreeState {
   try {
     localStorage.setItem('shahintv_adfree_activation', JSON.stringify(newState));
     localStorage.setItem(LAST_AD_CLICK_KEY, String(now));
-    const maxAge = Math.round(hours * 3600);
-    document.cookie = `mrs_vip_active=1; max-age=${maxAge}; path=/; SameSite=Lax`;
     if (typeof window !== 'undefined') {
-      (window as any).__MRS_IS_VIP = true;
       window.dispatchEvent(new CustomEvent('shahintv_adfree_updated', { detail: newState }));
     }
   } catch (e) {
@@ -838,3 +854,4 @@ export function openRewardedSponsorLink(hours: number = 1): { url: string; state
   const state = grantRewardedAdFreeTime(hours);
   return { url, state };
 }
+

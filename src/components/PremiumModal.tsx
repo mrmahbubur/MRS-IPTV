@@ -16,13 +16,13 @@ import {
   getPaymentMethods,
   getCheckoutChallenge,
   formatActivationCodeInput,
+  finalizeVipActivationReload,
   CheckoutChallenge,
   PaymentMethodConfig,
   OrderResponse 
 } from '../lib/mrsVip';
 import { AdFreeState } from '../types';
 import { useRealtimeVipCountdown } from '../lib/adSystem';
-import { WatchAdVipButton } from './WatchAdVipButton';
 import { CaptchaChallengeWidget } from './CaptchaChallengeWidget';
 
 interface PremiumModalProps {
@@ -435,7 +435,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
               autoActivatedAt: latest.autoActivatedAt || prev.autoActivatedAt
             } : null);
             if (latest.status === 'verified' && latest.autoActivatedAt) {
-              claimAutoActivatedOrder(order.orderId).then((ent) => {
+              claimAutoActivatedOrder(order.orderId).then(async (ent) => {
                 onStateChange({
                   isActive: true,
                   isAdFree: true,
@@ -445,6 +445,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                   code: 'VIP_PASS',
                   deviceId: localStorage.getItem('mrs_device_id') || ''
                 });
+                await finalizeVipActivationReload(ent.expiresAt);
               }).catch(() => {});
             }
           },
@@ -481,9 +482,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
 
       if (res.success && res.state) {
         onStateChange(res.state);
-        try {
-          (window as any).__MRS_IS_VIP = true;
-        } catch {}
+        await finalizeVipActivationReload(res.state.expiryDate);
       }
     } catch (err: any) {
       setIsRedeeming(false);
@@ -571,13 +570,6 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
           {/* TAB 1: PACKAGES & ORDER */}
           {activeTab === 'packages' && (
             <div className="space-y-5">
-              {/* Instant Free 1-Hour VIP Option via Sponsor Ad */}
-              <WatchAdVipButton
-                variant="modal-banner"
-                adFreeState={adFreeState}
-                onRewardedGranted={(newState) => onStateChange(newState)}
-              />
-
               {/* Currency Selector */}
               <div className="flex items-center justify-between bg-[#070C1E] p-1 rounded-xl border border-[#00D9FF]/25 gap-1.5">
                 <button

@@ -5,22 +5,13 @@ import { ChannelThumbnail } from './ChannelThumbnail';
 import { motion, AnimatePresence } from 'motion/react';
 import { HlsPlayer } from './HlsPlayer';
 import { AdBannerUnit } from './AdBannerUnit';
-import { InPlayerAdBanner } from './InPlayerAdBanner';
 import { InPlayerMiniGuide } from './InPlayerMiniGuide';
-import { WatchAdVipButton } from './WatchAdVipButton';
 import { MoreMenuSheet } from './MoreMenuSheet';
 import { TvGuideSheet } from './TvGuideSheet';
 import { PlayerCoachMarks } from './PlayerCoachMarks';
 import { PlayerHelpModal } from './PlayerHelpModal';
 import { ChannelListeningPanel, type GuidePlaybackStatus } from './ChannelListeningPanel';
 import { sanitizeClientPlaybackError, type PlayerAdapter } from '../lib/playerAdapter';
-import {
-  getNextAdZone,
-  recordAdEvent,
-  grantRewardedAdFreeTime,
-  getBackendAdRedirectUrl,
-  AdZoneConfig
-} from '../lib/adSystem';
 import {
   ArrowLeft, ArrowUp, ArrowDown, Play, Pause, SkipBack, SkipForward, Maximize, Minimize,
   Volume2, VolumeX, Volume1, RefreshCw, X, Search, List, Zap,
@@ -183,7 +174,6 @@ export default function VideoPlayer({
   const [showControls, setShowControls] = useState(true);
   const [showCenterTransport, setShowCenterTransport] = useState(false);
   const [isKeypadOpen, setIsKeypadOpen] = useState(false);
-  const [firstTimeVipExpiryTip, setFirstTimeVipExpiryTip] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isBuffering, setIsBuffering] = useState(true);
   const [retryKey, setRetryKey] = useState(0);
@@ -306,7 +296,6 @@ export default function VideoPlayer({
 
   // 9. Gesture & Toast HUD Feedback
   const [gestureHud, setGestureHud] = useState<{ type: 'volume' | 'brightness' | 'info'; text: string } | null>(null);
-  const [overlaySponsorZone, setOverlaySponsorZone] = useState<AdZoneConfig | null>(null);
 
   // Refs
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -322,14 +311,6 @@ export default function VideoPlayer({
   const gestureHudTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartRef = useRef<{ x: number; y: number; time: number; startVol: number; startBright: number } | null>(null);
   const lastTapTimeRef = useRef<number>(0);
-
-  useEffect(() => {
-    const onFirstVipExpired = () => {
-      setFirstTimeVipExpiryTip(true);
-    };
-    window.addEventListener('mrs_1h_vip_expired_first_time', onFirstVipExpired);
-    return () => window.removeEventListener('mrs_1h_vip_expired_first_time', onFirstVipExpired);
-  }, []);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPseudoFullscreen, setIsPseudoFullscreen] = useState(false);
@@ -406,24 +387,6 @@ export default function VideoPlayer({
     setAutoHealStatus(null);
     setStallToast(false);
   }, [channel.id, channel.m3u8Url, channel.name]);
-
-  // In-Player Sponsor Overlay for Non-VIP Users
-  useEffect(() => {
-    if (isVip) {
-      setOverlaySponsorZone(null);
-      return;
-    }
-    const timer = setInterval(() => {
-      const zone = getNextAdZone();
-      setOverlaySponsorZone(zone);
-      recordAdEvent('impression', zone, 'fullscreen-overlay');
-      setTimeout(() => {
-        setOverlaySponsorZone(prev => (prev?.id === zone.id ? null : prev));
-      }, 8000);
-    }, 90000);
-
-    return () => clearInterval(timer);
-  }, [isVip]);
 
   const showToastHud = useCallback((type: 'volume' | 'brightness' | 'info', text: string) => {
     setGestureHud({ type, text });
@@ -1286,14 +1249,6 @@ export default function VideoPlayer({
           </div>
         )}
 
-        {/* In-Player Sponsor Banner when Paused */}
-        <InPlayerAdBanner
-          isBuffering={isBuffering}
-          isPlaying={isPlaying}
-          adFreeState={adFreeState}
-          onRewardedGranted={onRewardedGranted}
-        />
-
         {/* Quick Channel Rail Overlay [G] */}
         <InPlayerMiniGuide
           isOpen={isQuickRailOpen}
@@ -2010,37 +1965,6 @@ export default function VideoPlayer({
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* First-time 1h VIP expiry renewal tip while inside VideoPlayer */}
-        {firstTimeVipExpiryTip && !isVip && (
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="absolute top-16 sm:top-[68px] left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md p-3 rounded-xl bg-[rgba(12,18,40,0.96)] border border-[#F5B301]/50 shadow-2xl backdrop-blur-xl flex items-center justify-between gap-2 pointer-events-auto"
-          >
-            <div className="min-w-0">
-              <p className="text-[11px] font-bold text-[#F5B301]">1h Free VIP Expired</p>
-              <p className="text-[10px] text-white/75 truncate">Renew now for another ad-free hour</p>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <WatchAdVipButton
-                variant="player"
-                adFreeState={adFreeState}
-                onRewardedGranted={(newState) => {
-                  if (onRewardedGranted) onRewardedGranted(newState);
-                  setFirstTimeVipExpiryTip(false);
-                }}
-              />
-              <button
-                type="button"
-                aria-label="Dismiss VIP tip"
-                onClick={() => setFirstTimeVipExpiryTip(false)}
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-white/60 hover:text-white hover:bg-white/10 cursor-pointer shrink-0"
-              >
-                <X className="w-4 h-4 shrink-0" />
-              </button>
-            </div>
-          </div>
-        )}
       </div>
       </div>
 
@@ -2113,6 +2037,16 @@ export default function VideoPlayer({
               </button>
             </div>
           </div>
+
+          {!isVip && (
+            <AdBannerUnit
+              placement="player-below"
+              compact
+              adFreeState={adFreeState}
+              onRewardedGranted={onRewardedGranted}
+              refreshTrigger={channel.id}
+            />
+          )}
         </div>
       )}
 
@@ -2280,15 +2214,6 @@ export default function VideoPlayer({
               <Star className={`w-4 h-4 shrink-0 ${isCurrentChannelFav ? 'fill-[#F5B301]' : ''}`} />
               <span>{isCurrentChannelFav ? 'Favorited' : 'Favorite'}</span>
             </button>
-
-            {/* 8. 1h VIP Button */}
-            <div className="shrink-0">
-              <WatchAdVipButton
-                variant="player"
-                adFreeState={adFreeState}
-                onRewardedGranted={onRewardedGranted}
-              />
-            </div>
 
             {/* 9. Numeric Dial Keypad Button */}
             <button

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AdFreeState } from '../types';
-import { getStoredAdFreeState } from '../lib/codes';
+import { useAdGate } from '../lib/useAdGate';
 
 interface MonetagAdManagerProps {
   adFreeState?: AdFreeState;
@@ -9,72 +9,73 @@ interface MonetagAdManagerProps {
 
 /**
  * MonetagAdManager
- * Enforces removal of obsolete 3rd-party script tags (quge5.com / n6wxm.com / 5gvci.com / asiafilm.org)
- * and strictly guards VIP ad-free mode. All monetized ads use the 10 direct verified uplcm.com links
- * rotating in sequence via src/lib/adSystem.ts.
+ * Mirrors central window.MRS_ADS gate state, enforces DOM cleanup of ad elements when state !== 'free',
+ * and suppresses any residual ad navigation clicks if VIP/pending is active.
  */
-export const MonetagAdManager: React.FC<MonetagAdManagerProps> = ({
-  adFreeState
-}) => {
-  const currentStored = getStoredAdFreeState();
-  const effectiveVip = !!(
-    (adFreeState?.isActive || adFreeState?.isAdFree) ||
-    (currentStored?.isActive || currentStored?.isAdFree)
-  );
+export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
+  const { isFreeMode, adState } = useAdGate();
 
-  // Helper to purge any legacy tags, iframes, or popups from DOM
   const purgeMonetagFromDom = () => {
     try {
-      (window as any).__MRS_IS_VIP = effectiveVip;
+      const vipLocked = adState !== 'free';
+      (window as any).__MRS_IS_VIP = adState === 'vip';
 
-      // Remove any leftover legacy tag or vignette scripts
-      const existingScript = document.getElementById('monetag-tag-script');
-      if (existingScript) existingScript.remove();
+      if (!vipLocked) return;
 
-      const existingVignette = document.getElementById('monetag-midnight-vignette');
-      if (existingVignette) existingVignette.remove();
+      const selectors = [
+        '#monetag-tag-script',
+        '#monetag-midnight-vignette',
+        'script[src*="quge5.com"]',
+        'script[data-zone="300808"]',
+        'script[src*="n6wxm.com"]',
+        'script[data-zone="12138523"]',
+        'script[src*="uplcm.com"]',
+        'script[src*="rzekl.com"]',
+        'script[src*="highperformanceformat"]',
+        'script[src*="topcreativeformat"]',
+        'script[src*="profitablegate"]',
+        'iframe[src*="quge5.com"]',
+        'iframe[src*="5gvci.com"]',
+        'iframe[src*="n6wxm.com"]',
+        'iframe[src*="asiafilm.org"]',
+        'iframe[src*="uplcm.com"]',
+        'iframe[src*="rzekl.com"]',
+        'div[id*="monetag"]',
+        'div[class*="monetag"]',
+        'div[id*="vignette"]',
+        '.ad-slot',
+        '.ad-sticky-banner',
+        '#mrs-sticky-mobile-ad'
+      ].join(', ');
 
-      // Remove any injected iframes, scripts, anchors or overlays from obsolete domains
-      const elements = document.querySelectorAll(
-        'script[src*="quge5.com"], script[data-zone="300808"], script[src*="n6wxm.com"], script[data-zone="12138523"], ' +
-        'iframe[src*="quge5.com"], iframe[src*="5gvci.com"], iframe[src*="n6wxm.com"], iframe[src*="asiafilm.org"], ' +
-        'div[id*="monetag"], div[class*="monetag"], div[id*="vignette"], ' +
-        'a[href*="quge5.com"], a[href*="5gvci.com"], a[href*="n6wxm.com"], a[href*="asiafilm.org"]'
-      );
-      elements.forEach(el => el.remove());
-    } catch (e) {}
+      document.querySelectorAll(selectors).forEach((el) => el.remove());
+    } catch {}
   };
 
   useEffect(() => {
     purgeMonetagFromDom();
-  }, [effectiveVip]);
+  }, [adState, isFreeMode]);
 
   useEffect(() => {
-    // Listen for VIP activations to immediately purge any ads
-    const handleAdfreeUpdated = (e: any) => {
-      const state: AdFreeState | undefined = e.detail;
-      const isNowVip = !!(state?.isActive || state?.isAdFree);
-      (window as any).__MRS_IS_VIP = isNowVip;
-      purgeMonetagFromDom();
-    };
-
-    window.addEventListener('shahintv_adfree_updated', handleAdfreeUpdated);
-
-    // Global interceptor: when VIP is active, suppress any ad navigations
     const handleCaptureAdBlock = (e: Event) => {
-      if ((window as any).__MRS_IS_VIP) {
+      const gateState = (window as any).MRS_ADS?.state?.() || (window as any).MRS_AD_STATE || 'pending';
+      if (gateState !== 'free') {
         const target = e.target as HTMLElement | null;
         if (target) {
           const anchor = target.closest('a');
           if (
             anchor &&
-            (anchor.href?.includes('quge5.com') ||
-             anchor.href?.includes('5gvci.com') ||
-             anchor.href?.includes('n6wxm.com') ||
-             anchor.href?.includes('asiafilm.org') ||
-             anchor.href?.includes('uplcm.com') ||
-             anchor.id?.includes('monetag') ||
-             anchor.className?.includes('monetag'))
+            (anchor.hasAttribute('data-ad-link') ||
+              anchor.href?.includes('quge5.com') ||
+              anchor.href?.includes('5gvci.com') ||
+              anchor.href?.includes('n6wxm.com') ||
+              anchor.href?.includes('asiafilm.org') ||
+              anchor.href?.includes('uplcm.com') ||
+              anchor.href?.includes('rzekl.com') ||
+              anchor.href?.includes('/go/') ||
+              anchor.href?.includes('/api/ads/redirect') ||
+              anchor.id?.includes('monetag') ||
+              anchor.className?.includes('monetag'))
           ) {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -88,7 +89,6 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = ({
     window.addEventListener('touchend', handleCaptureAdBlock, { capture: true, passive: false });
 
     return () => {
-      window.removeEventListener('shahintv_adfree_updated', handleAdfreeUpdated);
       window.removeEventListener('click', handleCaptureAdBlock, true);
       window.removeEventListener('touchstart', handleCaptureAdBlock, true);
       window.removeEventListener('touchend', handleCaptureAdBlock, true);

@@ -18,6 +18,7 @@ import { ADVERTISEMENT_AFFILIATE_ZONES } from '../lib/adSystem';
 import { getStoredAdFreeState } from '../lib/codes';
 import { useBroadcastTheme } from '../lib/themeSystem';
 import { LegalPolicyModal } from './LegalPolicyModal';
+import { useAdGate } from '../lib/useAdGate';
 
 function getChannelStatusMeta(
   perf?: { status: 'live' | 'offline'; latency: number; lastChecked: number }
@@ -65,6 +66,7 @@ const ChannelGrid = ({
   const sentinelRef = useRef<HTMLDivElement>(null);
   const gridContainerRef = useRef<HTMLDivElement>(null);
   const { theme } = useBroadcastTheme();
+  const { isFreeMode } = useAdGate();
 
   usePassiveTouchScroll(gridContainerRef);
 
@@ -145,11 +147,13 @@ const ChannelGrid = ({
 
           {title !== 'Search Results' && title !== 'All Categories' && (
             <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
-              <WatchAdVipButton
-                variant="header"
-                adFreeState={adFreeState || getStoredAdFreeState()}
-                onRewardedGranted={onRewardedGranted}
-              />
+              {isFreeMode && (
+                <WatchAdVipButton
+                  variant="header"
+                  adFreeState={adFreeState || getStoredAdFreeState()}
+                  onRewardedGranted={onRewardedGranted}
+                />
+              )}
               <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-xl">
                 <button
                   type="button"
@@ -508,6 +512,8 @@ export const Home: React.FC<HomeProps> = ({
   usePassiveTouchScroll(mainHomeScrollRef);
   const remoteConfig = useRemoteConfig();
   const { theme } = useBroadcastTheme();
+  const { isFreeMode, adConfig, openPrivacySettings } = useAdGate();
+  const showOffersNav = isFreeMode && adConfig.formats.affiliate;
 
   // Region / Country Filter state
   const [selectedCountryFilter, setSelectedCountryFilter] = useState<string>('ALL');
@@ -839,33 +845,35 @@ export const Home: React.FC<HomeProps> = ({
               </div>
             ))}
 
-            <div
-              role="button"
-              tabIndex={0}
-              aria-label="Browse Advertisement offers"
-              onClick={() => setActiveView('category:Advertisement')}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setActiveView('category:Advertisement');
-                }
-              }}
-              className="nav-item flex items-center gap-3.5 p-4 bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
-            >
-              <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
-              <div className="min-w-0 flex-1">
-                <h3 title="Advertisement" className="text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
-                  Advertisement
-                </h3>
-                <p className="text-xs text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5">
-                  {ADVERTISEMENT_AFFILIATE_ZONES.length} featured offers
-                </p>
+            {showOffersNav && (
+              <div
+                role="button"
+                tabIndex={0}
+                aria-label="Browse Advertisement offers"
+                onClick={() => setActiveView('category:Advertisement')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveView('category:Advertisement');
+                  }
+                }}
+                className="nav-item mrs-offers-nav flex items-center gap-3.5 p-4 bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
+              >
+                <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
+                <div className="min-w-0 flex-1">
+                  <h3 title="Advertisement" className="text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
+                    Advertisement
+                  </h3>
+                  <p className="text-xs text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5">
+                    {ADVERTISEMENT_AFFILIATE_ZONES.length} featured offers
+                  </p>
+                </div>
+                <ChevronRight
+                  strokeWidth={1.75}
+                  className="w-4 h-4 text-[#C9D1E0]/60 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
+                />
               </div>
-              <ChevronRight
-                strokeWidth={1.75}
-                className="w-4 h-4 text-[#C9D1E0]/60 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
-              />
-            </div>
+            )}
           </div>
         </motion.div>
       </div>
@@ -954,14 +962,16 @@ export const Home: React.FC<HomeProps> = ({
               );
             })}
 
-            <button
-              type="button"
-              onClick={() => setActiveView('category:Advertisement')}
-              className="nav-item min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer motion-reduce:transition-none"
-            >
-              <Megaphone strokeWidth={1.75} className="w-3.5 h-3.5 shrink-0 text-amber-400" />
-              <span>Advertisement</span>
-            </button>
+            {showOffersNav && (
+              <button
+                type="button"
+                onClick={() => setActiveView('category:Advertisement')}
+                className="nav-item mrs-offers-nav min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer motion-reduce:transition-none"
+              >
+                <Megaphone strokeWidth={1.75} className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+                <span>Advertisement</span>
+              </button>
+            )}
 
             <button
               type="button"
@@ -1460,33 +1470,35 @@ export const Home: React.FC<HomeProps> = ({
                   );
                 })}
 
-                <div
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Open Advertisement category"
-                  onClick={() => setActiveView('category:Advertisement')}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setActiveView('category:Advertisement');
-                    }
-                  }}
-                  className="nav-item bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-4 flex items-center gap-3.5 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
-                >
-                  <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
-                  <div className="min-w-0 flex-1">
-                    <h3 title="Advertisement" className="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
-                      Advertisement
-                    </h3>
-                    <p className="text-[11px] text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5 truncate">
-                      {ADVERTISEMENT_AFFILIATE_ZONES.length} affiliate offers
-                    </p>
+                {showOffersNav && (
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Open Advertisement category"
+                    onClick={() => setActiveView('category:Advertisement')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveView('category:Advertisement');
+                      }
+                    }}
+                    className="nav-item mrs-offers-nav bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-4 flex items-center gap-3.5 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
+                  >
+                    <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
+                    <div className="min-w-0 flex-1">
+                      <h3 title="Advertisement" className="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
+                        Advertisement
+                      </h3>
+                      <p className="text-[11px] text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5 truncate">
+                        {ADVERTISEMENT_AFFILIATE_ZONES.length} affiliate offers
+                      </p>
+                    </div>
+                    <ChevronRight
+                      strokeWidth={1.75}
+                      className="w-4 h-4 text-[#C9D1E0]/55 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
+                    />
                   </div>
-                  <ChevronRight
-                    strokeWidth={1.75}
-                    className="w-4 h-4 text-[#C9D1E0]/55 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
-                  />
-                </div>
+                )}
               </div>
             </section>
           )}
@@ -1536,6 +1548,30 @@ export const Home: React.FC<HomeProps> = ({
               >
                 Privacy
               </button>
+              {isFreeMode && (
+                <>
+                  <span className="text-white/20" aria-hidden="true">|</span>
+                  <button
+                    type="button"
+                    onClick={openPrivacySettings}
+                    className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                  >
+                    Ad &amp; privacy settings
+                  </button>
+                  {onOpenVipModal && (
+                    <>
+                      <span className="text-white/20" aria-hidden="true">|</span>
+                      <button
+                        type="button"
+                        onClick={onOpenVipModal}
+                        className="mrs-free-upsell min-h-[38px] px-2.5 inline-flex items-center rounded-lg text-amber-300 hover:bg-amber-500/10 hover:text-amber-200 transition-colors cursor-pointer"
+                      >
+                        Go ad-free with VIP
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
             </div>
           </footer>
         </motion.div>

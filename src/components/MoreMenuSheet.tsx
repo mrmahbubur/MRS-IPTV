@@ -1,11 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  X, Star, Lock, Clock, SlidersHorizontal, Zap, Sun, Volume2,
+  X, Star, Lock, SlidersHorizontal, Zap, Sun, Volume2,
   HelpCircle, RefreshCw, ShieldCheck
 } from 'lucide-react';
 import { AdFreeState } from '../types';
-import { WatchAdVipButton } from './WatchAdVipButton';
 
 interface MoreMenuSheetProps {
   isOpen: boolean;
@@ -235,25 +234,6 @@ export const MoreMenuSheet: React.FC<MoreMenuSheetProps> = ({
                 <span className="text-[10px] text-white/60 block">Full User Guide</span>
               </div>
             </button>
-          </div>
-
-          {/* 1h VIP Banner Unit inside Sheet */}
-          <div className="p-3.5 rounded-[12px] bg-gradient-to-r from-amber-500/15 via-white/[0.03] to-amber-500/10 border border-[#F5B301]/30 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <Clock className="w-5 h-5 text-[#F5B301] shrink-0" />
-              <div className="min-w-0">
-                <h4 className="text-xs font-bold text-white">1-Hour VIP Pass</h4>
-                <p className="text-[11px] text-white/60 truncate">
-                  {adFreeState?.isActive ? 'Ad-free streaming is active!' : 'Watch a sponsor to unlock 1 hour of ad-free streaming'}
-                </p>
-              </div>
-            </div>
-
-            <WatchAdVipButton
-              variant="player"
-              adFreeState={adFreeState}
-              onRewardedGranted={onRewardedGranted}
-            />
           </div>
         </motion.div>
       </div>

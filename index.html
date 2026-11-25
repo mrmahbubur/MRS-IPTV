@@ -1,119 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- M R S IPTV Universal Ad Rules & Mobile Web Protection Shield -->
-    <script>
-      (function() {
-        var AD_DOMAINS = [
-          '5gvci.com', 'quge5.com', 'uplcm.com',
-          'al5sm.com', 'whomeehe.com', 'monetag'
-        ];
-
-        function isAdUrl(url) {
-          if (!url || typeof url !== 'string') return false;
-          for (var i = 0; i < AD_DOMAINS.length; i++) {
-            if (url.indexOf(AD_DOMAINS[i]) !== -1) return true;
-          }
-          return false;
-        }
-
-        // 1. Strict VIP Verification (checks both cookies and localStorage across all mobile & desktop browsers)
-        function checkVipStatus() {
-          try {
-            if (document.cookie && document.cookie.indexOf('mrs_vip_active=1') !== -1) return true;
-            var raw = localStorage.getItem('shahintv_adfree_activation');
-            if (raw) {
-              var data = JSON.parse(raw);
-              if (data && (data.isActive === true || data.isAdFree === true)) {
-                if (data.expiryDate) {
-                  var expMs = new Date(data.expiryDate).getTime();
-                  if (!isNaN(expMs) && expMs > Date.now()) {
-                    return true;
-                  }
-                } else {
-                  return true;
-                }
-              }
-            }
-          } catch (e) {}
-          return false;
-        }
-
-        var isVip = checkVipStatus();
-        window.__MRS_IS_VIP = isVip;
-
-        // 2. Mobile Web Core UI Touch Lock (Prevents Monetag from hijacking channel clicks & player controls)
-        window.__MRS_UI_TOUCH_LOCKED = false;
-        var unlockTimer = null;
-
-        function lockUiTouch() {
-          window.__MRS_UI_TOUCH_LOCKED = true;
-          if (unlockTimer) clearTimeout(unlockTimer);
-          unlockTimer = setTimeout(function() {
-            window.__MRS_UI_TOUCH_LOCKED = false;
-          }, 800);
-        }
-
-        // 3. Sandboxed window.open: Enforces VIP Ad-Free Immunity, Core UI Protection & 3-Min Cooldown
-        var origWindowOpen = window.open;
-        window.open = function(url, target, features) {
-          // Rule 1: Active VIP users NEVER receive popunders or ad tabs
-          if (window.__MRS_IS_VIP) {
-            if (!url || isAdUrl(url)) {
-              return null;
-            }
-          }
-
-          // Rule 2 & 3: For free users on mobile web, protect core UI interactions and enforce cooldown
-          if (isAdUrl(url)) {
-            if (window.__MRS_UI_TOUCH_LOCKED) {
-              return null; // Tapping channel or player control must NEVER open an ad!
-            }
-            try {
-              var lastAd = parseInt(localStorage.getItem('shahintv_last_interstitial') || '0', 10);
-              if (Date.now() - lastAd < 180000) {
-                return null; // 3-minute interstitial cooldown
-              }
-              localStorage.setItem('shahintv_last_interstitial', String(Date.now()));
-            } catch (e) {}
-          }
-          return origWindowOpen.call(window, url, target, features);
-        };
-
-        // 4. Capture Mobile Web Touch & Pointer Events on Core UI Elements
-        function handleMobileUiTouch(e) {
-          var target = e.target;
-          if (!target) return;
-          var isCoreUi = target.closest && target.closest(
-            'button, [data-player-control], .player-ctrl-btn, video, nav, [role="button"], [role="tab"], input, select, [data-channel-card], .channel-card, a:not([data-ad-link])'
-          );
-          if (isCoreUi) {
-            lockUiTouch();
-          }
-        }
-
-        window.addEventListener('touchstart', handleMobileUiTouch, { capture: true, passive: true });
-        window.addEventListener('pointerdown', handleMobileUiTouch, { capture: true, passive: true });
-        window.addEventListener('click', handleMobileUiTouch, { capture: true, passive: true });
-
-        // 5. Block any late script or iframe injection of Monetag if VIP is active
-        if (isVip) {
-          var origAppend = Element.prototype.appendChild;
-          Element.prototype.appendChild = function(child) {
-            if (window.__MRS_IS_VIP && child) {
-              var tag = (child.tagName || '').toLowerCase();
-              if (tag === 'script' || tag === 'iframe') {
-                var src = child.src || child.getAttribute('src') || '';
-                if (isAdUrl(src)) {
-                  return child;
-                }
-              }
-            }
-            return origAppend.call(this, child);
-          };
-        }
-      })();
-    </script>
+    <!-- M R S IPTV Central Ad Gate (Loaded synchronously FIRST before any render or ad check) -->
+    <script src="/ad-gate.js"></script>
+    <script defer src="/ads.config.js"></script>
+    <script defer src="/ad-manager.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#070A11" />
@@ -134,13 +25,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Preconnect to image CDNs & Sponsor Networks for ultra-fast asset delivery -->
+    <!-- Preconnect to channel logo CDN -->
     <link rel="preconnect" href="https://i.postimg.cc" crossorigin />
-    <link rel="preconnect" href="https://uplcm.com" />
-    <link rel="preconnect" href="https://rzekl.com" />
     <link rel="dns-prefetch" href="https://i.postimg.cc" />
-    <link rel="dns-prefetch" href="https://uplcm.com" />
-    <link rel="dns-prefetch" href="https://rzekl.com" />
     <!-- Google Cast Sender SDK (loaded asynchronously so it never blocks page load) -->
     <script async defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     

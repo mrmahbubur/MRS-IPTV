@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   ShieldCheck, Key, RefreshCw, CheckCircle2, Mail, Database,
   Cpu, Search, Download, Plus, RotateCcw, Ban, Eye, Activity,
-  ArrowLeft, Lock, Unlock, Wallet, Server, HardDrive, X
+  ArrowLeft, Lock, Unlock, Wallet, Server, HardDrive, X, Megaphone
 } from 'lucide-react';
 import { auth, signInWithGoogle, logOut } from '../lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
@@ -36,8 +36,19 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
   const [authError, setAuthError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'ledger' | 'codes' | 'outbox' | 'audit' | 'doctor'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'ledger' | 'codes' | 'outbox' | 'audit' | 'doctor' | 'ads'>('overview');
   const [actionBanner, setActionBanner] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [adsReport, setAdsReport] = useState<any>(null);
+  const [adsSettings, setAdsSettings] = useState<{
+    formats: { banner: boolean; sticky: boolean; popunder: boolean; interstitial: boolean; push: boolean; affiliate: boolean };
+    hideOffersForVip: boolean;
+    testMode: boolean;
+  }>({
+    formats: { banner: true, sticky: true, popunder: true, interstitial: true, push: false, affiliate: true },
+    hideOffersForVip: true,
+    testMode: false,
+  });
+  const [adsBusy, setAdsBusy] = useState(false);
 
   // Dashboard Data
   const [stats, setStats] = useState<any>(null);
@@ -149,7 +160,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
         ...(deadSourceFilter ? { source: deadSourceFilter } : {}),
       }).toString();
 
-      const [statsRes, revRes, auditRes, ordersRes, ledgerRes, codesRes, outboxRes, camRes, docRes, docLogsRes, chkSrcRes, chkDeadRes] = await Promise.all([
+      const [statsRes, revRes, auditRes, ordersRes, ledgerRes, codesRes, outboxRes, camRes, docRes, docLogsRes, chkSrcRes, chkDeadRes, adsRes] = await Promise.all([
         adminFetch('/api/admin/stats'),
         adminFetch('/api/admin/revenue'),
         adminFetch('/api/admin/audit?limit=120'),
@@ -166,6 +177,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
         adminFetch('/api/m3u-doctor/logs?lines=120').then(r => r.ok ? r.json() : { logs: [] }).catch(() => ({ logs: [] })),
         adminFetch('/api/admin/checker/sources').then(r => r.ok ? r.json() : null).catch(() => null),
         adminFetch(`/api/admin/checker/dead?${deadQs}`).then(r => r.ok ? r.json() : null).catch(() => null),
+        adminFetch('/api/admin/ads/report?days=30').then(r => r.ok ? r.json() : null).catch(() => null),
       ]);
 
       const statsJson = await statsRes.json();
@@ -188,6 +200,10 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
       if (chkSrcRes?.sources) setCheckerSources(chkSrcRes.sources);
       if (chkSrcRes?.status) setCheckerStatus(chkSrcRes.status);
       if (chkDeadRes?.dead) setCheckerDead(chkDeadRes.dead);
+      if (adsRes?.ok && adsRes?.data) {
+        setAdsReport(adsRes.data);
+        if (adsRes.data.settings) setAdsSettings(adsRes.data.settings);
+      }
       setIsAuthenticated(true);
     } catch (e: any) {
       setAuthError(e?.message || 'Unable to authenticate with Admin API.');
@@ -702,6 +718,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
           { id: 'outbox', label: `Email Outbox (${outboxRows.length})`, icon: Mail },
           { id: 'audit', label: `Audit Log (${auditRows.length})`, icon: ShieldCheck },
           { id: 'doctor', label: 'M3U Doctor', icon: Cpu },
+          { id: 'ads', label: 'Ads & Offers', icon: Megaphone },
         ].map((t) => {
           const Icon = t.icon;
           const active = activeTab === t.id;
@@ -1489,6 +1506,207 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
             )) : (
               <div className="text-[#94A3B8]">No M3U Doctor logs captured yet.</div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 8: ADS & OFFERS GATE CONTROLS */}
+      {activeTab === 'ads' && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 rounded-xl bg-[#0B132B] border border-white/10 space-y-1">
+              <span className="text-[10px] uppercase font-mono text-[#94A3B8]">Free-User Ad Views (30d)</span>
+              <div className="text-2xl font-black text-sky-400 tabular-nums">
+                {Number(adsReport?.totals?.views || 0).toLocaleString()}
+              </div>
+              <div className="text-[11px] text-[#C9D1E0]">VIP users emit zero view events</div>
+            </div>
+            <div className="p-4 rounded-xl bg-[#0B132B] border border-white/10 space-y-1">
+              <span className="text-[10px] uppercase font-mono text-[#94A3B8]">Ad &amp; /go Affiliate Clicks (30d)</span>
+              <div className="text-2xl font-black text-emerald-400 tabular-nums">
+                {Number(adsReport?.totals?.clicks || 0).toLocaleString()}
+              </div>
+              <div className="text-[11px] text-[#C9D1E0]">Actual earnings live in network dashboards</div>
+            </div>
+            <div className="p-4 rounded-xl bg-[#0B132B] border border-white/10 space-y-1">
+              <span className="text-[10px] uppercase font-mono text-[#94A3B8]">Gate Enforcement</span>
+              <div className="text-xl font-black text-amber-300">VIP Strictly Ad-Free</div>
+              <div className="text-[11px] text-[#C9D1E0]">
+                Fail-closed gate · hideOffersForVip: {adsSettings.hideOffersForVip ? 'ON' : 'OFF'}
+              </div>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-xl bg-[#0B132B] border border-white/10 space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-black text-white uppercase tracking-wider">Free-Mode Ad Format Controls</h3>
+                <p className="text-xs text-[#94A3B8] mt-0.5">
+                  Toggle individual ad formats for free visitors. Active VIP users never load any format.
+                </p>
+              </div>
+              {adsBusy && <span className="text-xs font-mono text-sky-400">Saving...</span>}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {([
+                { key: 'banner', label: 'Display Banners' },
+                { key: 'sticky', label: 'Mobile Sticky Banner' },
+                { key: 'popunder', label: 'Popunder / SmartLink' },
+                { key: 'interstitial', label: 'Interstitial Modals' },
+                { key: 'push', label: 'Push Pre-Prompt' },
+                { key: 'affiliate', label: 'Affiliate & Offers' },
+              ] as const).map((item) => {
+                const enabled = Boolean(adsSettings.formats[item.key]);
+                return (
+                  <button
+                    key={item.key}
+                    type="button"
+                    disabled={adsBusy}
+                    onClick={async () => {
+                      try {
+                        setAdsBusy(true);
+                        const nextPayload = {
+                          ...adsSettings,
+                          formats: { ...adsSettings.formats, [item.key]: !enabled },
+                        };
+                        const r = await adminFetch('/api/admin/ads/config', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(nextPayload),
+                        });
+                        const j = await r.json();
+                        if (j?.ok && j?.data) {
+                          setAdsSettings(j.data);
+                          showBanner('ok', `${item.label} ${!enabled ? 'enabled' : 'disabled'} for free mode.`);
+                        }
+                      } catch (err: any) {
+                        showBanner('err', err?.message || 'Failed to update ad setting');
+                      } finally {
+                        setAdsBusy(false);
+                      }
+                    }}
+                    className={`min-h-[44px] px-3.5 py-2.5 rounded-lg border text-left flex items-center justify-between gap-2 cursor-pointer transition-colors ${
+                      enabled
+                        ? 'bg-emerald-500/15 border-emerald-400/45 text-white'
+                        : 'bg-[#050816] border-white/10 text-[#94A3B8]'
+                    }`}
+                  >
+                    <span className="text-xs font-bold">{item.label}</span>
+                    <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded ${
+                      enabled ? 'bg-emerald-500/25 text-emerald-300' : 'bg-white/10 text-[#94A3B8]'
+                    }`}>
+                      {enabled ? 'ON' : 'OFF'}
+                    </span>
+                  </button>
+                );
+              })}
+
+              <button
+                type="button"
+                disabled={adsBusy}
+                onClick={async () => {
+                  try {
+                    setAdsBusy(true);
+                    const nextVal = !adsSettings.testMode;
+                    const r = await adminFetch('/api/admin/ads/config', {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ ...adsSettings, testMode: nextVal }),
+                    });
+                    const j = await r.json();
+                    if (j?.ok && j?.data) {
+                      setAdsSettings(j.data);
+                      showBanner('ok', `Ad Test Mode ${nextVal ? 'enabled (placeholders)' : 'disabled'}.`);
+                    }
+                  } catch (err: any) {
+                    showBanner('err', err?.message || 'Failed to update testMode');
+                  } finally {
+                    setAdsBusy(false);
+                  }
+                }}
+                className={`min-h-[44px] px-3.5 py-2.5 rounded-lg border text-left flex items-center justify-between gap-2 cursor-pointer transition-colors ${
+                  adsSettings.testMode
+                    ? 'bg-amber-500/15 border-amber-400/45 text-white'
+                    : 'bg-[#050816] border-white/10 text-[#94A3B8]'
+                }`}
+              >
+                <span className="text-xs font-bold">Preview Test Mode</span>
+                <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded ${
+                  adsSettings.testMode ? 'bg-amber-500/25 text-amber-300' : 'bg-white/10 text-[#94A3B8]'
+                }`}>
+                  {adsSettings.testMode ? 'ON' : 'OFF'}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                disabled={adsBusy}
+                onClick={async () => {
+                  try {
+                    setAdsBusy(true);
+                    const nextVal = !adsSettings.hideOffersForVip;
+                    const r = await adminFetch('/api/admin/ads/config', {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ ...adsSettings, hideOffersForVip: nextVal }),
+                    });
+                    const j = await r.json();
+                    if (j?.ok && j?.data) {
+                      setAdsSettings(j.data);
+                      showBanner('ok', `hideOffersForVip set to ${nextVal ? 'true' : 'false'}.`);
+                    }
+                  } catch (err: any) {
+                    showBanner('err', err?.message || 'Failed to update hideOffersForVip');
+                  } finally {
+                    setAdsBusy(false);
+                  }
+                }}
+                className={`min-h-[44px] px-3.5 py-2.5 rounded-lg border text-left flex items-center justify-between gap-2 cursor-pointer transition-colors ${
+                  adsSettings.hideOffersForVip
+                    ? 'bg-sky-500/15 border-sky-400/45 text-white'
+                    : 'bg-[#050816] border-white/10 text-[#94A3B8]'
+                }`}
+              >
+                <span className="text-xs font-bold">Hide Offers For VIP</span>
+                <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded ${
+                  adsSettings.hideOffersForVip ? 'bg-sky-500/25 text-sky-300' : 'bg-white/10 text-[#94A3B8]'
+                }`}>
+                  {adsSettings.hideOffersForVip ? 'ON' : 'OFF'}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-[#0B132B] border border-white/10 rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-[#050816] border-b border-white/10 text-xs font-black uppercase tracking-wider text-white">
+              Views &amp; Clicks by Offer / Zone (Last 30 Days)
+            </div>
+            <div className="overflow-x-auto max-h-80 overflow-y-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#050816] border-b border-white/10 text-[#94A3B8] uppercase font-mono text-[10px]">
+                  <tr>
+                    <th className="p-2.5">Offer / Zone ID</th>
+                    <th className="p-2.5">Network</th>
+                    <th className="p-2.5 text-right">Views</th>
+                    <th className="p-2.5 text-right">Clicks</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 font-mono text-[11px]">
+                  {(adsReport?.byOffer || []).map((row: any, i: number) => (
+                    <tr key={`${row.offerId}-${i}`}>
+                      <td className="p-2.5 text-white font-bold">{row.offerId}</td>
+                      <td className="p-2.5 text-[#C9D1E0]">{row.network}</td>
+                      <td className="p-2.5 text-right tabular-nums text-sky-300">{Number(row.views || 0).toLocaleString()}</td>
+                      <td className="p-2.5 text-right tabular-nums text-emerald-400 font-bold">{Number(row.clicks || 0).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                  {(!adsReport?.byOffer || adsReport.byOffer.length === 0) && (
+                    <tr><td colSpan={4} className="p-4 text-center text-[#94A3B8]">No ad view or click events recorded yet.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

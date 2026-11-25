@@ -11,6 +11,7 @@ import { setTvModeExited } from '../lib/screenDimensions';
 import { useRealtimeVipCountdown } from '../lib/adSystem';
 import { MrsIptvLogo } from './MrsIptvLogo';
 import { WatchAdVipButton } from './WatchAdVipButton';
+import { useAdGate } from '../lib/useAdGate';
 
 export interface NavItem {
   id: string;
@@ -55,8 +56,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const sidebarRef = useRef<HTMLElement | null>(null);
   usePassiveTouchScroll(sidebarRef);
 
+  const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const showOffersNav = isFreeMode && adConfig.formats.affiliate;
   const vipCountdown = useRealtimeVipCountdown(adFreeState);
-  const isVipActive = vipCountdown.isActive;
+  const isVipActive = isVipLocked || vipCountdown.isActive;
 
   const [appsCatalog, setAppsCatalog] = useState<Array<{
     id: string;
@@ -160,7 +163,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'category:Music', icon: Music, label: 'Music & Studio', meta: 'Audio', iconColorClass: 'text-violet-400', metaHighlightClass: 'text-violet-400' },
     { id: 'category:Documentary', icon: Compass, label: 'Documentary & Nature', meta: '4K Doc', iconColorClass: 'text-teal-400', metaHighlightClass: 'text-teal-400' },
     { id: 'category:Religious', icon: Heart, label: 'Religious & Spiritual', meta: '24/7', iconColorClass: 'text-yellow-400', metaHighlightClass: 'text-yellow-400' },
-    { id: 'category:Advertisement', icon: Megaphone, label: 'Advertisement', meta: 'Offers', iconColorClass: 'text-amber-400', metaHighlightClass: 'text-amber-400' }
+    ...(showOffersNav ? [{ id: 'category:Advertisement', icon: Megaphone, label: 'Advertisement', meta: 'Offers', iconColorClass: 'text-amber-400', metaHighlightClass: 'text-amber-400' }] : [])
   ];
 
   const handleNavClick = (id: string) => {
@@ -416,15 +419,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* 3. BOTTOM VIP MEMBERSHIP, REFERRAL & OFFICIAL APK DOCK            */}
         {/* ================================================================= */}
         <div className="px-3.5 space-y-2.5 pt-3.5 border-t border-white/[0.09] shrink-0">
-          {/* 1-Click Watch Ad & Get 1 Hour Free VIP Card */}
-          <WatchAdVipButton
-            variant="sidebar"
-            adFreeState={adFreeState}
-            onRewardedGranted={onRewardedGranted}
-            onAfterClick={() => {
-              if (onCloseMobileMenu) onCloseMobileMenu();
-            }}
-          />
+          {/* 1-Click Watch Ad & Get 1 Hour Free VIP Card (Free Mode Only) */}
+          {isFreeMode && (
+            <WatchAdVipButton
+              variant="sidebar"
+              adFreeState={adFreeState}
+              onRewardedGranted={onRewardedGranted}
+              onAfterClick={() => {
+                if (onCloseMobileMenu) onCloseMobileMenu();
+              }}
+            />
+          )}
 
           {/* Refer & Earn VIP Card */}
           <button
@@ -479,7 +484,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </span>
                   </div>
                   <span className="text-[11px] text-[#C9D1E0] block truncate mt-0.5">
-                    {isVipActive ? '100% Ad-Free & Priority HD' : 'Unlock Zero-Ad 4K Streaming'}
+                    {isVipLocked
+                      ? 'VIP Membership Active · Priority HD'
+                      : isVipActive
+                        ? 'Priority HD Pass Active'
+                        : 'Go Ad-Free · 4K Streaming'}
                   </span>
                 </div>
               </div>
