@@ -205,6 +205,8 @@ export function buildContentSecurityPolicy(): string {
     'https://*.mitgo.com',
     'https://admitad.com',
     'https://*.admitad.com',
+    'https://rzekl.com',
+    'https://*.rzekl.com',
     ...parseSafeCspHosts(process.env.CSP_EXTRA_SCRIPT_HOSTS),
   ];
 
@@ -219,6 +221,8 @@ export function buildContentSecurityPolicy(): string {
     'https://*.mitgo.com',
     'https://admitad.com',
     'https://*.admitad.com',
+    'https://rzekl.com',
+    'https://*.rzekl.com',
     ...parseSafeCspHosts(process.env.CSP_EXTRA_FRAME_HOSTS),
   ];
 
@@ -230,7 +234,7 @@ export function buildContentSecurityPolicy(): string {
     "img-src 'self' data: blob: https: http:",
     "media-src 'self' data: blob: https: http:",
     "worker-src 'self' blob:",
-    "connect-src 'self' blob: https: http: wss: ws: https://uplcm.com",
+    "connect-src 'self' blob: https: http: wss: ws: https://uplcm.com https://rzekl.com",
     `frame-src ${Array.from(new Set(baseFrameHosts)).join(' ')}`,
     "object-src 'none'",
     "base-uri 'self'",

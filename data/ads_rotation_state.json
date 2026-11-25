@@ -1,6 +1,6 @@
 {
-  "globalIndex": 0,
-  "totalClicks": 27,
+  "globalIndex": 2,
+  "totalClicks": 29,
   "byIndexClicks": {
     "1": 5,
     "2": 4,
@@ -12,8 +12,8 @@
     "8": 1,
     "9": 1,
     "10": 1,
-    "11": 1,
-    "12": 1
+    "11": 2,
+    "12": 2
   },
   "deviceIndices": {
     "STV_fp_ktwhgb_dev_bfvy33_ms628zte": 6,
@@ -21,5 +21,5 @@
     "STV_fp_uyw4gw_dev_nsh0pv_mvz9kao4": 0,
     "STV_fp_i82l3t_dev_bfvy33_ms628zte": 1
   },
-  "lastUpdated": "2026-11-22T08:45:21.494Z"
+  "lastUpdated": "2026-11-25T13:02:18.722Z"
 }

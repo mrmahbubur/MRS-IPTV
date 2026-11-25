@@ -6,7 +6,7 @@ export { getDeviceId, getStoredAdFreeState } from './codes';
 export interface AdZoneConfig {
   id: string;
   url: string;
-  network: 'Monetag Direct' | 'AsiaFilm 18+ Direct';
+  network: 'Monetag Direct' | 'AsiaFilm 18+ Direct' | 'Mitgo Affiliate';
   zoneId: string;
   estimatedCpmUsd: number;
   label: string;
@@ -17,7 +17,7 @@ export interface AdZoneConfig {
   imageUrl?: string;
   isMidnightOnly?: boolean;
   showAllTime?: boolean;
-  category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema';
+  category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema' | 'advertisement';
 }
 
 // Official Stored Partner Smartlink Zones (Active 24/7 All-Time)
@@ -174,8 +174,42 @@ export const STORED_AD_ZONES: AdZoneConfig[] = [
     showAllTime: true,
     isMidnightOnly: false,
     category: 'vip'
+  },
+  {
+    id: 'rzekl-pm1aev55clcb5002cfdd219aa26f6f',
+    url: 'https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/',
+    network: 'Mitgo Affiliate',
+    zoneId: 'pm1aev55clcb5002cfdd219aa26f6f',
+    estimatedCpmUsd: 5.00,
+    label: 'Featured Partner Marketplace Offer',
+    subtitle: 'Curated affiliate deal supporting free live sports & television access',
+    ctaText: 'Visit Partner Offer',
+    badge: 'PARTNER OFFER',
+    accentColor: 'amber',
+    showAllTime: true,
+    isMidnightOnly: false,
+    category: 'advertisement'
+  },
+  {
+    id: 'rzekl-1e8d114494cb5002cfdd16525dc3e8',
+    url: 'https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/',
+    network: 'Mitgo Affiliate',
+    zoneId: '1e8d114494cb5002cfdd16525dc3e8',
+    estimatedCpmUsd: 5.00,
+    label: 'Verified Sponsor Spotlight Promotion',
+    subtitle: 'Exclusive promotional partner offer · Opens in a new tab with 1h ad-free bonus',
+    ctaText: 'Explore Offer',
+    badge: 'SPONSORED DEAL',
+    accentColor: 'cyan',
+    showAllTime: true,
+    isMidnightOnly: false,
+    category: 'advertisement'
   }
 ];
+
+export const ADVERTISEMENT_AFFILIATE_ZONES: AdZoneConfig[] = STORED_AD_ZONES.filter(
+  (z) => z.category === 'advertisement'
+);
 
 export const MONETAG_DIRECT_LINKS: string[] = STORED_AD_ZONES.map(z => z.url);
 

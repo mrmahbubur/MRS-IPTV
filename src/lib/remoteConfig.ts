@@ -82,7 +82,9 @@ export const DEFAULT_REMOTE_CONFIG: DynamicRemoteConfig = {
       "https://uplcm.com/4/11230440",
       "https://uplcm.com/4/11683560",
       "https://uplcm.com/4/9912130",
-      "https://uplcm.com/4/11242744"
+      "https://uplcm.com/4/11242744",
+      "https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/",
+      "https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/"
     ]
   },
   uiSpacing: {

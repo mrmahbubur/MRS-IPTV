@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { 
   Home, Tv, Activity, Film, MonitorPlay, Newspaper, Baby, Music, 
   Star, Crown, ChevronRight, 
-  Tv2, Radio, Globe, Compass, Heart,
+  Tv2, Radio, Globe, Compass, Heart, Megaphone,
   Smartphone, Gift, Download, X, UserCheck, HelpCircle
 } from 'lucide-react';
 import { AdFreeState } from '../types';
@@ -159,7 +159,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'category:Kids', icon: Baby, label: 'Kids & Family', meta: 'Family', iconColorClass: 'text-pink-400', metaHighlightClass: 'text-pink-400' },
     { id: 'category:Music', icon: Music, label: 'Music & Studio', meta: 'Audio', iconColorClass: 'text-violet-400', metaHighlightClass: 'text-violet-400' },
     { id: 'category:Documentary', icon: Compass, label: 'Documentary & Nature', meta: '4K Doc', iconColorClass: 'text-teal-400', metaHighlightClass: 'text-teal-400' },
-    { id: 'category:Religious', icon: Heart, label: 'Religious & Spiritual', meta: '24/7', iconColorClass: 'text-yellow-400', metaHighlightClass: 'text-yellow-400' }
+    { id: 'category:Religious', icon: Heart, label: 'Religious & Spiritual', meta: '24/7', iconColorClass: 'text-yellow-400', metaHighlightClass: 'text-yellow-400' },
+    { id: 'category:Advertisement', icon: Megaphone, label: 'Advertisement', meta: 'Offers', iconColorClass: 'text-amber-400', metaHighlightClass: 'text-amber-400' }
   ];
 
   const handleNavClick = (id: string) => {

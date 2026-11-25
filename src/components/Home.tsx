@@ -5,14 +5,16 @@ import {
   Bookmark, ChevronRight, ChevronLeft, Play, ShieldCheck,
   Clapperboard, Tv2, Newspaper, Smile, Music2, Globe, LayoutGrid,
   Trophy, Flame, Radio, ArrowRight, Heart, Compass,
-  Search, RefreshCw, Trash2, History
+  Search, RefreshCw, Trash2, History, Megaphone
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { usePassiveTouchScroll } from '../hooks/usePassiveTouchScroll';
 import { AiPersonalizedRecommendations } from './AiPersonalizedRecommendations';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { AdBannerUnit } from './AdBannerUnit';
+import { AdvertisementCategoryView } from './AdvertisementCategoryView';
 import { WatchAdVipButton } from './WatchAdVipButton';
+import { ADVERTISEMENT_AFFILIATE_ZONES } from '../lib/adSystem';
 import { getStoredAdFreeState } from '../lib/codes';
 import { useBroadcastTheme } from '../lib/themeSystem';
 import { LegalPolicyModal } from './LegalPolicyModal';
@@ -836,9 +838,48 @@ export const Home: React.FC<HomeProps> = ({
                 />
               </div>
             ))}
+
+            <div
+              role="button"
+              tabIndex={0}
+              aria-label="Browse Advertisement offers"
+              onClick={() => setActiveView('category:Advertisement')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveView('category:Advertisement');
+                }
+              }}
+              className="nav-item flex items-center gap-3.5 p-4 bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
+            >
+              <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
+              <div className="min-w-0 flex-1">
+                <h3 title="Advertisement" className="text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
+                  Advertisement
+                </h3>
+                <p className="text-xs text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5">
+                  {ADVERTISEMENT_AFFILIATE_ZONES.length} featured offers
+                </p>
+              </div>
+              <ChevronRight
+                strokeWidth={1.75}
+                className="w-4 h-4 text-[#C9D1E0]/60 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
+              />
+            </div>
           </div>
         </motion.div>
       </div>
+    );
+  }
+
+  if (activeView === 'category:Advertisement') {
+    return (
+      <AdvertisementCategoryView
+        onBackHome={() => setActiveView('home')}
+        adFreeState={adFreeState}
+        onRewardedGranted={onRewardedGranted}
+        onOpenVipModal={onOpenVipModal}
+      />
     );
   }
 
@@ -912,6 +953,15 @@ export const Home: React.FC<HomeProps> = ({
                 </button>
               );
             })}
+
+            <button
+              type="button"
+              onClick={() => setActiveView('category:Advertisement')}
+              className="nav-item min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer motion-reduce:transition-none"
+            >
+              <Megaphone strokeWidth={1.75} className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+              <span>Advertisement</span>
+            </button>
 
             <button
               type="button"
@@ -1409,6 +1459,34 @@ export const Home: React.FC<HomeProps> = ({
                     </div>
                   );
                 })}
+
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Open Advertisement category"
+                  onClick={() => setActiveView('category:Advertisement')}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveView('category:Advertisement');
+                    }
+                  }}
+                  className="nav-item bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-4 flex items-center gap-3.5 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
+                >
+                  <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
+                  <div className="min-w-0 flex-1">
+                    <h3 title="Advertisement" className="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
+                      Advertisement
+                    </h3>
+                    <p className="text-[11px] text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5 truncate">
+                      {ADVERTISEMENT_AFFILIATE_ZONES.length} affiliate offers
+                    </p>
+                  </div>
+                  <ChevronRight
+                    strokeWidth={1.75}
+                    className="w-4 h-4 text-[#C9D1E0]/55 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
+                  />
+                </div>
               </div>
             </section>
           )}

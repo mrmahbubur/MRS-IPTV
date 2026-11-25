@@ -960,10 +960,10 @@ async function startServer() {
   // Strict sequential & targeted rotation from Link #1 to #10, 24/7 All-Time Rule, zero popup blocker friction
   // =========================================================================
   interface BackendAdLink {
-    index: number; // 1 to 10
+    index: number;
     id: string;
     url: string;
-    network: 'Monetag Direct' | 'CPM Smartlink' | 'AsiaFilm 18+ Direct';
+    network: 'Monetag Direct' | 'CPM Smartlink' | 'AsiaFilm 18+ Direct' | 'Mitgo Affiliate';
     zoneOrKey: string;
     name: string;
     headline: string;
@@ -975,7 +975,7 @@ async function startServer() {
     bannerUrl?: string;
     isMidnightOnly?: boolean;
     showAllTime?: boolean;
-    category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema';
+    category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema' | 'advertisement';
   }
 
   const BACKEND_STORED_AD_LINKS: BackendAdLink[] = [
@@ -1151,6 +1151,40 @@ async function startServer() {
       showAllTime: true,
       isMidnightOnly: false,
       category: 'vip'
+    },
+    {
+      index: 11,
+      id: 'rzekl-pm1aev55clcb5002cfdd219aa26f6f',
+      url: 'https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/',
+      network: 'Mitgo Affiliate',
+      zoneOrKey: 'pm1aev55clcb5002cfdd219aa26f6f',
+      name: 'Featured Affiliate Offer I',
+      headline: 'Exclusive Partner Deal & Rewards Hub',
+      description: 'Explore our featured affiliate partner offer and unlock 1 hour of ad-free streaming.',
+      ctaText: 'Visit Partner Offer',
+      badge: 'PARTNER OFFER',
+      accentColor: 'amber',
+      estimatedCpmUsd: 5.00,
+      showAllTime: true,
+      isMidnightOnly: false,
+      category: 'advertisement'
+    },
+    {
+      index: 12,
+      id: 'rzekl-1e8d114494cb5002cfdd16525dc3e8',
+      url: 'https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/',
+      network: 'Mitgo Affiliate',
+      zoneOrKey: '1e8d114494cb5002cfdd16525dc3e8',
+      name: 'Featured Affiliate Offer II',
+      headline: 'Verified Sponsor Spotlight & Special Promo',
+      description: 'Discover curated partner promotions supporting free 24/7 live TV channels.',
+      ctaText: 'Explore Offer',
+      badge: 'SPONSORED DEAL',
+      accentColor: 'cyan',
+      estimatedCpmUsd: 5.00,
+      showAllTime: true,
+      isMidnightOnly: false,
+      category: 'advertisement'
     }
   ];
 
