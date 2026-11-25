@@ -4,7 +4,8 @@ import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { getTrustedClientIp } from './security.js';
+import { getTrustedClientIp } from './clientIp';
+import { recordExternalRateLimitBlock } from './security';
 
 // Import from the payment backend engine
 import { config, PLANS, CHANNELS, PLAN_IDS } from './mrs-iptv-backend/src/config.js';
@@ -106,16 +107,23 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
     limits: { fileSize: config.maxScreenshotBytes, files: 1, fields: 24 },
   });
 
-  const limiter = (windowMs: number, max: number, extra: Record<string, any> = {}) =>
-    rateLimit({
+  const limiter = (windowMs: number, max: number, extra: Record<string, any> = {}) => {
+    const { limiterName = 'Payment & Activation API', ...rateLimitOpts } = extra;
+    const payload = { error: { code: 'rate_limited', message: 'Too many requests. Please wait a moment and try again.' } };
+    return rateLimit({
       windowMs,
       limit: max,
       standardHeaders: true,
       legacyHeaders: false,
       keyGenerator: (req: Request) => ipKeyGenerator(getTrustedClientIp(req)),
-      message: { error: { code: 'rate_limited', message: 'Too many requests. Please wait a moment and try again.' } },
-      ...extra,
+      message: payload,
+      handler: (_req: Request, res: Response) => {
+        recordExternalRateLimitBlock(limiterName, windowMs, max);
+        res.status(429).json(payload);
+      },
+      ...rateLimitOpts,
     });
+  };
 
   // -------------------------------------------------------------------------
   // 1. PUBLIC PAYMENT, ORDER, ACTIVATION & ACCOUNT ENDPOINTS

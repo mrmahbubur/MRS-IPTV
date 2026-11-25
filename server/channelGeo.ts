@@ -1,6 +1,6 @@
 import type express from 'express';
 import geoip from 'geoip-lite';
-import { getTrustedClientIp, isPrivateIpAddress } from './security';
+import { getTrustedClientIp, isPrivateIpAddress } from './clientIp';
 
 export { isPrivateIpAddress };
 

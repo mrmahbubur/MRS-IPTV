@@ -68,6 +68,8 @@ import {
   globalApiRateLimiter,
   aiEndpointRateLimiter,
   isBlockedSsrfTarget,
+  validateSsrfTargetAsync,
+  safeFetchWithSsrfGuard,
   logSecurityEvent,
   checkBruteForceLock,
   recordFailedCodeAttempt,
@@ -75,10 +77,15 @@ import {
   signVipDeviceToken,
   verifyVipDeviceToken,
   getSecurityHealthSnapshot,
-  flushSecurityBlacklist,
-  getTrustedClientIp,
-  isPrivateIpAddress
+  getSecurityMetricsSnapshot,
+  formatPrometheusSecurityMetrics,
+  flushSecurityBlacklist
 } from "./server/security";
+import {
+  getTrustedClientIp,
+  isPrivateIpAddress,
+  getProxyTelemetrySummary
+} from "./server/clientIp";
 
 // Disable SSL certificate verification for proxying external streaming sources
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -264,6 +271,7 @@ async function startServer() {
       environment: process.env.NODE_ENV || (isDevSandbox ? "development" : "production"),
       nodeVersion: process.version,
       trustProxy: trustProxyHops,
+      proxyTelemetry: getProxyTelemetrySummary(),
       ...(isRender
         ? {
             render: {
@@ -467,8 +475,8 @@ async function startServer() {
         }
       }
 
-      // Anti-SSRF (Server-Side Request Forgery) Stream Firewall Inspection
-      const ssrfCheck = isBlockedSsrfTarget(targetUrl);
+      // Anti-SSRF (Server-Side Request Forgery) Stream Firewall Inspection (sync + DNS check)
+      const ssrfCheck = await validateSsrfTargetAsync(targetUrl);
       if (ssrfCheck.blocked) {
         const clientIp = getTrustedClientIp(req);
         logSecurityEvent(clientIp, 'SSRF_ATTEMPT', 'HIGH', ssrfCheck.reason || 'Blocked internal/private IP SSRF attempt', '/api/proxy');
@@ -563,9 +571,8 @@ async function startServer() {
             headers["Range"] = req.headers.range as string;
           }
 
-          let attemptRes = await fetch(targetUrl, {
+          let attemptRes = await safeFetchWithSsrfGuard(targetUrl, {
             headers,
-            redirect: "follow",
             signal: controller.signal
           });
 
@@ -576,7 +583,7 @@ async function startServer() {
               const skyId = idMatch[1].toLowerCase();
               try {
                 const token = Buffer.from(`${Date.now()}_skym3u_pass_${skyId}`).toString('base64');
-                const vRes = await fetch(`https://go.skym3u.dev/verify?id=${skyId}&token=${encodeURIComponent(token)}`, {
+                const vRes = await safeFetchWithSsrfGuard(`https://go.skym3u.dev/verify?id=${skyId}&token=${encodeURIComponent(token)}`, {
                   headers: {
                     'User-Agent': PROXY_USER_AGENTS.chrome,
                     'Referer': 'https://www.skym3u.dev/p/dedicated.html'
@@ -590,9 +597,8 @@ async function startServer() {
                     const freshSession = sMatch[1];
                     const refreshedTarget = targetUrl.replace(/([?&])s=[a-zA-Z0-9]+/, `$1s=${freshSession}`);
                     if (refreshedTarget !== targetUrl) {
-                      const retryRes = await fetch(refreshedTarget, {
+                      const retryRes = await safeFetchWithSsrfGuard(refreshedTarget, {
                         headers,
-                        redirect: "follow",
                         signal: controller.signal
                       });
                       if (retryRes.ok || retryRes.status === 206) {
@@ -4766,8 +4772,9 @@ async function startServer() {
       if (!url || typeof url !== 'string') {
         return res.status(400).json({ error: "Valid M3U URL is required" });
       }
-      if (isBlockedSsrfTarget(String(url))) {
-        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF source add target: ${url}`, '/api/m3u/sources');
+      const ssrfCheck = await validateSsrfTargetAsync(String(url));
+      if (ssrfCheck.blocked) {
+        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', ssrfCheck.reason || `Blocked SSRF source add target: ${url}`, '/api/m3u/sources');
         return res.status(403).json({ error: "Forbidden target URL" });
       }
 
@@ -4840,8 +4847,9 @@ async function startServer() {
     try {
       const { url } = req.body;
       if (!url) return res.status(400).json({ error: "URL is required" });
-      if (isBlockedSsrfTarget(String(url))) {
-        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF test target: ${url}`, '/api/m3u/test');
+      const ssrfCheck = await validateSsrfTargetAsync(String(url));
+      if (ssrfCheck.blocked) {
+        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', ssrfCheck.reason || `Blocked SSRF test target: ${url}`, '/api/m3u/test');
         return res.status(403).json({ valid: false, error: "Forbidden target URL" });
       }
 
@@ -4854,14 +4862,14 @@ async function startServer() {
         const localM3uPath = path.join(process.cwd(), 'data', `${skyId}.m3u`);
         try {
           const token = Buffer.from(`${Date.now()}_skym3u_pass_${skyId}`).toString('base64');
-          const vRes = await fetch(`https://${skyDomain}/verify?id=${skyId}&token=${encodeURIComponent(token)}`, {
+          const vRes = await safeFetchWithSsrfGuard(`https://${skyDomain}/verify?id=${skyId}&token=${encodeURIComponent(token)}`, {
             headers: { 'User-Agent': 'Mozilla/5.0', 'Referer': `https://${skyRefDomain}/p/dedicated.html` }
           });
           if (vRes.ok) {
             const vJson: any = await vRes.json();
             const freshUrl = vJson?.data || vJson;
             if (freshUrl && typeof freshUrl === 'string' && freshUrl.startsWith('http')) {
-              const mRes = await fetch(freshUrl, {
+              const mRes = await safeFetchWithSsrfGuard(freshUrl, {
                 headers: { 'User-Agent': 'Mozilla/5.0', 'Referer': `https://${skyRefDomain}/p/dedicated.html` }
               });
               if (mRes.ok) text = await mRes.text();
@@ -4876,7 +4884,7 @@ async function startServer() {
       if (!text) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 7000);
-        const testRes = await fetch(url, {
+        const testRes = await safeFetchWithSsrfGuard(url, {
           signal: controller.signal,
           headers: { 'User-Agent': PROXY_USER_AGENTS.vlc }
         });
@@ -4921,9 +4929,12 @@ async function startServer() {
       if (!url && !rawM3u) {
         return res.status(400).json({ error: "Either M3U URL or raw M3U playlist text is required" });
       }
-      if (url && isBlockedSsrfTarget(String(url))) {
-        logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', `Blocked SSRF inspect target: ${url}`, '/api/m3u/inspect-and-check');
-        return res.status(403).json({ error: "Forbidden target URL" });
+      if (url) {
+        const ssrfCheck = await validateSsrfTargetAsync(String(url));
+        if (ssrfCheck.blocked) {
+          logSecurityEvent(getTrustedClientIp(req), 'SSRF_ATTEMPT', 'HIGH', ssrfCheck.reason || `Blocked SSRF inspect target: ${url}`, '/api/m3u/inspect-and-check');
+          return res.status(403).json({ error: "Forbidden target URL" });
+        }
       }
       const inspection = await inspectAndCheckM3u({
         url,
@@ -5268,11 +5279,11 @@ Do you grant permission to include these channels in the official M R S IPTV cat
           ? decodeURIComponent(sampleChannel.m3u8Url.split('url=')[1]?.split('&')[0] || '')
           : sampleChannel.m3u8Url;
 
-        if (testUrl && testUrl.startsWith('http') && !isBlockedSsrfTarget(testUrl)) {
+        if (testUrl && testUrl.startsWith('http') && !(await validateSsrfTargetAsync(testUrl)).blocked) {
           const controller = new AbortController();
           const timer = setTimeout(() => controller.abort(), 3000);
           const t0 = Date.now();
-          await fetch(testUrl, {
+          await safeFetchWithSsrfGuard(testUrl, {
             method: 'HEAD',
             headers: { 'User-Agent': PROXY_USER_AGENTS.vlc },
             signal: controller.signal
@@ -7026,12 +7037,22 @@ M R S IPTV Team
   });
 
   // --- Enterprise Security Dashboard & Threat Inspection Endpoints ---
-  app.get("/api/security/status", (_req, res) => {
+  app.get("/api/security/status", (req, res) => {
     const snapshot = getSecurityHealthSnapshot();
+    const requestProxy = getProxyTelemetrySummary(req);
     res.json({
       success: true,
       status: "SECURE",
-      security: snapshot
+      security: {
+        ...snapshot,
+        proxyTelemetry: {
+          ...snapshot.proxyTelemetry,
+          trustProxyEnabled: requestProxy.trustProxyEnabled,
+          trustProxySource: requestProxy.trustProxySource,
+          resolvedSource: requestProxy.resolvedSource,
+          cloudflareVerified: requestProxy.cloudflareVerified,
+        },
+      }
     });
   });
 
@@ -7043,6 +7064,49 @@ M R S IPTV Team
       threatsBlocked: snapshot.totalThreatsBlocked,
       activeRulesCount: snapshot.activeRules.length,
       uptime: snapshot.securityUptimeSeconds
+    });
+  });
+
+  app.get(["/api/metrics", "/api/security/metrics"], async (req, res) => {
+    const configuredMetricsToken = String(process.env.METRICS_TOKEN || "").trim();
+    const authHeader = String(req.headers.authorization || "");
+    const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
+    const providedMetricsToken = (bearerMatch ? bearerMatch[1] : String(req.headers["x-metrics-token"] || "")).trim();
+
+    let authorized = false;
+    if (configuredMetricsToken && providedMetricsToken) {
+      const expectedBuf = Buffer.from(configuredMetricsToken);
+      const actualBuf = Buffer.from(providedMetricsToken);
+      if (expectedBuf.length === actualBuf.length && crypto.timingSafeEqual(expectedBuf, actualBuf)) {
+        authorized = true;
+      }
+    }
+
+    if (!authorized) {
+      const adminAuth = await verifyAdminCredentials(req);
+      if (adminAuth.ok === false) {
+        return res.status(adminAuth.status).json({ error: adminAuth.error });
+      }
+    }
+
+    const formatParam = String(req.query.format || "").trim().toLowerCase();
+    const acceptHeader = String(req.headers.accept || "").toLowerCase();
+    const wantPrometheus =
+      formatParam === "prometheus" ||
+      formatParam === "prom" ||
+      formatParam === "text" ||
+      ((acceptHeader.includes("text/plain") || acceptHeader.includes("application/openmetrics-text")) &&
+        !acceptHeader.includes("application/json"));
+
+    res.setHeader("Cache-Control", "no-store");
+    if (wantPrometheus) {
+      res.setHeader("Content-Type", "text/plain; version=0.0.4; charset=utf-8");
+      return res.status(200).send(formatPrometheusSecurityMetrics(req));
+    }
+
+    return res.status(200).json({
+      ok: true,
+      metrics: getSecurityMetricsSnapshot(req)
     });
   });
 

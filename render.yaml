@@ -24,6 +24,8 @@ services:
         value: 0.0.0.0
       - key: TRUST_PROXY
         value: "1"
+      - key: CLOUDFLARE_STRICT_ORIGIN
+        value: "0"
       - key: DATA_DIR
         value: data
       - key: LIVECHECK_SCHEDULER
@@ -55,6 +57,14 @@ services:
       - key: CAMELLIA_TOKEN
         generateValue: true
       # Set these secret keys inside Render Dashboard -> Service -> Environment
+      - key: CF_ORIGIN_SECRET
+        sync: false
+      - key: METRICS_TOKEN
+        sync: false
+      - key: CSP_EXTRA_SCRIPT_HOSTS
+        sync: false
+      - key: CSP_EXTRA_FRAME_HOSTS
+        sync: false
       - key: GEMINI_API_KEY
         sync: false
       - key: SMTP_USER

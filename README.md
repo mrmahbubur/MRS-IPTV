@@ -22,6 +22,8 @@ Production full-stack streaming platform featuring a dark premium UI, HLS live T
 ## Project Structure
 
 ```text
+├── .github/workflows/
+│   └── ci-smoke.yml                # GitHub Actions CI + optional post-deploy Render smoke check
 ├── data/
 │   ├── plans.json                  # VIP plans (1m, 2m, 6m, 12m)
 │   ├── channels.json               # Curated channel metadata template
@@ -29,11 +31,15 @@ Production full-stack streaming platform featuring a dark premium UI, HLS live T
 │   └── uploads/                    # Uploaded payment screenshots (outside public root)
 ├── scripts/
 │   ├── generate-codes.js           # Idempotent CSPRNG code generator (default 1200/plan)
-│   └── export-codes.js             # Exports unused codes CSV backup + inventory summary
+│   ├── export-codes.js             # Exports unused codes CSV backup + inventory summary
+│   └── smoke-check.mjs             # Automated staging/Render deployment smoke check
 ├── server.ts                       # Main Express + Vite / production entry point (Port 3000)
 ├── server/
+│   ├── clientIp.ts                 # Centralized IP normalization, trust proxy & subnet masking
+│   ├── security.ts                 # WAF, Security Headers, DNS/redirect-safe SSRF & rate limiters
 │   ├── paymentRouter.ts            # Express mount for /api/* payment, activation & admin routes
 │   └── mrs-iptv-backend/src/
+│       ├── clientIp.js             # Pure-Node IP normalization, CIDR/origin checks & proxy resolver
 │       ├── config.js               # Environment config, plans & receiving accounts
 │       ├── db.js                   # SQLite schema, migrations, audit_log, atomic transactions
 │       ├── codes.js                # Code inventory, atomic reservation & low-stock alerts
@@ -180,6 +186,7 @@ On failure:
 - `POST /api/admin/mail/verify` (`{ sendTest, to }`) & `POST /api/admin/mail/flush`
 - `GET /api/admin/revenue`
 - `GET /api/admin/audit`
+- `GET /api/metrics` *(and `GET /api/security/metrics`)* — Authenticated security, WAF & rate-limiter bucket telemetry (`Authorization: Bearer <METRICS_TOKEN>` or `<ADMIN_TOKEN>`; add `?format=prometheus` or `Accept: text/plain` for Prometheus `0.0.4` scraping)
 
 #### Backend Google Drive & Gmail Endpoints (`/api/workspace/*`)
 All requests pass the client-acquired Firebase Auth Google OAuth access token via `Authorization: Bearer <googleAccessToken>` (or `x-google-access-token` alongside `Authorization: Bearer <ADMIN_TOKEN>` for admin endpoints):
@@ -241,6 +248,11 @@ If you create a Web Service manually from GitHub in Render:
   - `GEMINI_API_KEY`, `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`, `SMTP_USER`, `SMTP_PASS`, `ADMIN_EMAIL`, `MAIL_TRANSPORT=smtp`
   - Optional: `SITE_ORIGINS` (Render's `RENDER_EXTERNAL_URL` is automatically trusted on startup; add any custom domain comma-separated).
 
+- **Optional Observability & Cloudflare Origin Hardening**:
+  - **Metrics Scraping (`/api/metrics`)**: Set `METRICS_TOKEN` in Render Environment (or use `ADMIN_TOKEN`) and scrape `/api/metrics?format=prometheus` with `Authorization: Bearer <METRICS_TOKEN>` for rate-limiter active buckets, blocked counts, WAF counters, and runtime memory gauges (JSON returned by default).
+  - **Cloudflare Origin Secret (`CF_ORIGIN_SECRET`)**: When placing Cloudflare in front of Render, generate a random secret (`openssl rand -hex 32`), set `CF_ORIGIN_SECRET` in Render Environment (and optionally `CLOUDFLARE_STRICT_ORIGIN=1`), then create a **Cloudflare Rules → Transform Rules → Modify Request Header** rule that sets static header `x-cf-origin-secret` to the exact same value.
+  - **GitHub Actions CI & Smoke Hook**: `.github/workflows/ci-smoke.yml` runs typechecks, build, unit/integration tests, and local compiled smoke checks on every push/PR, and triggers post-deploy smoke checks when `vars.RENDER_EXTERNAL_URL` or `workflow_dispatch` is set.
+
 #### Persistent Storage Note (Free Tier vs Starter+)
 - **Free Tier**: SQLite (`data/mrs.sqlite`) and activation codes (`1,200` per plan) auto-initialize on every boot, so the app runs cleanly with zero extra setup, though runtime orders/uploads reset on redeploy/spin-down.
 - **Starter+ with Persistent Disk**: Add a Render Disk mounted at `/var/data`, uncomment the `disk:` section in `render.yaml`, and set `DATA_DIR=/var/data` (or `DB_PATH=/var/data/mrs.sqlite` and `UPLOAD_DIR=/var/data/uploads`) so orders, SQLite state, and screenshots persist across redeploys.
@@ -252,7 +264,7 @@ If you create a Web Service manually from GitHub in Render:
    npm run build
    NODE_ENV=production npm start
    ```
-3. Behind Nginx / Cloudflare / Caddy, set `TRUST_PROXY=1` in `.env` so rate-limiters use real client IP headers.
+3. Behind Nginx / Cloudflare / Caddy, set `TRUST_PROXY=1` in `.env` so rate-limiters use real client IP headers. If proxying through Cloudflare on Render, enable `CLOUDFLARE_STRICT_ORIGIN=1` (verifies Cloudflare edge CIDRs + `CF-Ray`) or set `CF_ORIGIN_SECRET` with a Cloudflare Transform Rule sending `x-cf-origin-secret` so unproxied visitors cannot spoof `CF-Connecting-IP`.
 4. Schedule daily SQLite backup cron:
    ```bash
    0 3 * * * sqlite3 /app/data/mrs.sqlite ".backup '/app/data/backups/mrs-$(date +\%F).sqlite'"
@@ -272,6 +284,11 @@ Run the automated backend integration suite (33 assertions covering code generat
 
 ```bash
 npm run test:payments
+npm run test:livecheck
+npx tsx --test server/channelGeo.test.ts tests/clientIp.test.ts
+
+# Post-deploy / staging smoke test against local or Render URL:
+BASE_URL=https://your-app.onrender.com npm run smoke
 ```
 
 Manual E2E checklist:

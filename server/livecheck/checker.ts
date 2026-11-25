@@ -11,6 +11,7 @@ import dnsDefault from 'node:dns';
 import dns from 'node:dns/promises';
 import net from 'node:net';
 import { config } from '../mrs-iptv-backend/src/config.js';
+import { isPrivateIpAddress } from '../clientIp';
 
 dnsDefault.setDefaultResultOrder('ipv4first');
 net.setDefaultAutoSelectFamilyAttemptTimeout?.(400);
@@ -52,28 +53,7 @@ export interface CheckStreamResult {
 }
 
 export function isPrivateIp(ip: string): boolean {
-  if (net.isIPv4(ip)) {
-    const [a, b] = ip.split('.').map(Number);
-    return (
-      a === 10 ||
-      a === 127 ||
-      a === 0 ||
-      (a === 169 && b === 254) ||
-      (a === 172 && b >= 16 && b <= 31) ||
-      (a === 192 && b === 168) ||
-      (a === 100 && b >= 64 && b <= 127) ||
-      a >= 224
-    );
-  }
-  const l = ip.toLowerCase();
-  return (
-    l === '::1' ||
-    l === '::' ||
-    l.startsWith('fe80') ||
-    l.startsWith('fc') ||
-    l.startsWith('fd') ||
-    (l.startsWith('::ffff:') && isPrivateIp(l.slice(7)))
-  );
+  return isPrivateIpAddress(ip);
 }
 
 function isBlockedHostByEnv(hostname: string): boolean {
@@ -158,7 +138,8 @@ export async function prewarmDnsHosts(urls: string[], maxHosts = 20): Promise<vo
 export async function assertPublic(urlStr: string, allowPrivate: boolean): Promise<URL> {
   const u = new URL(urlStr);
   if (!/^https?:$/.test(u.protocol)) throw new Error('bad_protocol');
-  const host = u.hostname.replace(/^\[|\]$/g, '');
+  if (u.username || u.password) throw new Error('embedded_credentials');
+  const host = u.hostname.replace(/^\[|\]$/g, '').split('%')[0];
   if (isBlockedHostByEnv(host)) throw new Error('blocked_source_host');
   if (allowPrivate) return u;
   if (host.toLowerCase() === 'localhost') throw new Error('blocked_private_address');

@@ -1,0 +1,106 @@
+name: CI & Staging Smoke Check
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Optional staging/Render base URL for smoke tests (defaults to vars.RENDER_EXTERNAL_URL)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Build, Lint, Unit Tests & Local Production Smoke
+    if: github.event_name != 'deployment_status'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.14.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.14.0"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --include=dev
+
+      - name: TypeScript typecheck (lint)
+        run: npm run lint
+
+      - name: Build frontend & server bundle
+        run: npm run build
+
+      - name: Run payment verification & code inventory tests
+        run: npm run test:payments
+
+      - name: Run live-channel checker tests
+        run: npm run test:livecheck
+
+      - name: Run centralized IP, proxy, SSRF & metrics tests
+        run: ./node_modules/.bin/tsx --test server/channelGeo.test.ts tests/clientIp.test.ts
+
+      - name: Run production bundle smoke check
+        env:
+          NODE_ENV: production
+          HOST: 127.0.0.1
+          PORT: "3000"
+          TRUST_PROXY: "1"
+          LIVECHECK_SCHEDULER: "0"
+          MAIL_TRANSPORT: console
+          ADMIN_TOKEN: ci-ephemeral-admin-token
+          TOKEN_SECRET: ci-ephemeral-token-secret
+          SECURITY_SECRET: ci-ephemeral-security-secret
+          SMS_WEBHOOK_SECRET: ci-ephemeral-sms-secret
+          METRICS_TOKEN: ci-ephemeral-metrics-token
+          BASE_URL: http://127.0.0.1:3000
+        run: |
+          mkdir -p data
+          node dist/server.cjs > /tmp/mrs-ci-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then
+              break
+            fi
+            sleep 1
+          done
+
+          npm run smoke
+
+  render-smoke:
+    name: Post-Deploy Render Smoke Check
+    needs: [ci]
+    if: |
+      always() &&
+      (
+        (github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.target_url != '') ||
+        (github.event_name == 'workflow_dispatch' && (inputs.base_url != '' || vars.RENDER_EXTERNAL_URL != '')) ||
+        (github.event_name == 'push' && needs.ci.result == 'success' && vars.RENDER_EXTERNAL_URL != '')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.14.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.14.0"
+
+      - name: Execute staging smoke test
+        env:
+          BASE_URL: ${{ inputs.base_url || github.event.deployment_status.target_url || vars.RENDER_EXTERNAL_URL }}
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: node scripts/smoke-check.mjs
