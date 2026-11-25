@@ -84,7 +84,7 @@ jobs:
     if: |
       always() &&
       (
-        (github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.target_url != '') ||
+        (github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && (vars.RENDER_EXTERNAL_URL != '' || !contains(github.event.deployment_status.target_url, 'github.com'))) ||
         (github.event_name == 'workflow_dispatch' && (inputs.base_url != '' || vars.RENDER_EXTERNAL_URL != '')) ||
         (github.event_name == 'push' && needs.ci.result == 'success' && vars.RENDER_EXTERNAL_URL != '')
       )
@@ -100,7 +100,12 @@ jobs:
 
       - name: Execute staging smoke test
         env:
-          BASE_URL: ${{ inputs.base_url || github.event.deployment_status.target_url || vars.RENDER_EXTERNAL_URL }}
+          BASE_URL: ${{ inputs.base_url || vars.RENDER_EXTERNAL_URL || (github.event_name == 'deployment_status' && !contains(github.event.deployment_status.target_url, 'github.com') && github.event.deployment_status.target_url) || '' }}
           METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
           ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-        run: node scripts/smoke-check.mjs
+        run: |
+          if [ -z "$BASE_URL" ]; then
+            echo "No Render base URL configured; skipping external smoke test."
+            exit 0
+          fi
+          node scripts/smoke-check.mjs
