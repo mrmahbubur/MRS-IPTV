@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import http from 'node:http';
+import { webcrypto } from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import express from 'express';
@@ -22,7 +23,7 @@ process.env.MONETAG_POSTBACK_SECRET = 'monetag-postback-test-secret';
 
 const { db, run, get, nowIso } = await import('../server/mrs-iptv-backend/src/db.js');
 const { redeem } = await import('../server/mrs-iptv-backend/src/redeem.js');
-const { createAdsRouter, MONETAG_ZONES } = await import('../server/adsRouter.js');
+const { createAdsRouter, MONETAG_ZONES, sanitizeShowFn } = await import('../server/adsRouter.js');
 const paymentRouterModule = await import('../server/paymentRouter.js');
 const createPaymentRouter = paymentRouterModule.default || paymentRouterModule.createPaymentRouter;
 
@@ -590,18 +591,35 @@ test('12. Admin reward report, revoke, Monetag toggle, and removal verification'
   const refuseJson = await refuseRes.json() as any;
   assert.equal(refuseJson.error.code, 'invalid_network');
 
-  // Allows toggling Monetag settings cleanly, validates showFn identifier, and resets back to false/null
-  const badFnRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-admin-token': 'test-admin-secret-123',
-    },
-    body: JSON.stringify({ network: 'monetag', showFn: 'eval("alert(1)")' }),
-  });
-  assert.equal(badFnRes.status, 400);
-  const badFnJson = await badFnRes.json() as any;
-  assert.equal(badFnJson.error.code, 'invalid_show_fn');
+  // Allows toggling Monetag settings cleanly, validates showFn identifier robustly, and resets back to false/null
+  const invalidCandidates: unknown[] = [
+    'eval("alert(1)")',
+    '__proto__.constructor',
+    'constructor.constructor',
+    'window.eval',
+    'Function',
+    'foo..bar',
+    'foo.',
+    'a.0bar',
+    'a.b.c.d.e',
+    'alert',
+    { bad: true },
+  ];
+  for (const candidate of invalidCandidates) {
+    assert.throws(() => sanitizeShowFn(candidate), /Rewarded callback name/i);
+    const badFnRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-token': 'test-admin-secret-123',
+      },
+      body: JSON.stringify({ network: 'monetag', showFn: candidate }),
+    });
+    assert.equal(badFnRes.status, 400);
+    const badFnJson = await badFnRes.json() as any;
+    assert.equal(badFnJson.error.code, 'invalid_show_fn');
+  }
+  assert.equal(sanitizeShowFn('MonetagSDK.reward.show'), 'MonetagSDK.reward.show');
 
   const allowRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
     method: 'POST',
@@ -880,4 +898,95 @@ test('14. rewardAds.js client flow: early cancel grants nothing; completion call
   assert.equal(enterVipCalls, 1);
   assert.equal(storageMap.get('mrs_reward_just_unlocked'), '1');
 });
+
+test('15. rewardAds.js crypto-random device ID & secure global callback resolution (no prototype chain access)', async () => {
+  const storageMap = new Map<string, string>();
+  let capturedDeviceId = '';
+  let sdkThisBound = false;
+  let sdkCallCount = 0;
+
+  const makeLiveSandbox = (rewardedShowFn: string) => {
+    const sb: any = {
+      console, Date, Math, JSON, Promise, Error, parseInt, Uint8Array,
+      crypto: webcrypto,
+      setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+      CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+      addEventListener: () => {}, dispatchEvent: () => true,
+      MRS_AD_STATE: 'free',
+      MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: false, monetag: { rewarded: { enabled: true } } },
+      __MRS_ADS_SERVER_CONFIG: {
+        testMode: false,
+        monetag: { rewardedEnabled: true, rewardedShowFn },
+        rewards: { cooldownMinutes: 180, anyRewardedAvailable: true },
+      },
+      MRS_ADS: {
+        state: () => sb.MRS_AD_STATE,
+        enterVipMode: () => { sb.MRS_AD_STATE = 'vip'; },
+        refresh: async () => sb.MRS_AD_STATE,
+      },
+      MonetagSDK: {
+        tag: 'ok',
+        show(this: any, onComplete: () => void) {
+          sdkThisBound = this === sb.MonetagSDK && this.tag === 'ok';
+          sdkCallCount += 1;
+          onComplete();
+        },
+      },
+      localStorage: {
+        getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+        setItem: (k: string, v: string) => { storageMap.set(k, String(v)); },
+        removeItem: (k: string) => { storageMap.delete(k); },
+      },
+      document: {
+        readyState: 'complete',
+        body: { appendChild: () => {} },
+        createElement: () => ({ style: {}, setAttribute: () => {}, innerHTML: '' }),
+        getElementById: () => null,
+        addEventListener: () => {},
+      },
+      fetch: async (url: string, init?: any) => {
+        if (url.includes('/api/rewards/start')) {
+          const body = JSON.parse(init?.body || '{}');
+          capturedDeviceId = body.deviceId;
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ ok: true, data: { nonce: 'b'.repeat(48), network: 'monetag', minWatchMs: 100 } }),
+          };
+        }
+        if (url.includes('/api/rewards/claim')) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              ok: true,
+              data: { token: 'signed-live-reward-tok', plan: 'reward1h', expiresAt: new Date(Date.now() + 3600_000).toISOString() },
+            }),
+          };
+        }
+        return { ok: false, status: 404, json: async () => ({ ok: false }) };
+      },
+    };
+    sb.window = sb;
+    return sb;
+  };
+
+  // Blocked prototype/built-in path must never resolve
+  const blockedSb = makeLiveSandbox('__proto__.constructor');
+  vm.runInNewContext(rewardAdsSource, blockedSb, { filename: 'rewardAds.js' });
+  await assert.rejects(blockedSb.MRS_REWARD_ADS.startAndWatch('monetag'), /not configured/i);
+  assert.match(capturedDeviceId, /^[0-9a-f]{48}$/);
+
+  // Valid namespaced MonetagSDK.show resolves own-property with receiver intact
+  storageMap.clear();
+  capturedDeviceId = '';
+  const validSb = makeLiveSandbox('MonetagSDK.show');
+  vm.runInNewContext(rewardAdsSource, validSb, { filename: 'rewardAds.js' });
+  const ent = await validSb.MRS_REWARD_ADS.startAndWatch('monetag');
+  assert.equal(ent.plan, 'reward1h');
+  assert.equal(sdkThisBound, true);
+  assert.equal(sdkCallCount, 1);
+  assert.match(capturedDeviceId, /^[0-9a-f]{48}$/);
+});
+
 

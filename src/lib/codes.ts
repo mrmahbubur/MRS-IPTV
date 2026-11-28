@@ -54,17 +54,41 @@ export function getBrowserFingerprint(): string {
   }
 }
 
+function generateCryptoToken(byteCount = 16): string {
+  const c: Crypto | undefined =
+    (typeof globalThis !== 'undefined' && globalThis.crypto) ||
+    (typeof window !== 'undefined' && (window.crypto || (window as any).msCrypto)) ||
+    undefined;
+
+  try {
+    if (c && typeof c.getRandomValues === 'function') {
+      const bytes = new Uint8Array(byteCount);
+      c.getRandomValues(bytes);
+      return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+    }
+    if (c && typeof c.randomUUID === 'function') {
+      return c.randomUUID().replace(/-/g, '');
+    }
+  } catch {}
+
+  let pool = Date.now().toString(16);
+  while (pool.length < byteCount * 2) {
+    pool += Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, '0');
+  }
+  return pool.slice(0, byteCount * 2);
+}
+
 export function getDeviceId(): string {
   try {
     let sessionId = sessionStorage.getItem('shahintv_session_id');
-    if (!sessionId) {
-      sessionId = 'sess_' + Math.random().toString(36).substring(2, 8) + '_' + Date.now().toString(36);
+    if (!sessionId || !/^[A-Za-z0-9_-]{12,128}$/.test(sessionId)) {
+      sessionId = `sess_${generateCryptoToken(12)}`;
       sessionStorage.setItem('shahintv_session_id', sessionId);
     }
 
     let persistentId = localStorage.getItem('shahintv_device_id');
-    if (!persistentId) {
-      persistentId = 'dev_' + Math.random().toString(36).substring(2, 8) + '_' + Date.now().toString(36);
+    if (!persistentId || !/^[A-Za-z0-9_-]{12,128}$/.test(persistentId)) {
+      persistentId = `dev_${generateCryptoToken(16)}`;
       localStorage.setItem('shahintv_device_id', persistentId);
     }
 

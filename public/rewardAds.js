@@ -32,27 +32,56 @@
     return (cfg.apiBaseUrl || '').replace(/\/+$/, '');
   }
 
-  function getDeviceId() {
-    var existing = lsGet(DEVICE_KEY_PRIMARY);
-    if (existing && /^[A-Za-z0-9_-]{12,128}$/.test(existing)) return existing;
-    var legacy = lsGet(DEVICE_KEY_LEGACY);
-    if (legacy && /^[A-Za-z0-9_-]{12,128}$/.test(legacy)) {
-      lsSet(DEVICE_KEY_PRIMARY, legacy);
-      return legacy;
-    }
+  var FORBIDDEN_FN_SEGMENTS = {
+    '__proto__': 1, 'prototype': 1, 'constructor': 1, 'toString': 1, 'valueOf': 1,
+    'hasOwnProperty': 1, 'isPrototypeOf': 1, 'propertyIsEnumerable': 1, 'toLocaleString': 1,
+    'eval': 1, 'Function': 1, 'setTimeout': 1, 'setInterval': 1, 'setImmediate': 1,
+    'clearTimeout': 1, 'clearInterval': 1, 'execScript': 1, 'alert': 1, 'confirm': 1,
+    'prompt': 1, 'fetch': 1, 'XMLHttpRequest': 1, 'open': 1, 'close': 1, 'location': 1,
+    'document': 1, 'window': 1, 'self': 1, 'top': 1, 'parent': 1, 'frames': 1,
+    'globalThis': 1, 'navigator': 1, 'localStorage': 1, 'sessionStorage': 1, 'indexedDB': 1,
+    'history': 1, 'crypto': 1, 'postMessage': 1, 'importScripts': 1, 'WebSocket': 1,
+    'Worker': 1, 'SharedWorker': 1
+  };
+  var FN_SEGMENT_RE = /^[A-Za-z_$][A-Za-z0-9_$]{0,31}$/;
+
+  function generateCryptoId() {
     var generated = '';
+    var c = win.crypto || win.msCrypto;
     try {
-      if (win.crypto && typeof win.crypto.getRandomValues === 'function') {
-        var bytes = new Uint8Array(16);
-        win.crypto.getRandomValues(bytes);
+      if (c && typeof c.getRandomValues === 'function') {
+        var bytes = new Uint8Array(24);
+        c.getRandomValues(bytes);
         for (var i = 0; i < bytes.length; i++) {
           generated += (bytes[i] < 16 ? '0' : '') + bytes[i].toString(16);
         }
+        return generated;
+      }
+      if (c && typeof c.randomUUID === 'function') {
+        return c.randomUUID().replace(/-/g, '');
       }
     } catch (e) {}
-    if (!generated || generated.length < 16) {
-      generated = 'dev_' + Math.random().toString(36).slice(2, 10) + '_' + Date.now().toString(36);
+    // Fallback only if Web Crypto is completely unavailable in an ancient runtime
+    var timeHex = Date.now().toString(16);
+    var perfHex = (win.performance && typeof win.performance.now === 'function')
+      ? Math.floor(win.performance.now() * 1000).toString(16)
+      : '0';
+    var pool = timeHex + '_' + perfHex + '_';
+    while (pool.length < 32) {
+      pool += Math.floor(Math.random() * 0xffffffff).toString(16);
     }
+    return 'dev_' + pool.slice(0, 32);
+  }
+
+  function getDeviceId() {
+    var existing = lsGet(DEVICE_KEY_PRIMARY);
+    if (existing && /^[A-Za-z0-9_-]{16,128}$/.test(existing)) return existing;
+    var legacy = lsGet(DEVICE_KEY_LEGACY);
+    if (legacy && /^[A-Za-z0-9_-]{16,128}$/.test(legacy)) {
+      lsSet(DEVICE_KEY_PRIMARY, legacy);
+      return legacy;
+    }
+    var generated = generateCryptoId();
     lsSet(DEVICE_KEY_PRIMARY, generated);
     return generated;
   }
@@ -63,17 +92,34 @@
     try { return JSON.parse(raw); } catch (e) { return null; }
   }
 
-  function resolveGlobalShowFn(fnName) {
-    if (typeof fnName !== 'string') return null;
+  function isValidShowFnName(fnName) {
+    if (typeof fnName !== 'string') return false;
     var trimmed = fnName.trim();
-    if (!/^[A-Za-z_$][A-Za-z0-9_$.]{0,63}$/.test(trimmed)) return null;
+    if (!trimmed || trimmed.length > 64) return false;
     var parts = trimmed.split('.');
+    if (parts.length < 1 || parts.length > 4) return false;
+    for (var i = 0; i < parts.length; i++) {
+      var seg = parts[i];
+      if (!FN_SEGMENT_RE.test(seg)) return false;
+      if (Object.prototype.hasOwnProperty.call(FORBIDDEN_FN_SEGMENTS, seg)) return false;
+    }
+    return true;
+  }
+
+  function resolveGlobalShowFn(fnName) {
+    if (!isValidShowFnName(fnName)) return null;
+    var parts = fnName.trim().split('.');
+    var parent = null;
     var cur = win;
     for (var i = 0; i < parts.length; i++) {
-      if (!cur || typeof cur !== 'object') return null;
-      cur = cur[parts[i]];
+      var seg = parts[i];
+      if (!cur || (typeof cur !== 'object' && typeof cur !== 'function')) return null;
+      if (!Object.prototype.hasOwnProperty.call(cur, seg)) return null;
+      parent = cur;
+      cur = cur[seg];
     }
-    return typeof cur === 'function' ? cur : null;
+    if (typeof cur !== 'function') return null;
+    return parent && parent !== win ? cur.bind(parent) : cur;
   }
 
   function getRuntimeState() {
@@ -222,21 +268,26 @@
     var showFn = rt.resolvedShowFn;
     if (typeof showFn === 'function') {
       return new Promise(function (resolve, reject) {
+        var settled = false;
+        var finishOk = function () {
+          if (settled) return;
+          settled = true;
+          resolve({ completed: true });
+        };
+        var finishErr = function (err) {
+          if (settled) return;
+          settled = true;
+          reject(err instanceof Error ? err : new Error(String(err || 'Rewarded ad closed or failed.')));
+        };
         try {
-          var maybePromise = showFn(function onComplete() {
-            resolve({ completed: true });
-          }, function onAbort(reason) {
-            reject(new Error(reason || 'Rewarded ad closed or failed.'));
-          });
+          var maybePromise = showFn(finishOk, finishErr);
           if (maybePromise && typeof maybePromise.then === 'function') {
-            maybePromise.then(function () {
-              resolve({ completed: true });
-            }).catch(function (err) {
-              reject(err instanceof Error ? err : new Error('Rewarded ad was not completed.'));
+            maybePromise.then(finishOk).catch(function (err) {
+              finishErr(err instanceof Error ? err : new Error('Rewarded ad was not completed.'));
             });
           }
         } catch (err) {
-          reject(err instanceof Error ? err : new Error('Rewarded ad SDK error.'));
+          finishErr(err instanceof Error ? err : new Error('Rewarded ad SDK error.'));
         }
       });
     }

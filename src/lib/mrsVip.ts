@@ -38,13 +38,47 @@ const store = {
 
 /** Stable per-device id. Used for single-device & 2-device entitlement locking. */
 export function getDeviceId(): string {
-  let id = store.get('mrs_device_id');
-  if (!id || !/^[A-Za-z0-9_-]{16,64}$/.test(id)) {
-    const bytes = new Uint8Array(16);
-    (globalThis.crypto || (window as any).crypto).getRandomValues(bytes);
-    id = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-    store.set('mrs_device_id', id);
+  const existing = store.get('mrs_device_id');
+  if (existing && /^[A-Za-z0-9_-]{16,128}$/.test(existing)) {
+    return existing;
   }
+  const legacy = store.get('shahintv_device_id');
+  if (legacy && /^[A-Za-z0-9_-]{16,128}$/.test(legacy)) {
+    store.set('mrs_device_id', legacy);
+    return legacy;
+  }
+
+  let id = '';
+  const c: Crypto | undefined =
+    (typeof globalThis !== 'undefined' && globalThis.crypto) ||
+    (typeof window !== 'undefined' && (window.crypto || (window as any).msCrypto)) ||
+    undefined;
+
+  try {
+    if (c && typeof c.getRandomValues === 'function') {
+      const bytes = new Uint8Array(24);
+      c.getRandomValues(bytes);
+      id = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+    } else if (c && typeof c.randomUUID === 'function') {
+      id = c.randomUUID().replace(/-/g, '');
+    }
+  } catch {
+    // ignore and fallback below
+  }
+
+  if (!id || id.length < 16) {
+    const t = Date.now().toString(16);
+    const p = typeof performance !== 'undefined' && typeof performance.now === 'function'
+      ? Math.floor(performance.now() * 1000).toString(16)
+      : '0';
+    let pool = `${t}_${p}_`;
+    while (pool.length < 32) {
+      pool += Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, '0');
+    }
+    id = `dev_${pool.slice(0, 32)}`;
+  }
+
+  store.set('mrs_device_id', id);
   return id;
 }
 

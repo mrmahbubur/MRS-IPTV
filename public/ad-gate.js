@@ -96,11 +96,11 @@
   }
 
   function getDeviceIdSafe() {
-    return (
-      safeStorageGet(DEVICE_KEY_PRIMARY) ||
-      safeStorageGet(DEVICE_KEY_LEGACY) ||
-      ''
-    );
+    var primary = safeStorageGet(DEVICE_KEY_PRIMARY);
+    if (primary && /^[A-Za-z0-9_-]{12,128}$/.test(primary)) return primary;
+    var legacy = safeStorageGet(DEVICE_KEY_LEGACY);
+    if (legacy && /^[A-Za-z0-9_-]{12,128}$/.test(legacy)) return legacy;
+    return '';
   }
 
   function setVipCookie(active, expiresAt) {

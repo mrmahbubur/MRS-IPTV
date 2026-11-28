@@ -109,29 +109,106 @@ export interface AdSettings {
   };
 }
 
-const SHOW_FN_REGEX = /^[A-Za-z_$][A-Za-z0-9_$.]{0,63}$/;
+const SHOW_FN_SEGMENT_REGEX = /^[A-Za-z_$][A-Za-z0-9_$]{0,31}$/;
+const FORBIDDEN_SHOW_FN_SEGMENTS = new Set([
+  '__proto__',
+  'prototype',
+  'constructor',
+  'toString',
+  'valueOf',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'eval',
+  'Function',
+  'setTimeout',
+  'setInterval',
+  'setImmediate',
+  'clearTimeout',
+  'clearInterval',
+  'execScript',
+  'alert',
+  'confirm',
+  'prompt',
+  'fetch',
+  'XMLHttpRequest',
+  'open',
+  'close',
+  'location',
+  'document',
+  'window',
+  'self',
+  'top',
+  'parent',
+  'frames',
+  'globalThis',
+  'navigator',
+  'localStorage',
+  'sessionStorage',
+  'indexedDB',
+  'history',
+  'crypto',
+  'postMessage',
+  'importScripts',
+  'WebSocket',
+  'Worker',
+  'SharedWorker',
+]);
 
-function sanitizeShowFn(raw: unknown): string | null {
+export function sanitizeShowFn(raw: unknown): string | null {
   if (raw === null || raw === undefined) return null;
-  const trimmed = String(raw).trim();
-  if (!trimmed) return null;
-  if (!SHOW_FN_REGEX.test(trimmed)) {
+  if (typeof raw !== 'string') {
     throw new AdPolicyValidationError(
       400,
       'invalid_show_fn',
-      'Rewarded callback name must be a valid global function identifier (e.g. show_123456).'
+      'Rewarded callback name must be a string identifier (e.g. show_123456).'
     );
+  }
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  if (trimmed.length > 64) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_show_fn',
+      'Rewarded callback name must be 64 characters or fewer.'
+    );
+  }
+  const parts = trimmed.split('.');
+  if (parts.length < 1 || parts.length > 4) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_show_fn',
+      'Rewarded callback name may contain at most 4 dot-separated segments.'
+    );
+  }
+  for (const part of parts) {
+    if (!SHOW_FN_SEGMENT_REGEX.test(part) || FORBIDDEN_SHOW_FN_SEGMENTS.has(part)) {
+      throw new AdPolicyValidationError(
+        400,
+        'invalid_show_fn',
+        'Rewarded callback name must be a safe global function identifier (e.g. show_123456).'
+      );
+    }
   }
   return trimmed;
 }
 
+function trySanitizeShowFnEnv(raw: unknown): string | null {
+  try {
+    return sanitizeShowFn(raw);
+  } catch {
+    return null;
+  }
+}
+
 const DEFAULT_AD_SETTINGS: AdSettings = {
   formats: {
-    banner: true,
-    sticky: true,
-    popunder: false,
-    interstitial: false,
-    push: false,
+    banner: typeof backendConfig.rewards?.monetagBannerEnabled === 'boolean' ? backendConfig.rewards.monetagBannerEnabled : true,
+    sticky: typeof backendConfig.rewards?.monetagStickyEnabled === 'boolean' ? backendConfig.rewards.monetagStickyEnabled : true,
+    popunder: Boolean(backendConfig.rewards?.monetagPopunderEnabled),
+    interstitial: Boolean(backendConfig.rewards?.monetagInterstitialEnabled),
+    push: Boolean(backendConfig.rewards?.monetagPushEnabled),
   },
   testMode: typeof backendConfig.rewards?.adsTestMode === 'boolean' ? backendConfig.rewards.adsTestMode : true,
   monetag: {
@@ -139,11 +216,7 @@ const DEFAULT_AD_SETTINGS: AdSettings = {
     rewarded: {
       enabled: Boolean(backendConfig.rewards?.monetagRewardedEnabled),
       snippet: null,
-      showFn:
-        backendConfig.rewards?.monetagRewardedShowFn &&
-        SHOW_FN_REGEX.test(backendConfig.rewards.monetagRewardedShowFn)
-          ? backendConfig.rewards.monetagRewardedShowFn
-          : null,
+      showFn: trySanitizeShowFnEnv(backendConfig.rewards?.monetagRewardedShowFn),
     },
   },
 };
@@ -167,7 +240,7 @@ export function getAdSettings(): AdSettings {
           rewarded: {
             enabled: Boolean(parsed.monetag?.rewarded?.enabled),
             snippet: parsed.monetag?.rewarded?.snippet || null,
-            showFn: parsed.monetag?.rewarded?.showFn || null,
+            showFn: trySanitizeShowFnEnv(parsed.monetag?.rewarded?.showFn),
           },
         },
       };

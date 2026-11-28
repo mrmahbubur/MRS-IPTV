@@ -87,3 +87,12 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      # Monetag-only ad & rewarded VIP defaults
+      - key: ADS_TEST_MODE
+        value: "true"
+      - key: MONETAG_SHOW_REGULAR_ADS
+        value: "false"
+      - key: MONETAG_REWARDED_ENABLED
+        value: "false"
+      - key: MONETAG_REWARDED_SHOW_FN
+        sync: false

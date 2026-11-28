@@ -341,7 +341,8 @@ M R S IPTV uses **Monetag as the sole advertising network** and enforces strict 
   - `POST /api/rewards/postback` — Optional S2S callback protected by `MONETAG_POSTBACK_SECRET` (timing-safe comparison).
   - `GET /api/admin/rewards/report`, `POST /api/admin/rewards/revoke`, `POST /api/admin/rewards/toggle` (and `/admin/rewards/*` aliases; protected by `x-admin-token` / `Authorization: Bearer <ADMIN_TOKEN>`).
 - **Default Environment Configuration (`.env.example`)**:
-  - `MONETAG_SHOW_REGULAR_ADS=false`, `MONETAG_REWARDED_ENABLED=false`, `MONETAG_REWARDED_SHOW_FN=""`
+  - `ADS_TEST_MODE=true`, `MONETAG_SHOW_REGULAR_ADS=false`, `MONETAG_REWARDED_ENABLED=false`, `MONETAG_REWARDED_SHOW_FN=""`
+  - `MONETAG_BANNER_ENABLED=true`, `MONETAG_STICKY_ENABLED=true`, `MONETAG_POPUNDER_ENABLED=false`, `MONETAG_INTERSTITIAL_ENABLED=false`, `MONETAG_PUSH_ENABLED=false`
   - `REWARD_DURATION_MINUTES=60`, `REWARD_MIN_WATCH_MS=15000`, `REWARD_UNLOCKS_VIP_CHANNELS=true`
   - `REWARD_COOLDOWN_MINUTES=180` (3-hour cooldown after expiry)
   - `REWARD_MAX_PER_DEVICE_PER_DAY=3`, `REWARD_MAX_PER_IP_PER_DAY=6`, `REWARD_MAX_STARTS_PER_IP_PER_HOUR=20`
