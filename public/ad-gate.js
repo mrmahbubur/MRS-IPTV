@@ -26,6 +26,17 @@
     'acscdn.com',
     'tzegilo.com',
     'madurird.com',
+    'otieu.com',
+    'nap5k.com',
+    'gloaphoo.net',
+    'dolohen.com',
+    'groleet.com',
+    'ousness.com',
+    'grookilte.com',
+    'zuphaims.com',
+    'thubanoa.com',
+    'izcle.com',
+    'kulroak.com',
     'propellerads',
     'onclkds'
   ];
@@ -80,7 +91,15 @@
     if (!raw) return null;
     try {
       var parsed = JSON.parse(raw);
-      if (parsed && typeof parsed.token === 'string' && parsed.token.trim().length > 0) {
+      if (
+        parsed &&
+        parsed.active !== false &&
+        parsed.revoked !== true &&
+        parsed.status !== 'revoked' &&
+        parsed.status !== 'expired' &&
+        typeof parsed.token === 'string' &&
+        parsed.token.trim().length > 0
+      ) {
         return parsed;
       }
     } catch (e) {}
@@ -138,9 +157,22 @@
 
   function isAdUrl(url) {
     if (!url || typeof url !== 'string') return false;
-    var lower = url.toLowerCase();
+    var trimmed = url.trim();
+    if (!trimmed) return false;
+    var lower = trimmed.toLowerCase();
+    var host = '';
+    try {
+      var candidate = lower.indexOf('//') === 0 ? 'https:' + trimmed : trimmed;
+      if (typeof win.URL === 'function' && /^https?:\/\//i.test(candidate)) {
+        host = String(new win.URL(candidate).hostname || '').toLowerCase();
+      }
+    } catch (e) {}
     for (var i = 0; i < AD_HOST_MARKERS.length; i++) {
-      if (lower.indexOf(AD_HOST_MARKERS[i].toLowerCase()) !== -1) return true;
+      var marker = AD_HOST_MARKERS[i].toLowerCase();
+      if (host && (host === marker || host.slice(-(marker.length + 1)) === '.' + marker)) {
+        return true;
+      }
+      if (lower.indexOf(marker) !== -1) return true;
     }
     if (lower.indexOf('/api/ads/redirect') !== -1) return true;
     return false;
@@ -155,7 +187,10 @@
       'html:not([data-mrs-ad-state="free"]) [data-ad-link],',
       'html:not([data-mrs-ad-state="free"]) [data-zone],',
       'html:not([data-mrs-ad-state="free"]) [data-ad-zone],',
+      'html:not([data-mrs-ad-state="free"]) [data-monetag],',
       'html:not([data-mrs-ad-state="free"]) [data-monetag-zone],',
+      'html:not([data-mrs-ad-state="free"]) [data-interstitial],',
+      'html:not([data-mrs-ad-state="free"]) [data-popunder],',
       'html:not([data-mrs-ad-state="free"]) ins[data-zone],',
       'html:not([data-mrs-ad-state="free"]) .ad-sticky-banner,',
       'html:not([data-mrs-ad-state="free"]) #mrs-sticky-mobile-ad,',
@@ -172,12 +207,26 @@
       'html:not([data-mrs-ad-state="free"]) aside[class*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) section[id*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) section[class*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) dialog[id*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) dialog[class*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) div[id*="vignette"],',
       'html:not([data-mrs-ad-state="free"]) div[class*="vignette"],',
+      'html:not([data-mrs-ad-state="free"]) aside[id*="vignette"],',
+      'html:not([data-mrs-ad-state="free"]) aside[class*="vignette"],',
+      'html:not([data-mrs-ad-state="free"]) section[id*="vignette"],',
+      'html:not([data-mrs-ad-state="free"]) section[class*="vignette"],',
       'html:not([data-mrs-ad-state="free"]) div[id*="interstitial"],',
       'html:not([data-mrs-ad-state="free"]) div[class*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) aside[id*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) aside[class*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) section[id*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) section[class*="interstitial"],',
       'html:not([data-mrs-ad-state="free"]) div[id*="popunder"],',
       'html:not([data-mrs-ad-state="free"]) div[class*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) aside[id*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) aside[class*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) section[id*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) section[class*="popunder"],',
       'html:not([data-mrs-ad-state="free"]) iframe[id*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) iframe[class*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) iframe[id*="vignette"],',
@@ -194,6 +243,12 @@
       'html:not([data-mrs-ad-state="free"]) iframe[src*="acscdn.com"],',
       'html:not([data-mrs-ad-state="free"]) iframe[src*="tzegilo.com"],',
       'html:not([data-mrs-ad-state="free"]) iframe[src*="madurird.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="otieu.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="nap5k.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="gloaphoo.net"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="dolohen.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="propellerads"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="onclkds"],',
       'html:not([data-mrs-ad-state="free"]) .mrs-free-upsell {',
       '  display: none !important;',
       '  visibility: hidden !important;',
@@ -207,7 +262,10 @@
       'html[data-mrs-ad-state="vip"] .ad-slot,',
       'html[data-mrs-ad-state="vip"] [data-zone],',
       'html[data-mrs-ad-state="vip"] [data-ad-zone],',
+      'html[data-mrs-ad-state="vip"] [data-monetag],',
       'html[data-mrs-ad-state="vip"] [data-monetag-zone],',
+      'html[data-mrs-ad-state="vip"] [data-interstitial],',
+      'html[data-mrs-ad-state="vip"] [data-popunder],',
       'html[data-mrs-ad-state="vip"] [id*="vignette"],',
       'html[data-mrs-ad-state="vip"] [class*="vignette"],',
       'html[data-mrs-ad-state="vip"] [id*="interstitial"],',
@@ -219,7 +277,10 @@
       'html[data-mrs-ad-state="pending"] .ad-slot,',
       'html[data-mrs-ad-state="pending"] [data-zone],',
       'html[data-mrs-ad-state="pending"] [data-ad-zone],',
+      'html[data-mrs-ad-state="pending"] [data-monetag],',
       'html[data-mrs-ad-state="pending"] [data-monetag-zone],',
+      'html[data-mrs-ad-state="pending"] [data-interstitial],',
+      'html[data-mrs-ad-state="pending"] [data-popunder],',
       'html[data-mrs-ad-state="pending"] [id*="vignette"],',
       'html[data-mrs-ad-state="pending"] [class*="vignette"],',
       'html[data-mrs-ad-state="pending"] [id*="interstitial"],',
@@ -277,7 +338,10 @@
         '[data-ad-slot]',
         '[data-zone]',
         '[data-ad-zone]',
+        '[data-monetag]',
         '[data-monetag-zone]',
+        '[data-interstitial]',
+        '[data-popunder]',
         'ins[data-zone]',
         '.ad-sticky-banner',
         '#mrs-sticky-mobile-ad',
@@ -291,7 +355,7 @@
         'script[data-mrs-ad-injected="1"]',
         'script[data-zone]',
         'script[src*="uplcm.com"]',
-        'script[src*="monetag.com"]',
+        'script[src*="monetag"]',
         'script[src*="5gvci.com"]',
         'script[src*="quge5.com"]',
         'script[src*="n6wxm.com"]',
@@ -300,6 +364,12 @@
         'script[src*="acscdn.com"]',
         'script[src*="tzegilo.com"]',
         'script[src*="madurird.com"]',
+        'script[src*="otieu.com"]',
+        'script[src*="nap5k.com"]',
+        'script[src*="gloaphoo.net"]',
+        'script[src*="dolohen.com"]',
+        'script[src*="propellerads"]',
+        'script[src*="onclkds"]',
         'iframe[src*="uplcm.com"]',
         'iframe[src*="monetag"]',
         'iframe[src*="quge5.com"]',
@@ -310,6 +380,12 @@
         'iframe[src*="acscdn.com"]',
         'iframe[src*="tzegilo.com"]',
         'iframe[src*="madurird.com"]',
+        'iframe[src*="otieu.com"]',
+        'iframe[src*="nap5k.com"]',
+        'iframe[src*="gloaphoo.net"]',
+        'iframe[src*="dolohen.com"]',
+        'iframe[src*="propellerads"]',
+        'iframe[src*="onclkds"]',
         'iframe[id*="monetag"]',
         'iframe[class*="monetag"]',
         'iframe[id*="vignette"]',
@@ -322,12 +398,26 @@
         'aside[class*="monetag"]',
         'section[id*="monetag"]',
         'section[class*="monetag"]',
+        'dialog[id*="monetag"]',
+        'dialog[class*="monetag"]',
         'div[id*="vignette"]',
         'div[class*="vignette"]',
+        'aside[id*="vignette"]',
+        'aside[class*="vignette"]',
+        'section[id*="vignette"]',
+        'section[class*="vignette"]',
         'div[id*="interstitial"]',
         'div[class*="interstitial"]',
+        'aside[id*="interstitial"]',
+        'aside[class*="interstitial"]',
+        'section[id*="interstitial"]',
+        'section[class*="interstitial"]',
         'div[id*="popunder"]',
         'div[class*="popunder"]',
+        'aside[id*="popunder"]',
+        'aside[class*="popunder"]',
+        'section[id*="popunder"]',
+        'section[class*="popunder"]',
         'a[data-ad-link]'
       ].join(',');
 
@@ -407,6 +497,17 @@
               lowerUrl.indexOf('onesignal') !== -1 ||
               lowerUrl.indexOf('push') !== -1 ||
               lowerUrl.indexOf('5gvci') !== -1 ||
+              lowerUrl.indexOf('otieu') !== -1 ||
+              lowerUrl.indexOf('nap5k') !== -1 ||
+              lowerUrl.indexOf('quge5') !== -1 ||
+              lowerUrl.indexOf('al5sm') !== -1 ||
+              lowerUrl.indexOf('n6wxm') !== -1 ||
+              lowerUrl.indexOf('acscdn') !== -1 ||
+              lowerUrl.indexOf('tzegilo') !== -1 ||
+              lowerUrl.indexOf('madurird') !== -1 ||
+              lowerUrl.indexOf('uplcm') !== -1 ||
+              lowerUrl.indexOf('propeller') !== -1 ||
+              lowerUrl.indexOf('onclkds') !== -1 ||
               lowerUrl.indexOf('sw__2__') !== -1;
 
             if (looksLikeAdSw) {
@@ -578,40 +679,85 @@
       };
     }
 
-    // 3. Guard dynamic DOM appends against third-party ad scripts/iframes/overlays unless state === 'free'
-    if (win.Element && win.Element.prototype && win.Element.prototype.appendChild) {
-      var origAppendChild = win.Element.prototype.appendChild;
-      win.Element.prototype.appendChild = function (child) {
-        if (child && child.tagName) {
-          var tag = String(child.tagName).toLowerCase();
-          if (tag === 'script' || tag === 'iframe' || tag === 'div' || tag === 'ins' || tag === 'aside' || tag === 'section') {
-            var src = (child.src || (child.getAttribute && child.getAttribute('src')) || '');
-            var elId = (child.id || (child.getAttribute && child.getAttribute('id')) || '').toLowerCase();
-            var elClass = (typeof child.className === 'string' ? child.className : (child.getAttribute && child.getAttribute('class')) || '').toLowerCase();
-            var isGateApproved = child.getAttribute && child.getAttribute('data-mrs-ad-approved') === '1';
-            var hasZoneAttr = Boolean(
-              child.getAttribute &&
-              (child.getAttribute('data-zone') ||
-                child.getAttribute('data-ad-zone') ||
-                child.getAttribute('data-monetag-zone') ||
-                child.getAttribute('data-ad-slot'))
-            );
-            var hasAdMarker =
-              ((tag === 'script' || tag === 'iframe') && isAdUrl(src)) ||
-              hasZoneAttr ||
-              (child.getAttribute && child.getAttribute('data-mrs-ad-injected') === '1') ||
-              /(?:monetag|vignette|interstitial|popunder)/.test(elId) ||
-              /(?:monetag|vignette|interstitial|popunder)/.test(elClass);
-            var currentAdState = win.MRS_AD_STATE || 'pending';
-            if (currentAdState !== 'free' && hasAdMarker) {
-              return child;
-            }
-            if (currentAdState === 'vip' && (tag === 'script' || tag === 'iframe') && isAdUrl(src) && !isGateApproved) {
-              return child;
+    // 3. Guard dynamic DOM appends/inserts against third-party ad scripts/iframes/overlays unless state === 'free'
+    function shouldBlockAdChild(child) {
+      if (!child || !child.tagName) return false;
+      var tag = String(child.tagName).toLowerCase();
+      if (
+        tag !== 'script' &&
+        tag !== 'iframe' &&
+        tag !== 'div' &&
+        tag !== 'ins' &&
+        tag !== 'aside' &&
+        tag !== 'section' &&
+        tag !== 'dialog' &&
+        tag !== 'a'
+      ) {
+        return false;
+      }
+      var src = (child.src || (child.getAttribute && child.getAttribute('src')) || '');
+      var href = (child.href || (child.getAttribute && child.getAttribute('href')) || '');
+      var elId = (child.id || (child.getAttribute && child.getAttribute('id')) || '').toLowerCase();
+      var elClass = (typeof child.className === 'string' ? child.className : (child.getAttribute && child.getAttribute('class')) || '').toLowerCase();
+      var isGateApproved = child.getAttribute && child.getAttribute('data-mrs-ad-approved') === '1';
+      var hasZoneAttr = Boolean(
+        child.getAttribute &&
+        (child.getAttribute('data-zone') ||
+          child.getAttribute('data-ad-zone') ||
+          child.getAttribute('data-monetag') ||
+          child.getAttribute('data-monetag-zone') ||
+          child.getAttribute('data-interstitial') ||
+          child.getAttribute('data-popunder') ||
+          child.getAttribute('data-ad-slot') ||
+          child.getAttribute('data-ad-link'))
+      );
+
+      // Even in free mode, block unsafe external script schemes or inline event handlers on injected ad scripts
+      if (tag === 'script' && (isGateApproved || (child.getAttribute && child.getAttribute('data-mrs-ad-injected') === '1'))) {
+        if (src && !/^https:\/\//i.test(String(src).trim())) {
+          return true;
+        }
+        if (child.attributes) {
+          for (var i = 0; i < child.attributes.length; i++) {
+            var attrName = String(child.attributes[i].name || '').toLowerCase();
+            if (attrName.indexOf('on') === 0 || attrName === 'srcdoc') {
+              return true;
             }
           }
         }
+      }
+
+      var hasAdMarker =
+        ((tag === 'script' || tag === 'iframe') && isAdUrl(src)) ||
+        (tag === 'a' && isAdUrl(href)) ||
+        hasZoneAttr ||
+        (child.getAttribute && child.getAttribute('data-mrs-ad-injected') === '1') ||
+        /(?:monetag|vignette|interstitial|popunder|ad-sticky-banner)/.test(elId) ||
+        /(?:monetag|vignette|interstitial|popunder|ad-sticky-banner)/.test(elClass);
+
+      var currentAdState = win.MRS_AD_STATE || 'pending';
+      if (currentAdState !== 'free' && hasAdMarker) {
+        return true;
+      }
+      if (currentAdState === 'vip' && (tag === 'script' || tag === 'iframe') && isAdUrl(src) && !isGateApproved) {
+        return true;
+      }
+      return false;
+    }
+
+    if (win.Element && win.Element.prototype && win.Element.prototype.appendChild) {
+      var origAppendChild = win.Element.prototype.appendChild;
+      win.Element.prototype.appendChild = function (child) {
+        if (shouldBlockAdChild(child)) return child;
         return origAppendChild.call(this, child);
+      };
+    }
+
+    if (win.Element && win.Element.prototype && win.Element.prototype.insertBefore) {
+      var origInsertBefore = win.Element.prototype.insertBefore;
+      win.Element.prototype.insertBefore = function (child, refNode) {
+        if (shouldBlockAdChild(child)) return child;
+        return origInsertBefore.call(this, child, refNode);
       };
     }
   }

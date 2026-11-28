@@ -723,15 +723,28 @@ export function useRealtimeVipCountdown(adFreeState?: AdFreeState) {
   }, [adFreeState?.isActive, adFreeState?.expiryDate, adFreeState?.code]);
 
   let cachedPlan: string | undefined;
+  let cachedKind: string | undefined;
   try {
     const raw = typeof window !== 'undefined' ? localStorage.getItem('mrs_vip_entitlement') : null;
-    if (raw) cachedPlan = JSON.parse(raw)?.plan;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      cachedPlan = parsed?.plan;
+      cachedKind = parsed?.kind;
+    }
   } catch {}
 
+  const codeUpper = String(adFreeState?.code || '').trim().toUpperCase();
   const isRewardedHourPass =
     Boolean(adFreeState?.isActive) &&
-    (adFreeState?.code === 'REWARD_1H_VIP' ||
+    (codeUpper === 'REWARD_1H_VIP' ||
+      codeUpper === 'SPONSOR_REWARD_1H' ||
+      codeUpper === 'SPONSOR_REWARD_ACTIVE' ||
+      codeUpper.startsWith('MONETAG_REWARD_') ||
+      codeUpper.startsWith('CAMELLIA-REWARD-') ||
       cachedPlan === 'reward1h' ||
+      cachedPlan === 'sponsor_reward' ||
+      cachedKind === 'reward' ||
+      cachedKind === 'sponsor_reward' ||
       remainingSeconds <= 4 * 3600);
 
   const progressPercent = isRewardedHourPass

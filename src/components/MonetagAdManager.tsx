@@ -12,6 +12,32 @@ interface MonetagAdManagerProps {
  * Mirrors central window.MRS_ADS gate state, enforces DOM cleanup of ad elements when state !== 'free',
  * and suppresses any residual ad navigation clicks if VIP/pending is active.
  */
+const AD_DOMAIN_MARKERS = [
+  'quge5.com',
+  '5gvci.com',
+  'n6wxm.com',
+  'al5sm.com',
+  'whomeehe.com',
+  'acscdn.com',
+  'tzegilo.com',
+  'madurird.com',
+  'otieu.com',
+  'nap5k.com',
+  'gloaphoo.net',
+  'dolohen.com',
+  'groleet.com',
+  'ousness.com',
+  'grookilte.com',
+  'zuphaims.com',
+  'thubanoa.com',
+  'izcle.com',
+  'kulroak.com',
+  'propellerads',
+  'onclkds',
+  'uplcm.com',
+  'monetag',
+];
+
 export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
   const { isFreeMode, adState, adConfig } = useAdGate();
 
@@ -22,6 +48,8 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
       (window as any).__MRS_IS_VIP = adState === 'vip' || clientVip.isVip;
 
       if (vipLocked) {
+        const scriptDomainSelectors = AD_DOMAIN_MARKERS.map((d) => `script[src*="${d}"]`);
+        const iframeDomainSelectors = AD_DOMAIN_MARKERS.map((d) => `iframe[src*="${d}"]`);
         const selectors = [
           '#monetag-tag-script',
           '#monetag-midnight-vignette',
@@ -29,30 +57,15 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           '#mrs-popunder-script',
           '[data-zone]',
           '[data-ad-zone]',
+          '[data-monetag]',
           '[data-monetag-zone]',
+          '[data-interstitial]',
+          '[data-popunder]',
           'ins[data-zone]',
           'script[data-mrs-ad-injected="1"]',
           'script[data-zone]',
-          'script[src*="quge5.com"]',
-          'script[src*="5gvci.com"]',
-          'script[src*="al5sm.com"]',
-          'script[src*="whomeehe.com"]',
-          'script[src*="acscdn.com"]',
-          'script[src*="tzegilo.com"]',
-          'script[src*="madurird.com"]',
-          'script[src*="n6wxm.com"]',
-          'script[src*="uplcm.com"]',
-          'script[src*="monetag.com"]',
-          'iframe[src*="quge5.com"]',
-          'iframe[src*="5gvci.com"]',
-          'iframe[src*="n6wxm.com"]',
-          'iframe[src*="al5sm.com"]',
-          'iframe[src*="whomeehe.com"]',
-          'iframe[src*="acscdn.com"]',
-          'iframe[src*="tzegilo.com"]',
-          'iframe[src*="madurird.com"]',
-          'iframe[src*="uplcm.com"]',
-          'iframe[src*="monetag"]',
+          ...scriptDomainSelectors,
+          ...iframeDomainSelectors,
           'iframe[id*="monetag"]',
           'iframe[class*="monetag"]',
           'iframe[id*="vignette"]',
@@ -65,12 +78,26 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           'aside[class*="monetag"]',
           'section[id*="monetag"]',
           'section[class*="monetag"]',
+          'dialog[id*="monetag"]',
+          'dialog[class*="monetag"]',
           'div[id*="vignette"]',
           'div[class*="vignette"]',
+          'aside[id*="vignette"]',
+          'aside[class*="vignette"]',
+          'section[id*="vignette"]',
+          'section[class*="vignette"]',
           'div[id*="interstitial"]',
           'div[class*="interstitial"]',
+          'aside[id*="interstitial"]',
+          'aside[class*="interstitial"]',
+          'section[id*="interstitial"]',
+          'section[class*="interstitial"]',
           'div[id*="popunder"]',
           'div[class*="popunder"]',
+          'aside[id*="popunder"]',
+          'aside[class*="popunder"]',
+          'section[id*="popunder"]',
+          'section[class*="popunder"]',
           'a[data-ad-link]',
           '.ad-slot',
           '.ad-sticky-banner',
@@ -84,7 +111,7 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
       } else if (!adConfig.formats.interstitial) {
         document
           .querySelectorAll(
-            '#mrs-monetag-interstitial, #monetag-midnight-vignette, div[id*="vignette"], div[class*="vignette"], div[id*="interstitial"], div[class*="interstitial"], iframe[id*="vignette"], iframe[id*="interstitial"]'
+            '#mrs-monetag-interstitial, #monetag-midnight-vignette, div[id*="vignette"], div[class*="vignette"], aside[id*="vignette"], aside[class*="vignette"], section[id*="vignette"], section[class*="vignette"], div[id*="interstitial"], div[class*="interstitial"], iframe[id*="vignette"], iframe[id*="interstitial"]'
           )
           .forEach((el) => el.remove());
       }
@@ -116,20 +143,14 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           const anchor = target.closest('a');
           const anchorId = (anchor?.id || '').toLowerCase();
           const anchorClass = (typeof anchor?.className === 'string' ? anchor.className : '').toLowerCase();
+          const hrefLower = (anchor?.href || '').toLowerCase();
           if (
             anchor &&
             (anchor.hasAttribute('data-ad-link') ||
-              anchor.href?.includes('quge5.com') ||
-              anchor.href?.includes('5gvci.com') ||
-              anchor.href?.includes('n6wxm.com') ||
-              anchor.href?.includes('al5sm.com') ||
-              anchor.href?.includes('whomeehe.com') ||
-              anchor.href?.includes('acscdn.com') ||
-              anchor.href?.includes('tzegilo.com') ||
-              anchor.href?.includes('madurird.com') ||
-              anchor.href?.includes('uplcm.com') ||
-              anchor.href?.includes('monetag.com') ||
-              anchor.href?.includes('/api/ads/redirect') ||
+              anchor.hasAttribute('data-zone') ||
+              anchor.hasAttribute('data-monetag') ||
+              AD_DOMAIN_MARKERS.some((m) => hrefLower.includes(m)) ||
+              hrefLower.includes('/api/ads/redirect') ||
               anchorId.includes('monetag') ||
               anchorId.includes('vignette') ||
               anchorId.includes('interstitial') ||

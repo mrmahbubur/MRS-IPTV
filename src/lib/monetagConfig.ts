@@ -655,7 +655,7 @@ export function isValidShowFnIdentifier(fnName: string): boolean {
   return parts.every((part) => validateShowFnSegment(part));
 }
 
-const ALLOWED_SCRIPT_ATTRS = new Set([
+export const ALLOWED_EXTERNAL_SCRIPT_ATTRS = new Set([
   'src',
   'async',
   'defer',
@@ -678,6 +678,64 @@ const ALLOWED_REFERRER_POLICY = new Set([
   'strict-origin-when-downgrade',
   'same-origin',
 ]);
+
+export function isAllowedExternalScriptAttribute(attrNameRaw: string, attrValRaw: unknown): boolean {
+  const attrName = String(attrNameRaw || '').trim().toLowerCase();
+  if (!attrName || attrName.startsWith('on') || !ALLOWED_EXTERNAL_SCRIPT_ATTRS.has(attrName)) {
+    return false;
+  }
+  if (attrValRaw === null || attrValRaw === undefined) return false;
+  const attrVal = String(attrValRaw).trim();
+  if (/[<>`"'\r\n\u0000-\u001F\u007F]/.test(attrVal)) {
+    return false;
+  }
+
+  if (attrName === 'src') {
+    return isSafeMonetagZoneUrl(attrVal);
+  }
+  if (attrName === 'type') {
+    return ALLOWED_SCRIPT_TYPES.has(attrVal.toLowerCase());
+  }
+  if (attrName === 'data-zone') {
+    return Boolean(sanitizeMonetagZoneIdStrict(attrVal));
+  }
+  if (attrName === 'data-cfasync') {
+    const norm = attrVal.toLowerCase();
+    return norm === 'true' || norm === 'false';
+  }
+  if (attrName === 'crossorigin') {
+    return ALLOWED_CROSSORIGIN.has(attrVal.toLowerCase());
+  }
+  if (attrName === 'referrerpolicy') {
+    return ALLOWED_REFERRER_POLICY.has(attrVal.toLowerCase());
+  }
+  if (attrName === 'async' || attrName === 'defer' || attrName === 'nomodule') {
+    const norm = attrVal.toLowerCase();
+    return norm === '' || norm === 'true' || norm === attrName;
+  }
+  if (attrName === 'charset') {
+    return /^[a-z0-9_-]{2,20}$/i.test(attrVal);
+  }
+  return false;
+}
+
+export function sanitizeExternalScriptAttributes(attrs: Record<string, unknown> | null | undefined): Record<string, string> {
+  const clean: Record<string, string> = {};
+  if (!attrs || typeof attrs !== 'object') return clean;
+  for (const key of Object.keys(attrs)) {
+    const lowerKey = String(key || '').trim().toLowerCase();
+    if (lowerKey === 'src') continue;
+    const rawVal = attrs[key];
+    if (rawVal === null || rawVal === undefined) continue;
+    const trimmed = String(rawVal).trim();
+    if (!isAllowedExternalScriptAttribute(lowerKey, trimmed)) continue;
+    clean[lowerKey] =
+      lowerKey === 'data-zone'
+        ? trimmed
+        : trimmed.toLowerCase();
+  }
+  return clean;
+}
 
 const SNIPPET_OBFUSCATION_PATTERNS: RegExp[] = [
   /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/, // Control chars / null byte
@@ -729,12 +787,12 @@ function validateScriptAttributes(attrText: string): { hasSrc: boolean } {
     const attrName = match[1].toLowerCase();
     const attrVal = match[2] ?? match[3] ?? match[4] ?? '';
 
-    if (attrName.startsWith('on') || !ALLOWED_SCRIPT_ATTRS.has(attrName) || seenAttrs.has(attrName)) {
+    if (attrName.startsWith('on') || !ALLOWED_EXTERNAL_SCRIPT_ATTRS.has(attrName) || seenAttrs.has(attrName)) {
       throw new Error('Rewarded snippet contains disallowed inline attributes.');
     }
     seenAttrs.add(attrName);
 
-    if (/<|>|`|\r|\n/.test(attrVal)) {
+    if (/[<>`"'\r\n\u0000-\u001F\u007F]/.test(attrVal)) {
       throw new Error('Rewarded snippet contains disallowed inline patterns.');
     }
 

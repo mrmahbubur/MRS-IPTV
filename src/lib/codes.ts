@@ -149,7 +149,11 @@ export function getStoredAdFreeState(): AdFreeState {
         document.cookie = `mrs_vip_active=1; max-age=2592000; path=/; SameSite=Lax`;
         if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = true;
       } catch {}
-      const isReward1h = entitlement.plan === 'reward1h' || (entitlement as any).kind === 'reward';
+      const isReward1h =
+        entitlement.plan === 'reward1h' ||
+        entitlement.plan === 'sponsor_reward' ||
+        (entitlement as any).kind === 'reward' ||
+        (entitlement as any).kind === 'sponsor_reward';
       const durMonths = isReward1h
         ? 0
         : entitlement.plan === '12m'
@@ -174,8 +178,15 @@ export function getStoredAdFreeState(): AdFreeState {
     const raw = localStorage.getItem('shahintv_adfree_activation');
     if (!raw) return emptyState;
 
-    const data: AdFreeState = JSON.parse(raw);
-    if (!data || !data.code || !data.expiryDate) return emptyState;
+    const data: AdFreeState & { revoked?: boolean; status?: string } = JSON.parse(raw);
+    if (!data || !data.code || !data.expiryDate || data.isActive === false || data.revoked === true) {
+      return emptyState;
+    }
+    const statusLower = String(data.status || '').trim().toLowerCase();
+    if (statusLower === 'revoked' || statusLower === 'expired') {
+      localStorage.removeItem('shahintv_adfree_activation');
+      return emptyState;
+    }
     if (data.code === 'SPONSOR_REWARD_VIP') {
       localStorage.removeItem('shahintv_adfree_activation');
       return emptyState;
@@ -189,13 +200,17 @@ export function getStoredAdFreeState(): AdFreeState {
     const now = new Date();
     const expiry = new Date(data.expiryDate);
 
-    if (now < expiry) {
-      // Only honor explicit referral passes or server-backed passes paired with cached entitlement
-      const isReferral = data.code.startsWith('REFERRAL_');
-      if (!isReferral && !entitlement) {
+    if (!Number.isNaN(expiry.getTime()) && now < expiry) {
+      // Honor explicit referral / Camellia reward passes or server-backed sponsor/VIP passes paired with cached entitlement
+      const upperCode = String(data.code || '').trim().toUpperCase();
+      const isReferralReward =
+        upperCode.startsWith('REFERRAL_') ||
+        upperCode.startsWith('REF-WELCOME-') ||
+        upperCode.startsWith('CAMELLIA-REWARD-');
+      if (!isReferralReward && !entitlement) {
         return emptyState;
       }
-      if (!isReferral && entitlement?.token) {
+      if (!isReferralReward && entitlement?.token) {
         try {
           document.cookie = `mrs_vip_active=1; max-age=2592000; path=/; SameSite=Lax`;
           if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = true;
@@ -205,6 +220,7 @@ export function getStoredAdFreeState(): AdFreeState {
         ...data,
         deviceId,
         isActive: true,
+        isAdFree: true,
       };
     }
 

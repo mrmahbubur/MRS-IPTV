@@ -282,6 +282,60 @@
     'async': 1,
     'defer': 1
   };
+  var ALLOWED_SCRIPT_TYPES = { '': 1, 'text/javascript': 1, 'application/javascript': 1 };
+  var ALLOWED_CROSSORIGIN = { '': 1, 'anonymous': 1, 'use-credentials': 1 };
+  var ALLOWED_REFERRER_POLICY = {
+    'no-referrer': 1,
+    'no-referrer-when-downgrade': 1,
+    'origin': 1,
+    'strict-origin': 1,
+    'strict-origin-when-downgrade': 1,
+    'same-origin': 1
+  };
+
+  function sanitizeExternalScriptAttributes(attrs) {
+    var clean = {};
+    if (!attrs || typeof attrs !== 'object') return clean;
+    var keys = Object.keys(attrs);
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      var lowerKey = String(k || '').trim().toLowerCase();
+      if (!Object.prototype.hasOwnProperty.call(ALLOWED_EXTERNAL_SCRIPT_ATTRS, lowerKey)) continue;
+      var rawVal = attrs[k];
+      if (rawVal === undefined || rawVal === null) continue;
+      var strVal = String(rawVal).trim();
+      if (/[<>`"'\r\n\u0000-\u001F\u007F]/.test(strVal)) continue;
+
+      if (lowerKey === 'data-zone') {
+        if (!/^[A-Za-z0-9_-]{1,32}$/.test(strVal)) continue;
+        clean[lowerKey] = strVal;
+      } else if (lowerKey === 'data-cfasync') {
+        var cfNorm = strVal.toLowerCase();
+        if (cfNorm !== 'true' && cfNorm !== 'false') continue;
+        clean[lowerKey] = cfNorm;
+      } else if (lowerKey === 'type') {
+        var typeNorm = strVal.toLowerCase();
+        if (!Object.prototype.hasOwnProperty.call(ALLOWED_SCRIPT_TYPES, typeNorm) || !typeNorm) continue;
+        clean[lowerKey] = typeNorm;
+      } else if (lowerKey === 'crossorigin') {
+        var coNorm = strVal.toLowerCase();
+        if (!Object.prototype.hasOwnProperty.call(ALLOWED_CROSSORIGIN, coNorm)) continue;
+        clean[lowerKey] = coNorm;
+      } else if (lowerKey === 'referrerpolicy') {
+        var rpNorm = strVal.toLowerCase();
+        if (!Object.prototype.hasOwnProperty.call(ALLOWED_REFERRER_POLICY, rpNorm)) continue;
+        clean[lowerKey] = rpNorm;
+      } else if (lowerKey === 'charset') {
+        if (!/^[a-z0-9_-]{2,20}$/i.test(strVal)) continue;
+        clean[lowerKey] = strVal.toLowerCase();
+      } else if (lowerKey === 'async' || lowerKey === 'defer') {
+        var boolNorm = strVal.toLowerCase();
+        if (boolNorm !== '' && boolNorm !== 'true' && boolNorm !== lowerKey) continue;
+        clean[lowerKey] = boolNorm || '';
+      }
+    }
+    return clean;
+  }
 
   function hasExistingExternalScript(src) {
     try {
@@ -303,20 +357,10 @@
     s.setAttribute('data-mrs-ad-injected', '1');
     s.setAttribute('data-mrs-ad-approved', '1');
     s.setAttribute('referrerpolicy', 'strict-origin-when-downgrade');
-    if (attrs && typeof attrs === 'object') {
-      Object.keys(attrs).forEach(function (k) {
-        var lowerKey = String(k || '').toLowerCase();
-        if (!Object.prototype.hasOwnProperty.call(ALLOWED_EXTERNAL_SCRIPT_ATTRS, lowerKey)) return;
-        var rawVal = attrs[k];
-        if (rawVal === undefined || rawVal === null) return;
-        var strVal = String(rawVal).trim();
-        if (!strVal) return;
-        if (lowerKey === 'data-zone' && !/^[A-Za-z0-9_-]{1,32}$/.test(strVal)) return;
-        if (lowerKey === 'data-cfasync' && strVal !== 'true' && strVal !== 'false') return;
-        if (lowerKey === 'type' && strVal !== 'text/javascript' && strVal !== 'application/javascript') return;
-        s.setAttribute(lowerKey, strVal);
-      });
-    }
+    var cleanAttrs = sanitizeExternalScriptAttributes(attrs);
+    Object.keys(cleanAttrs).forEach(function (attrName) {
+      s.setAttribute(attrName, cleanAttrs[attrName]);
+    });
     s.onerror = function () { /* silently ignore blocked networks */ };
     var parent = doc.body || doc.head || doc.documentElement;
     if (parent) parent.appendChild(s);
@@ -367,9 +411,13 @@
 
   function injectInlineSnippet(code, id) {
     if (!isFreeState() || !hasAdConsent() || !isSafeInlineAdSnippet(code)) return null;
-    if (id && doc.getElementById(id)) return null;
+    if (id !== undefined && id !== null) {
+      if (typeof id !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(id)) return null;
+      if (doc.getElementById(id)) return null;
+    }
     var s = doc.createElement('script');
     if (id) s.id = id;
+    s.type = 'text/javascript';
     s.setAttribute('data-mrs-ad-injected', '1');
     s.setAttribute('data-mrs-ad-approved', '1');
     s.textContent = code.trim();
@@ -401,26 +449,46 @@
       var injectedNodes = doc.querySelectorAll([
         '[data-zone]',
         '[data-ad-zone]',
+        '[data-monetag]',
         '[data-monetag-zone]',
+        '[data-interstitial]',
+        '[data-popunder]',
         'ins[data-zone]',
         'script[data-mrs-ad-injected="1"]',
+        'script[data-zone]',
         'script[src*="uplcm.com"]',
-        'script[src*="monetag.com"]',
+        'script[src*="monetag"]',
         'script[src*="5gvci.com"]',
+        'script[src*="quge5.com"]',
+        'script[src*="n6wxm.com"]',
         'script[src*="al5sm.com"]',
         'script[src*="whomeehe.com"]',
         'script[src*="acscdn.com"]',
         'script[src*="tzegilo.com"]',
         'script[src*="madurird.com"]',
+        'script[src*="otieu.com"]',
+        'script[src*="nap5k.com"]',
+        'script[src*="gloaphoo.net"]',
+        'script[src*="dolohen.com"]',
+        'script[src*="propellerads"]',
+        'script[src*="onclkds"]',
         'iframe[data-mrs-ad-frame="1"]',
         'iframe[src*="uplcm.com"]',
         'iframe[src*="monetag"]',
         'iframe[src*="5gvci.com"]',
+        'iframe[src*="quge5.com"]',
+        'iframe[src*="n6wxm.com"]',
         'iframe[src*="al5sm.com"]',
         'iframe[src*="whomeehe.com"]',
         'iframe[src*="acscdn.com"]',
         'iframe[src*="tzegilo.com"]',
         'iframe[src*="madurird.com"]',
+        'iframe[src*="otieu.com"]',
+        'iframe[src*="nap5k.com"]',
+        'iframe[src*="gloaphoo.net"]',
+        'iframe[src*="dolohen.com"]',
+        'iframe[src*="propellerads"]',
+        'iframe[src*="onclkds"]',
         'iframe[id*="monetag"]',
         'iframe[class*="monetag"]',
         'iframe[id*="vignette"]',
@@ -429,13 +497,29 @@
         'div[id*="monetag"]',
         'div[class*="monetag"]',
         'aside[id*="monetag"]',
+        'aside[class*="monetag"]',
         'section[id*="monetag"]',
+        'section[class*="monetag"]',
+        'dialog[id*="monetag"]',
+        'dialog[class*="monetag"]',
         'div[id*="vignette"]',
         'div[class*="vignette"]',
+        'aside[id*="vignette"]',
+        'aside[class*="vignette"]',
+        'section[id*="vignette"]',
+        'section[class*="vignette"]',
         'div[id*="interstitial"]',
         'div[class*="interstitial"]',
+        'aside[id*="interstitial"]',
+        'aside[class*="interstitial"]',
+        'section[id*="interstitial"]',
+        'section[class*="interstitial"]',
         'div[id*="popunder"]',
-        'div[class*="popunder"]'
+        'div[class*="popunder"]',
+        'aside[id*="popunder"]',
+        'aside[class*="popunder"]',
+        'section[id*="popunder"]',
+        'section[class*="popunder"]'
       ].join(','));
       for (var j = 0; j < injectedNodes.length; j++) {
         if (injectedNodes[j] && injectedNodes[j].parentNode) {
@@ -547,8 +631,9 @@
       hist.lastAt = now;
       lsSet(POP_HIST_KEY, JSON.stringify(hist));
 
-      if (popSnippet.indexOf('https://') === 0) {
-        injectExternalScript(popSnippet);
+      var popCfg = isMonetagRegularAllowed() && cfg.monetag ? cfg.monetag.popunder : null;
+      if (/^(?:https?:)?\/\//i.test(popSnippet)) {
+        injectExternalScript(popSnippet, popCfg && popCfg.attrs ? popCfg.attrs : undefined);
       } else {
         injectInlineSnippet(popSnippet, 'mrs-popunder-script');
       }
@@ -776,7 +861,10 @@
         interstitialCfg.zoneId;
       var injected = null;
       if (interstitialCfg.scriptSrc) {
-        injected = injectExternalScript(interstitialCfg.scriptSrc, { 'data-zone': activeInterstitialZone });
+        var scriptAttrs = Object.assign({}, interstitialCfg.attrs || {}, {
+          'data-zone': activeInterstitialZone
+        });
+        injected = injectExternalScript(interstitialCfg.scriptSrc, scriptAttrs);
       } else if (interstitialCfg.inlineSnippet) {
         injected = injectInlineSnippet(interstitialCfg.inlineSnippet, 'mrs-monetag-interstitial');
       }

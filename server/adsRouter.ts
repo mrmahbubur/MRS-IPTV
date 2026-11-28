@@ -136,7 +136,14 @@ function sanitizeZoneId(raw: unknown): string | null {
 }
 
 function validateVerificationIdInput(raw: unknown, fallback: string): string {
-  if (raw === null || raw === undefined) return fallback;
+  if (raw === undefined) return fallback;
+  if (raw === null) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_verification_id',
+      'Monetag verification ID cannot be null.'
+    );
+  }
   if (typeof raw !== 'string') {
     throw new AdPolicyValidationError(
       400,
@@ -145,7 +152,13 @@ function validateVerificationIdInput(raw: unknown, fallback: string): string {
     );
   }
   const trimmed = raw.trim();
-  if (!trimmed) return fallback;
+  if (!trimmed) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_verification_id',
+      'Monetag verification ID cannot be empty.'
+    );
+  }
   const clean = sanitizeMonetagVerificationIdStrict(trimmed);
   if (!clean) {
     throw new AdPolicyValidationError(
@@ -158,14 +171,17 @@ function validateVerificationIdInput(raw: unknown, fallback: string): string {
 }
 
 function validateZoneIdInput(raw: unknown, fallback: string | null, allowEmpty: boolean): string | null {
-  if (raw === null || raw === undefined) return fallback;
+  if (raw === undefined) return fallback;
+  if (raw === null) {
+    if (allowEmpty) return null;
+    throw new AdPolicyValidationError(400, 'invalid_zone_id', 'Monetag zone ID cannot be null.');
+  }
   if (typeof raw !== 'string') {
     throw new AdPolicyValidationError(400, 'invalid_zone_id', 'Monetag zone ID must be a string.');
   }
   const trimmed = raw.trim();
   if (!trimmed) {
     if (allowEmpty) return null;
-    if (fallback !== null) return fallback;
     throw new AdPolicyValidationError(400, 'invalid_zone_id', 'Monetag zone ID cannot be empty.');
   }
   const clean = sanitizeMonetagZoneIdStrict(trimmed);
@@ -203,7 +219,7 @@ function validateCapInput(raw: unknown, key: CapKey): number {
       `${key} must be an integer between ${bounds.min} and ${bounds.max}.`
     );
   }
-  return n;
+  return n === 0 ? 0 : n;
 }
 
 function getDefaultCapsFromEnv(): MonetagAdCapsPolicy {
@@ -379,6 +395,26 @@ function assertPlainObjectIfDefined(raw: unknown, fieldName: string): Record<str
   return raw as Record<string, any>;
 }
 
+function assertNonEmptyPlainObjectIfDefined(raw: unknown, fieldName: string): Record<string, any> | undefined {
+  const obj = assertPlainObjectIfDefined(raw, fieldName);
+  if (obj && Object.getOwnPropertyNames(obj).length === 0) {
+    throw new AdPolicyValidationError(400, 'invalid_ad_config', `${fieldName} must not be an empty JSON object.`);
+  }
+  return obj;
+}
+
+function parseReportDaysParam(raw: unknown): number {
+  if (raw === undefined || raw === null || raw === '') return 30;
+  if (typeof raw !== 'string' || !/^\d+$/.test(raw.trim())) {
+    throw new AdPolicyValidationError(400, 'invalid_query', 'days query parameter must be an integer between 1 and 90.');
+  }
+  const n = Number(raw.trim());
+  if (!Number.isInteger(n) || n < 1 || n > 90) {
+    throw new AdPolicyValidationError(400, 'invalid_query', 'days query parameter must be between 1 and 90.');
+  }
+  return n;
+}
+
 function assertAllowedKeys(obj: Record<string, any>, allowed: Set<string>, fieldName: string): void {
   const names = Object.getOwnPropertyNames(obj);
   for (const key of names) {
@@ -413,30 +449,52 @@ export function saveAdSettings(partial: {
   assertAllowedKeys(rootObj, ALLOWED_ROOT_CONFIG_KEYS, 'ad settings');
 
   const current = getAdSettings();
-  const inFormats = assertPlainObjectIfDefined(rootObj.formats, 'formats');
+  const inFormats = assertNonEmptyPlainObjectIfDefined(rootObj.formats, 'formats');
   if (inFormats) assertAllowedKeys(inFormats, ALLOWED_FORMATS_KEYS, 'formats');
 
-  const inMonetag = assertPlainObjectIfDefined(rootObj.monetag, 'monetag');
+  const inMonetag = assertNonEmptyPlainObjectIfDefined(rootObj.monetag, 'monetag');
   if (inMonetag) assertAllowedKeys(inMonetag, ALLOWED_MONETAG_KEYS, 'monetag');
 
-  const inInterstitial = inMonetag ? assertPlainObjectIfDefined(inMonetag.interstitial, 'monetag.interstitial') : undefined;
+  const inInterstitial = inMonetag
+    ? assertNonEmptyPlainObjectIfDefined(inMonetag.interstitial, 'monetag.interstitial')
+    : undefined;
   if (inInterstitial) assertAllowedKeys(inInterstitial, ALLOWED_INTERSTITIAL_KEYS, 'monetag.interstitial');
 
-  const inCaps = inMonetag ? assertPlainObjectIfDefined(inMonetag.caps, 'monetag.caps') : undefined;
+  const inCaps = inMonetag ? assertNonEmptyPlainObjectIfDefined(inMonetag.caps, 'monetag.caps') : undefined;
   if (inCaps) assertAllowedKeys(inCaps, ALLOWED_CAPS_KEYS, 'monetag.caps');
 
-  const inRewarded = inMonetag ? assertPlainObjectIfDefined(inMonetag.rewarded, 'monetag.rewarded') : undefined;
+  const inRewarded = inMonetag
+    ? assertNonEmptyPlainObjectIfDefined(inMonetag.rewarded, 'monetag.rewarded')
+    : undefined;
   if (inRewarded) assertAllowedKeys(inRewarded, ALLOWED_REWARDED_KEYS, 'monetag.rewarded');
 
-  const hasInterstitialZoneInput = Boolean(
-    inMonetag &&
-      ('interstitialZoneId' in inMonetag ||
-        (inInterstitial && 'zoneId' in inInterstitial))
+  const hasFlatInterstitial = Boolean(
+    inMonetag && 'interstitialZoneId' in inMonetag && inMonetag.interstitialZoneId !== undefined
   );
-  const rawInterstitialZoneInput =
-    inMonetag && 'interstitialZoneId' in inMonetag
-      ? inMonetag.interstitialZoneId
-      : inInterstitial?.zoneId;
+  const hasNestedInterstitial = Boolean(
+    inInterstitial && 'zoneId' in inInterstitial && inInterstitial.zoneId !== undefined
+  );
+  const validatedFlatInterstitial = hasFlatInterstitial
+    ? (validateZoneIdInput(inMonetag!.interstitialZoneId, current.monetag.interstitialZoneId, false) as string)
+    : undefined;
+  const validatedNestedInterstitial = hasNestedInterstitial
+    ? (validateZoneIdInput(inInterstitial!.zoneId, current.monetag.interstitialZoneId, false) as string)
+    : undefined;
+
+  if (
+    validatedFlatInterstitial !== undefined &&
+    validatedNestedInterstitial !== undefined &&
+    validatedFlatInterstitial !== validatedNestedInterstitial
+  ) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_zone_id',
+      'monetag.interstitialZoneId and monetag.interstitial.zoneId must match when both are specified.'
+    );
+  }
+
+  const nextInterstitialZoneId =
+    validatedFlatInterstitial ?? validatedNestedInterstitial ?? current.monetag.interstitialZoneId;
 
   const next: AdSettings = {
     formats: {
@@ -449,20 +507,17 @@ export function saveAdSettings(partial: {
     testMode: validateBooleanField(partial.testMode, current.testMode, 'testMode'),
     monetag: {
       verificationId:
-        inMonetag && 'verificationId' in inMonetag
-          ? validateVerificationIdInput(inMonetag.verificationId, DEFAULT_AD_SETTINGS.monetag.verificationId)
+        inMonetag && 'verificationId' in inMonetag && inMonetag.verificationId !== undefined
+          ? validateVerificationIdInput(inMonetag.verificationId, current.monetag.verificationId)
           : current.monetag.verificationId,
       vignetteZoneId:
-        inMonetag && 'vignetteZoneId' in inMonetag
-          ? (validateZoneIdInput(inMonetag.vignetteZoneId, DEFAULT_AD_SETTINGS.monetag.vignetteZoneId, false) as string)
+        inMonetag && 'vignetteZoneId' in inMonetag && inMonetag.vignetteZoneId !== undefined
+          ? (validateZoneIdInput(inMonetag.vignetteZoneId, current.monetag.vignetteZoneId, false) as string)
           : current.monetag.vignetteZoneId,
-      interstitialZoneId:
-        hasInterstitialZoneInput
-          ? (validateZoneIdInput(rawInterstitialZoneInput, DEFAULT_AD_SETTINGS.monetag.interstitialZoneId, false) as string)
-          : current.monetag.interstitialZoneId,
+      interstitialZoneId: nextInterstitialZoneId,
       popunderZoneId:
-        inMonetag && 'popunderZoneId' in inMonetag
-          ? (validateZoneIdInput(inMonetag.popunderZoneId, DEFAULT_AD_SETTINGS.monetag.popunderZoneId, false) as string)
+        inMonetag && 'popunderZoneId' in inMonetag && inMonetag.popunderZoneId !== undefined
+          ? (validateZoneIdInput(inMonetag.popunderZoneId, current.monetag.popunderZoneId, false) as string)
           : current.monetag.popunderZoneId,
       showRegularAds: validateBooleanField(inMonetag?.showRegularAds, current.monetag.showRegularAds, 'monetag.showRegularAds'),
       caps: {
@@ -660,17 +715,28 @@ export function createAdsRouter() {
       return res.json({ ok: true, data: { accepted: 0, ignored: 'vip' }, error: null });
     }
 
-    const rawEvents = Array.isArray(req.body?.events)
-      ? req.body.events
-      : req.body && typeof req.body === 'object' && req.body.eventType
-        ? [req.body]
-        : null;
-
-    if (!rawEvents) {
+    let bodyObj: Record<string, any> | undefined;
+    try {
+      bodyObj = assertPlainObjectIfDefined(req.body, 'payload');
+    } catch (err: any) {
       return res.status(400).json({
         ok: false,
         data: null,
-        error: { code: 'invalid_payload', message: 'events array is required' },
+        error: { code: 'invalid_payload', message: err?.message || 'Request body must be a JSON object.' },
+      });
+    }
+
+    const rawEvents = Array.isArray(bodyObj?.events)
+      ? bodyObj!.events
+      : bodyObj && bodyObj.eventType !== undefined
+        ? [bodyObj]
+        : null;
+
+    if (!rawEvents || rawEvents.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'invalid_payload', message: 'Non-empty events array is required.' },
       });
     }
 
@@ -678,6 +744,40 @@ export function createAdsRouter() {
     const ipHash = hashClientIp(getTrustedClientIp(req));
     const ts = nowIso();
     const ALLOWED_FORMATS = new Set(['banner', 'sticky', 'popunder', 'interstitial', 'push']);
+    const ALLOWED_EVENT_TYPES = new Set(['view', 'click', 'impression']);
+
+    const sanitizedRows: Array<[string, string, string, string, string, string, string]> = [];
+    for (const item of batch) {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) {
+        return res.status(400).json({
+          ok: false,
+          data: null,
+          error: { code: 'invalid_payload', message: 'Each ad event entry must be a JSON object.' },
+        });
+      }
+      if (typeof item.eventType !== 'string' || !ALLOWED_EVENT_TYPES.has(item.eventType.trim().toLowerCase())) {
+        return res.status(400).json({
+          ok: false,
+          data: null,
+          error: { code: 'invalid_payload', message: 'eventType must be view or click.' },
+        });
+      }
+      if (item.format !== undefined && (typeof item.format !== 'string' || !ALLOWED_FORMATS.has(item.format.trim().toLowerCase()))) {
+        return res.status(400).json({
+          ok: false,
+          data: null,
+          error: { code: 'invalid_payload', message: 'Unsupported ad format in event payload.' },
+        });
+      }
+      const normalizedType = item.eventType.trim().toLowerCase() === 'click' ? 'click' : 'view';
+      const format = typeof item.format === 'string' ? item.format.trim().toLowerCase() : 'banner';
+      const placement =
+        (typeof item.placement === 'string' ? item.placement : 'general').replace(/[^\w:-]/g, '').slice(0, 64) || 'general';
+      const rawZone = typeof item.zoneId === 'string' ? item.zoneId : typeof item.offerId === 'string' ? item.offerId : 'unknown';
+      const zoneId = rawZone.replace(/[^\w-]/g, '').slice(0, 64) || 'unknown';
+      const network = 'Monetag Direct';
+      sanitizedRows.push([normalizedType, format, placement, zoneId, network, ipHash, ts]);
+    }
 
     let inserted = 0;
     tx(() => {
@@ -685,14 +785,8 @@ export function createAdsRouter() {
         `INSERT INTO ad_events(event_type, format, placement, zone_id, network, ip_hash, created_at)
          VALUES (?, ?, ?, ?, ?, ?, ?)`
       );
-      for (const item of batch) {
-        if (!item || typeof item !== 'object') continue;
-        const eventType = item.eventType === 'click' ? 'click' : 'view';
-        const format = ALLOWED_FORMATS.has(String(item.format)) ? String(item.format) : 'banner';
-        const placement = String(item.placement || 'general').replace(/[^\w:-]/g, '').slice(0, 64) || 'general';
-        const zoneId = String(item.zoneId || item.offerId || 'unknown').replace(/[^\w-]/g, '').slice(0, 64) || 'unknown';
-        const network = 'Monetag Direct';
-        stmt.run(eventType, format, placement, zoneId, network, ipHash, ts);
+      for (const rowArgs of sanitizedRows) {
+        stmt.run(...rowArgs);
         inserted += 1;
       }
     });
@@ -702,8 +796,16 @@ export function createAdsRouter() {
 
   // 3. Admin Monetag Ads Views/Clicks Report: GET /api/admin/ads/report
   router.get('/api/admin/ads/report', requireAdmin, (req: Request, res: Response) => {
-    const daysRaw = Number(req.query.days || 30);
-    const days = Number.isFinite(daysRaw) ? Math.max(1, Math.min(90, Math.floor(daysRaw))) : 30;
+    let days: number;
+    try {
+      days = parseReportDaysParam(req.query.days);
+    } catch (err: any) {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'invalid_query', message: err?.message || 'Invalid days parameter.' },
+      });
+    }
     const sinceIso = new Date(Date.now() - days * 86400_000).toISOString();
 
     const totalsRow = get(
@@ -926,7 +1028,14 @@ export function createAdsRouter() {
   });
 
   router.post('/api/rewards/start', (req: Request, res: Response) => {
-    const deviceId = sanitizeDeviceId(req.body?.deviceId);
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'invalid_payload', message: 'Request body must be a JSON object.' },
+      });
+    }
+    const deviceId = sanitizeDeviceId(req.body.deviceId);
     if (!deviceId) {
       return res.status(400).json({
         ok: false,
@@ -935,7 +1044,14 @@ export function createAdsRouter() {
       });
     }
 
-    const requestedNetwork = String(req.body?.network || 'monetag').trim().toLowerCase();
+    if (req.body.network !== undefined && typeof req.body.network !== 'string') {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'unsupported_network', message: 'Reward network must be a string (monetag).' },
+      });
+    }
+    const requestedNetwork = String(req.body.network || 'monetag').trim().toLowerCase();
     if (requestedNetwork !== 'monetag') {
       return res.status(400).json({
         ok: false,
@@ -1120,8 +1236,15 @@ export function createAdsRouter() {
   });
 
   router.post('/api/rewards/claim', (req: Request, res: Response) => {
-    const nonce = String(req.body?.nonce || '').trim();
-    const deviceId = sanitizeDeviceId(req.body?.deviceId);
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'invalid_payload', message: 'Request body must be a JSON object.' },
+      });
+    }
+    const nonce = typeof req.body.nonce === 'string' ? req.body.nonce.trim() : '';
+    const deviceId = sanitizeDeviceId(req.body.deviceId);
 
     if (!/^[a-f0-9]{16,128}$/i.test(nonce)) {
       return res.status(400).json({
@@ -1346,8 +1469,16 @@ export function createAdsRouter() {
   // 7. ADMIN REWARD REPORTING & CONTROLS (/admin/rewards/* + /api/admin/rewards/*)
   // =========================================================================
   const rewardsReportHandler = (req: Request, res: Response) => {
-    const daysRaw = Number(req.query.days || 30);
-    const days = Number.isFinite(daysRaw) ? Math.max(1, Math.min(90, Math.floor(daysRaw))) : 30;
+    let days: number;
+    try {
+      days = parseReportDaysParam(req.query.days);
+    } catch (err: any) {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'invalid_query', message: err?.message || 'Invalid days parameter.' },
+      });
+    }
     const sinceIso = new Date(Date.now() - days * 86_400_000).toISOString();
     const now = nowIso();
 
@@ -1481,6 +1612,14 @@ export function createAdsRouter() {
           data: null,
           error: { code: 'invalid_network', message: 'network must be monetag.' },
         });
+      }
+
+      if (enabled === undefined && showRegularAds === undefined && !hasShowFn && !hasZoneId) {
+        throw new AdPolicyValidationError(
+          400,
+          'invalid_ad_config',
+          'At least one toggle field (enabled, showRegularAds, showFn, or zoneId) is required.'
+        );
       }
 
       const current = getAdSettings();

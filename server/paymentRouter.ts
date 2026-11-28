@@ -254,7 +254,13 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
         error: { code: r.code, message: r.message },
       });
     }
-    const statusPlan = r.kind === 'reward' || r.plan === 'reward1h' ? 'reward1h' : 'vip';
+    const statusPlan =
+      r.kind === 'reward' ||
+      r.kind === 'sponsor_reward' ||
+      r.plan === 'reward1h' ||
+      r.plan === 'sponsor_reward'
+        ? 'reward1h'
+        : 'vip';
     const payload = {
       ...r,
       plan: statusPlan,

@@ -411,8 +411,8 @@ export function checkEntitlement({ token, deviceId }) {
   }
   deviceId = cleanDeviceId;
 
-  // 1. Rewarded 1-Hour VIP Grant Tokens
-  if (p.kind === 'reward') {
+  // 1. Rewarded / Sponsor Reward 1-Hour VIP Grant Tokens
+  if (p.kind === 'reward' || p.kind === 'sponsor_reward') {
     const grantId = Number(p.gid);
     if (!Number.isFinite(grantId) || grantId <= 0) {
       return fail(401, 'invalid_token', 'Invalid reward token', 'INVALID_CODE');
@@ -424,13 +424,14 @@ export function checkEntitlement({ token, deviceId }) {
     if (Date.parse(grant.expires_at) <= Date.now()) {
       return fail(410, 'expired', 'Your 1-hour free VIP pass has expired', 'EXPIRED');
     }
+    const resolvedPlan = p.plan === 'sponsor_reward' ? 'sponsor_reward' : 'reward1h';
     return {
       ok: true,
-      kind: 'reward',
+      kind: p.kind,
       grantId: grant.id,
       active: true,
-      plan: 'reward1h',
-      planCode: 'reward1h',
+      plan: resolvedPlan,
+      planCode: resolvedPlan,
       planLabel: '1-Hour Free VIP (Reward)',
       network: grant.network,
       months: 0,

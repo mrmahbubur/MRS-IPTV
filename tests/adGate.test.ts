@@ -2244,6 +2244,509 @@ test('29. detectClientVipState() & isClientVipActive() unify VIP detection acros
   }
 });
 
+test('30. ad-gate.js blocks expanded third-party ad domains, insertBefore injections, and non-HTTPS approved scripts', async () => {
+  const capturedStyles: string[] = [];
+  const purgeQueries: string[] = [];
+  const domAttrs = new Map<string, string>();
+  const inserted: any[] = [];
+  const storageMap = new Map<string, string>([
+    ['mrs_vip_entitlement', JSON.stringify({ token: 'vip-tok-30' })],
+  ]);
+  const futureExp = new Date(Date.now() + 86400_000).toISOString();
+
+  const doc: any = {
+    cookie: '',
+    head: {
+      appendChild: (el: any) => {
+        if (el?.childrenText) capturedStyles.push(el.childrenText);
+        return el;
+      },
+    },
+    documentElement: {
+      setAttribute: (k: string, v: string) => domAttrs.set(k, String(v)),
+      getAttribute: (k: string) => domAttrs.get(k) || null,
+      appendChild: (el: any) => el,
+    },
+    getElementById: () => null,
+    createElement: (tag: string) => ({
+      tagName: tag.toUpperCase(),
+      childrenText: '',
+      attributes: {} as Record<string, string>,
+      setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+      getAttribute(k: string) { return this.attributes[k] || null; },
+      appendChild(node: any) { if (node?.textContent) this.childrenText += node.textContent; },
+    }),
+    createTextNode: (t: string) => ({ textContent: t }),
+    querySelectorAll: (sel: string) => {
+      purgeQueries.push(sel);
+      return [];
+    },
+  };
+
+  function MockElement() {}
+  MockElement.prototype.appendChild = (child: any) => child;
+  MockElement.prototype.insertBefore = (child: any) => {
+    inserted.push(child);
+    return child;
+  };
+
+  const sb: any = {
+    console, Date, Math, JSON, Promise, AbortController, encodeURIComponent, URL,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    Element: MockElement,
+    document: doc,
+    navigator: { serviceWorker: { getRegistrations: async () => [] } },
+    localStorage: {
+      get length() { return storageMap.size; },
+      key: (i: number) => Array.from(storageMap.keys())[i] ?? null,
+      getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+      setItem: (k: string, v: string) => { storageMap.set(String(k), String(v)); },
+      removeItem: (k: string) => { storageMap.delete(String(k)); },
+    },
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: { active: true, expiresAt: futureExp } }) }),
+    open: () => ({ opened: true }),
+    addEventListener: () => {},
+    dispatchEvent: () => true,
+  };
+  sb.window = sb;
+  vm.runInNewContext(adGateSource, sb, { filename: 'ad-gate.js' });
+  await sb.MRS_ADS.refresh();
+
+  const styleCss = capturedStyles.join('\n');
+  for (const sel of [
+    '[data-monetag]',
+    '[data-interstitial]',
+    '[data-popunder]',
+    'dialog[id*="monetag"]',
+    'iframe[src*="otieu.com"]',
+    'iframe[src*="nap5k.com"]',
+    'iframe[src*="gloaphoo.net"]',
+    'iframe[src*="dolohen.com"]',
+  ]) {
+    assert.ok(styleCss.includes(sel), `Expected ad-gate style to contain ${sel}`);
+  }
+
+  // insertBefore blocks new domain scripts, data-monetag containers, and non-https/inline-handler scripts
+  const otieuScript = { tagName: 'SCRIPT', src: 'https://otieu.com/4/tag.js', getAttribute: () => null };
+  const monetagDialog = { tagName: 'DIALOG', id: 'monetag-promo', className: '', getAttribute: (k: string) => (k === 'data-monetag' ? '1' : null) };
+  const insecureApproved = {
+    tagName: 'SCRIPT',
+    src: 'http://uplcm.com/4/11226634',
+    getAttribute: (k: string) => (k === 'data-mrs-ad-approved' ? '1' : null),
+  };
+  const safeAppNode = { tagName: 'DIV', id: 'stream-list', className: 'channels', getAttribute: () => null };
+
+  sb.Element.prototype.insertBefore.call(doc.head, otieuScript, null);
+  sb.Element.prototype.insertBefore.call(doc.head, monetagDialog, null);
+  sb.Element.prototype.insertBefore.call(doc.head, insecureApproved, null);
+  sb.Element.prototype.insertBefore.call(doc.head, safeAppNode, null);
+
+  assert.equal(inserted.includes(otieuScript), false);
+  assert.equal(inserted.includes(monetagDialog), false);
+  assert.equal(inserted.includes(insecureApproved), false);
+  assert.equal(inserted.includes(safeAppNode), true);
+  assert.equal(sb.open('https://nap5k.com/pop'), null);
+});
+
+test('31. Script injection enforces strict attribute whitelisting in monetagConfig.ts & ad-manager.js', async () => {
+  const { sanitizeExternalScriptAttributes, isAllowedExternalScriptAttribute, ALLOWED_EXTERNAL_SCRIPT_ATTRS } = await import('../src/lib/monetagConfig.js');
+
+  assert.equal(ALLOWED_EXTERNAL_SCRIPT_ATTRS.has('data-zone'), true);
+  assert.equal(isAllowedExternalScriptAttribute('data-zone', '11242067'), true);
+  assert.equal(isAllowedExternalScriptAttribute('data-zone', 'bad zone!'), false);
+  assert.equal(isAllowedExternalScriptAttribute('ONLOAD', 'alert(1)'), false);
+  assert.equal(isAllowedExternalScriptAttribute('id', 'spoof'), false);
+
+  const cleaned = sanitizeExternalScriptAttributes({
+    'data-zone': '11242067',
+    'data-cfasync': 'FALSE',
+    crossorigin: 'Anonymous',
+    referrerpolicy: 'no-referrer',
+    async: 'true',
+    onload: 'alert(1)',
+    id: 'spoofed-id',
+    style: 'display:block',
+    'data-evil': 'x"y',
+  });
+  assert.deepEqual(cleaned, {
+    'data-zone': '11242067',
+    'data-cfasync': 'false',
+    crossorigin: 'anonymous',
+    referrerpolicy: 'no-referrer',
+    async: 'true',
+  });
+
+  // ad-manager.js only sets whitelisted attributes when injecting Monetag interstitial scripts
+  const injected: any[] = [];
+  const sb: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt, URL, Blob,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: () => {}, dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS: { state: () => 'free', _trackLoadedScript: () => {} },
+    MRS_ADS_CONFIG: {
+      apiBaseUrl: '',
+      testMode: false,
+      monetag: {
+        showRegularAds: true,
+        directZones: [{ id: 'uplcm-11242067', zoneId: '11242067', url: 'https://uplcm.com/4/11242067', label: 'Z5' }],
+        interstitial: {
+          zoneId: '11242067',
+          url: 'https://uplcm.com/4/11242067',
+          scriptSrc: 'https://uplcm.com/4/interstitial-whitelist.js',
+          attrs: {
+            'data-zone': '11242067',
+            'data-cfasync': 'false',
+            onload: 'alert(1)',
+            referrerpolicy: 'unsafe-url',
+            id: 'hack-id',
+          },
+        },
+      },
+      caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay: 5 },
+    },
+    navigator: { language: 'en-US', userAgent: 'Mozilla/5.0' },
+    location: { pathname: '/', hash: '' },
+    innerWidth: 1280,
+    localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    sessionStorage: { getItem: () => null, setItem: () => {} },
+    document: {
+      readyState: 'complete',
+      documentElement: { getAttribute: () => null },
+      body: { appendChild: (el: any) => { if (el.tagName === 'SCRIPT') injected.push(el); } },
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      getElementById: () => null,
+      createElement: (tag: string) => ({
+        tagName: tag.toUpperCase(),
+        attributes: {} as Record<string, string>,
+        style: {},
+        setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+        getAttribute(k: string) { return this.attributes[k] || null; },
+      }),
+      addEventListener: () => {},
+    },
+    fetch: async () => ({
+      ok: true, status: 200,
+      json: async () => ({
+        ok: true,
+        data: {
+          formats: { banner: true, sticky: false, popunder: false, interstitial: true, push: false },
+          testMode: false,
+          monetag: {
+            showRegularAds: true,
+            interstitialZoneId: '11242067',
+            caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay: 5 },
+          },
+        },
+      }),
+    }),
+  };
+  sb.window = sb;
+  vm.runInNewContext(adManagerSource, sb, { filename: 'ad-manager.js' });
+  await new Promise((r) => setTimeout(r, 25));
+
+  assert.equal(injected.length, 1);
+  assert.equal(injected[0].attributes['data-zone'], '11242067');
+  assert.equal(injected[0].attributes['data-cfasync'], 'false');
+  assert.equal(injected[0].attributes['onload'], undefined);
+  assert.equal(injected[0].attributes['id'], undefined);
+  assert.equal(injected[0].attributes['referrerpolicy'], 'strict-origin-when-downgrade');
+});
+
+test('32. VIP & entitlement validators handle sponsor_reward states, reward codes, missing expiry, and legacy rejection', async () => {
+  const { detectClientVipState, isClientVipActive, getCachedEntitlement } = await import('../src/lib/mrsVip.js');
+  const { getStoredAdFreeState, getDeviceId: getCodesDeviceId } = await import('../src/lib/codes.js');
+  const origWindow = (globalThis as any).window;
+  const origDocument = (globalThis as any).document;
+  const origLocalStorage = (globalThis as any).localStorage;
+
+  const mockStore = new Map<string, string>();
+  const futureExp = new Date(Date.now() + 3600_000).toISOString();
+  const pastExp = new Date(Date.now() - 3600_000).toISOString();
+
+  const setupEnv = (deviceId = 'dev-sponsor-check-0001') => {
+    mockStore.set('mrs_device_id', deviceId);
+    (globalThis as any).localStorage = {
+      getItem: (k: string) => (mockStore.has(k) ? mockStore.get(k)! : null),
+      setItem: (k: string, v: string) => { mockStore.set(k, String(v)); },
+      removeItem: (k: string) => { mockStore.delete(k); },
+    };
+    (globalThis as any).document = {
+      cookie: '',
+      documentElement: { getAttribute: () => 'free' },
+    };
+    (globalThis as any).window = {
+      MRS_AD_STATE: 'free',
+      MRS_ADS: { state: () => 'free', isVip: () => false },
+    };
+  };
+
+  try {
+    // 1. Active mrs_sponsor_reward_state
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('mrs_sponsor_reward_state', JSON.stringify({ status: 'active', expiresAt: futureExp }));
+    const srActive = detectClientVipState();
+    assert.equal(srActive.isVip, true);
+    assert.equal(srActive.source, 'sponsor_reward');
+
+    // 2. Pending sponsor reward token -> fail-closed pending state
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('mrs_sponsor_reward_state', JSON.stringify({ status: 'pending', token: 'pending-tok' }));
+    const srPending = detectClientVipState();
+    assert.equal(srPending.state, 'pending');
+    assert.equal(srPending.isLocked, true);
+    assert.equal(isClientVipActive(), false);
+
+    // 3. Referral / Camellia codes recognized in codes.ts + detectClientVipState; unpaired REWARD_1H_VIP / SPONSOR_REWARD_* refused in codes.ts
+    for (const refCode of ['CAMELLIA-REWARD-XYZ', 'REF-WELCOME-123', 'REFERRAL_VIP_1']) {
+      mockStore.clear();
+      setupEnv();
+      const codesDev = getCodesDeviceId();
+      mockStore.set('shahintv_adfree_activation', JSON.stringify({
+        isActive: true,
+        isAdFree: true,
+        code: refCode,
+        deviceId: codesDev,
+        expiryDate: futureExp,
+      }));
+      const st = getStoredAdFreeState();
+      assert.equal(st.isActive, true, `Expected active state for ${refCode}`);
+      assert.equal(detectClientVipState().source, 'sponsor_reward', `Expected sponsor_reward source for ${refCode}`);
+    }
+
+    // Forged sponsor code without server entitlement is rejected by getStoredAdFreeState
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('shahintv_adfree_activation', JSON.stringify({
+      isActive: true,
+      isAdFree: true,
+      code: 'SPONSOR_REWARD_1H',
+      deviceId: getCodesDeviceId(),
+      expiryDate: futureExp,
+    }));
+    assert.equal(getStoredAdFreeState().isActive, false);
+
+    // Server-backed sponsor_reward entitlement activates codes.ts + mrsVip.ts + isVipOrLockedState
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('mrs_vip_entitlement', JSON.stringify({
+      token: 'tok-sr-active',
+      active: true,
+      kind: 'sponsor_reward',
+      plan: 'sponsor_reward',
+      expiresAt: futureExp,
+    }));
+    assert.equal(detectClientVipState().source, 'sponsor_reward');
+    assert.equal(isClientVipActive(), true);
+    assert.equal(getStoredAdFreeState().isActive, true);
+    setupEnv();
+
+    // Missing expiryDate rejected
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('shahintv_adfree_activation', JSON.stringify({ isActive: true, isAdFree: true, code: 'REWARD_1H_VIP' }));
+    assert.equal(getStoredAdFreeState().isActive, false);
+    assert.equal(isClientVipActive(), false);
+
+    // Device mismatch rejected
+    mockStore.clear();
+    setupEnv('dev-owner-0001');
+    mockStore.set('shahintv_adfree_activation', JSON.stringify({
+      isActive: true,
+      isAdFree: true,
+      code: 'CAMELLIA-REWARD-999',
+      deviceId: 'other-device-9999',
+      expiryDate: futureExp,
+    }));
+    assert.equal(getStoredAdFreeState().isActive, false);
+    assert.equal(isClientVipActive(), false);
+
+    // Legacy SPONSOR_REWARD_VIP rejected even in sponsor state and codes.ts
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('mrs_sponsor_reward_state', JSON.stringify({ status: 'active', code: 'SPONSOR_REWARD_VIP', expiresAt: futureExp }));
+    assert.equal(isClientVipActive(), false);
+
+    // Expired or revoked entitlement cleared/rejected by getCachedEntitlement & isClientVipActive
+    mockStore.clear();
+    setupEnv();
+    mockStore.set('mrs_vip_entitlement', JSON.stringify({ token: 'tok-exp', kind: 'sponsor_reward', plan: 'sponsor_reward', expiresAt: pastExp }));
+    assert.equal(getCachedEntitlement(), null);
+    assert.equal(isClientVipActive(), false);
+
+    // rewardAds.js treats sponsor_reward entitlement & mrs_sponsor_reward_state as VIP-locked
+    const rewardStore = new Map<string, string>([
+      ['mrs_sponsor_reward_state', JSON.stringify({ status: 'active', expiresAt: futureExp })],
+    ]);
+    const rSb: any = {
+      console, Date, Math, JSON, Promise, Error, parseInt, Uint8Array,
+      crypto: webcrypto,
+      setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+      CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+      addEventListener: () => {}, dispatchEvent: () => true,
+      MRS_AD_STATE: 'free',
+      MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: true, monetag: { rewarded: { enabled: true } } },
+      __MRS_ADS_SERVER_CONFIG: { testMode: true, monetag: { rewardedEnabled: true }, rewards: { cooldownMinutes: 180, anyRewardedAvailable: true } },
+      MRS_ADS: { state: () => 'free', enterVipMode: () => {}, refresh: async () => 'free' },
+      localStorage: {
+        getItem: (k: string) => (rewardStore.has(k) ? rewardStore.get(k)! : null),
+        setItem: (k: string, v: string) => { rewardStore.set(k, String(v)); },
+        removeItem: (k: string) => { rewardStore.delete(k); },
+      },
+      document: {
+        readyState: 'complete',
+        cookie: '',
+        documentElement: { getAttribute: () => 'free' },
+        body: { appendChild: () => {} },
+        createElement: () => ({ style: {}, setAttribute: () => {}, innerHTML: '' }),
+        getElementById: () => null,
+        addEventListener: () => {},
+      },
+      fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: {} }) }),
+    };
+    rSb.window = rSb;
+    vm.runInNewContext(rewardAdsSource, rSb, { filename: 'rewardAds.js' });
+    assert.equal(rSb.MRS_REWARD_ADS.isAvailable().reason, 'vip_active');
+
+    // Signed backend token with kind: 'sponsor_reward' validates cleanly against /api/status
+    const { hashDevice } = await import('../server/mrs-iptv-backend/src/redeem.js');
+    const srDev = 'sponsor-reward-dev-32';
+    const srExpMs = Date.now() + 3600_000;
+    const srIns = run(
+      `INSERT INTO reward_grants(device_hash, ip_hash, network, granted_at, expires_at) VALUES (?, 'ip-sr-32', 'monetag', ?, ?)`,
+      hashDevice(srDev),
+      nowIso(),
+      new Date(srExpMs).toISOString()
+    );
+    const srToken = signToken({
+      v: 3,
+      kind: 'sponsor_reward',
+      gid: Number(srIns.lastInsertRowid),
+      dev: hashDevice(srDev),
+      plan: 'sponsor_reward',
+      network: 'monetag',
+      exp: Math.floor(srExpMs / 1000),
+    });
+    const srStatusRes = await fetch(`${baseUrl}/api/status?deviceId=${encodeURIComponent(srDev)}`, {
+      headers: { Authorization: `Bearer ${srToken}` },
+    });
+    assert.equal(srStatusRes.status, 200);
+    const srStatusJson = await srStatusRes.json() as any;
+    assert.equal(srStatusJson.ok, true);
+    assert.equal(srStatusJson.data.active, true);
+    assert.equal(srStatusJson.data.plan, 'reward1h');
+    assert.equal(srStatusJson.data.planCode, 'sponsor_reward');
+  } finally {
+    (globalThis as any).window = origWindow;
+    (globalThis as any).document = origDocument;
+    (globalThis as any).localStorage = origLocalStorage;
+  }
+});
+
+test('33. adsRouter rejects conflicting interstitial zones, nulls, empty sub-objects, no-op toggles, and bad query/event inputs', async () => {
+  // 1. Conflicting monetag.interstitialZoneId vs monetag.interstitial.zoneId
+  const conflictRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({
+      monetag: { interstitialZoneId: '11242067', interstitial: { zoneId: '11242744' } },
+    }),
+  });
+  assert.equal(conflictRes.status, 400);
+  assert.equal(((await conflictRes.json()) as any).error.code, 'invalid_zone_id');
+
+  // 2. Explicit null / empty string for non-nullable IDs rejected
+  for (const nullBody of [
+    { monetag: { verificationId: null } },
+    { monetag: { verificationId: '' } },
+    { monetag: { vignetteZoneId: null } },
+    { monetag: { interstitialZoneId: null } },
+    { monetag: { interstitial: { zoneId: null } } },
+    { monetag: { popunderZoneId: '' } },
+  ]) {
+    const res = await fetch(`${baseUrl}/api/admin/ads/config`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+      body: JSON.stringify(nullBody),
+    });
+    assert.equal(res.status, 400, `Expected 400 for ${JSON.stringify(nullBody)}`);
+  }
+
+  // 3. Empty sub-objects rejected
+  for (const emptySub of [
+    { formats: {} },
+    { monetag: {} },
+    { monetag: { caps: {} } },
+    { monetag: { interstitial: {} } },
+    { monetag: { rewarded: {} } },
+  ]) {
+    const res = await fetch(`${baseUrl}/api/admin/ads/config`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+      body: JSON.stringify(emptySub),
+    });
+    assert.equal(res.status, 400, `Expected 400 for empty sub-object ${JSON.stringify(emptySub)}`);
+    assert.equal(((await res.json()) as any).error.code, 'invalid_ad_config');
+  }
+
+  // 4. No-op toggle payload rejected
+  const noopToggle = await fetch(`${baseUrl}/api/admin/rewards/toggle`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({ network: 'monetag' }),
+  });
+  assert.equal(noopToggle.status, 400);
+  assert.equal(((await noopToggle.json()) as any).error.code, 'invalid_ad_config');
+
+  // 5. Invalid ?days query param rejected on report routes
+  const badDaysReport = await fetch(`${baseUrl}/api/admin/ads/report?days=abc`, {
+    headers: { 'x-admin-token': 'test-admin-secret-123' },
+  });
+  assert.equal(badDaysReport.status, 400);
+  assert.equal(((await badDaysReport.json()) as any).error.code, 'invalid_query');
+
+  const badRewardDays = await fetch(`${baseUrl}/api/admin/rewards/report?days=0`, {
+    headers: { 'x-admin-token': 'test-admin-secret-123' },
+  });
+  assert.equal(badRewardDays.status, 400);
+  assert.equal(((await badRewardDays.json()) as any).error.code, 'invalid_query');
+
+  // 6. Malformed /api/ads/event, /api/rewards/start, and /api/rewards/claim inputs rejected
+  const emptyEvents = await fetch(`${baseUrl}/api/ads/event`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ events: [] }),
+  });
+  assert.equal(emptyEvents.status, 400);
+
+  const badEventType = await fetch(`${baseUrl}/api/ads/event`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ events: [{ eventType: 'bogus', format: 'banner' }] }),
+  });
+  assert.equal(badEventType.status, 400);
+
+  const badNetworkType = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: 'valid-device-id-33', network: { bad: true } }),
+  });
+  assert.equal(badNetworkType.status, 400);
+
+  const badClaimType = await fetch(`${baseUrl}/api/rewards/claim`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: 'valid-device-id-33', nonce: ['array-nonce'] }),
+  });
+  assert.equal(badClaimType.status, 400);
+});
+
+
 
 
 

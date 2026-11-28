@@ -211,10 +211,19 @@
       }
     } catch (e) {}
     var ent = getSavedEntitlement();
-    if (ent && typeof ent.token === 'string' && ent.token.trim().length > 0) {
+    if (
+      ent &&
+      ent.active !== false &&
+      ent.revoked !== true &&
+      ent.status !== 'revoked' &&
+      ent.status !== 'expired' &&
+      typeof ent.token === 'string' &&
+      ent.token.trim().length > 0
+    ) {
       if (!ent.expiresAt) return true;
       var entExpMs = Date.parse(ent.expiresAt);
-      if (!isNaN(entExpMs) && entExpMs > Date.now()) return true;
+      if (isNaN(entExpMs)) return true;
+      if (entExpMs > Date.now()) return true;
       var hintRaw = lsGet(HINT_KEY);
       if (hintRaw) {
         try {
@@ -224,16 +233,50 @@
         } catch (e) {}
       }
     }
+    var sponsorRaw = lsGet('mrs_sponsor_reward_state');
+    if (sponsorRaw) {
+      try {
+        var parsedSr = JSON.parse(sponsorRaw);
+        var srStatus = String((parsedSr && parsedSr.status) || '').trim().toLowerCase();
+        if (
+          parsedSr &&
+          String(parsedSr.code || '').trim().toUpperCase() !== 'SPONSOR_REWARD_VIP' &&
+          parsedSr.active !== false &&
+          parsedSr.revoked !== true &&
+          srStatus !== 'revoked' &&
+          srStatus !== 'expired'
+        ) {
+          if (srStatus === 'pending' && typeof parsedSr.token === 'string' && parsedSr.token.trim()) return true;
+          var srExpRaw = parsedSr.expiresAt || parsedSr.expiryDate;
+          var srExpMs = srExpRaw ? Date.parse(srExpRaw) : NaN;
+          if (
+            (parsedSr.active === true || srStatus === 'active' || srStatus === 'verified' || srStatus === 'claimed') &&
+            !isNaN(srExpMs) &&
+            srExpMs > Date.now()
+          ) {
+            return true;
+          }
+        }
+      } catch (e) {}
+    }
     var adFreeRaw = lsGet('shahintv_adfree_activation');
     if (adFreeRaw) {
       try {
         var parsedAdFree = JSON.parse(adFreeRaw);
+        var afStatus = String((parsedAdFree && (parsedAdFree.status || parsedAdFree.rewardStatus)) || '').trim().toLowerCase();
+        var storedDev = lsGet(DEVICE_KEY_PRIMARY) || lsGet(DEVICE_KEY_LEGACY);
+        var devOk = !parsedAdFree || !parsedAdFree.deviceId || !storedDev || parsedAdFree.deviceId === storedDev;
         if (
           parsedAdFree &&
-          (parsedAdFree.isActive === true || parsedAdFree.isAdFree === true) &&
-          parsedAdFree.code !== 'SPONSOR_REWARD_VIP'
+          devOk &&
+          parsedAdFree.isActive !== false &&
+          parsedAdFree.revoked !== true &&
+          afStatus !== 'revoked' &&
+          afStatus !== 'expired' &&
+          (parsedAdFree.isActive === true || parsedAdFree.isAdFree === true || afStatus === 'active' || afStatus === 'verified' || afStatus === 'claimed') &&
+          String(parsedAdFree.code || '').trim().toUpperCase() !== 'SPONSOR_REWARD_VIP' &&
+          parsedAdFree.expiryDate
         ) {
-          if (!parsedAdFree.expiryDate) return true;
           var afExpMs = Date.parse(parsedAdFree.expiryDate);
           if (!isNaN(afExpMs) && afExpMs > Date.now()) return true;
         }
@@ -566,7 +609,7 @@
     }
     var ent = getSavedEntitlement();
     if (!ent || !ent.token || !ent.expiresAt) return;
-    if (ent.plan !== 'reward1h' && ent.kind !== 'reward') return;
+    if (ent.plan !== 'reward1h' && ent.plan !== 'sponsor_reward' && ent.kind !== 'reward' && ent.kind !== 'sponsor_reward') return;
 
     var msLeft = Date.parse(ent.expiresAt) - Date.now();
     var delay = Math.max(1000, isNaN(msLeft) ? 5000 : msLeft + 1500);

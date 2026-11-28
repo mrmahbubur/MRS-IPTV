@@ -475,8 +475,12 @@ export function getCachedEntitlement(): EntitlementData | null {
     const raw = store.get(KEY);
     if (!raw) return null;
     const e = JSON.parse(raw);
-    if (e && Date.parse(e.expiresAt) > Date.now()) {
-      return { active: true, ...e };
+    if (!e || e.active === false || e.revoked === true || e.status === 'revoked' || e.status === 'expired') {
+      return null;
+    }
+    const expMs = e.expiresAt ? Date.parse(e.expiresAt) : NaN;
+    if (!Number.isNaN(expMs) && expMs > Date.now()) {
+      return { ...e, active: true };
     }
     return null;
   } catch {
@@ -492,12 +496,36 @@ export interface ClientVipStateDetails {
   isPending: boolean;
   isLocked: boolean;
   state: 'vip' | 'pending' | 'free';
-  source: 'gate' | 'dom' | 'cookie' | 'entitlement' | 'adfree' | 'hint' | 'fallback';
+  source: 'gate' | 'dom' | 'cookie' | 'entitlement' | 'sponsor_reward' | 'adfree' | 'hint' | 'fallback';
+}
+
+function isRejectedLegacyRewardCode(code: unknown): boolean {
+  return String(code || '').trim().toUpperCase() === 'SPONSOR_REWARD_VIP';
+}
+
+function isSponsorRewardRecord(parsed: any): boolean {
+  if (!parsed || typeof parsed !== 'object') return false;
+  const code = String(parsed.code || '').trim().toUpperCase();
+  const kind = String(parsed.kind || '').trim().toLowerCase();
+  const plan = String(parsed.plan || '').trim().toLowerCase();
+  return (
+    kind === 'reward' ||
+    kind === 'sponsor_reward' ||
+    plan === 'reward1h' ||
+    plan === 'sponsor_reward' ||
+    code === 'REWARD_1H_VIP' ||
+    code === 'SPONSOR_REWARD_1H' ||
+    code === 'SPONSOR_REWARD_ACTIVE' ||
+    code.startsWith('MONETAG_REWARD_') ||
+    code.startsWith('CAMELLIA-REWARD-') ||
+    code.startsWith('REFERRAL_') ||
+    code.startsWith('REF-WELCOME-')
+  );
 }
 
 /**
  * Robust client-side VIP state detection across gate API, DOM state, secure cookie,
- * signed entitlement storage, and local ad-free pass records (fail-closed on pending).
+ * signed entitlement storage, sponsor reward states, and local ad-free pass records (fail-closed on pending).
  */
 export function detectClientVipState(): ClientVipStateDetails {
   if (typeof window === 'undefined') {
@@ -538,11 +566,30 @@ export function detectClientVipState(): ClientVipStateDetails {
     const rawEnt = store.get(KEY);
     if (rawEnt) {
       const parsedEnt = JSON.parse(rawEnt);
-      if (parsedEnt && typeof parsedEnt.token === 'string' && parsedEnt.token.trim().length > 0) {
+      if (
+        parsedEnt &&
+        parsedEnt.active !== false &&
+        parsedEnt.revoked !== true &&
+        parsedEnt.status !== 'revoked' &&
+        parsedEnt.status !== 'expired' &&
+        typeof parsedEnt.token === 'string' &&
+        parsedEnt.token.trim().length > 0
+      ) {
         hasEntToken = true;
         const expMs = parsedEnt.expiresAt ? Date.parse(parsedEnt.expiresAt) : NaN;
         if (!Number.isNaN(expMs) && expMs > Date.now()) {
-          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'entitlement' };
+          const isSponsorRewardEnt =
+            parsedEnt.kind === 'reward' ||
+            parsedEnt.kind === 'sponsor_reward' ||
+            parsedEnt.plan === 'reward1h' ||
+            parsedEnt.plan === 'sponsor_reward';
+          return {
+            isVip: true,
+            isPending: false,
+            isLocked: true,
+            state: 'vip',
+            source: isSponsorRewardEnt ? 'sponsor_reward' : 'entitlement',
+          };
         }
         if (!parsedEnt.expiresAt || Number.isNaN(expMs)) {
           return { isVip: false, isPending: true, isLocked: true, state: 'pending', source: 'entitlement' };
@@ -554,20 +601,78 @@ export function detectClientVipState(): ClientVipStateDetails {
   }
 
   try {
+    const rawSponsorState = store.get('mrs_sponsor_reward_state');
+    if (rawSponsorState) {
+      const parsedSr = JSON.parse(rawSponsorState);
+      const statusLower = String(parsedSr?.status || '').trim().toLowerCase();
+      if (
+        parsedSr &&
+        !isRejectedLegacyRewardCode(parsedSr.code) &&
+        parsedSr.active !== false &&
+        parsedSr.revoked !== true &&
+        statusLower !== 'expired' &&
+        statusLower !== 'revoked'
+      ) {
+        if (statusLower === 'pending' && typeof parsedSr.token === 'string' && parsedSr.token.trim()) {
+          return { isVip: false, isPending: true, isLocked: true, state: 'pending', source: 'sponsor_reward' };
+        }
+        const srExpRaw = parsedSr.expiresAt || parsedSr.expiryDate;
+        const srExpMs = srExpRaw ? Date.parse(srExpRaw) : NaN;
+        if (
+          (parsedSr.active === true || statusLower === 'active' || statusLower === 'verified' || statusLower === 'claimed') &&
+          !Number.isNaN(srExpMs) &&
+          srExpMs > Date.now()
+        ) {
+          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'sponsor_reward' };
+        }
+      }
+    }
+  } catch {
+    // ignore malformed sponsor reward state
+  }
+
+  try {
     const rawAdFree = store.get('shahintv_adfree_activation');
     if (rawAdFree) {
       const parsedAf = JSON.parse(rawAdFree);
+      const afStatusLower = String(parsedAf?.status || parsedAf?.rewardStatus || '').trim().toLowerCase();
+      const primaryDeviceId = store.get('mrs_device_id');
+      const legacyDeviceId = store.get('shahintv_device_id');
+      let sessionLegacyDeviceId: string | null = null;
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionLegacyDeviceId = sessionStorage.getItem('shahintv_device_id');
+        }
+      } catch {}
+      const afDev = typeof parsedAf?.deviceId === 'string' ? parsedAf.deviceId : '';
+      const hasAnyStoredDevice = Boolean(primaryDeviceId || legacyDeviceId || sessionLegacyDeviceId);
+      const deviceMatches =
+        !afDev ||
+        !hasAnyStoredDevice ||
+        afDev === primaryDeviceId ||
+        afDev === legacyDeviceId ||
+        afDev === sessionLegacyDeviceId ||
+        (Boolean(legacyDeviceId) && afDev.startsWith('STV_') && afDev.endsWith(`_${legacyDeviceId}`)) ||
+        (!sessionLegacyDeviceId && !legacyDeviceId && afDev === 'STV_fp_fallback_device');
       if (
         parsedAf &&
-        (parsedAf.isActive === true || parsedAf.isAdFree === true) &&
-        parsedAf.code !== 'SPONSOR_REWARD_VIP'
+        deviceMatches &&
+        parsedAf.isActive !== false &&
+        parsedAf.revoked !== true &&
+        afStatusLower !== 'expired' &&
+        afStatusLower !== 'revoked' &&
+        (parsedAf.isActive === true || parsedAf.isAdFree === true || afStatusLower === 'active' || afStatusLower === 'verified' || afStatusLower === 'claimed') &&
+        !isRejectedLegacyRewardCode(parsedAf.code)
       ) {
-        if (!parsedAf.expiryDate) {
-          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'adfree' };
-        }
-        const afExpMs = Date.parse(parsedAf.expiryDate);
+        const afExpMs = parsedAf.expiryDate ? Date.parse(parsedAf.expiryDate) : NaN;
         if (!Number.isNaN(afExpMs) && afExpMs > Date.now()) {
-          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'adfree' };
+          return {
+            isVip: true,
+            isPending: false,
+            isLocked: true,
+            state: 'vip',
+            source: isSponsorRewardRecord(parsedAf) ? 'sponsor_reward' : 'adfree',
+          };
         }
       }
     }

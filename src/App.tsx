@@ -596,8 +596,13 @@ export default function App() {
         const expiry = new Date(data.expiryDate);
 
         if (now >= expiry) {
+          const codeUpper = String(data.code || '').trim().toUpperCase();
           const isTemp1hVip =
-            data.code === 'REWARD_1H_VIP' ||
+            codeUpper === 'REWARD_1H_VIP' ||
+            codeUpper === 'SPONSOR_REWARD_1H' ||
+            codeUpper === 'SPONSOR_REWARD_ACTIVE' ||
+            codeUpper.startsWith('MONETAG_REWARD_') ||
+            codeUpper.startsWith('CAMELLIA-REWARD-') ||
             Number(data.durationMonths) === 0;
           // Expiry date has passed: remove activation code from localStorage and restore ad-supported state
           localStorage.removeItem('shahintv_adfree_activation');
@@ -707,7 +712,19 @@ export default function App() {
     const handleAdUpdated = (e: any) => {
       const updated = e.detail || getStoredAdFreeState();
       setAdFreeState(updated);
-      if (updated?.isActive && (updated?.code === 'REWARD_1H_VIP' || getCachedEntitlement()?.plan === 'reward1h')) {
+      const updatedCode = String(updated?.code || '').trim().toUpperCase();
+      const cachedEnt = getCachedEntitlement();
+      const isRewardUnlock =
+        updatedCode === 'REWARD_1H_VIP' ||
+        updatedCode === 'SPONSOR_REWARD_1H' ||
+        updatedCode === 'SPONSOR_REWARD_ACTIVE' ||
+        updatedCode.startsWith('MONETAG_REWARD_') ||
+        updatedCode.startsWith('CAMELLIA-REWARD_') ||
+        cachedEnt?.plan === 'reward1h' ||
+        (cachedEnt as any)?.plan === 'sponsor_reward' ||
+        (cachedEnt as any)?.kind === 'reward' ||
+        (cachedEnt as any)?.kind === 'sponsor_reward';
+      if (updated?.isActive && isRewardUnlock) {
         setCacheNotice('VIP unlocked for 1 hour');
         setTimeout(() => setCacheNotice(null), 5000);
       }
