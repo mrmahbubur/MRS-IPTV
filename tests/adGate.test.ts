@@ -22,8 +22,8 @@ process.env.REWARD_MAX_PER_IP_PER_DAY = '6';
 process.env.MONETAG_POSTBACK_SECRET = 'monetag-postback-test-secret';
 
 const { db, run, get, nowIso } = await import('../server/mrs-iptv-backend/src/db.js');
-const { redeem } = await import('../server/mrs-iptv-backend/src/redeem.js');
-const { createAdsRouter, MONETAG_ZONES, sanitizeShowFn } = await import('../server/adsRouter.js');
+const { redeem, signToken, verifyToken, sanitizeDeviceId, checkEntitlement } = await import('../server/mrs-iptv-backend/src/redeem.js');
+const { createAdsRouter, MONETAG_ZONES, sanitizeShowFn, sanitizeRewardedSnippet } = await import('../server/adsRouter.js');
 const paymentRouterModule = await import('../server/paymentRouter.js');
 const createPaymentRouter = paymentRouterModule.default || paymentRouterModule.createPaymentRouter;
 
@@ -332,6 +332,13 @@ test('6. /go/:offerId is completely unmounted (404), MONETAG_ZONES preserves all
   assert.equal(cfgJson.data.hideOffersForVip, undefined);
   assert.equal(cfgJson.data.offers, undefined);
   assert.equal(cfgJson.data.formats.affiliate, undefined);
+  assert.equal(cfgJson.data.monetag.verificationId, 'fa9656182dbc7301dcd9a2326441dcf3');
+  assert.equal(cfgJson.data.monetag.caps.popunderCooldownMs, 30 * 60_000);
+  assert.equal(cfgJson.data.monetag.caps.popunderMaxPerDay, 3);
+  assert.equal(cfgJson.data.monetag.caps.pushDelayMs, 60_000);
+  assert.equal(cfgJson.data.monetag.caps.pushMinVisits, 2);
+  assert.equal(cfgJson.data.monetag.caps.pushDeclineDays, 30);
+  assert.equal(cfgJson.data.monetag.caps.emptySlotCollapseMs, 4000);
   assert.equal(cfgJson.data.monetag.rewardedEnabled, false);
   assert.equal(cfgJson.data.rewards.anyRewardedAvailable, false);
 });
@@ -594,10 +601,19 @@ test('12. Admin reward report, revoke, Monetag toggle, and removal verification'
   // Allows toggling Monetag settings cleanly, validates showFn identifier robustly, and resets back to false/null
   const invalidCandidates: unknown[] = [
     'eval("alert(1)")',
+    'Eval',
     '__proto__.constructor',
     'constructor.constructor',
     'window.eval',
+    'window.Location',
     'Function',
+    'function',
+    'class',
+    'Object.assign',
+    'Proxy',
+    'Reflect.get',
+    'arguments',
+    'this',
     'foo..bar',
     'foo.',
     'a.0bar',
@@ -620,6 +636,23 @@ test('12. Admin reward report, revoke, Monetag toggle, and removal verification'
     assert.equal(badFnJson.error.code, 'invalid_show_fn');
   }
   assert.equal(sanitizeShowFn('MonetagSDK.reward.show'), 'MonetagSDK.reward.show');
+
+  // Snippet injection rejection
+  assert.throws(() => sanitizeRewardedSnippet('<iframe src="https://evil.test"></iframe>'), /disallowed inline/i);
+  assert.throws(() => sanitizeRewardedSnippet('javascript:alert(1)'), /disallowed inline/i);
+  const badSnippetRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': 'test-admin-secret-123',
+    },
+    body: JSON.stringify({
+      monetag: { showRegularAds: false, rewarded: { enabled: true, snippet: 'eval("bad")' } },
+    }),
+  });
+  assert.equal(badSnippetRes.status, 400);
+  const badSnippetJson = await badSnippetRes.json() as any;
+  assert.equal(badSnippetJson.error.code, 'invalid_snippet');
 
   const allowRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
     method: 'POST',
@@ -971,11 +1004,18 @@ test('15. rewardAds.js crypto-random device ID & secure global callback resoluti
     return sb;
   };
 
-  // Blocked prototype/built-in path must never resolve
-  const blockedSb = makeLiveSandbox('__proto__.constructor');
-  vm.runInNewContext(rewardAdsSource, blockedSb, { filename: 'rewardAds.js' });
-  await assert.rejects(blockedSb.MRS_REWARD_ADS.startAndWatch('monetag'), /not configured/i);
-  assert.match(capturedDeviceId, /^[0-9a-f]{48}$/);
+  // Blocked prototype/built-in/case-spoofed paths must never resolve
+  for (const blockedPath of ['__proto__.constructor', 'Eval', 'Object', 'DOMTarget.show']) {
+    storageMap.clear();
+    capturedDeviceId = '';
+    const blockedSb = makeLiveSandbox(blockedPath);
+    blockedSb.Node = class MockNode {};
+    blockedSb.DOMTarget = new blockedSb.Node();
+    blockedSb.DOMTarget.show = () => {};
+    vm.runInNewContext(rewardAdsSource, blockedSb, { filename: 'rewardAds.js' });
+    await assert.rejects(blockedSb.MRS_REWARD_ADS.startAndWatch('monetag'), /not configured/i);
+    assert.match(capturedDeviceId, /^[0-9a-f]{48}$/);
+  }
 
   // Valid namespaced MonetagSDK.show resolves own-property with receiver intact
   storageMap.clear();
@@ -988,5 +1028,43 @@ test('15. rewardAds.js crypto-random device ID & secure global callback resoluti
   assert.equal(sdkCallCount, 1);
   assert.match(capturedDeviceId, /^[0-9a-f]{48}$/);
 });
+
+test('16. Device ID sanitization and CSPRNG token generation/verification enforce strict formats', async () => {
+  assert.equal(sanitizeDeviceId('short-id'), null);
+  assert.equal(sanitizeDeviceId('bad\nid\rwith-crlf-12345'), null);
+  assert.equal(sanitizeDeviceId({ toString: () => 'valid-object-device-123' }), null);
+  assert.equal(sanitizeDeviceId('  valid_device-id_12345  '), 'valid_device-id_12345');
+
+  const badStartRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: 'short', network: 'monetag' }),
+  });
+  assert.equal(badStartRes.status, 400);
+  const badStartJson = await badStartRes.json() as any;
+  assert.equal(badStartJson.error.code, 'invalid_device');
+
+  // CSPRNG jti + iat ensure consecutive tokens with identical logical claims differ
+  const futureExp = Math.floor(Date.now() / 1000) + 3600;
+  const tokA = signToken({ v: 1, cid: 1, dev: 'abc123def456', plan: '1m', exp: futureExp });
+  const tokB = signToken({ v: 1, cid: 1, dev: 'abc123def456', plan: '1m', exp: futureExp });
+  assert.notEqual(tokA, tokB);
+
+  const verifiedA = verifyToken(tokA);
+  assert.ok(verifiedA);
+  assert.match(String(verifiedA.jti), /^[0-9a-f]{24}$/);
+  assert.equal(typeof verifiedA.iat, 'number');
+
+  // Malformed token formats rejected by verifyToken
+  assert.equal(verifyToken(`${tokA}.extra`), null);
+  assert.equal(verifyToken('not!valid.base64url!'), null);
+  assert.equal(verifyToken(null as any), null);
+
+  // checkEntitlement rejects invalid deviceId even with valid token
+  const badEnt = checkEntitlement({ token: activeVipToken, deviceId: 'bad' });
+  assert.equal(badEnt.ok, false);
+  assert.equal(badEnt.code, 'invalid_token');
+});
+
 
 

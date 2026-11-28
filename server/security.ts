@@ -743,9 +743,14 @@ export const aiEndpointRateLimiter = createSlidingWindowLimiter({
 // VIP Code Brute-Force & Credential Stuffing Limiter: max 5 attempts per 15 minutes per IP + Device
 const bruteForceFailedAttempts = new Map<string, { count: number; lockedUntil: number }>();
 
+function sanitizeSecurityDeviceId(raw: unknown): string {
+  if (typeof raw !== 'string') return '';
+  return raw.trim().replace(/[^A-Za-z0-9_-]/g, '').slice(0, 64);
+}
+
 export function checkBruteForceLock(req: express.Request): { locked: boolean; remainingSec: number } {
   const ip = getTrustedClientIp(req);
-  const deviceId = req.body?.deviceId || req.query.deviceId || '';
+  const deviceId = sanitizeSecurityDeviceId(req.body?.deviceId || req.query.deviceId || req.get('x-device-id'));
   const key = `${ip}_${deviceId}`;
   const now = Date.now();
 
@@ -758,7 +763,7 @@ export function checkBruteForceLock(req: express.Request): { locked: boolean; re
 
 export function recordFailedCodeAttempt(req: express.Request): void {
   const ip = getTrustedClientIp(req);
-  const deviceId = req.body?.deviceId || req.query.deviceId || '';
+  const deviceId = sanitizeSecurityDeviceId(req.body?.deviceId || req.query.deviceId || req.get('x-device-id'));
   const key = `${ip}_${deviceId}`;
   const now = Date.now();
 
@@ -776,7 +781,7 @@ export function recordFailedCodeAttempt(req: express.Request): void {
 
 export function clearFailedCodeAttempts(req: express.Request): void {
   const ip = getTrustedClientIp(req);
-  const deviceId = req.body?.deviceId || req.query.deviceId || '';
+  const deviceId = sanitizeSecurityDeviceId(req.body?.deviceId || req.query.deviceId || req.get('x-device-id'));
   const key = `${ip}_${deviceId}`;
   bruteForceFailedAttempts.delete(key);
 }

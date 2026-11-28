@@ -32,8 +32,19 @@
     },
     testMode: true,
     monetag: {
+      verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
       showRegularAds: false,
-      rewardedEnabled: false
+      rewardedEnabled: false,
+      rewardedShowFn: null,
+      rewardedZoneId: null,
+      caps: {
+        popunderCooldownMs: 1800000,
+        popunderMaxPerDay: 3,
+        pushDelayMs: 60000,
+        pushMinVisits: 2,
+        pushDeclineDays: 30,
+        emptySlotCollapseMs: 4000
+      }
     },
     rewards: {
       durationMinutes: 60,
@@ -316,9 +327,9 @@
       }
 
       var now = Date.now();
-      var caps = cfg.caps || {};
+      var caps = Object.assign({}, cfg.caps || {}, (serverFormatConfig.monetag && serverFormatConfig.monetag.caps) || {});
       var cooldown = caps.popunderCooldownMs || 1800000;
-      var maxPerDay = caps.popunderMaxPerDay || 3;
+      var maxPerDay = typeof caps.popunderMaxPerDay === 'number' ? caps.popunderMaxPerDay : 3;
 
       var hist = { day: new Date().toISOString().slice(0, 10), count: 0, lastAt: 0 };
       try {
@@ -432,7 +443,7 @@
     if (win.Notification.permission !== 'default') return;
 
     var cfg = win.MRS_ADS_CONFIG || {};
-    var caps = cfg.caps || {};
+    var caps = Object.assign({}, cfg.caps || {}, (serverFormatConfig.monetag && serverFormatConfig.monetag.caps) || {});
     var noUntil = parseInt(lsGet(PUSH_NO_UNTIL_KEY) || '0', 10) || 0;
     if (noUntil > Date.now()) return;
 
@@ -480,7 +491,8 @@
 
   function monitorEmptyDynamicSlots() {
     var cfg = win.MRS_ADS_CONFIG || {};
-    var waitMs = (cfg.caps && cfg.caps.emptySlotCollapseMs) || 4000;
+    var serverCaps = (serverFormatConfig.monetag && serverFormatConfig.monetag.caps) || {};
+    var waitMs = serverCaps.emptySlotCollapseMs || (cfg.caps && cfg.caps.emptySlotCollapseMs) || 4000;
     setTimeout(function () {
       if (!isFreeState()) return;
       var slots = doc.querySelectorAll('.ad-slot[data-dynamic-slot="1"]');

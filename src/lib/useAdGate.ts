@@ -4,9 +4,19 @@ import { getCachedEntitlement } from './mrsVip';
 export type AdGateState = 'pending' | 'vip' | 'free';
 
 export interface NetworkGateConfig {
+  verificationId?: string;
   showRegularAds: boolean;
   rewardedEnabled: boolean;
   rewardedShowFn?: string | null;
+  rewardedZoneId?: string | null;
+  caps?: {
+    popunderCooldownMs: number;
+    popunderMaxPerDay: number;
+    pushDelayMs: number;
+    pushMinVisits: number;
+    pushDeclineDays: number;
+    emptySlotCollapseMs: number;
+  };
 }
 
 export interface RewardsGateConfig {
@@ -41,6 +51,7 @@ const DEFAULT_AD_CONFIG: AdFormatConfig = {
   },
   testMode: true,
   monetag: {
+    verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
     showRegularAds: false,
     rewardedEnabled: false,
   },
@@ -99,9 +110,12 @@ export function getAdRuntimeConfig(): AdFormatConfig {
     },
     testMode,
     monetag: {
+      verificationId: serverCfg.monetag?.verificationId || staticCfg.monetag?.verificationId || DEFAULT_AD_CONFIG.monetag.verificationId,
       showRegularAds: monetagShowRegular,
       rewardedEnabled: monetagRewarded,
       rewardedShowFn: serverCfg.monetag?.rewardedShowFn || null,
+      rewardedZoneId: serverCfg.monetag?.rewardedZoneId || null,
+      caps: serverCfg.monetag?.caps || staticCfg.caps,
     },
     rewards: {
       durationMinutes: Number(serverCfg.rewards?.durationMinutes || staticCfg.rewards?.durationMinutes || 60),

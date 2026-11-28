@@ -12,6 +12,14 @@ import { addMonths, isValidCodeFormat } from './codes.js';
 import { normalizeEmail } from './validators.js';
 
 const b64u = (b) => Buffer.from(b).toString('base64url');
+export const DEVICE_ID_REGEX = /^[A-Za-z0-9_-]{12,128}$/;
+
+export function sanitizeDeviceId(raw) {
+  if (raw === null || raw === undefined || typeof raw === 'object') return null;
+  const clean = String(raw).trim();
+  return DEVICE_ID_REGEX.test(clean) ? clean : null;
+}
+
 export const hashDevice = (d) => createHash('sha256').update(String(d || '')).digest('hex').slice(0, 24);
 
 // Brute-force protection on failed activation code guesses
@@ -55,20 +63,44 @@ export function normalizeCodeInput(raw) {
   return String(raw ?? '').trim().toUpperCase();
 }
 
+const TOKEN_PART_REGEX = /^[A-Za-z0-9_-]+$/;
+
 export function signToken(payload) {
-  const body = b64u(JSON.stringify(payload));
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new TypeError('Token payload must be a plain object');
+  }
+  const normalized = {
+    ...payload,
+    iat: typeof payload.iat === 'number' && Number.isFinite(payload.iat)
+      ? Math.floor(payload.iat)
+      : Math.floor(Date.now() / 1000),
+    jti: typeof payload.jti === 'string' && /^[A-Za-z0-9_-]{12,64}$/.test(payload.jti)
+      ? payload.jti
+      : randomBytes(12).toString('hex'),
+  };
+  const body = b64u(JSON.stringify(normalized));
   return `${body}.${createHmac('sha256', config.tokenSecret).update(body).digest('base64url')}`;
 }
 
 export function verifyToken(token) {
-  const [body, sig] = String(token || '').split('.');
-  if (!body || !sig) return null;
+  if (typeof token !== 'string') return null;
+  const trimmed = token.trim();
+  if (!trimmed || trimmed.length > 4096) return null;
+  const parts = trimmed.split('.');
+  if (parts.length !== 2) return null;
+  const [body, sig] = parts;
+  if (!body || !sig || !TOKEN_PART_REGEX.test(body) || !TOKEN_PART_REGEX.test(sig)) return null;
   const expect = createHmac('sha256', config.tokenSecret).update(body).digest('base64url');
   const a = Buffer.from(sig);
   const b = Buffer.from(expect);
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
   try {
-    return JSON.parse(Buffer.from(body, 'base64url').toString());
+    const parsed = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
+    if (parsed.exp !== undefined && (!Number.isFinite(Number(parsed.exp)) || Number(parsed.exp) <= 0)) {
+      return null;
+    }
+    return parsed;
   } catch {
     return null;
   }
@@ -119,9 +151,11 @@ export function redeem({ code, deviceId }) {
   if (!isValidCodeFormat(resolvedCode)) {
     return fail(400, 'invalid_format', 'Enter the activation code from your email (e.g. MRS-1M-XXXX-XXXX-XXXX or 10-digit pass code).', 'INVALID_CODE');
   }
-  if (!/^[A-Za-z0-9_-]{12,128}$/.test(String(deviceId ?? ''))) {
+  const cleanDeviceId = sanitizeDeviceId(deviceId);
+  if (!cleanDeviceId) {
     return fail(400, 'invalid_device', 'Missing device identifier', 'INVALID_DEVICE');
   }
+  deviceId = cleanDeviceId;
 
   return tx(() => {
     const row = get('SELECT * FROM codes WHERE code=?', resolvedCode);
@@ -171,9 +205,11 @@ export function activatePass({ code, email, deviceId, deviceLabel = 'Web Browser
   if (!isValidCodeFormat(resolvedCode)) {
     return fail(400, 'INVALID_CODE', 'Invalid activation code format. Check the code in your email.');
   }
-  if (!/^[A-Za-z0-9_-]{12,128}$/.test(String(deviceId ?? ''))) {
+  const cleanDeviceId = sanitizeDeviceId(deviceId);
+  if (!cleanDeviceId) {
     return fail(400, 'INVALID_DEVICE', 'Valid device identifier is required.');
   }
+  deviceId = cleanDeviceId;
 
   const parsedEmail = email ? normalizeEmail(email) : { ok: true, value: '' };
   if (email && !parsedEmail.ok) {
@@ -369,7 +405,11 @@ export function activatePass({ code, email, deviceId, deviceLabel = 'Web Browser
 /** Called by the app on launch: is this token still good for this device? */
 export function checkEntitlement({ token, deviceId }) {
   const p = verifyToken(token);
-  if (!p || !deviceId || p.dev !== hashDevice(String(deviceId))) return fail(401, 'invalid_token', 'Invalid pass token', 'INVALID_CODE');
+  const cleanDeviceId = sanitizeDeviceId(deviceId);
+  if (!p || !cleanDeviceId || p.dev !== hashDevice(cleanDeviceId)) {
+    return fail(401, 'invalid_token', 'Invalid pass token', 'INVALID_CODE');
+  }
+  deviceId = cleanDeviceId;
 
   // 1. Rewarded 1-Hour VIP Grant Tokens
   if (p.kind === 'reward') {
@@ -442,8 +482,10 @@ export function removeRegisteredDevice({ token, deviceHash, deviceId }) {
   const p = verifyToken(token);
   if (!p) return fail(401, 'invalid_token', 'Invalid session token');
 
-  const targetHash = deviceHash || (deviceId ? hashDevice(deviceId) : '');
-  if (!targetHash) return fail(400, 'bad_request', 'deviceHash is required');
+  const cleanHash = typeof deviceHash === 'string' && /^[a-f0-9]{16,64}$/i.test(deviceHash.trim()) ? deviceHash.trim() : '';
+  const cleanDeviceId = sanitizeDeviceId(deviceId);
+  const targetHash = cleanHash || (cleanDeviceId ? hashDevice(cleanDeviceId) : '');
+  if (!targetHash) return fail(400, 'bad_request', 'Valid deviceHash or deviceId is required');
 
   if (p.eid) {
     const del = run('DELETE FROM devices WHERE entitlement_id=? AND device_hash=?', p.eid, targetHash);
@@ -484,9 +526,11 @@ export function resetDevice(code, actor = 'admin') {
 export function claimOrderVip({ orderId, deviceId }) {
   const cleanOrderId = String(orderId ?? '').trim();
   if (!cleanOrderId) return fail(400, 'invalid_order', 'Order ID is required');
-  if (!/^[A-Za-z0-9_-]{12,128}$/.test(String(deviceId ?? ''))) {
+  const cleanDeviceId = sanitizeDeviceId(deviceId);
+  if (!cleanDeviceId) {
     return fail(400, 'invalid_device', 'Missing device identifier');
   }
+  deviceId = cleanDeviceId;
 
   return tx(() => {
     const order = get('SELECT * FROM orders WHERE public_id=?', cleanOrderId);

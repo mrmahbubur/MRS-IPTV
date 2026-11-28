@@ -35,13 +35,31 @@
   var FORBIDDEN_FN_SEGMENTS = {
     '__proto__': 1, 'prototype': 1, 'constructor': 1, 'toString': 1, 'valueOf': 1,
     'hasOwnProperty': 1, 'isPrototypeOf': 1, 'propertyIsEnumerable': 1, 'toLocaleString': 1,
-    'eval': 1, 'Function': 1, 'setTimeout': 1, 'setInterval': 1, 'setImmediate': 1,
+    'eval': 1, 'Function': 1, 'Object': 1, 'Array': 1, 'Proxy': 1, 'Reflect': 1,
+    'Symbol': 1, 'BigInt': 1, 'String': 1, 'Number': 1, 'Boolean': 1, 'Promise': 1,
+    'RegExp': 1, 'Error': 1, 'setTimeout': 1, 'setInterval': 1, 'setImmediate': 1,
     'clearTimeout': 1, 'clearInterval': 1, 'execScript': 1, 'alert': 1, 'confirm': 1,
     'prompt': 1, 'fetch': 1, 'XMLHttpRequest': 1, 'open': 1, 'close': 1, 'location': 1,
     'document': 1, 'window': 1, 'self': 1, 'top': 1, 'parent': 1, 'frames': 1,
-    'globalThis': 1, 'navigator': 1, 'localStorage': 1, 'sessionStorage': 1, 'indexedDB': 1,
-    'history': 1, 'crypto': 1, 'postMessage': 1, 'importScripts': 1, 'WebSocket': 1,
-    'Worker': 1, 'SharedWorker': 1
+    'globalThis': 1, 'global': 1, 'navigator': 1, 'localStorage': 1, 'sessionStorage': 1,
+    'indexedDB': 1, 'history': 1, 'crypto': 1, 'postMessage': 1, 'importScripts': 1,
+    'WebSocket': 1, 'Worker': 1, 'SharedWorker': 1
+  };
+  var FORBIDDEN_FN_LOWER = {
+    '__proto__': 1, 'prototype': 1, 'constructor': 1, 'eval': 1, 'function': 1,
+    'globalthis': 1, 'window': 1, 'document': 1, 'location': 1, 'execscript': 1,
+    'importscripts': 1, 'settimeout': 1, 'setinterval': 1, 'setimmediate': 1,
+    'fetch': 1, 'xmlhttprequest': 1, 'websocket': 1, 'worker': 1, 'sharedworker': 1,
+    'postmessage': 1, 'localstorage': 1, 'sessionstorage': 1, 'indexeddb': 1,
+    'object': 1, 'array': 1, 'proxy': 1, 'reflect': 1, 'arguments': 1, 'this': 1,
+    'super': 1, 'class': 1, 'import': 1, 'export': 1, 'await': 1, 'async': 1,
+    'delete': 1, 'typeof': 1, 'void': 1, 'new': 1, 'in': 1, 'instanceof': 1,
+    'return': 1, 'throw': 1, 'try': 1, 'catch': 1, 'finally': 1, 'with': 1,
+    'yield': 1, 'let': 1, 'const': 1, 'var': 1, 'if': 1, 'else': 1, 'for': 1,
+    'while': 1, 'do': 1, 'switch': 1, 'case': 1, 'break': 1, 'continue': 1,
+    'default': 1, 'debugger': 1, 'enum': 1, 'extends': 1, 'implements': 1,
+    'interface': 1, 'package': 1, 'private': 1, 'protected': 1, 'public': 1,
+    'static': 1, 'null': 1, 'undefined': 1, 'true': 1, 'false': 1
   };
   var FN_SEGMENT_RE = /^[A-Za-z_$][A-Za-z0-9_$]{0,31}$/;
 
@@ -102,6 +120,7 @@
       var seg = parts[i];
       if (!FN_SEGMENT_RE.test(seg)) return false;
       if (Object.prototype.hasOwnProperty.call(FORBIDDEN_FN_SEGMENTS, seg)) return false;
+      if (Object.prototype.hasOwnProperty.call(FORBIDDEN_FN_LOWER, seg.toLowerCase())) return false;
     }
     return true;
   }
@@ -117,6 +136,7 @@
       if (!Object.prototype.hasOwnProperty.call(cur, seg)) return null;
       parent = cur;
       cur = cur[seg];
+      if (cur === win || (win.Node && cur instanceof win.Node)) return null;
     }
     if (typeof cur !== 'function') return null;
     return parent && parent !== win ? cur.bind(parent) : cur;

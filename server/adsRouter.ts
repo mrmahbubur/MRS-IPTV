@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import express, { Request, Response } from 'express';
 import { db, get, all, run, nowIso, tx } from './mrs-iptv-backend/src/db.js';
-import { getEntitlementStatus, hashDevice, signToken } from './mrs-iptv-backend/src/redeem.js';
+import { getEntitlementStatus, hashDevice, sanitizeDeviceId, signToken } from './mrs-iptv-backend/src/redeem.js';
 import { config as backendConfig } from './mrs-iptv-backend/src/config.js';
 import { requireAdmin } from '../src/middleware/auth.js';
 import { getTrustedClientIp } from './clientIp.js';
@@ -122,6 +122,18 @@ const FORBIDDEN_SHOW_FN_SEGMENTS = new Set([
   'toLocaleString',
   'eval',
   'Function',
+  'Object',
+  'Array',
+  'Proxy',
+  'Reflect',
+  'Symbol',
+  'BigInt',
+  'String',
+  'Number',
+  'Boolean',
+  'Promise',
+  'RegExp',
+  'Error',
   'setTimeout',
   'setInterval',
   'setImmediate',
@@ -143,6 +155,7 @@ const FORBIDDEN_SHOW_FN_SEGMENTS = new Set([
   'parent',
   'frames',
   'globalThis',
+  'global',
   'navigator',
   'localStorage',
   'sessionStorage',
@@ -154,6 +167,88 @@ const FORBIDDEN_SHOW_FN_SEGMENTS = new Set([
   'WebSocket',
   'Worker',
   'SharedWorker',
+  'process',
+  'require',
+  'module',
+  'exports',
+]);
+
+const FORBIDDEN_SHOW_FN_LOWER = new Set([
+  '__proto__',
+  'prototype',
+  'constructor',
+  'eval',
+  'function',
+  'globalthis',
+  'window',
+  'document',
+  'location',
+  'execscript',
+  'importscripts',
+  'settimeout',
+  'setinterval',
+  'setimmediate',
+  'fetch',
+  'xmlhttprequest',
+  'websocket',
+  'worker',
+  'sharedworker',
+  'postmessage',
+  'localstorage',
+  'sessionstorage',
+  'indexeddb',
+  'object',
+  'array',
+  'proxy',
+  'reflect',
+  'arguments',
+  'this',
+  'super',
+  'class',
+  'import',
+  'export',
+  'await',
+  'async',
+  'delete',
+  'typeof',
+  'void',
+  'new',
+  'in',
+  'instanceof',
+  'return',
+  'throw',
+  'try',
+  'catch',
+  'finally',
+  'with',
+  'yield',
+  'let',
+  'const',
+  'var',
+  'if',
+  'else',
+  'for',
+  'while',
+  'do',
+  'switch',
+  'case',
+  'break',
+  'continue',
+  'default',
+  'debugger',
+  'enum',
+  'extends',
+  'implements',
+  'interface',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'static',
+  'null',
+  'undefined',
+  'true',
+  'false',
 ]);
 
 export function sanitizeShowFn(raw: unknown): string | null {
@@ -183,7 +278,11 @@ export function sanitizeShowFn(raw: unknown): string | null {
     );
   }
   for (const part of parts) {
-    if (!SHOW_FN_SEGMENT_REGEX.test(part) || FORBIDDEN_SHOW_FN_SEGMENTS.has(part)) {
+    if (
+      !SHOW_FN_SEGMENT_REGEX.test(part) ||
+      FORBIDDEN_SHOW_FN_SEGMENTS.has(part) ||
+      FORBIDDEN_SHOW_FN_LOWER.has(part.toLowerCase())
+    ) {
       throw new AdPolicyValidationError(
         400,
         'invalid_show_fn',
@@ -200,6 +299,36 @@ function trySanitizeShowFnEnv(raw: unknown): string | null {
   } catch {
     return null;
   }
+}
+
+export function sanitizeRewardedSnippet(raw: unknown): string | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw !== 'string') {
+    throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet must be a string.');
+  }
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  if (trimmed.length > 4096) {
+    throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet must be 4096 characters or fewer.');
+  }
+  if (/(?:javascript:|vbscript:|data:text\/html|<iframe\b|\bon[a-z]+\s*=|\beval\s*\(|\bnew\s+Function\b|document\.write)/i.test(trimmed)) {
+    throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet contains disallowed inline patterns.');
+  }
+  return trimmed;
+}
+
+function trySanitizeSnippetEnv(raw: unknown): string | null {
+  try {
+    return sanitizeRewardedSnippet(raw);
+  } catch {
+    return null;
+  }
+}
+
+function sanitizeZoneId(raw: unknown): string | null {
+  if (typeof raw !== 'string') return null;
+  const trimmed = raw.trim();
+  return /^[A-Za-z0-9_-]{1,32}$/.test(trimmed) ? trimmed : null;
 }
 
 const DEFAULT_AD_SETTINGS: AdSettings = {
@@ -239,7 +368,7 @@ export function getAdSettings(): AdSettings {
           showRegularAds: Boolean(parsed.monetag?.showRegularAds),
           rewarded: {
             enabled: Boolean(parsed.monetag?.rewarded?.enabled),
-            snippet: parsed.monetag?.rewarded?.snippet || null,
+            snippet: trySanitizeSnippetEnv(parsed.monetag?.rewarded?.snippet),
             showFn: trySanitizeShowFnEnv(parsed.monetag?.rewarded?.showFn),
           },
         },
@@ -283,7 +412,7 @@ export function saveAdSettings(partial: Partial<AdSettings>): AdSettings {
             : current.monetag.rewarded.enabled,
         snippet:
           partial.monetag?.rewarded && 'snippet' in partial.monetag.rewarded
-            ? (partial.monetag.rewarded.snippet ? String(partial.monetag.rewarded.snippet) : null)
+            ? sanitizeRewardedSnippet(partial.monetag.rewarded.snippet)
             : current.monetag.rewarded.snippet,
         showFn:
           partial.monetag?.rewarded && 'showFn' in partial.monetag.rewarded
@@ -322,7 +451,9 @@ export function isVipRequest(req: Request): boolean {
     const bearer = auth.toLowerCase().startsWith('bearer ') ? auth.slice(7).trim() : '';
     const token = bearer || String(req.get('x-vip-token') || '');
     if (!token) return false;
-    const deviceId = String(req.get('x-device-id') || req.query.deviceId || '');
+    const rawDeviceId = req.get('x-device-id') || (typeof req.query.deviceId === 'string' ? req.query.deviceId : '');
+    const deviceId = sanitizeDeviceId(rawDeviceId);
+    if (!deviceId) return false;
     const r = getEntitlementStatus({ token, deviceId });
     return Boolean(r?.ok && r?.active);
   } catch {
@@ -366,10 +497,13 @@ export function createAdsRouter() {
       maxStartsPerIpPerHour: 20,
       unlocksVipChannels: true,
     };
+    const safeShowFn = trySanitizeShowFnEnv(settings.monetag.rewarded.showFn);
     const monetagRewardedEnabled = Boolean(
       settings.monetag.rewarded.enabled &&
-      (settings.testMode || settings.monetag.rewarded.snippet || settings.monetag.rewarded.showFn)
+      (settings.testMode || settings.monetag.rewarded.snippet || safeShowFn)
     );
+    const verificationId = sanitizeZoneId(rewardsCfg.monetagVerificationId) || 'fa9656182dbc7301dcd9a2326441dcf3';
+    const rewardedZoneId = sanitizeZoneId(rewardsCfg.monetagRewardedZoneId);
 
     res.setHeader('Cache-Control', 'public, max-age=15, stale-while-revalidate=45');
     return res.json({
@@ -378,9 +512,19 @@ export function createAdsRouter() {
         formats: settings.formats,
         testMode: settings.testMode,
         monetag: {
+          verificationId,
           showRegularAds: Boolean(settings.monetag.showRegularAds),
           rewardedEnabled: monetagRewardedEnabled,
-          rewardedShowFn: monetagRewardedEnabled ? (settings.monetag.rewarded.showFn || null) : null,
+          rewardedShowFn: monetagRewardedEnabled ? safeShowFn : null,
+          rewardedZoneId: monetagRewardedEnabled ? rewardedZoneId : null,
+          caps: {
+            popunderCooldownMs: Math.max(1, Number(rewardsCfg.monetagPopunderCooldownMinutes ?? 30)) * 60_000,
+            popunderMaxPerDay: Math.max(0, Number(rewardsCfg.monetagPopunderMaxPerDay ?? 3)),
+            pushDelayMs: Math.max(5, Number(rewardsCfg.monetagPushDelaySeconds ?? 60)) * 1000,
+            pushMinVisits: Math.max(1, Number(rewardsCfg.monetagPushMinVisits ?? 2)),
+            pushDeclineDays: Math.max(1, Number(rewardsCfg.monetagPushDeclineDays ?? 30)),
+            emptySlotCollapseMs: Math.max(500, Number(rewardsCfg.monetagEmptySlotCollapseMs ?? 4000)),
+          },
         },
         rewards: {
           durationMinutes: rewardsCfg.durationMinutes,
@@ -548,7 +692,8 @@ export function createAdsRouter() {
   // 6. REWARDED 1-HOUR VIP FLOW (/api/rewards/*)
   // =========================================================================
   router.get('/api/rewards/status', (req: Request, res: Response) => {
-    const deviceId = String(req.query.deviceId || req.get('x-device-id') || '').trim();
+    const rawDeviceId = req.query.deviceId || req.get('x-device-id');
+    const deviceId = sanitizeDeviceId(rawDeviceId);
     const settings = getAdSettings();
     const rewardsCfg = backendConfig.rewards || {
       durationMinutes: 60,
@@ -565,7 +710,7 @@ export function createAdsRouter() {
       (settings.testMode || settings.monetag.rewarded.snippet || settings.monetag.rewarded.showFn)
     );
 
-    if (!/^[A-Za-z0-9_-]{8,128}$/.test(deviceId)) {
+    if (!deviceId) {
       return res.status(400).json({
         ok: false,
         data: null,
@@ -667,8 +812,8 @@ export function createAdsRouter() {
   });
 
   router.post('/api/rewards/start', (req: Request, res: Response) => {
-    const deviceId = String(req.body?.deviceId || '').trim();
-    if (!/^[A-Za-z0-9_-]{8,128}$/.test(deviceId)) {
+    const deviceId = sanitizeDeviceId(req.body?.deviceId);
+    if (!deviceId) {
       return res.status(400).json({
         ok: false,
         data: null,
@@ -862,7 +1007,7 @@ export function createAdsRouter() {
 
   router.post('/api/rewards/claim', (req: Request, res: Response) => {
     const nonce = String(req.body?.nonce || '').trim();
-    const deviceId = String(req.body?.deviceId || '').trim();
+    const deviceId = sanitizeDeviceId(req.body?.deviceId);
 
     if (!/^[a-f0-9]{16,128}$/i.test(nonce)) {
       return res.status(400).json({
@@ -871,7 +1016,7 @@ export function createAdsRouter() {
         error: { code: 'invalid_nonce', message: 'Invalid reward session nonce.' },
       });
     }
-    if (!/^[A-Za-z0-9_-]{8,128}$/.test(deviceId)) {
+    if (!deviceId) {
       return res.status(400).json({
         ok: false,
         data: null,
@@ -1180,12 +1325,12 @@ export function createAdsRouter() {
   router.get('/api/admin/rewards/report', requireAdmin, rewardsReportHandler);
 
   const rewardsRevokeHandler = (req: Request, res: Response) => {
-    const deviceHash = String(req.body?.deviceHash || '').trim();
-    if (!deviceHash || deviceHash.length < 8) {
+    const deviceHash = typeof req.body?.deviceHash === 'string' ? req.body.deviceHash.trim() : '';
+    if (!/^[a-f0-9]{16,64}$/i.test(deviceHash)) {
       return res.status(400).json({
         ok: false,
         data: null,
-        error: { code: 'invalid_device_hash', message: 'deviceHash is required.' },
+        error: { code: 'invalid_device_hash', message: 'Valid deviceHash is required.' },
       });
     }
     const result = run(

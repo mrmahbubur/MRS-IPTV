@@ -283,8 +283,9 @@ export function createApp() {
   });
 
   app.get('/api/status', limiter(60_000, 120), (req, res) => {
-    const token = bearer(req) || String(req.query.token || '');
-    const deviceId = String(req.get('x-device-id') || req.query.deviceId || '');
+    const token = bearer(req) || (typeof req.query.token === 'string' ? req.query.token : '');
+    const rawDeviceId = req.get('x-device-id') || (typeof req.query.deviceId === 'string' ? req.query.deviceId : '');
+    const deviceId = String(rawDeviceId || '').trim();
     const r = getEntitlementStatus({ token, deviceId });
     if (!r.ok) return res.status(r.status).json({ ok: false, active: false, error: { code: r.code, message: r.message } });
     res.json({ ok: true, data: r, ...r });
