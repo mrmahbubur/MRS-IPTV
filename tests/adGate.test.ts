@@ -590,23 +590,43 @@ test('12. Admin reward report, revoke, Monetag toggle, and removal verification'
   const refuseJson = await refuseRes.json() as any;
   assert.equal(refuseJson.error.code, 'invalid_network');
 
-  // Allows toggling Monetag settings cleanly and resets back to false
+  // Allows toggling Monetag settings cleanly, validates showFn identifier, and resets back to false/null
+  const badFnRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': 'test-admin-secret-123',
+    },
+    body: JSON.stringify({ network: 'monetag', showFn: 'eval("alert(1)")' }),
+  });
+  assert.equal(badFnRes.status, 400);
+  const badFnJson = await badFnRes.json() as any;
+  assert.equal(badFnJson.error.code, 'invalid_show_fn');
+
   const allowRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'x-admin-token': 'test-admin-secret-123',
     },
-    body: JSON.stringify({ network: 'monetag', enabled: true }),
+    body: JSON.stringify({ network: 'monetag', enabled: true, showFn: 'show_11226634' }),
   });
   assert.equal(allowRes.status, 200);
   const allowJson = await allowRes.json() as any;
   assert.equal(allowJson.data.monetag.rewarded.enabled, true);
+  assert.equal(allowJson.data.monetag.rewarded.showFn, 'show_11226634');
+
+  const enabledCfgRes = await fetch(`${baseUrl}/api/ads/config`);
+  assert.equal(enabledCfgRes.status, 200);
+  const enabledCfgJson = await enabledCfgRes.json() as any;
+  assert.equal(enabledCfgJson.data.monetag.rewardedEnabled, true);
+  assert.equal(enabledCfgJson.data.monetag.rewardedShowFn, 'show_11226634');
+  assert.equal(enabledCfgJson.data.rewards.anyRewardedAvailable, true);
 
   await fetch(`${baseUrl}/admin/rewards/toggle`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
-    body: JSON.stringify({ network: 'monetag', enabled: false }),
+    body: JSON.stringify({ network: 'monetag', enabled: false, showFn: null }),
   });
 
   // Static files confirm complete removal of Adsterra/Admitad/Mitgo/offers.json/subid/affiliate while preserving Monetag
@@ -637,7 +657,7 @@ test('12. Admin reward report, revoke, Monetag toggle, and removal verification'
     assert.equal(forbiddenPattern.test(content), false, `Forbidden reference found in ${rel}`);
   }
 
-  // Report returns aggregated counts
+  // Report returns aggregated counts (both top-level and nested totals)
   const repRes = await fetch(`${baseUrl}/admin/rewards/report?days=30`, {
     headers: { 'x-admin-token': 'test-admin-secret-123' },
   });
@@ -646,6 +666,36 @@ test('12. Admin reward report, revoke, Monetag toggle, and removal verification'
   assert.equal(repJson.ok, true);
   assert.ok(repJson.data.starts >= 1);
   assert.ok(repJson.data.claims >= 1);
+  assert.equal(repJson.data.totals.starts, repJson.data.starts);
+  assert.equal(repJson.data.totals.claims, repJson.data.claims);
+  assert.ok(Array.isArray(repJson.data.grantsPerDay));
+  if (repJson.data.grantsPerDay.length > 0) {
+    assert.equal(repJson.data.grantsPerDay[0].network, 'monetag');
+  }
+  assert.ok(Array.isArray(repJson.data.suspiciousDevices));
+  if (repJson.data.suspiciousDevices.length > 0) {
+    assert.ok(typeof repJson.data.suspiciousDevices[0].grants === 'number');
+  }
+
+  // GET /api/rewards/status returns cooldown, quota, and paid VIP state
+  const badStatusRes = await fetch(`${baseUrl}/api/rewards/status?deviceId=bad`);
+  assert.equal(badStatusRes.status, 400);
+
+  const freeStatusRes = await fetch(`${baseUrl}/api/rewards/status?deviceId=${encodeURIComponent('reward-dev-cap-0002')}`);
+  assert.equal(freeStatusRes.status, 200);
+  const freeStatusJson = await freeStatusRes.json() as any;
+  assert.equal(freeStatusJson.ok, true);
+  assert.equal(freeStatusJson.data.remainingToday, 0);
+  assert.equal(freeStatusJson.data.unlocksVipChannels, true);
+
+  const vipStatusRes = await fetch(`${baseUrl}/api/rewards/status?deviceId=${encodeURIComponent(TEST_DEVICE)}`, {
+    headers: { Authorization: `Bearer ${activeVipToken}` },
+  });
+  assert.equal(vipStatusRes.status, 200);
+  const vipStatusJson = await vipStatusRes.json() as any;
+  assert.equal(vipStatusJson.data.activeVip, true);
+  assert.equal(vipStatusJson.data.eligible, false);
+  assert.equal(vipStatusJson.data.reason, 'vip_active');
 
   // Revoking reward-dev-flow-0001 invalidates active reward grant
   const { hashDevice } = await import('../server/mrs-iptv-backend/src/redeem.js');

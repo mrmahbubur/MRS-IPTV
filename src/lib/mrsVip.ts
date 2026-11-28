@@ -586,7 +586,8 @@ export async function getVipStatus(): Promise<EntitlementData> {
         'x-device-id': getDeviceId(),
       },
     });
-    const merged = { ...cached, ...r, plan: r?.planCode || r?.plan || cached.plan };
+    const payload = r?.data || r;
+    const merged = { ...cached, ...payload, plan: payload?.planCode || payload?.plan || cached.plan };
     save(merged);
     return { ...merged, active: true };
   } catch (e: any) {
@@ -624,7 +625,8 @@ export async function refreshEntitlement(): Promise<EntitlementData> {
         'x-device-id': getDeviceId(),
       },
     });
-    const merged = { ...cached, ...r, plan: r?.planCode || r?.plan || cached.plan };
+    const payload = r?.data || r;
+    const merged = { ...cached, ...payload, plan: payload?.planCode || payload?.plan || cached.plan };
     save(merged);
     return { ...merged, active: true };
   } catch (e: any) {

@@ -14,6 +14,7 @@ interface ModernAdModalProps {
   isOpen: boolean;
   onClose: () => void;
   onUpgradeClick: () => void;
+  adFreeState?: AdFreeState;
   onStartRewardedWatch?: () => void;
   onRewardedGranted?: (state: AdFreeState) => void;
 }
@@ -22,6 +23,8 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
   isOpen,
   onClose,
   onUpgradeClick,
+  adFreeState,
+  onRewardedGranted,
 }) => {
   const { isFreeMode, isVipLocked, adConfig } = useAdGate();
   const hasRegularNetworkInterstitials = Boolean(adConfig.monetag?.showRegularAds);
@@ -130,7 +133,13 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
         </div>
 
         <div className="space-y-2.5">
-          <WatchAdVipButton variant="hero" className="w-full" onAfterClick={onClose} />
+          <WatchAdVipButton
+            variant="hero"
+            className="w-full"
+            adFreeState={adFreeState}
+            onRewardedGranted={onRewardedGranted}
+            onAfterClick={onClose}
+          />
 
           <a
             href={offerHref}

@@ -6,6 +6,7 @@ export type AdGateState = 'pending' | 'vip' | 'free';
 export interface NetworkGateConfig {
   showRegularAds: boolean;
   rewardedEnabled: boolean;
+  rewardedShowFn?: string | null;
 }
 
 export interface RewardsGateConfig {
@@ -100,6 +101,7 @@ export function getAdRuntimeConfig(): AdFormatConfig {
     monetag: {
       showRegularAds: monetagShowRegular,
       rewardedEnabled: monetagRewarded,
+      rewardedShowFn: serverCfg.monetag?.rewardedShowFn || null,
     },
     rewards: {
       durationMinutes: Number(serverCfg.rewards?.durationMinutes || staticCfg.rewards?.durationMinutes || 60),

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2, Sparkles, Clock } from 'lucide-react';
 import { useRealtimeVipCountdown } from '../lib/adSystem';
+import { getStoredAdFreeState } from '../lib/codes';
 import { AdFreeState } from '../types';
 import { useAdGate } from '../lib/useAdGate';
 
@@ -43,6 +44,7 @@ interface WatchAdVipButtonProps {
 export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
   variant = 'header',
   adFreeState,
+  onRewardedGranted,
   onAfterClick,
   className = '',
 }) => {
@@ -51,6 +53,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
   const [isWatching, setIsWatching] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [cooldownMins, setCooldownMins] = useState<number>(0);
+  const [remainingToday, setRemainingToday] = useState<number | null>(null);
+
+  const isRewardAvailable = Boolean(
+    adConfig.monetag?.rewardedEnabled || adConfig.rewards?.anyRewardedAvailable
+  );
 
   useEffect(() => {
     const syncCooldown = () => {
@@ -61,14 +68,45 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
         }
       } catch {}
     };
-    syncCooldown();
-    const id = setInterval(syncCooldown, 15000);
-    return () => clearInterval(id);
-  }, []);
+    const handleStatusUpdated = (ev: Event) => {
+      const detail = (ev as CustomEvent)?.detail;
+      if (!detail || typeof detail !== 'object') return;
+      if (typeof detail.cooldownMinutes === 'number') {
+        setCooldownMins(Math.max(0, detail.cooldownMinutes));
+      }
+      if (detail.reason === 'ip_daily_cap' || detail.reason === 'device_daily_cap') {
+        setRemainingToday(0);
+        return;
+      }
+      const rawRem =
+        typeof detail.remainingToday === 'number'
+          ? detail.remainingToday
+          : typeof detail.remainingDeviceToday === 'number'
+            ? detail.remainingDeviceToday
+            : null;
+      if (rawRem !== null) {
+        setRemainingToday(Math.max(0, rawRem));
+      }
+    };
 
-  const isRewardAvailable = Boolean(
-    adConfig.monetag?.rewardedEnabled || adConfig.rewards?.anyRewardedAvailable
-  );
+    syncCooldown();
+    window.addEventListener('mrs_reward_status_updated', handleStatusUpdated);
+
+    if (isFreeMode && !isVipLocked && isRewardAvailable) {
+      try {
+        const rewardApi = (window as any).MRS_REWARD_ADS;
+        if (rewardApi && typeof rewardApi.refreshStatus === 'function') {
+          rewardApi.refreshStatus();
+        }
+      } catch {}
+    }
+
+    const id = setInterval(syncCooldown, 15000);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener('mrs_reward_status_updated', handleStatusUpdated);
+    };
+  }, [isFreeMode, isVipLocked, isRewardAvailable]);
 
   // Never show while VIP or active reward1h is active, on player/modal-banner, or when no rewarded format is enabled
   if (
@@ -83,8 +121,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
     return null;
   }
 
+  const isDailyCapReached = remainingToday === 0;
+  const isDisabled = isWatching || isDailyCapReached;
+
   const handleStartReward = async () => {
-    if (isWatching) return;
+    if (isDisabled) return;
     setErrorMsg(null);
     const rewardApi = (window as any).MRS_REWARD_ADS;
     if (!rewardApi || typeof rewardApi.startAndWatch !== 'function') {
@@ -95,6 +136,12 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
     setIsWatching(true);
     try {
       await rewardApi.startAndWatch();
+      try {
+        onRewardedGranted?.(getStoredAdFreeState());
+      } catch {}
+      try {
+        rewardApi.refreshStatus?.();
+      } catch {}
       if (onAfterClick) onAfterClick();
     } catch (err: any) {
       const msg = err?.message || 'Rewarded ad could not be completed.';
@@ -103,6 +150,7 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
         if (typeof rewardApi.getCooldownRemainingMinutes === 'function') {
           setCooldownMins(rewardApi.getCooldownRemainingMinutes());
         }
+        rewardApi.refreshStatus?.();
       } catch {}
       setTimeout(() => setErrorMsg(null), 5000);
     } finally {
@@ -118,11 +166,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
         <button
           type="button"
           onClick={handleStartReward}
-          disabled={isWatching}
+          disabled={isDisabled}
           id="sidebar-watch-ad-vip-btn"
-          title={fullHonestLabel}
-          aria-label={fullHonestLabel}
-          className={`mrs-free-upsell w-full min-h-[52px] relative overflow-hidden sidebar-square-btn rounded-xl p-3 text-left transition-all motion-reduce:transition-none group shadow-lg cursor-pointer block border-amber-400/40 hover:border-amber-400 disabled:opacity-60 ${className}`}
+          title={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+          aria-label={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+          className={`mrs-free-upsell w-full min-h-[52px] relative overflow-hidden sidebar-square-btn rounded-xl p-3 text-left transition-all motion-reduce:transition-none group shadow-lg cursor-pointer block border-amber-400/40 hover:border-amber-400 disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
         >
           <div className="flex items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5 min-w-0">
@@ -135,9 +183,13 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-xs font-extrabold text-white block leading-snug">
-                  {isWatching ? 'Watching rewarded ad...' : fullHonestLabel}
+                  {isWatching
+                    ? 'Watching rewarded ad...'
+                    : isDailyCapReached
+                      ? 'Daily limit reached'
+                      : fullHonestLabel}
                 </span>
-                {cooldownMins > 0 && (
+                {!isDailyCapReached && cooldownMins > 0 && (
                   <span className="text-[11px] text-amber-300 font-semibold flex items-center gap-1 mt-0.5 tabular-nums">
                     <Clock className="w-3 h-3 shrink-0" />
                     <span>Available in {cooldownMins} min</span>
@@ -158,14 +210,14 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
 
   if (variant === 'hero') {
     return (
-      <div className="inline-flex flex-col items-start gap-1.5">
+      <div className="inline-flex flex-col items-start gap-1.5 w-full">
         <button
           type="button"
           onClick={handleStartReward}
-          disabled={isWatching}
-          title={fullHonestLabel}
-          aria-label={fullHonestLabel}
-          className={`mrs-free-upsell min-h-[44px] px-4 py-2.5 rounded-lg btn-square btn-premium-gold font-extrabold text-xs sm:text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 disabled:opacity-60 ${className}`}
+          disabled={isDisabled}
+          title={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+          aria-label={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+          className={`mrs-free-upsell min-h-[44px] px-4 py-2.5 rounded-lg btn-square btn-premium-gold font-extrabold text-xs sm:text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
         >
           {isWatching ? (
             <Loader2 className="w-4 h-4 animate-spin text-amber-300 shrink-0" />
@@ -175,9 +227,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
           <span>
             {isWatching
               ? 'Watching ad...'
-              : cooldownMins > 0
-                ? `Free 1h VIP (in ${cooldownMins} min)`
-                : fullHonestLabel}
+              : isDailyCapReached
+                ? 'Daily limit reached'
+                : cooldownMins > 0
+                  ? `Free 1h VIP (in ${cooldownMins} min)`
+                  : fullHonestLabel}
           </span>
         </button>
         {errorMsg && (
@@ -192,11 +246,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
       <button
         type="button"
         onClick={handleStartReward}
-        disabled={isWatching}
+        disabled={isDisabled}
         id="mobile-watch-ad-vip-btn"
-        title={fullHonestLabel}
-        aria-label={fullHonestLabel}
-        className={`mrs-free-upsell w-full min-h-[44px] flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer shadow-md btn-premium-gold disabled:opacity-60 ${className}`}
+        title={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+        aria-label={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+        className={`mrs-free-upsell w-full min-h-[44px] flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer shadow-md btn-premium-gold disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
       >
         {isWatching ? (
           <Loader2 className="w-4 h-4 animate-spin text-amber-300 shrink-0" />
@@ -205,10 +259,18 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
         )}
         <div className="flex flex-col text-left leading-tight truncate">
           <span className="text-[11px] font-extrabold text-white truncate">
-            {isWatching ? 'Watching ad...' : 'Get 1 hour VIP free'}
+            {isWatching
+              ? 'Watching ad...'
+              : isDailyCapReached
+                ? 'Daily limit reached'
+                : 'Get 1 hour VIP free'}
           </span>
           <span className="text-[9px] text-amber-200 font-mono tabular-nums truncate">
-            {cooldownMins > 0 ? `Wait ${cooldownMins} min` : 'Watch a short ad'}
+            {isDailyCapReached
+              ? 'Try again tomorrow'
+              : cooldownMins > 0
+                ? `Wait ${cooldownMins} min`
+                : 'Watch a short ad'}
           </span>
         </div>
       </button>
@@ -220,11 +282,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
       <button
         type="button"
         onClick={handleStartReward}
-        disabled={isWatching}
+        disabled={isDisabled}
         id="header-watch-ad-vip-btn"
-        title={fullHonestLabel}
-        aria-label={fullHonestLabel}
-        className={`mrs-free-upsell inline-flex items-center justify-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap btn-square btn-premium-gold group disabled:opacity-60 ${className}`}
+        title={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+        aria-label={isDailyCapReached ? 'Daily limit reached' : fullHonestLabel}
+        className={`mrs-free-upsell inline-flex items-center justify-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap btn-square btn-premium-gold group disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
       >
         {isWatching ? (
           <Loader2 className="w-4 h-4 animate-spin text-amber-300 shrink-0" />
@@ -234,9 +296,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
         <span className="text-white tracking-tight tabular-nums">
           {isWatching
             ? 'Watching...'
-            : cooldownMins > 0
-              ? `1h VIP (${cooldownMins}m)`
-              : 'Get 1h VIP free'}
+            : isDailyCapReached
+              ? 'Daily limit reached'
+              : cooldownMins > 0
+                ? `1h VIP (${cooldownMins}m)`
+                : 'Get 1h VIP free'}
         </span>
       </button>
       {errorMsg && (

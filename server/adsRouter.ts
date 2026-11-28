@@ -109,6 +109,22 @@ export interface AdSettings {
   };
 }
 
+const SHOW_FN_REGEX = /^[A-Za-z_$][A-Za-z0-9_$.]{0,63}$/;
+
+function sanitizeShowFn(raw: unknown): string | null {
+  if (raw === null || raw === undefined) return null;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return null;
+  if (!SHOW_FN_REGEX.test(trimmed)) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_show_fn',
+      'Rewarded callback name must be a valid global function identifier (e.g. show_123456).'
+    );
+  }
+  return trimmed;
+}
+
 const DEFAULT_AD_SETTINGS: AdSettings = {
   formats: {
     banner: true,
@@ -119,11 +135,15 @@ const DEFAULT_AD_SETTINGS: AdSettings = {
   },
   testMode: typeof backendConfig.rewards?.adsTestMode === 'boolean' ? backendConfig.rewards.adsTestMode : true,
   monetag: {
-    showRegularAds: false,
+    showRegularAds: Boolean(backendConfig.rewards?.monetagShowRegularAds),
     rewarded: {
-      enabled: false,
+      enabled: Boolean(backendConfig.rewards?.monetagRewardedEnabled),
       snippet: null,
-      showFn: null,
+      showFn:
+        backendConfig.rewards?.monetagRewardedShowFn &&
+        SHOW_FN_REGEX.test(backendConfig.rewards.monetagRewardedShowFn)
+          ? backendConfig.rewards.monetagRewardedShowFn
+          : null,
     },
   },
 };
@@ -194,7 +214,7 @@ export function saveAdSettings(partial: Partial<AdSettings>): AdSettings {
             : current.monetag.rewarded.snippet,
         showFn:
           partial.monetag?.rewarded && 'showFn' in partial.monetag.rewarded
-            ? (partial.monetag.rewarded.showFn ? String(partial.monetag.rewarded.showFn) : null)
+            ? sanitizeShowFn(partial.monetag.rewarded.showFn)
             : current.monetag.rewarded.showFn,
       },
     },
@@ -274,7 +294,8 @@ export function createAdsRouter() {
       unlocksVipChannels: true,
     };
     const monetagRewardedEnabled = Boolean(
-      settings.monetag.rewarded.enabled && (settings.monetag.rewarded.snippet || settings.monetag.rewarded.showFn)
+      settings.monetag.rewarded.enabled &&
+      (settings.testMode || settings.monetag.rewarded.snippet || settings.monetag.rewarded.showFn)
     );
 
     res.setHeader('Cache-Control', 'public, max-age=15, stale-while-revalidate=45');
@@ -286,6 +307,7 @@ export function createAdsRouter() {
         monetag: {
           showRegularAds: Boolean(settings.monetag.showRegularAds),
           rewardedEnabled: monetagRewardedEnabled,
+          rewardedShowFn: monetagRewardedEnabled ? (settings.monetag.rewarded.showFn || null) : null,
         },
         rewards: {
           durationMinutes: rewardsCfg.durationMinutes,
@@ -452,6 +474,125 @@ export function createAdsRouter() {
   // =========================================================================
   // 6. REWARDED 1-HOUR VIP FLOW (/api/rewards/*)
   // =========================================================================
+  router.get('/api/rewards/status', (req: Request, res: Response) => {
+    const deviceId = String(req.query.deviceId || req.get('x-device-id') || '').trim();
+    const settings = getAdSettings();
+    const rewardsCfg = backendConfig.rewards || {
+      durationMinutes: 60,
+      minWatchMs: 15000,
+      cooldownMinutes: 180,
+      maxPerDevicePerDay: 3,
+      maxPerIpPerDay: 6,
+      maxStartsPerIpPerHour: 20,
+      unlocksVipChannels: true,
+    };
+
+    const rewardEnabled = Boolean(
+      settings.monetag.rewarded.enabled &&
+      (settings.testMode || settings.monetag.rewarded.snippet || settings.monetag.rewarded.showFn)
+    );
+
+    if (!/^[A-Za-z0-9_-]{8,128}$/.test(deviceId)) {
+      return res.status(400).json({
+        ok: false,
+        data: null,
+        error: { code: 'invalid_device', message: 'Valid device identifier is required.' },
+      });
+    }
+
+    const activeVip = isVipRequest(req);
+    const devHash = hashDevice(deviceId);
+    const ipHash = hashClientIp(getTrustedClientIp(req));
+    const nowMs = Date.now();
+    const now = new Date(nowMs).toISOString();
+    const dayAgoIso = new Date(nowMs - 86_400_000).toISOString();
+
+    const activeGrant = get(
+      `SELECT id, network, granted_at, expires_at FROM reward_grants
+       WHERE device_hash = ? AND revoked_at IS NULL AND expires_at > ?
+       ORDER BY id DESC LIMIT 1`,
+      devHash,
+      now
+    ) as { id: number; network: string; granted_at: string; expires_at: string } | undefined;
+
+    const latestGrant = get(
+      `SELECT expires_at, revoked_at FROM reward_grants
+       WHERE device_hash = ? ORDER BY id DESC LIMIT 1`,
+      devHash
+    ) as { expires_at: string; revoked_at: string | null } | undefined;
+
+    const devDayRow = get(
+      `SELECT COUNT(*) AS cnt FROM reward_grants WHERE device_hash = ? AND granted_at >= ?`,
+      devHash,
+      dayAgoIso
+    ) as { cnt: number };
+    const ipDayRow = get(
+      `SELECT COUNT(*) AS cnt FROM reward_grants WHERE ip_hash = ? AND granted_at >= ?`,
+      ipHash,
+      dayAgoIso
+    ) as { cnt: number };
+
+    const maxPerDevicePerDay = Number(rewardsCfg.maxPerDevicePerDay || 3);
+    const maxPerIpPerDay = Number(rewardsCfg.maxPerIpPerDay || 6);
+    const devCountToday = Number(devDayRow?.cnt || 0);
+    const ipCountToday = Number(ipDayRow?.cnt || 0);
+    const remainingToday = Math.max(0, maxPerDevicePerDay - devCountToday);
+
+    let cooldownMinutes = 0;
+    let availableAt: string | null = null;
+    if (!activeGrant && latestGrant && !latestGrant.revoked_at) {
+      const cooldownMs = Math.max(0, Number(rewardsCfg.cooldownMinutes || 180)) * 60_000;
+      const availMs = Date.parse(latestGrant.expires_at) + cooldownMs;
+      if (cooldownMs > 0 && nowMs < availMs) {
+        cooldownMinutes = Math.max(1, Math.ceil((availMs - nowMs) / 60_000));
+        availableAt = new Date(availMs).toISOString();
+      }
+    }
+
+    let eligible = true;
+    let reason: string | null = null;
+    if (activeVip || activeGrant) {
+      eligible = false;
+      reason = 'vip_active';
+    } else if (!rewardEnabled) {
+      eligible = false;
+      reason = 'reward_disabled';
+    } else if (latestGrant?.revoked_at) {
+      eligible = false;
+      reason = 'device_revoked';
+    } else if (cooldownMinutes > 0) {
+      eligible = false;
+      reason = 'reward_cooldown';
+    } else if (remainingToday <= 0) {
+      eligible = false;
+      reason = 'device_daily_cap';
+    } else if (ipCountToday >= maxPerIpPerDay) {
+      eligible = false;
+      reason = 'ip_daily_cap';
+    }
+
+    return res.json({
+      ok: true,
+      data: {
+        eligible,
+        reason,
+        activeVip,
+        activeGrant: Boolean(activeGrant),
+        activeExpiresAt: activeGrant?.expires_at || null,
+        cooldownMinutes,
+        availableAt,
+        remainingToday,
+        maxPerDevicePerDay,
+        durationMinutes: Number(rewardsCfg.durationMinutes || 60),
+        minWatchMs: Math.max(1000, Number(rewardsCfg.minWatchMs ?? 15000)),
+        unlocksVipChannels: Boolean(rewardsCfg.unlocksVipChannels ?? true),
+        rewardEnabled,
+        testMode: settings.testMode,
+      },
+      error: null,
+    });
+  });
+
   router.post('/api/rewards/start', (req: Request, res: Response) => {
     const deviceId = String(req.body?.deviceId || '').trim();
     if (!/^[A-Za-z0-9_-]{8,128}$/.test(deviceId)) {
@@ -892,9 +1033,9 @@ export function createAdsRouter() {
     ) as { cnt: number };
 
     const grantsPerDay = all(
-      `SELECT substr(granted_at, 1, 10) AS day, COUNT(*) AS grants
+      `SELECT substr(granted_at, 1, 10) AS day, network, COUNT(*) AS grants
        FROM reward_grants WHERE granted_at >= ?
-       GROUP BY substr(granted_at, 1, 10)
+       GROUP BY substr(granted_at, 1, 10), network
        ORDER BY day DESC LIMIT 90`,
       sinceIso
     );
@@ -912,7 +1053,8 @@ export function createAdsRouter() {
     const suspiciousDevices = all(
       `SELECT device_hash AS deviceHash,
               COUNT(*) AS starts,
-              SUM(CASE WHEN status = 'claimed' THEN 1 ELSE 0 END) AS claims
+              SUM(CASE WHEN status = 'claimed' THEN 1 ELSE 0 END) AS claims,
+              SUM(CASE WHEN status = 'claimed' THEN 1 ELSE 0 END) AS grants
        FROM reward_sessions
        WHERE created_at >= ?
        GROUP BY device_hash
@@ -936,6 +1078,7 @@ export function createAdsRouter() {
     const starts = Number(startsRow?.cnt || 0);
     const claims = Number(claimsRow?.cnt || 0);
     const claimRatePct = starts > 0 ? Number(((claims / starts) * 100).toFixed(1)) : 0;
+    const activeGrants = Number(activeRow?.cnt || 0);
 
     return res.json({
       ok: true,
@@ -944,7 +1087,13 @@ export function createAdsRouter() {
         starts,
         claims,
         claimRatePct,
-        activeGrants: Number(activeRow?.cnt || 0),
+        activeGrants,
+        totals: {
+          starts,
+          claims,
+          claimRatePercent: claimRatePct,
+          activeGrantsNow: activeGrants,
+        },
         grantsPerDay,
         perNetwork,
         suspiciousDevices,
@@ -984,6 +1133,7 @@ export function createAdsRouter() {
     const network = String(req.body?.network || '').trim().toLowerCase();
     const enabled = req.body?.enabled;
     const showRegularAds = req.body?.showRegularAds;
+    const hasShowFn = req.body && typeof req.body === 'object' && 'showFn' in req.body;
 
     if (network !== 'monetag') {
       return res.status(400).json({
@@ -1001,6 +1151,7 @@ export function createAdsRouter() {
           rewarded: {
             ...current.monetag.rewarded,
             enabled: typeof enabled === 'boolean' ? enabled : current.monetag.rewarded.enabled,
+            ...(hasShowFn ? { showFn: req.body.showFn } : {}),
           },
         },
       };

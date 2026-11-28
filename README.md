@@ -320,7 +320,7 @@ M R S IPTV uses **Monetag as the sole advertising network** and enforces strict 
 ### Network Policy (Monetag Only)
 - **Monetag (`monetag.showRegularAds: false` by default)**:
   - Existing owner publisher verification (`<meta name="monetag" content="fa9656182dbc7301dcd9a2326441dcf3" />`) and all 10 Smartlink zone URLs (`https://uplcm.com/4/...`) remain intact inside `public/ads.config.js` and `server/adsRouter.ts`.
-  - **Rewarded 1-Hour VIP (`monetag.rewarded.enabled: false` by default)**: **Monetag has no official rewarded-ad format snippet/callback configured for this site yet (`snippet: null`, `showFn: null`), so the "Watch an ad, get 1 hour VIP" button is automatically hidden on the UI.** To enable it later, paste Monetag's official rewarded-format snippet and completion callback function into `public/ads.config.js` (under `monetag.rewarded`) and set `enabled: true`. No SDK function names or callbacks are fabricated.
+  - **Rewarded 1-Hour VIP (`MONETAG_REWARDED_ENABLED=false` by default)**: **Monetag has no official rewarded-ad format snippet/callback configured for this site yet (`snippet: null`, `MONETAG_REWARDED_SHOW_FN=""`), so the "Watch an ad, get 1 hour VIP" button is automatically hidden on the UI.** To enable it later, either set `MONETAG_REWARDED_ENABLED=true` and `MONETAG_REWARDED_SHOW_FN="<globalFunctionName>"` in `.env` (or configure `showFn` + `Rewarded: ON` in `#admin` → Monetag Ads, or paste Monetag's official rewarded-format snippet under `public/ads.config.js`). No SDK function names or callbacks are fabricated.
 - **Placement & Cap Rules**:
   - Monetag ads load ONLY in Free mode (`MRS_ADS.state() === 'free'`) after EU/UK consent.
   - Never shown on the player page, checkout, activation, account, support, legal, or admin pages.
@@ -333,14 +333,16 @@ M R S IPTV uses **Monetag as the sole advertising network** and enforces strict 
 - If a token exists and `/api/status` fails or times out, the gate **fails closed** (stays `"pending"` or uses the future `mrs_vip_ads_hint` expiry for ad-hiding only, never showing ads and never granting channel access from `localStorage` alone).
 
 ### "Watch an Ad, Get 1 Hour VIP" Backend Limits
-- **Client (`public/rewardAds.js` + `WatchAdVipButton.tsx`)**: Hidden by default until Monetag's official rewarded completion callback is configured; when active, starts `POST /api/rewards/start { deviceId, network: 'monetag' }`, awaits official completion, and calls `POST /api/rewards/claim { nonce, deviceId }` + `MRS_ADS.enterVipMode()`.
+- **Client (`public/rewardAds.js` + `WatchAdVipButton.tsx`)**: Hidden by default until Monetag's official rewarded completion callback is configured; when active, syncs cooldown/quota via `GET /api/rewards/status`, starts `POST /api/rewards/start { deviceId, network: 'monetag' }`, awaits official completion (or `ADS_TEST_MODE` simulated preview), and calls `POST /api/rewards/claim { nonce, deviceId }` + `MRS_ADS.enterVipMode()` to unlock channels ad-free for 60 minutes.
 - **Server Routes (`server/adsRouter.ts`)**:
+  - `GET /api/rewards/status?deviceId=...` — Returns eligibility, active grant status, cooldown minutes remaining, daily remaining quota, and channel-unlock policy.
   - `POST /api/rewards/start` — Creates a single-use cryptographic `nonce` (valid 10 min) and enforces caps.
   - `POST /api/rewards/claim` — Atomically verifies `nonce`, `(now - created_at) >= minWatchMs` (`15000`ms default), single-use locking, and issues a `60`-minute `reward1h` token (`reward_sessions` + `reward_grants` tables).
   - `POST /api/rewards/postback` — Optional S2S callback protected by `MONETAG_POSTBACK_SECRET` (timing-safe comparison).
-  - `GET /admin/rewards/report`, `POST /admin/rewards/revoke`, `POST /admin/rewards/toggle` (protected by `x-admin-token` / `Authorization: Bearer <ADMIN_TOKEN>`).
-- **Default Abuse Limits (configurable via `.env`)**:
-  - `REWARD_DURATION_MINUTES=60`, `REWARD_MIN_WATCH_MS=15000`
+  - `GET /api/admin/rewards/report`, `POST /api/admin/rewards/revoke`, `POST /api/admin/rewards/toggle` (and `/admin/rewards/*` aliases; protected by `x-admin-token` / `Authorization: Bearer <ADMIN_TOKEN>`).
+- **Default Environment Configuration (`.env.example`)**:
+  - `MONETAG_SHOW_REGULAR_ADS=false`, `MONETAG_REWARDED_ENABLED=false`, `MONETAG_REWARDED_SHOW_FN=""`
+  - `REWARD_DURATION_MINUTES=60`, `REWARD_MIN_WATCH_MS=15000`, `REWARD_UNLOCKS_VIP_CHANNELS=true`
   - `REWARD_COOLDOWN_MINUTES=180` (3-hour cooldown after expiry)
   - `REWARD_MAX_PER_DEVICE_PER_DAY=3`, `REWARD_MAX_PER_IP_PER_DAY=6`, `REWARD_MAX_STARTS_PER_IP_PER_HOUR=20`
   - Rejects stacking while paid VIP or an active reward pass is already active. Only HMAC-hashed device IDs and client IPs are stored.

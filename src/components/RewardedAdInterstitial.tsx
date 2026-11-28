@@ -15,6 +15,7 @@ interface RewardedAdInterstitialProps {
   isOpen: boolean;
   onClose: () => void;
   onProceed: () => void;
+  adFreeState?: AdFreeState;
   onRewardedGranted?: (state: AdFreeState) => void;
   title?: string;
   dwellSeconds?: number;
@@ -25,6 +26,8 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
   isOpen,
   onClose,
   onProceed,
+  adFreeState,
+  onRewardedGranted,
   title = 'Monetag Stream Gateway',
   dwellSeconds: customDwell,
   channelName,
@@ -171,7 +174,13 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
             </div>
           </a>
 
-          <WatchAdVipButton variant="hero" className="w-full" onAfterClick={handleSkipAndWatch} />
+          <WatchAdVipButton
+            variant="hero"
+            className="w-full"
+            adFreeState={adFreeState}
+            onRewardedGranted={onRewardedGranted}
+            onAfterClick={handleSkipAndWatch}
+          />
         </div>
 
         <div className="space-y-2 relative z-10 pt-2 border-t border-white/10">

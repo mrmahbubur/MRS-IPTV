@@ -33,10 +33,27 @@
   }
 
   function getDeviceId() {
-    var existing = lsGet(DEVICE_KEY_PRIMARY) || lsGet(DEVICE_KEY_LEGACY);
-    if (existing && existing.length >= 8) return existing;
-    var generated = 'dev_' + Math.random().toString(36).slice(2, 10) + '_' + Date.now().toString(36);
-    lsSet(DEVICE_KEY_LEGACY, generated);
+    var existing = lsGet(DEVICE_KEY_PRIMARY);
+    if (existing && /^[A-Za-z0-9_-]{12,128}$/.test(existing)) return existing;
+    var legacy = lsGet(DEVICE_KEY_LEGACY);
+    if (legacy && /^[A-Za-z0-9_-]{12,128}$/.test(legacy)) {
+      lsSet(DEVICE_KEY_PRIMARY, legacy);
+      return legacy;
+    }
+    var generated = '';
+    try {
+      if (win.crypto && typeof win.crypto.getRandomValues === 'function') {
+        var bytes = new Uint8Array(16);
+        win.crypto.getRandomValues(bytes);
+        for (var i = 0; i < bytes.length; i++) {
+          generated += (bytes[i] < 16 ? '0' : '') + bytes[i].toString(16);
+        }
+      }
+    } catch (e) {}
+    if (!generated || generated.length < 16) {
+      generated = 'dev_' + Math.random().toString(36).slice(2, 10) + '_' + Date.now().toString(36);
+    }
+    lsSet(DEVICE_KEY_PRIMARY, generated);
     return generated;
   }
 
@@ -44,6 +61,19 @@
     var raw = lsGet(ENTITLE_KEY);
     if (!raw) return null;
     try { return JSON.parse(raw); } catch (e) { return null; }
+  }
+
+  function resolveGlobalShowFn(fnName) {
+    if (typeof fnName !== 'string') return null;
+    var trimmed = fnName.trim();
+    if (!/^[A-Za-z_$][A-Za-z0-9_$.]{0,63}$/.test(trimmed)) return null;
+    var parts = trimmed.split('.');
+    var cur = win;
+    for (var i = 0; i < parts.length; i++) {
+      if (!cur || typeof cur !== 'object') return null;
+      cur = cur[parts[i]];
+    }
+    return typeof cur === 'function' ? cur : null;
   }
 
   function getRuntimeState() {
@@ -54,17 +84,26 @@
       : Boolean(staticCfg.testMode);
 
     var monetagCfg = staticCfg.monetag && staticCfg.monetag.rewarded ? staticCfg.monetag.rewarded : {};
+    var resolvedServerFn = serverCfg.monetag && serverCfg.monetag.rewardedShowFn
+      ? resolveGlobalShowFn(serverCfg.monetag.rewardedShowFn)
+      : null;
+    var resolvedShowFn = typeof monetagCfg.showFn === 'function'
+      ? monetagCfg.showFn
+      : typeof monetagCfg.showFn === 'string'
+        ? resolveGlobalShowFn(monetagCfg.showFn)
+        : resolvedServerFn;
 
     var monetagAvailable = Boolean(
       (serverCfg.monetag && serverCfg.monetag.rewardedEnabled) ||
-      (monetagCfg.enabled && (testMode || typeof monetagCfg.showFn === 'function' || monetagCfg.snippet))
+      (monetagCfg.enabled && (testMode || resolvedShowFn || monetagCfg.snippet))
     );
 
     return {
       testMode: testMode,
       monetagAvailable: monetagAvailable,
       anyAvailable: monetagAvailable,
-      monetagCfg: monetagCfg
+      monetagCfg: monetagCfg,
+      resolvedShowFn: resolvedShowFn
     };
   }
 
@@ -174,14 +213,17 @@
       return Promise.reject(new Error('Unsupported reward network: ' + network));
     }
     var netCfg = rt.monetagCfg;
-    if (!netCfg.enabled) {
+    var serverCfg = win.__MRS_ADS_SERVER_CONFIG || {};
+    var isEnabled = Boolean(netCfg.enabled || (serverCfg.monetag && serverCfg.monetag.rewardedEnabled));
+    if (!isEnabled) {
       return Promise.reject(new Error('Rewarded ad format is disabled for ' + network + '.'));
     }
 
-    if (typeof netCfg.showFn === 'function') {
+    var showFn = rt.resolvedShowFn;
+    if (typeof showFn === 'function') {
       return new Promise(function (resolve, reject) {
         try {
-          var maybePromise = netCfg.showFn(function onComplete() {
+          var maybePromise = showFn(function onComplete() {
             resolve({ completed: true });
           }, function onAbort(reason) {
             reject(new Error(reason || 'Rewarded ad closed or failed.'));
@@ -260,9 +302,12 @@
       .then(function (claimData) {
         var entitlement = {
           active: true,
+          kind: 'reward',
           token: claimData.token,
           plan: claimData.plan || 'reward1h',
           planLabel: '1-Hour Free VIP (Reward)',
+          months: 0,
+          durationDays: 0,
           activatedAt: claimData.grantedAt || new Date().toISOString(),
           expiresAt: claimData.expiresAt,
           network: claimData.network || network
@@ -271,8 +316,21 @@
         if (claimData.expiresAt) {
           lsSet(HINT_KEY, JSON.stringify({ expiresAt: claimData.expiresAt }));
         }
+        var adFreePayload = {
+          isActive: true,
+          isAdFree: true,
+          code: 'REWARD_1H_VIP',
+          deviceId: deviceId,
+          activatedAt: entitlement.activatedAt,
+          expiryDate: claimData.expiresAt,
+          durationMonths: 0
+        };
+        lsSet('shahintv_adfree_activation', JSON.stringify(adFreePayload));
         lsSet(JUST_UNLOCKED_KEY, '1');
         lsRemove(EXPIRED_NOTICE_PENDING_KEY);
+        try {
+          win.dispatchEvent(new CustomEvent('shahintv_adfree_updated', { detail: adFreePayload }));
+        } catch (e) {}
 
         if (win.MRS_ADS && typeof win.MRS_ADS.enterVipMode === 'function') {
           win.MRS_ADS.enterVipMode(claimData.expiresAt);
@@ -284,6 +342,33 @@
       });
 
     return activeWatchPromise;
+  }
+
+  function refreshStatus() {
+    var base = getApiBase();
+    var deviceId = getDeviceId();
+    return fetch(base + '/api/rewards/status?deviceId=' + encodeURIComponent(deviceId), {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (json) {
+        var data = json && json.data ? json.data : null;
+        if (!data) return null;
+        if (data.availableAt) {
+          var availMs = Date.parse(data.availableAt);
+          if (!isNaN(availMs) && availMs > Date.now()) {
+            lsSet(COOLDOWN_UNTIL_KEY, String(availMs));
+          }
+        } else if (data.cooldownMinutes === 0) {
+          lsRemove(COOLDOWN_UNTIL_KEY);
+        }
+        try {
+          win.dispatchEvent(new CustomEvent('mrs_reward_status_updated', { detail: data }));
+        } catch (e) {}
+        return data;
+      })
+      .catch(function () { return null; });
   }
 
   function scheduleExpiryCheck() {
@@ -319,6 +404,7 @@
   win.MRS_REWARD_ADS = {
     isAvailable: isAvailable,
     startAndWatch: startAndWatch,
+    refreshStatus: refreshStatus,
     getCooldownRemainingMinutes: getCooldownRemainingMinutes,
     scheduleExpiryCheck: scheduleExpiryCheck
   };

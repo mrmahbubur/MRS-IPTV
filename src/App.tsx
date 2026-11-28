@@ -1093,6 +1093,7 @@ export default function App() {
             isOpen={isRewardedAdOpen}
             onClose={() => setIsRewardedAdOpen(false)}
             onProceed={handleProceedAfterAd}
+            adFreeState={adFreeState}
             onRewardedGranted={(newState) => {
               setAdFreeState(newState);
             }}
@@ -1378,6 +1379,7 @@ export default function App() {
             setIsFiveMinAdVisible(false);
             setIsPremiumModalOpen(true);
           }}
+          adFreeState={adFreeState}
           onRewardedGranted={(newState) => setAdFreeState(newState)}
         />
       )}

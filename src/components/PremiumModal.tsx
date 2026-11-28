@@ -23,7 +23,9 @@ import {
 } from '../lib/mrsVip';
 import { AdFreeState } from '../types';
 import { useRealtimeVipCountdown } from '../lib/adSystem';
+import { useAdGate } from '../lib/useAdGate';
 import { CaptchaChallengeWidget } from './CaptchaChallengeWidget';
+import { WatchAdVipButton } from './WatchAdVipButton';
 
 interface PremiumModalProps {
   isOpen: boolean;
@@ -182,6 +184,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
   // Copy feedback
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
+  const { isFreeMode, isVipLocked, adConfig } = useAdGate();
   const vipCountdown = useRealtimeVipCountdown(adFreeState);
   const isVipActive = vipCountdown.isActive;
 
@@ -570,6 +573,29 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
           {/* TAB 1: PACKAGES & ORDER */}
           {activeTab === 'packages' && (
             <div className="space-y-5">
+              {!isVipActive && !isVipLocked && isFreeMode && (adConfig.monetag?.rewardedEnabled || adConfig.rewards?.anyRewardedAvailable) && (
+                <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-400/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-xs font-black text-amber-300 uppercase tracking-wider">
+                      Try 1 Hour VIP Free
+                    </p>
+                    <p className="text-[11px] text-[#C9D1E0] mt-0.5 leading-snug">
+                      Watch a short rewarded ad to unlock zero-ad VIP channels for 60 minutes.
+                    </p>
+                  </div>
+                  <div className="shrink-0 sm:w-auto w-full">
+                    <WatchAdVipButton
+                      variant="hero"
+                      adFreeState={adFreeState}
+                      onRewardedGranted={(newState) => {
+                        onStateChange(newState);
+                        onClose();
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
               {/* Currency Selector */}
               <div className="flex items-center justify-between bg-[#070C1E] p-1 rounded-xl border border-[#00D9FF]/25 gap-1.5">
                 <button

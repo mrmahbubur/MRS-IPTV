@@ -280,6 +280,9 @@ export const config = {
     unlocksVipChannels: bool(env.REWARD_UNLOCKS_VIP_CHANNELS, true),
     monetagPostbackSecret: env.MONETAG_POSTBACK_SECRET || '',
     adsTestMode: bool(env.ADS_TEST_MODE, true),
+    monetagShowRegularAds: bool(env.MONETAG_SHOW_REGULAR_ADS, false),
+    monetagRewardedEnabled: bool(env.MONETAG_REWARDED_ENABLED, false),
+    monetagRewardedShowFn: String(env.MONETAG_REWARDED_SHOW_FN || '').trim(),
   },
 };
 

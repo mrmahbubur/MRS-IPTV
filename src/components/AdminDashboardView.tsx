@@ -43,12 +43,13 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
   const [adsSettings, setAdsSettings] = useState<{
     formats: { banner: boolean; sticky: boolean; popunder: boolean; interstitial: boolean; push: boolean };
     testMode: boolean;
-    monetag?: { showRegularAds: boolean; rewarded?: { enabled: boolean } };
+    monetag?: { showRegularAds: boolean; rewarded?: { enabled: boolean; showFn?: string | null } };
   }>({
     formats: { banner: true, sticky: true, popunder: false, interstitial: false, push: false },
     testMode: true,
-    monetag: { showRegularAds: false, rewarded: { enabled: false } },
+    monetag: { showRegularAds: false, rewarded: { enabled: false, showFn: null } },
   });
+  const [rewardedShowFnInput, setRewardedShowFnInput] = useState('');
   const [adsBusy, setAdsBusy] = useState(false);
 
   // Dashboard Data
@@ -206,6 +207,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
         setAdsReport(adsRes.data);
         if (adsRes.data.settings) {
           setAdsSettings(adsRes.data.settings);
+          setRewardedShowFnInput(String(adsRes.data.settings.monetag?.rewarded?.showFn || ''));
         }
       }
       if (rewRes?.ok && rewRes?.data) {
@@ -1695,25 +1697,25 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
               <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
                 <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Reward Starts</div>
                 <div className="text-xl font-black text-white tabular-nums mt-0.5">
-                  {Number(rewardsReport?.totals?.starts || 0).toLocaleString()}
+                  {Number(rewardsReport?.totals?.starts ?? rewardsReport?.starts ?? 0).toLocaleString()}
                 </div>
               </div>
               <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
                 <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Reward Claims</div>
                 <div className="text-xl font-black text-emerald-400 tabular-nums mt-0.5">
-                  {Number(rewardsReport?.totals?.claims || 0).toLocaleString()}
+                  {Number(rewardsReport?.totals?.claims ?? rewardsReport?.claims ?? 0).toLocaleString()}
                 </div>
               </div>
               <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
                 <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Claim Rate</div>
                 <div className="text-xl font-black text-sky-400 tabular-nums mt-0.5">
-                  {Number(rewardsReport?.totals?.claimRatePercent || 0)}%
+                  {Number(rewardsReport?.totals?.claimRatePercent ?? rewardsReport?.claimRatePct ?? 0)}%
                 </div>
               </div>
               <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
                 <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Active 1h Grants</div>
                 <div className="text-xl font-black text-amber-300 tabular-nums mt-0.5">
-                  {Number(rewardsReport?.totals?.activeGrantsNow || 0).toLocaleString()}
+                  {Number(rewardsReport?.totals?.activeGrantsNow ?? rewardsReport?.activeGrants ?? 0).toLocaleString()}
                 </div>
               </div>
             </div>
@@ -1737,7 +1739,11 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                         });
                         const j = await r.json();
                         if (!r.ok) throw new Error(j?.error?.message || 'Toggle failed');
-                        if (j?.data?.settings) setAdsSettings(j.data.settings);
+                        const nextSettings = j?.data?.settings || j?.data;
+                        if (nextSettings?.monetag) {
+                          setAdsSettings(nextSettings);
+                          setRewardedShowFnInput(String(nextSettings.monetag?.rewarded?.showFn || ''));
+                        }
                         showBanner('ok', `Monetag rewarded ${nextVal ? 'enabled' : 'disabled'}.`);
                       } catch (err: any) {
                         showBanner('err', err?.message || 'Failed to toggle Monetag');
@@ -1786,6 +1792,85 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                   >
                     showRegularAds: {adsSettings.monetag?.showRegularAds ? 'ON' : 'OFF'}
                   </button>
+                </div>
+
+                <div className="pt-2 border-t border-white/10 space-y-1.5">
+                  <label className="block text-[11px] font-bold text-[#C9D1E0]">
+                    Monetag Rewarded Global Function Name <span className="text-[#94A3B8] font-normal">(optional, e.g. window function)</span>
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    <input
+                      type="text"
+                      value={rewardedShowFnInput}
+                      onChange={(e) => setRewardedShowFnInput(e.target.value)}
+                      placeholder="e.g. show_11226634"
+                      className="flex-1 min-w-[180px] min-h-[38px] px-3 py-1.5 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-xs font-mono text-white placeholder-[#64748B] focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      disabled={adsBusy}
+                      onClick={async () => {
+                        try {
+                          setAdsBusy(true);
+                          const cleaned = rewardedShowFnInput.trim();
+                          const r = await adminFetch('/api/admin/rewards/toggle', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              network: 'monetag',
+                              showFn: cleaned || null,
+                            }),
+                          });
+                          const j = await r.json();
+                          if (!r.ok) throw new Error(j?.error?.message || 'Failed to save showFn');
+                          const nextSettings = j?.data?.settings || j?.data;
+                          if (nextSettings?.monetag) {
+                            setAdsSettings(nextSettings);
+                            setRewardedShowFnInput(String(nextSettings.monetag?.rewarded?.showFn || ''));
+                          }
+                          showBanner('ok', cleaned ? `Monetag rewarded showFn saved (${cleaned}).` : 'Monetag rewarded showFn cleared.');
+                        } catch (err: any) {
+                          showBanner('err', err?.message || 'Invalid Monetag rewarded function identifier');
+                        } finally {
+                          setAdsBusy(false);
+                        }
+                      }}
+                      className="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-[#00D9FF]/20 hover:bg-[#00D9FF]/30 border border-[#00D9FF]/45 text-xs font-bold text-[#00D9FF] cursor-pointer disabled:opacity-60"
+                    >
+                      Save
+                    </button>
+                    {adsSettings.monetag?.rewarded?.showFn && (
+                      <button
+                        type="button"
+                        disabled={adsBusy}
+                        onClick={async () => {
+                          try {
+                            setAdsBusy(true);
+                            const r = await adminFetch('/api/admin/rewards/toggle', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ network: 'monetag', showFn: null }),
+                            });
+                            const j = await r.json();
+                            if (!r.ok) throw new Error(j?.error?.message || 'Failed to clear showFn');
+                            const nextSettings = j?.data?.settings || j?.data;
+                            if (nextSettings?.monetag) {
+                              setAdsSettings(nextSettings);
+                              setRewardedShowFnInput('');
+                            }
+                            showBanner('ok', 'Monetag rewarded showFn cleared.');
+                          } catch (err: any) {
+                            showBanner('err', err?.message || 'Failed to clear showFn');
+                          } finally {
+                            setAdsBusy(false);
+                          }
+                        }}
+                        className="min-h-[38px] px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-bold text-[#C9D1E0] cursor-pointer disabled:opacity-60"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
