@@ -128,6 +128,8 @@ services:
         value: "4000"
       - key: MONETAG_REWARDED_ENABLED
         value: "false"
+      - key: MONETAG_REWARDED_SNIPPET
+        sync: false
       - key: MONETAG_REWARDED_SHOW_FN
         sync: false
       - key: MONETAG_REWARDED_ZONE_ID

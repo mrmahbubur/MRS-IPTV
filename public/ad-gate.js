@@ -214,11 +214,15 @@
         '#mrs-sticky-mobile-ad',
         '#mrs-consent-banner',
         '#mrs-push-preprompt',
+        '#mrs-monetag-interstitial',
+        '#mrs-popunder-script',
         'script[data-mrs-ad-injected="1"]',
         'script[src*="uplcm.com"]',
+        'script[src*="monetag.com"]',
         'script[src*="quge5.com"]',
         'script[src*="n6wxm.com"]',
         'iframe[src*="uplcm.com"]',
+        'iframe[src*="monetag.com"]',
         'iframe[src*="quge5.com"]',
         'iframe[src*="5gvci.com"]',
         'iframe[src*="n6wxm.com"]',
@@ -248,6 +252,8 @@
           key.indexOf('mrs_ads_') === 0 ||
           key.indexOf('mrs_ad_') === 0 ||
           key.indexOf('mrs_iptv_ad_') === 0 ||
+          key === 'mrs_last_interstitial_shown_at' ||
+          key === 'mrs_interstitial_daily_hist' ||
           key === 'shahintv_last_interstitial'
         ) {
           if (key !== EXPIRED_NOTICE_KEY) {

@@ -294,14 +294,34 @@
     return s;
   }
 
+  function isSafeInlineAdSnippet(code) {
+    if (typeof code !== 'string') return false;
+    var trimmed = code.trim();
+    if (!trimmed || trimmed.length > 4096) return false;
+    if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]/.test(trimmed)) {
+      return false;
+    }
+    if (/(?:&#(?:x[0-9a-f]+|\d+);|\\(?:x[0-9a-f]{2}|u[0-9a-f]{4}|u\{[0-9a-f]+\})|<!--)/i.test(trimmed)) {
+      return false;
+    }
+    if (
+      /(?:javascript:|vbscript:|data:text\/html|<\/?[a-z!?/]|\bon[a-z]{2,}\s*=|\b(?:eval|Function|AsyncFunction|execScript|setTimeout|setInterval|setImmediate|atob|unescape|fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\s*\(?|(?:^|[^\w$])(?:__proto__|prototype|constructor)\b|\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|cookieStore|navigator|history|location)\s*\[|\bdocument\.(?:cookie|location|domain|write|writeln|referrer)|\.(?:inner|outer)HTML\s*=|\bimport\s*(?:\(|['"`]))/i.test(
+        trimmed
+      )
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   function injectInlineSnippet(code, id) {
-    if (!isFreeState() || !hasAdConsent() || !code) return null;
+    if (!isFreeState() || !hasAdConsent() || !isSafeInlineAdSnippet(code)) return null;
     if (id && doc.getElementById(id)) return null;
     var s = doc.createElement('script');
     if (id) s.id = id;
     s.setAttribute('data-mrs-ad-injected', '1');
     s.setAttribute('data-mrs-ad-approved', '1');
-    s.textContent = code;
+    s.textContent = code.trim();
     var parent = doc.body || doc.head || doc.documentElement;
     if (parent) parent.appendChild(s);
     return s;
@@ -312,12 +332,25 @@
     if (pushTimer) { clearTimeout(pushTimer); pushTimer = null; }
     if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
     eventQueue = [];
-    var sticky = doc.getElementById('mrs-sticky-mobile-ad');
-    if (sticky && sticky.parentNode) sticky.parentNode.removeChild(sticky);
-    var consent = doc.getElementById('mrs-consent-banner');
-    if (consent && consent.parentNode) consent.parentNode.removeChild(consent);
-    var pushEl = doc.getElementById('mrs-push-preprompt');
-    if (pushEl && pushEl.parentNode) pushEl.parentNode.removeChild(pushEl);
+    var idsToRemove = [
+      'mrs-sticky-mobile-ad',
+      'mrs-consent-banner',
+      'mrs-push-preprompt',
+      'mrs-monetag-interstitial',
+      'mrs-popunder-script'
+    ];
+    for (var i = 0; i < idsToRemove.length; i++) {
+      var el = doc.getElementById(idsToRemove[i]);
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+    try {
+      var injectedNodes = doc.querySelectorAll('script[data-mrs-ad-injected="1"], iframe[data-mrs-ad-frame="1"]');
+      for (var j = 0; j < injectedNodes.length; j++) {
+        if (injectedNodes[j] && injectedNodes[j].parentNode) {
+          injectedNodes[j].parentNode.removeChild(injectedNodes[j]);
+        }
+      }
+    } catch (e) {}
   }
 
   function renderConsentBanner(forceOpen) {
@@ -605,7 +638,9 @@
     var caps = getEffectiveCaps();
 
     // Monetag Vignette / Interstitial ONLY when monetag.showRegularAds === true and within cooldown + daily cap
-    var interstitialCfg = (cfg.monetag && (cfg.monetag.interstitial || cfg.monetag.vignette)) || null;
+    var serverInterstitial = serverFormatConfig.monetag && serverFormatConfig.monetag.interstitial;
+    var staticInterstitial = cfg.monetag && (cfg.monetag.interstitial || cfg.monetag.vignette);
+    var interstitialCfg = staticInterstitial || serverInterstitial || null;
     if (
       isMonetagRegularAllowed() &&
       formats.interstitial &&
@@ -614,7 +649,7 @@
       canShowNetworkInterstitial(caps)
     ) {
       var activeInterstitialZone =
-        (serverFormatConfig.monetag && (serverFormatConfig.monetag.interstitialZoneId || serverFormatConfig.monetag.vignetteZoneId)) ||
+        (serverFormatConfig.monetag && (serverFormatConfig.monetag.interstitialZoneId || (serverInterstitial && serverInterstitial.zoneId) || serverFormatConfig.monetag.vignetteZoneId)) ||
         interstitialCfg.zoneId;
       var injected = null;
       if (interstitialCfg.scriptSrc) {

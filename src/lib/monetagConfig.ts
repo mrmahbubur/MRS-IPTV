@@ -633,3 +633,196 @@ export function isValidShowFnIdentifier(fnName: string): boolean {
   if (parts.length < 1 || parts.length > 4) return false;
   return parts.every((part) => validateShowFnSegment(part));
 }
+
+const ALLOWED_SCRIPT_ATTRS = new Set([
+  'src',
+  'async',
+  'defer',
+  'type',
+  'data-zone',
+  'data-cfasync',
+  'crossorigin',
+  'referrerpolicy',
+  'charset',
+  'nomodule',
+]);
+
+const ALLOWED_SCRIPT_TYPES = new Set(['', 'text/javascript', 'application/javascript']);
+const ALLOWED_CROSSORIGIN = new Set(['', 'anonymous', 'use-credentials']);
+const ALLOWED_REFERRER_POLICY = new Set([
+  'no-referrer',
+  'no-referrer-when-downgrade',
+  'origin',
+  'strict-origin',
+  'strict-origin-when-downgrade',
+  'same-origin',
+]);
+
+const SNIPPET_OBFUSCATION_PATTERNS: RegExp[] = [
+  /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/, // Control chars / null byte
+  /[\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]/, // Zero-width / bidi chars
+  /&#(?:x[0-9a-f]+|\d+);/i, // Numeric HTML entities
+  /&(?:colon|tab|newline);/i, // Named control HTML entities
+  /\\(?:x[0-9a-f]{2}|u[0-9a-f]{4}|u\{[0-9a-f]+\}|[0-7]{1,3})/i, // JS hex/unicode/octal escapes
+  /<!--|-->/, // HTML comments
+];
+
+const SNIPPET_DISALLOWED_INLINE_PATTERNS: RegExp[] = [
+  /\b(?:javascript|vbscript)\s*:/i,
+  /\bdata\s*:\s*(?:text\/html|application\/|image\/svg)/i,
+  /\bblob\s*:/i,
+  /<(?!\/?script\b)[a-z!?/]/i, // Any non-<script> HTML tag
+  /\bon[a-z]{2,}\s*=/i, // Event handler attributes
+  /\b(?:eval|Function|AsyncFunction|GeneratorFunction|AsyncGeneratorFunction|execScript|setTimeout|setInterval|setImmediate|importScripts)\s*(?:\(|`)/,
+  /\bnew\s+(?:Function|Proxy|WebSocket|Worker|SharedWorker|BroadcastChannel|EventSource|XMLHttpRequest|ActiveXObject)\b/i,
+  /\bimport\s*(?:\(|['"`])/i,
+  /(?:^|[^\w$])(?:__proto__|prototype|constructor|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)\b/,
+  /\bString\s*\.\s*(?:fromCharCode|fromCodePoint)\b/,
+  /\b(?:atob|unescape|decodeURI|decodeURIComponent)\s*\(/,
+  /\b(?:fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\b/,
+  /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history|location)\s*(?:\[|\.\s*(?:cookie|location|domain|write|writeln|referrer|innerHTML|outerHTML|insertAdjacentHTML|createElement|createRange|createContextualFragment|append|appendChild|src|srcdoc|assign|replace|reload|href|open|sendBeacon|fetch|serviceWorker|clipboard|credentials|pushState|replaceState|evaluate))/,
+  /\b(?:innerHTML|outerHTML|insertAdjacentHTML|srcdoc|cookie)\s*(?:=|\+=)/,
+  /\bdocument\.(?:cookie|location|domain|write|writeln|referrer|createElement|createRange|body|head|scripts)\b/i,
+  /\bwindow\.location\b/i,
+  /\b(?:localStorage|sessionStorage|indexedDB|cookieStore)\b/i,
+  /\bwith\s*\(/,
+];
+
+function validateScriptAttributes(attrText: string): { hasSrc: boolean } {
+  const seenAttrs = new Set<string>();
+  let hasSrc = false;
+  let cursor = 0;
+  const attrRegex = /\s*([a-zA-Z_:][a-zA-Z0-9_.:-]*)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?\s*/y;
+
+  while (cursor < attrText.length) {
+    attrRegex.lastIndex = cursor;
+    const match = attrRegex.exec(attrText);
+    if (!match || match[0].length === 0) {
+      throw new Error('Rewarded snippet contains disallowed inline attributes.');
+    }
+    cursor = attrRegex.lastIndex;
+
+    const attrName = match[1].toLowerCase();
+    const attrVal = match[2] ?? match[3] ?? match[4] ?? '';
+
+    if (attrName.startsWith('on') || !ALLOWED_SCRIPT_ATTRS.has(attrName) || seenAttrs.has(attrName)) {
+      throw new Error('Rewarded snippet contains disallowed inline attributes.');
+    }
+    seenAttrs.add(attrName);
+
+    if (attrVal.includes('<') || attrVal.includes('>')) {
+      throw new Error('Rewarded snippet contains disallowed inline patterns.');
+    }
+
+    if (attrName === 'src') {
+      if (!isSafeMonetagZoneUrl(attrVal)) {
+        throw new Error('Rewarded snippet script src must use an approved HTTPS Monetag domain.');
+      }
+      hasSrc = true;
+    } else if (attrName === 'type') {
+      if (!ALLOWED_SCRIPT_TYPES.has(attrVal.trim().toLowerCase())) {
+        throw new Error('Rewarded snippet contains disallowed inline script type.');
+      }
+    } else if (attrName === 'data-zone') {
+      if (!sanitizeMonetagZoneIdStrict(attrVal)) {
+        throw new Error('Rewarded snippet data-zone attribute is invalid.');
+      }
+    } else if (attrName === 'data-cfasync') {
+      const norm = attrVal.trim().toLowerCase();
+      if (norm !== 'true' && norm !== 'false') {
+        throw new Error('Rewarded snippet data-cfasync attribute is invalid.');
+      }
+    } else if (attrName === 'crossorigin') {
+      if (!ALLOWED_CROSSORIGIN.has(attrVal.trim().toLowerCase())) {
+        throw new Error('Rewarded snippet crossorigin attribute is invalid.');
+      }
+    } else if (attrName === 'referrerpolicy') {
+      if (!ALLOWED_REFERRER_POLICY.has(attrVal.trim().toLowerCase())) {
+        throw new Error('Rewarded snippet referrerpolicy attribute is invalid.');
+      }
+    } else if (attrName === 'async' || attrName === 'defer' || attrName === 'nomodule') {
+      const norm = attrVal.trim().toLowerCase();
+      if (norm !== '' && norm !== 'true' && norm !== attrName) {
+        throw new Error('Rewarded snippet boolean attribute is invalid.');
+      }
+    } else if (attrName === 'charset') {
+      if (!/^[a-z0-9_-]{2,20}$/i.test(attrVal.trim())) {
+        throw new Error('Rewarded snippet charset attribute is invalid.');
+      }
+    }
+  }
+
+  return { hasSrc };
+}
+
+function assertSafeInlineScriptContent(code: string): void {
+  for (const pat of SNIPPET_OBFUSCATION_PATTERNS) {
+    if (pat.test(code)) {
+      throw new Error('Rewarded snippet contains disallowed inline encoding or control patterns.');
+    }
+  }
+  for (const pat of SNIPPET_DISALLOWED_INLINE_PATTERNS) {
+    if (pat.test(code)) {
+      throw new Error('Rewarded snippet contains disallowed inline patterns.');
+    }
+  }
+}
+
+export function validateRewardedSnippetStrict(raw: unknown): string | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw !== 'string') {
+    throw new Error('Rewarded snippet must be a string.');
+  }
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  if (trimmed.length > 4096) {
+    throw new Error('Rewarded snippet must be 4096 characters or fewer.');
+  }
+
+  for (const pat of SNIPPET_OBFUSCATION_PATTERNS) {
+    if (pat.test(trimmed)) {
+      throw new Error('Rewarded snippet contains disallowed inline encoding or control patterns.');
+    }
+  }
+
+  const hasAnyTagSyntax = /<\/?[a-z!?/]/i.test(trimmed);
+  if (hasAnyTagSyntax) {
+    const scriptTagRegex = /<script\b([^<>]*)>([\s\S]*?)<\/script>/gi;
+    let lastIndex = 0;
+    let tagCount = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = scriptTagRegex.exec(trimmed)) !== null) {
+      const between = trimmed.slice(lastIndex, match.index);
+      if (between.trim().length > 0) {
+        throw new Error('Rewarded snippet contains disallowed inline markup outside <script> tags.');
+      }
+      lastIndex = scriptTagRegex.lastIndex;
+      tagCount += 1;
+      if (tagCount > 3) {
+        throw new Error('Rewarded snippet may contain at most 3 <script> tags.');
+      }
+
+      const attrs = match[1] || '';
+      const body = match[2] || '';
+      const { hasSrc } = validateScriptAttributes(attrs);
+
+      if (hasSrc && body.trim().length > 0) {
+        throw new Error('Rewarded snippet external <script src> tag must not contain inline code.');
+      }
+      if (!hasSrc && body.trim().length > 0) {
+        assertSafeInlineScriptContent(body);
+      }
+    }
+
+    const trailing = trimmed.slice(lastIndex);
+    if (tagCount === 0 || trailing.trim().length > 0) {
+      throw new Error('Rewarded snippet contains disallowed inline HTML tags.');
+    }
+    return trimmed;
+  }
+
+  assertSafeInlineScriptContent(trimmed);
+  return trimmed;
+}
+

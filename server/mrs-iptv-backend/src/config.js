@@ -299,6 +299,7 @@ export const config = {
     monetagPushDeclineDays: Math.min(365, Math.max(1, int(env.MONETAG_PUSH_DECLINE_DAYS, 30))),
     monetagEmptySlotCollapseMs: Math.min(15000, Math.max(500, int(env.MONETAG_EMPTY_SLOT_COLLAPSE_MS, 4000))),
     monetagRewardedEnabled: bool(env.MONETAG_REWARDED_ENABLED, false),
+    monetagRewardedSnippet: String(env.MONETAG_REWARDED_SNIPPET || '').trim(),
     monetagRewardedShowFn: String(env.MONETAG_REWARDED_SHOW_FN || '').trim(),
     monetagRewardedZoneId: String(env.MONETAG_REWARDED_ZONE_ID || '').trim(),
   },

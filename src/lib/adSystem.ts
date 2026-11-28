@@ -142,6 +142,18 @@ export async function fetchDynamicAdConfig(force: boolean = false): Promise<any>
             win.MRS_ADS_CONFIG.monetag.directZones = validZones;
           }
         }
+        if (m.verificationId) {
+          win.MRS_ADS_CONFIG.monetag.verificationId = m.verificationId;
+          if (win.MRS_ADS_CONFIG.publisherMeta) {
+            win.MRS_ADS_CONFIG.publisherMeta.monetag = m.verificationId;
+          }
+          if (typeof document !== 'undefined') {
+            const meta = document.querySelector('meta[name="monetag"]');
+            if (meta && meta.getAttribute('content') !== m.verificationId) {
+              meta.setAttribute('content', m.verificationId);
+            }
+          }
+        }
         if (m.interstitial?.zoneId && isSafeMonetagZoneUrl(m.interstitial?.url) && win.MRS_ADS_CONFIG.monetag.interstitial) {
           win.MRS_ADS_CONFIG.monetag.interstitial.zoneId = m.interstitial.zoneId;
           win.MRS_ADS_CONFIG.monetag.interstitial.url = m.interstitial.url;
@@ -149,6 +161,10 @@ export async function fetchDynamicAdConfig(force: boolean = false): Promise<any>
         if (m.vignette?.zoneId && isSafeMonetagZoneUrl(m.vignette?.url) && win.MRS_ADS_CONFIG.monetag.vignette) {
           win.MRS_ADS_CONFIG.monetag.vignette.zoneId = m.vignette.zoneId;
           win.MRS_ADS_CONFIG.monetag.vignette.url = m.vignette.url;
+        }
+        if (m.popunder?.zoneId && isSafeMonetagZoneUrl(m.popunder?.url) && win.MRS_ADS_CONFIG.monetag.popunder) {
+          win.MRS_ADS_CONFIG.monetag.popunder.zoneId = m.popunder.zoneId;
+          win.MRS_ADS_CONFIG.monetag.popunder.directZoneUrl = m.popunder.url;
         }
         if (m.caps) {
           win.MRS_ADS_CONFIG.caps = { ...(win.MRS_ADS_CONFIG.caps || {}), ...m.caps };
@@ -544,7 +560,16 @@ export function canTriggerInterstitialAd(cooldownMs?: number): boolean {
     const currentVip = getStoredAdFreeState();
     if (currentVip.isActive || currentVip.isAdFree) return false;
 
+    if (typeof window !== 'undefined') {
+      const gate = (window as any).MRS_ADS;
+      const gateState = gate && typeof gate.state === 'function' ? gate.state() : (window as any).MRS_AD_STATE;
+      if (gateState && gateState !== 'free') return false;
+    }
+
     const serverCfg = typeof window !== 'undefined' ? (window as any).__MRS_ADS_SERVER_CONFIG : null;
+    if (serverCfg?.formats && serverCfg.formats.interstitial === false) {
+      return false;
+    }
     const staticCfg = typeof window !== 'undefined' ? (window as any).MRS_ADS_CONFIG : null;
     const caps = serverCfg?.monetag?.caps || staticCfg?.caps || {};
 

@@ -18,6 +18,7 @@ import {
   sanitizeMonetagZoneIdStrict,
   sanitizeMonetagVerificationIdStrict,
   isValidShowFnIdentifier,
+  validateRewardedSnippetStrict,
 } from '../src/lib/monetagConfig.js';
 
 export interface MonetagZoneEntry {
@@ -111,23 +112,15 @@ function trySanitizeShowFnEnv(raw: unknown): string | null {
 }
 
 export function sanitizeRewardedSnippet(raw: unknown): string | null {
-  if (raw === null || raw === undefined) return null;
-  if (typeof raw !== 'string') {
-    throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet must be a string.');
+  try {
+    return validateRewardedSnippetStrict(raw);
+  } catch (err: any) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_snippet',
+      err?.message || 'Rewarded snippet contains disallowed inline patterns.'
+    );
   }
-  const trimmed = raw.trim();
-  if (!trimmed) return null;
-  if (trimmed.length > 4096) {
-    throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet must be 4096 characters or fewer.');
-  }
-  if (
-    /(?:javascript:|vbscript:|data:text\/html|<iframe\b|<svg\b|<object\b|<embed\b|<meta\b[^>]*http-equiv|\bon[a-z]+\s*=|\beval\s*\(|\bnew\s+Function\b|document\.(?:cookie|location|domain|write|writeln)|window\.location|\blocalStorage\b|\bsessionStorage\b|\.(?:inner|outer)HTML\s*=|\bfetch\s*\(|XMLHttpRequest|\bimport\s*\()/i.test(
-      trimmed
-    )
-  ) {
-    throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet contains disallowed inline patterns.');
-  }
-  return trimmed;
 }
 
 function trySanitizeSnippetEnv(raw: unknown): string | null {
@@ -248,7 +241,7 @@ const DEFAULT_AD_SETTINGS: AdSettings = {
     caps: getDefaultCapsFromEnv(),
     rewarded: {
       enabled: Boolean(backendConfig.rewards?.monetagRewardedEnabled),
-      snippet: null,
+      snippet: trySanitizeSnippetEnv(backendConfig.rewards?.monetagRewardedSnippet),
       showFn: trySanitizeShowFnEnv(backendConfig.rewards?.monetagRewardedShowFn),
       zoneId: sanitizeZoneId(backendConfig.rewards?.monetagRewardedZoneId),
     },
@@ -351,6 +344,7 @@ export function saveAdSettings(partial: {
     verificationId?: string;
     vignetteZoneId?: string;
     interstitialZoneId?: string;
+    interstitial?: { zoneId?: string };
     popunderZoneId?: string;
     showRegularAds?: boolean;
     caps?: Partial<MonetagAdCapsPolicy>;
@@ -359,6 +353,15 @@ export function saveAdSettings(partial: {
 }): AdSettings {
   const current = getAdSettings();
   const inCaps = partial.monetag?.caps;
+  const hasInterstitialZoneInput = Boolean(
+    partial.monetag &&
+      ('interstitialZoneId' in partial.monetag ||
+        (partial.monetag.interstitial && 'zoneId' in partial.monetag.interstitial))
+  );
+  const rawInterstitialZoneInput =
+    partial.monetag && 'interstitialZoneId' in partial.monetag
+      ? partial.monetag.interstitialZoneId
+      : partial.monetag?.interstitial?.zoneId;
 
   const next: AdSettings = {
     formats: {
@@ -379,8 +382,8 @@ export function saveAdSettings(partial: {
           ? (validateZoneIdInput(partial.monetag.vignetteZoneId, DEFAULT_AD_SETTINGS.monetag.vignetteZoneId, false) as string)
           : current.monetag.vignetteZoneId,
       interstitialZoneId:
-        partial.monetag && 'interstitialZoneId' in partial.monetag
-          ? (validateZoneIdInput(partial.monetag.interstitialZoneId, DEFAULT_AD_SETTINGS.monetag.interstitialZoneId, false) as string)
+        hasInterstitialZoneInput
+          ? (validateZoneIdInput(rawInterstitialZoneInput, DEFAULT_AD_SETTINGS.monetag.interstitialZoneId, false) as string)
           : current.monetag.interstitialZoneId,
       popunderZoneId:
         partial.monetag && 'popunderZoneId' in partial.monetag

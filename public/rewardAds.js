@@ -322,6 +322,11 @@
   }
 
   function runOfficialNetworkReward(network, minWatchMs) {
+    var gateState = (win.MRS_ADS && win.MRS_ADS.state && win.MRS_ADS.state()) || win.MRS_AD_STATE || 'pending';
+    if (gateState !== 'free') {
+      return Promise.reject(new Error('VIP is already active.'));
+    }
+
     var rt = getRuntimeState();
     if (rt.testMode) {
       return runSimulatedTestWatch(minWatchMs);

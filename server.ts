@@ -43,7 +43,14 @@ import {
 } from "./server/m3uChecker";
 import { createPaymentRouter } from "./server/paymentRouter";
 import { createAdsRouter, isVipRequest, getAdSettings } from "./server/adsRouter";
-import { MONETAG_CANONICAL_ZONES, buildMonetagZoneUrl } from "./src/lib/monetagConfig";
+import {
+  MONETAG_CANONICAL_ZONES,
+  MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
+  MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  buildMonetagZoneUrl,
+  sanitizeMonetagZoneIdStrict,
+  toRuntimeCaps,
+} from "./src/lib/monetagConfig";
 import { createGoogleWorkspaceRouter } from "./server/googleWorkspaceRouter";
 import { M3uDoctorService, createM3uDoctorRouter } from "./server/m3uDoctor";
 import { triggerDelayedActivations, reconcilePending } from "./server/mrs-iptv-backend/src/verify.js";
@@ -1003,13 +1010,27 @@ async function startServer() {
     category: z.category,
   }));
 
-  const vignetteZoneId = getAdSettings().monetag.vignetteZoneId || MONETAG_CANONICAL_ZONES[4].zoneId;
-  const MIDNIGHT_VIGNETTE_CONFIG = {
-    zoneId: vignetteZoneId,
-    url: buildMonetagZoneUrl(vignetteZoneId),
-    category: 'all-time-direct',
-    links: BACKEND_STORED_AD_LINKS
-  };
+  function getDynamicInterstitialConfig() {
+    const adSettings = getAdSettings();
+    const interstitialZoneId =
+      sanitizeMonetagZoneIdStrict(adSettings.monetag?.interstitialZoneId) ||
+      sanitizeMonetagZoneIdStrict(adSettings.monetag?.vignetteZoneId) ||
+      MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID;
+    const vignetteZoneId =
+      sanitizeMonetagZoneIdStrict(adSettings.monetag?.vignetteZoneId) ||
+      interstitialZoneId ||
+      MONETAG_DEFAULT_VIGNETTE_ZONE_ID;
+    return {
+      enabled: Boolean(adSettings.formats?.interstitial),
+      zoneId: interstitialZoneId,
+      url: buildMonetagZoneUrl(interstitialZoneId),
+      vignetteZoneId,
+      vignetteUrl: buildMonetagZoneUrl(vignetteZoneId),
+      caps: toRuntimeCaps(adSettings.monetag.caps),
+      category: 'all-time-direct',
+      links: BACKEND_STORED_AD_LINKS,
+    };
+  }
 
   // Persistent storage helper for Ads State
   const adsDataDir = path.join(process.cwd(), 'data');
@@ -1124,10 +1145,19 @@ async function startServer() {
     let selectedAd: BackendAdLink | undefined;
 
     if (requestedZoneId && requestedZoneId.trim().length > 0) {
-      const cleanZone = requestedZoneId.trim();
+      const cleanZone = sanitizeMonetagZoneIdStrict(requestedZoneId.trim()) || requestedZoneId.trim();
       selectedAd = eligiblePool.find(
         (a) => a.zoneOrKey === cleanZone || a.id === cleanZone
       );
+      if (!selectedAd && sanitizeMonetagZoneIdStrict(cleanZone)) {
+        const dynamicInterstitial = getDynamicInterstitialConfig();
+        selectedAd = {
+          ...eligiblePool[4],
+          id: `uplcm-${cleanZone}`,
+          zoneOrKey: cleanZone,
+          url: cleanZone === dynamicInterstitial.zoneId ? dynamicInterstitial.url : buildMonetagZoneUrl(cleanZone),
+        };
+      }
     }
 
     if (!selectedAd && typeof requestedIndex === 'number' && requestedIndex >= 1 && requestedIndex <= poolSize) {
@@ -1199,13 +1229,25 @@ async function startServer() {
       }
       const isActiveAdUser = !midnightInfo.isVip;
       const pickRandom = req.query.mode === 'random';
+      const isInterstitialPlacement = [
+        'five-min-vip-modal',
+        'interstitial-preroll',
+        'hourly-visual-reminder',
+        'interstitial',
+        'network-interstitial',
+      ].includes(placement.toLowerCase());
+      const effectiveRequestedZone =
+        requestedZoneId ||
+        (!requestedIndex && isInterstitialPlacement && adSettings.formats.interstitial
+          ? getDynamicInterstitialConfig().zoneId
+          : '');
 
-      const { ad, assignedIndex } = getAndAdvanceAd(
+      const { ad } = getAndAdvanceAd(
         deviceId,
         clientCountry,
         isActiveAdUser,
         pickRandom,
-        requestedZoneId,
+        effectiveRequestedZone,
         requestedIndex
       );
 
@@ -1364,7 +1406,9 @@ async function startServer() {
     try {
       const status = checkUserMidnightRegion(req);
       const adSettings = getAdSettings();
+      const dynamicInterstitial = getDynamicInterstitialConfig();
       const shouldShowAdsAllTime = !status.isVip && Boolean(adSettings.monetag.showRegularAds);
+      const shouldShowInterstitial = shouldShowAdsAllTime && dynamicInterstitial.enabled;
       const featuredAd = BACKEND_STORED_AD_LINKS[backendAdsState.globalIndex % BACKEND_STORED_AD_LINKS.length] || BACKEND_STORED_AD_LINKS[0];
 
       res.json({
@@ -1377,11 +1421,21 @@ async function startServer() {
         country: status.country,
         isVip: status.isVip,
         shouldShowMidnightAdult: shouldShowAdsAllTime,
+        interstitial: shouldShowInterstitial ? {
+          enabled: true,
+          zoneId: dynamicInterstitial.zoneId,
+          url: dynamicInterstitial.url,
+          cooldownMs: dynamicInterstitial.caps.interstitialCooldownMs,
+          maxPerDay: dynamicInterstitial.caps.interstitialMaxPerDay,
+        } : {
+          enabled: false,
+          zoneId: dynamicInterstitial.zoneId,
+        },
         vignette: shouldShowAdsAllTime ? {
           enabled: true,
-          zone: featuredAd.zoneOrKey,
-          url: featuredAd.url,
-          defaultZone: MIDNIGHT_VIGNETTE_CONFIG.zoneId
+          zone: dynamicInterstitial.vignetteZoneId,
+          url: dynamicInterstitial.vignetteUrl,
+          defaultZone: dynamicInterstitial.zoneId
         } : {
           enabled: false
         },

