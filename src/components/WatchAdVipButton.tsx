@@ -3,7 +3,7 @@ import { Loader2, Sparkles, Clock } from 'lucide-react';
 import { useRealtimeVipCountdown } from '../lib/adSystem';
 import { getStoredAdFreeState } from '../lib/codes';
 import { AdFreeState } from '../types';
-import { useAdGate } from '../lib/useAdGate';
+import { useAdGate, detectClientVipState } from '../lib/useAdGate';
 
 export const WatchAdVipIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
@@ -49,6 +49,8 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
   className = '',
 }) => {
   const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const clientVip = detectClientVipState();
+  const effectiveVipLocked = isVipLocked || clientVip.isVip || clientVip.isLocked;
   const vipCountdown = useRealtimeVipCountdown(adFreeState);
   const [isWatching, setIsWatching] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -92,7 +94,7 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
     syncCooldown();
     window.addEventListener('mrs_reward_status_updated', handleStatusUpdated);
 
-    if (isFreeMode && !isVipLocked && isRewardAvailable && !vipCountdown.isActive && !adFreeState?.isActive) {
+    if (isFreeMode && !effectiveVipLocked && isRewardAvailable && !vipCountdown.isActive && !adFreeState?.isActive) {
       try {
         const rewardApi = (window as any).MRS_REWARD_ADS;
         const availability = rewardApi && typeof rewardApi.isAvailable === 'function' ? rewardApi.isAvailable() : null;
@@ -107,12 +109,12 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
       clearInterval(id);
       window.removeEventListener('mrs_reward_status_updated', handleStatusUpdated);
     };
-  }, [isFreeMode, isVipLocked, isRewardAvailable]);
+  }, [isFreeMode, effectiveVipLocked, isRewardAvailable]);
 
   // Never show while VIP or active reward1h is active, on player/modal-banner, or when no rewarded format is enabled
   if (
     !isFreeMode ||
-    isVipLocked ||
+    effectiveVipLocked ||
     vipCountdown.isActive ||
     Boolean(adFreeState?.isActive) ||
     !isRewardAvailable ||
@@ -126,7 +128,7 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
   const isDisabled = isWatching || isDailyCapReached;
 
   const handleStartReward = async () => {
-    if (isDisabled || !isFreeMode || isVipLocked || vipCountdown.isActive || adFreeState?.isActive) return;
+    if (isDisabled || !isFreeMode || effectiveVipLocked || vipCountdown.isActive || adFreeState?.isActive) return;
     setErrorMsg(null);
     const rewardApi = (window as any).MRS_REWARD_ADS;
     if (!rewardApi || typeof rewardApi.startAndWatch !== 'function') {

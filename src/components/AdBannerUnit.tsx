@@ -7,7 +7,7 @@ import {
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
-import { useAdGate } from '../lib/useAdGate';
+import { useAdGate, detectClientVipState } from '../lib/useAdGate';
 
 interface AdBannerUnitProps {
   placement: 'home-top' | 'catalog-inline' | 'player-below' | 'player-overlay' | 'sidebar-card';
@@ -37,8 +37,9 @@ export const AdBannerUnit: React.FC<AdBannerUnitProps> = ({
 }) => {
   const remoteConfig = useRemoteConfig();
   const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const clientVip = detectClientVipState();
 
-  const isVip = isVipLocked || Boolean(adFreeState?.isActive);
+  const isVip = isVipLocked || clientVip.isVip || clientVip.isLocked || Boolean(adFreeState?.isActive);
   const canRenderAds =
     isFreeMode &&
     !isVip &&

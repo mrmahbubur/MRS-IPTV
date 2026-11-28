@@ -8,7 +8,7 @@ import {
   markInterstitialAdShown,
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
-import { useAdGate } from '../lib/useAdGate';
+import { useAdGate, detectClientVipState } from '../lib/useAdGate';
 import { WatchAdVipButton } from './WatchAdVipButton';
 
 interface ModernAdModalProps {
@@ -28,6 +28,7 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
   onRewardedGranted,
 }) => {
   const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const clientVip = detectClientVipState();
   const hasRegularNetworkInterstitials = Boolean(adConfig.monetag?.showRegularAds);
   const isPlayerBusy =
     typeof document !== 'undefined' &&
@@ -42,6 +43,9 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
     isOpen &&
     isFreeMode &&
     !isVipLocked &&
+    !clientVip.isVip &&
+    !clientVip.isLocked &&
+    !Boolean(adFreeState?.isActive) &&
     !isPlayerBusy &&
     !adConfig.testMode &&
     adConfig.formats.interstitial &&

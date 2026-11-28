@@ -694,18 +694,20 @@ const SNIPPET_DISALLOWED_INLINE_PATTERNS: RegExp[] = [
   /\bblob\s*:/i,
   /<(?!\/?script\b)[a-z!?/]/i, // Any non-<script> HTML tag
   /\bon[a-z]{2,}\s*=/i, // Event handler attributes
+  /\$\{/, // Template literal interpolation
+  /\[\s*['"`]/, // Computed bracket string property access (e.g. win['eval'], ('')['sub']['constructor'])
   /\b(?:eval|Function|AsyncFunction|GeneratorFunction|AsyncGeneratorFunction|execScript|setTimeout|setInterval|setImmediate|importScripts)\s*(?:\(|`)/,
-  /\bnew\s+(?:Function|Proxy|WebSocket|Worker|SharedWorker|BroadcastChannel|EventSource|XMLHttpRequest|ActiveXObject)\b/i,
+  /\bnew\s+(?:Function|Proxy|WebSocket|Worker|SharedWorker|BroadcastChannel|EventSource|XMLHttpRequest|ActiveXObject|DOMParser|XMLSerializer)\b/i,
+  /\b(?:Reflect|Proxy|DOMParser|XMLSerializer|ShadowRoot|MutationObserver|WebAssembly|trustedTypes|customElements)\b/,
   /\bimport\s*(?:\(|['"`])/i,
   /(?:^|[^\w$])(?:__proto__|prototype|constructor|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)\b/,
   /\bString\s*\.\s*(?:fromCharCode|fromCodePoint)\b/,
   /\b(?:atob|unescape|decodeURI|decodeURIComponent)\s*\(/,
   /\b(?:fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\b/,
-  /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history|location)\s*(?:\[|\.\s*(?:cookie|location|domain|write|writeln|referrer|innerHTML|outerHTML|insertAdjacentHTML|createElement|createRange|createContextualFragment|append|appendChild|src|srcdoc|assign|replace|reload|href|open|sendBeacon|fetch|serviceWorker|clipboard|credentials|pushState|replaceState|evaluate|eval|Function|window|self|top|parent|frames|globalThis|document))/,
+  /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history)\s*(?:\[|\.)/,
+  /\blocation\s*(?:\[|\.\s*(?:assign|replace|reload|href))/,
   /\b(?:innerHTML|outerHTML|insertAdjacentHTML|srcdoc|cookie)\s*(?:=|\+=)/,
   /\blocation\s*(?:=|\+=)/,
-  /\bdocument\.(?:cookie|location|domain|write|writeln|referrer|createElement|createRange|body|head|scripts)\b/i,
-  /\bwindow\.location\b/i,
   /\b(?:localStorage|sessionStorage|indexedDB|cookieStore)\b/i,
   /\bwith\s*\(/,
 ];
@@ -732,7 +734,7 @@ function validateScriptAttributes(attrText: string): { hasSrc: boolean } {
     }
     seenAttrs.add(attrName);
 
-    if (attrVal.includes('<') || attrVal.includes('>')) {
+    if (/<|>|`|\r|\n/.test(attrVal)) {
       throw new Error('Rewarded snippet contains disallowed inline patterns.');
     }
 
@@ -778,6 +780,9 @@ function validateScriptAttributes(attrText: string): { hasSrc: boolean } {
 }
 
 function assertSafeInlineScriptContent(code: string): void {
+  if (/<\/?script\b/i.test(code)) {
+    throw new Error('Rewarded snippet inline code must not contain nested <script> tags.');
+  }
   for (const pat of SNIPPET_OBFUSCATION_PATTERNS) {
     if (pat.test(code)) {
       throw new Error('Rewarded snippet contains disallowed inline encoding or control patterns.');
@@ -787,6 +792,18 @@ function assertSafeInlineScriptContent(code: string): void {
     if (pat.test(code)) {
       throw new Error('Rewarded snippet contains disallowed inline patterns.');
     }
+  }
+}
+
+export function isSafeInlineAdSnippet(code: unknown): boolean {
+  if (typeof code !== 'string') return false;
+  const trimmed = code.trim();
+  if (!trimmed || trimmed.length > 4096) return false;
+  try {
+    assertSafeInlineScriptContent(trimmed);
+    return true;
+  } catch {
+    return false;
   }
 }
 

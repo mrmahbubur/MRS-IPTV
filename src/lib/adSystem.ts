@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AdFreeState } from '../types';
 import { getDeviceId, getStoredAdFreeState } from './codes';
+import { detectClientVipState } from './mrsVip';
 import {
   MONETAG_CANONICAL_ZONES,
   MONETAG_DEFAULT_CAPS,
@@ -560,11 +561,8 @@ export function canTriggerInterstitialAd(cooldownMs?: number): boolean {
     const currentVip = getStoredAdFreeState();
     if (currentVip.isActive || currentVip.isAdFree) return false;
 
-    if (typeof window !== 'undefined') {
-      const gate = (window as any).MRS_ADS;
-      const gateState = gate && typeof gate.state === 'function' ? gate.state() : (window as any).MRS_AD_STATE;
-      if (gateState && gateState !== 'free') return false;
-    }
+    const clientVip = detectClientVipState();
+    if (clientVip.isLocked || clientVip.isVip) return false;
 
     const serverCfg = typeof window !== 'undefined' ? (window as any).__MRS_ADS_SERVER_CONFIG : null;
     if (serverCfg?.formats && serverCfg.formats.interstitial === false) {
@@ -768,9 +766,8 @@ export function recordAdEvent(
 ): LocalAdStats {
   const stats = getLocalAdStats();
   if (typeof window !== 'undefined') {
-    const gate = (window as any).MRS_ADS;
-    const state = gate && typeof gate.state === 'function' ? gate.state() : (window as any).MRS_AD_STATE;
-    if (state && state !== 'free') {
+    const clientVip = detectClientVipState();
+    if (clientVip.isLocked || clientVip.isVip) {
       return stats;
     }
   }
@@ -845,13 +842,13 @@ export function getLocalAdStats(): LocalAdStats {
  */
 export function openSponsorLink(customUrl?: string, placement: string = 'manual-sponsor'): string {
   if (typeof window !== 'undefined') {
-    const gate = (window as any).MRS_ADS;
-    if (gate && typeof gate.state === 'function' && gate.state() !== 'free') {
+    const clientVip = detectClientVipState();
+    if (clientVip.isLocked || clientVip.isVip) {
       return '';
     }
   }
   const { openedZone } = confirmAndOpenNextAdZone(placement);
-  const targetUrl = customUrl || openedZone.url;
+  const targetUrl = customUrl && isSafeMonetagZoneUrl(customUrl) ? customUrl.trim() : openedZone.url;
 
   if (typeof document !== 'undefined') {
     try {

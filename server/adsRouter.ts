@@ -190,7 +190,12 @@ function clampCapEnv(raw: unknown, key: CapKey): number {
 
 function validateCapInput(raw: unknown, key: CapKey): number {
   const bounds = MONETAG_CAP_BOUNDS[key];
-  const n = typeof raw === 'number' ? raw : typeof raw === 'string' && raw.trim() !== '' ? Number(raw) : NaN;
+  let n = NaN;
+  if (typeof raw === 'number') {
+    n = raw;
+  } else if (typeof raw === 'string' && /^-?\d+$/.test(raw.trim())) {
+    n = Number(raw.trim());
+  }
   if (!Number.isFinite(n) || !Number.isInteger(n) || n < bounds.min || n > bounds.max) {
     throw new AdPolicyValidationError(
       400,
@@ -345,12 +350,46 @@ function validateBooleanField(raw: unknown, fallback: boolean, fieldName: string
   return raw;
 }
 
+const ALLOWED_ROOT_CONFIG_KEYS = new Set(['formats', 'testMode', 'monetag']);
+const ALLOWED_FORMATS_KEYS = new Set(['banner', 'sticky', 'popunder', 'interstitial', 'push']);
+const ALLOWED_MONETAG_KEYS = new Set([
+  'verificationId',
+  'vignetteZoneId',
+  'interstitialZoneId',
+  'interstitial',
+  'popunderZoneId',
+  'showRegularAds',
+  'caps',
+  'rewarded',
+]);
+const ALLOWED_INTERSTITIAL_KEYS = new Set(['zoneId']);
+const ALLOWED_CAPS_KEYS = new Set(Object.keys(MONETAG_CAP_BOUNDS));
+const ALLOWED_REWARDED_KEYS = new Set(['enabled', 'snippet', 'showFn', 'zoneId']);
+const ALLOWED_REWARD_TOGGLE_KEYS = new Set(['network', 'enabled', 'showRegularAds', 'showFn', 'zoneId']);
+
 function assertPlainObjectIfDefined(raw: unknown, fieldName: string): Record<string, any> | undefined {
   if (raw === undefined) return undefined;
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
     throw new AdPolicyValidationError(400, 'invalid_ad_config', `${fieldName} must be a JSON object.`);
   }
+  const proto = Object.getPrototypeOf(raw);
+  if (proto !== Object.prototype && proto !== null) {
+    throw new AdPolicyValidationError(400, 'invalid_ad_config', `${fieldName} must be a plain JSON object.`);
+  }
   return raw as Record<string, any>;
+}
+
+function assertAllowedKeys(obj: Record<string, any>, allowed: Set<string>, fieldName: string): void {
+  const names = Object.getOwnPropertyNames(obj);
+  for (const key of names) {
+    if (!allowed.has(key)) {
+      throw new AdPolicyValidationError(
+        400,
+        'invalid_ad_config',
+        `Unsupported field "${key}" in ${fieldName}.`
+      );
+    }
+  }
 }
 
 export function saveAdSettings(partial: {
@@ -367,15 +406,27 @@ export function saveAdSettings(partial: {
     rewarded?: Partial<AdSettings['monetag']['rewarded']>;
   };
 }): AdSettings {
-  if (!partial || typeof partial !== 'object' || Array.isArray(partial)) {
-    throw new AdPolicyValidationError(400, 'invalid_ad_config', 'Ad settings payload must be a JSON object.');
+  const rootObj = assertPlainObjectIfDefined(partial, 'payload');
+  if (!rootObj || Object.getOwnPropertyNames(rootObj).length === 0) {
+    throw new AdPolicyValidationError(400, 'invalid_ad_config', 'Ad settings payload must be a non-empty JSON object.');
   }
+  assertAllowedKeys(rootObj, ALLOWED_ROOT_CONFIG_KEYS, 'ad settings');
+
   const current = getAdSettings();
-  const inFormats = assertPlainObjectIfDefined(partial.formats, 'formats');
-  const inMonetag = assertPlainObjectIfDefined(partial.monetag, 'monetag');
+  const inFormats = assertPlainObjectIfDefined(rootObj.formats, 'formats');
+  if (inFormats) assertAllowedKeys(inFormats, ALLOWED_FORMATS_KEYS, 'formats');
+
+  const inMonetag = assertPlainObjectIfDefined(rootObj.monetag, 'monetag');
+  if (inMonetag) assertAllowedKeys(inMonetag, ALLOWED_MONETAG_KEYS, 'monetag');
+
   const inInterstitial = inMonetag ? assertPlainObjectIfDefined(inMonetag.interstitial, 'monetag.interstitial') : undefined;
+  if (inInterstitial) assertAllowedKeys(inInterstitial, ALLOWED_INTERSTITIAL_KEYS, 'monetag.interstitial');
+
   const inCaps = inMonetag ? assertPlainObjectIfDefined(inMonetag.caps, 'monetag.caps') : undefined;
+  if (inCaps) assertAllowedKeys(inCaps, ALLOWED_CAPS_KEYS, 'monetag.caps');
+
   const inRewarded = inMonetag ? assertPlainObjectIfDefined(inMonetag.rewarded, 'monetag.rewarded') : undefined;
+  if (inRewarded) assertAllowedKeys(inRewarded, ALLOWED_REWARDED_KEYS, 'monetag.rewarded');
 
   const hasInterstitialZoneInput = Boolean(
     inMonetag &&
@@ -731,8 +782,7 @@ export function createAdsRouter() {
   // 5. Admin Per-Format & Network Toggles: PUT & POST /api/admin/ads/config
   const updateConfigHandler = (req: Request, res: Response) => {
     try {
-      const body = req.body && typeof req.body === 'object' ? req.body : {};
-      const updated = saveAdSettings(body);
+      const updated = saveAdSettings(req.body);
       return res.json({ ok: true, data: updated, error: null });
     } catch (err: any) {
       if (err instanceof AdPolicyValidationError) {
@@ -1412,21 +1462,27 @@ export function createAdsRouter() {
   router.post('/api/admin/rewards/revoke', requireAdmin, rewardsRevokeHandler);
 
   const rewardsToggleHandler = (req: Request, res: Response) => {
-    const network = String(req.body?.network || '').trim().toLowerCase();
-    const enabled = req.body?.enabled;
-    const showRegularAds = req.body?.showRegularAds;
-    const hasShowFn = req.body && typeof req.body === 'object' && 'showFn' in req.body;
-    const hasZoneId = req.body && typeof req.body === 'object' && 'zoneId' in req.body;
-
-    if (network !== 'monetag') {
-      return res.status(400).json({
-        ok: false,
-        data: null,
-        error: { code: 'invalid_network', message: 'network must be monetag.' },
-      });
-    }
-
     try {
+      const body = assertPlainObjectIfDefined(req.body, 'payload');
+      if (!body) {
+        throw new AdPolicyValidationError(400, 'invalid_ad_config', 'Toggle payload must be a JSON object.');
+      }
+      assertAllowedKeys(body, ALLOWED_REWARD_TOGGLE_KEYS, 'rewards toggle');
+
+      const network = typeof body.network === 'string' ? body.network.trim().toLowerCase() : '';
+      const enabled = body.enabled;
+      const showRegularAds = body.showRegularAds;
+      const hasShowFn = 'showFn' in body;
+      const hasZoneId = 'zoneId' in body;
+
+      if (network !== 'monetag') {
+        return res.status(400).json({
+          ok: false,
+          data: null,
+          error: { code: 'invalid_network', message: 'network must be monetag.' },
+        });
+      }
+
       const current = getAdSettings();
       const updated = saveAdSettings({
         monetag: {
@@ -1434,8 +1490,8 @@ export function createAdsRouter() {
           rewarded: {
             ...current.monetag.rewarded,
             ...(enabled !== undefined ? { enabled } : {}),
-            ...(hasShowFn ? { showFn: req.body.showFn } : {}),
-            ...(hasZoneId ? { zoneId: req.body.zoneId } : {}),
+            ...(hasShowFn ? { showFn: body.showFn } : {}),
+            ...(hasZoneId ? { zoneId: body.zoneId } : {}),
           },
         },
       });

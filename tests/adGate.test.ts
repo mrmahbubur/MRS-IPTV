@@ -1919,6 +1919,331 @@ test('25. Environment config NaN/ID validation and admin API strict boolean/obje
   }
 });
 
+test('26. Expanded CSS/DOM blockers cover third-party ad domains, data-zone attrs, vignettes, and MRS_ADS.isVip()', async () => {
+  const capturedStyles: string[] = [];
+  const purgeQueries: string[] = [];
+  const appended: any[] = [];
+  const domAttrs = new Map<string, string>();
+  const storageMap = new Map<string, string>([
+    ['mrs_vip_entitlement', JSON.stringify({ token: 'vip-tok-26' })],
+  ]);
+  const futureExp = new Date(Date.now() + 86400_000).toISOString();
+
+  const doc: any = {
+    cookie: '',
+    head: {
+      appendChild: (el: any) => {
+        if (el?.childrenText) capturedStyles.push(el.childrenText);
+        return el;
+      },
+    },
+    documentElement: {
+      setAttribute: (k: string, v: string) => domAttrs.set(k, String(v)),
+      getAttribute: (k: string) => domAttrs.get(k) || null,
+      appendChild: (el: any) => el,
+    },
+    getElementById: () => null,
+    createElement: (tag: string) => ({
+      tagName: tag.toUpperCase(),
+      childrenText: '',
+      attributes: {} as Record<string, string>,
+      setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+      getAttribute(k: string) { return this.attributes[k] || null; },
+      appendChild(node: any) { if (node?.textContent) this.childrenText += node.textContent; },
+    }),
+    createTextNode: (t: string) => ({ textContent: t }),
+    querySelectorAll: (sel: string) => {
+      purgeQueries.push(sel);
+      return [];
+    },
+  };
+
+  function MockElement() {}
+  MockElement.prototype.appendChild = (child: any) => {
+    appended.push(child);
+    return child;
+  };
+
+  const sb: any = {
+    console, Date, Math, JSON, Promise, AbortController, encodeURIComponent,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    Element: MockElement,
+    document: doc,
+    navigator: { serviceWorker: { getRegistrations: async () => [] } },
+    localStorage: {
+      get length() { return storageMap.size; },
+      key: (i: number) => Array.from(storageMap.keys())[i] ?? null,
+      getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+      setItem: (k: string, v: string) => { storageMap.set(String(k), String(v)); },
+      removeItem: (k: string) => { storageMap.delete(String(k)); },
+    },
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: { active: true, expiresAt: futureExp } }) }),
+    open: () => ({ opened: true }),
+    addEventListener: () => {},
+    dispatchEvent: () => true,
+  };
+  sb.window = sb;
+  vm.runInNewContext(adGateSource, sb, { filename: 'ad-gate.js' });
+  await sb.MRS_ADS.refresh();
+
+  assert.equal(sb.MRS_ADS.isVip(), true);
+
+  const styleCss = capturedStyles.join('\n');
+  for (const sel of [
+    '[data-zone]',
+    '[data-ad-zone]',
+    '[data-monetag-zone]',
+    'ins[data-zone]',
+    'div[class*="vignette"]',
+    'aside[id*="monetag"]',
+    'section[id*="monetag"]',
+    'iframe[src*="acscdn.com"]',
+    'iframe[src*="al5sm.com"]',
+    '#mrs-consent-banner',
+    '#mrs-push-preprompt',
+    '#mrs-reward-sim-modal',
+  ]) {
+    assert.ok(styleCss.includes(sel), `Expected ad-gate style to contain ${sel}`);
+  }
+
+  const indexCss = fs.readFileSync(path.join(process.cwd(), 'src', 'index.css'), 'utf8');
+  for (const sel of ['[data-zone]', 'div[class*="vignette"]', 'iframe[src*="acscdn.com"]', 'iframe[src*="uplcm.com"]']) {
+    assert.ok(indexCss.includes(sel), `Expected index.css to contain ${sel}`);
+  }
+
+  // Dynamic appendChild blocks ins[data-zone] and aside.vignette-box while VIP
+  const zoneIns = { tagName: 'INS', id: '', className: '', getAttribute: (k: string) => (k === 'data-zone' ? '11242067' : null) };
+  const vignetteAside = { tagName: 'ASIDE', id: '', className: 'vignette-banner', getAttribute: () => null };
+  sb.Element.prototype.appendChild.call(doc.head, zoneIns);
+  sb.Element.prototype.appendChild.call(doc.head, vignetteAside);
+  assert.equal(appended.includes(zoneIns), false);
+  assert.equal(appended.includes(vignetteAside), false);
+});
+
+test('27. Stricter server-side payload validation rejects arrays, empty objects, unknown fields, and invalid cap types', async () => {
+  const rejectedPayloads: unknown[] = [
+    {},
+    [],
+    { unknownRootField: true },
+    { hideOffersForVip: true },
+    { adsterra: { enabled: true } },
+    { formats: { affiliate: true } },
+    { monetag: { unknownKey: '123' } },
+    { monetag: { interstitial: { zoneId: '11242067', extra: 'bad' } } },
+    { monetag: { caps: { unknownCap: 10 } } },
+    { monetag: { caps: { popunderMaxPerDay: true } } },
+    { monetag: { caps: { popunderMaxPerDay: 2.5 } } },
+    { monetag: { rewarded: { enabled: false, evilProp: 'x' } } },
+  ];
+
+  for (const payload of rejectedPayloads) {
+    const res = await fetch(`${baseUrl}/api/admin/ads/config`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+      body: JSON.stringify(payload),
+    });
+    assert.equal(res.status, 400, `Expected 400 for payload: ${JSON.stringify(payload)}`);
+    const json = await res.json() as any;
+    assert.ok(['invalid_ad_config', 'invalid_ad_cap'].includes(json.error.code));
+  }
+
+  const badToggle = await fetch(`${baseUrl}/api/admin/rewards/toggle`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({ network: 'monetag', extra: 'blocked' }),
+  });
+  assert.equal(badToggle.status, 400);
+  assert.equal(((await badToggle.json()) as any).error.code, 'invalid_ad_config');
+});
+
+test('28. Script execution XSS hardening blocks obfuscated expressions & ad-manager sticky banner avoids innerHTML', async () => {
+  const { isSafeInlineAdSnippet } = await import('../src/lib/monetagConfig.js');
+  const xssPayloads = [
+    '${alert(1)}',
+    '("")["sub"]["constructor"]("alert(1)")()',
+    'Reflect.get(globalThis, "eval")("1")',
+    'new DOMParser().parseFromString("<svg>", "text/html")',
+    'document.defaultView.alert(1)',
+    '<script>console.log("<script>")</script>',
+    '<script src="https://uplcm.com/4/11226634" data-zone="112`266`34"></script>',
+  ];
+  for (const p of xssPayloads) {
+    assert.throws(() => sanitizeRewardedSnippet(p), /Rewarded snippet/i, `Should reject XSS snippet: ${p}`);
+  }
+  assert.equal(isSafeInlineAdSnippet('${alert(1)}'), false);
+  assert.equal(isSafeInlineAdSnippet('window.MonetagBannerInit()'), false);
+  assert.equal(isSafeInlineAdSnippet('MonetagSDK.init({ zoneId: 11226634 })'), true);
+
+  // ad-manager.js sticky mobile banner builds safe DOM nodes via textContent (zero innerHTML) and allows only allowlisted attrs in scripts
+  const appendedToBody: any[] = [];
+  const makeNode = (tag: string): any => {
+    const node: any = {
+      tagName: tag.toUpperCase(),
+      id: '',
+      className: '',
+      style: {},
+      textContent: '',
+      children: [] as any[],
+      attributes: {} as Record<string, string>,
+      parentNode: { removeChild: () => {} },
+      setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+      getAttribute(k: string) { return this.attributes[k] || null; },
+      appendChild(child: any) { this.children.push(child); return child; },
+      addEventListener: () => {},
+      querySelector: () => null,
+    };
+    Object.defineProperty(node, 'innerHTML', {
+      get: () => '',
+      set: (val: string) => {
+        if (val.includes('onerror') || val.includes('mrs-sticky-close-btn')) {
+          throw new Error('renderStickyMobileBanner must not write innerHTML');
+        }
+      },
+    });
+    return node;
+  };
+
+  const sb: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt, URL, Blob,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: () => {},
+    dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS: { state: () => 'free', _trackLoadedScript: () => {} },
+    MRS_ADS_CONFIG: {
+      apiBaseUrl: '',
+      testMode: false,
+      monetag: {
+        showRegularAds: true,
+        directZones: [{ id: 'z1', zoneId: '11226634', url: 'https://uplcm.com/4/11226634', label: '<img src=x onerror=alert(1)>' }],
+      },
+    },
+    navigator: { language: 'en-US', userAgent: 'Mozilla/5.0' },
+    location: { pathname: '/', hash: '' },
+    innerWidth: 390,
+    localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    sessionStorage: { getItem: () => null, setItem: () => {} },
+    document: {
+      readyState: 'complete',
+      documentElement: { getAttribute: () => null },
+      body: { appendChild: (el: any) => appendedToBody.push(el) },
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      getElementById: () => null,
+      createElement: (tag: string) => makeNode(tag),
+      addEventListener: () => {},
+    },
+    fetch: async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        ok: true,
+        data: {
+          formats: { banner: true, sticky: true, popunder: false, interstitial: false, push: false },
+          testMode: false,
+          monetag: {
+            showRegularAds: true,
+            zones: [{ id: 'z1', zoneId: '11226634', url: 'https://uplcm.com/4/11226634', label: '<img src=x onerror=alert(1)>' }],
+          },
+        },
+      }),
+    }),
+  };
+  sb.window = sb;
+  vm.runInNewContext(adManagerSource, sb, { filename: 'ad-manager.js' });
+  await new Promise((r) => setTimeout(r, 25));
+
+  const stickyWrap = appendedToBody.find((el) => el.id === 'mrs-sticky-mobile-ad');
+  assert.ok(stickyWrap, 'Sticky banner should mount using safe DOM APIs');
+  const anchorNode = stickyWrap.children[0];
+  assert.equal(anchorNode.tagName, 'A');
+  assert.equal(anchorNode.getAttribute('href'), 'https://uplcm.com/4/11226634');
+  assert.equal(anchorNode.children[1].textContent, '<img src=x onerror=alert(1)>');
+});
+
+test('29. detectClientVipState() & isClientVipActive() unify VIP detection across gate, DOM, cookie, entitlement, and legacy rejection', async () => {
+  const { detectClientVipState, isClientVipActive } = await import('../src/lib/mrsVip.js');
+  const origWindow = (globalThis as any).window;
+  const origDocument = (globalThis as any).document;
+  const origLocalStorage = (globalThis as any).localStorage;
+
+  const mockStore = new Map<string, string>();
+  const futureExp = new Date(Date.now() + 3600_000).toISOString();
+  const pastExp = new Date(Date.now() - 3600_000).toISOString();
+  let domAttrState: string | null = 'free';
+  let cookieStr = '';
+
+  const setupGlobals = (winOverrides: Record<string, any> = {}) => {
+    (globalThis as any).localStorage = {
+      getItem: (k: string) => (mockStore.has(k) ? mockStore.get(k)! : null),
+      setItem: (k: string, v: string) => { mockStore.set(k, String(v)); },
+      removeItem: (k: string) => { mockStore.delete(k); },
+    };
+    (globalThis as any).document = {
+      get cookie() { return cookieStr; },
+      documentElement: {
+        getAttribute: (k: string) => (k === 'data-mrs-ad-state' ? domAttrState : null),
+      },
+    };
+    (globalThis as any).window = {
+      MRS_AD_STATE: 'free',
+      MRS_ADS: { state: () => (globalThis as any).window.MRS_AD_STATE, isVip: () => false },
+      ...winOverrides,
+    };
+  };
+
+  try {
+    // 1. Clean free user
+    mockStore.clear();
+    cookieStr = '';
+    domAttrState = 'free';
+    setupGlobals();
+    assert.deepEqual(detectClientVipState().state, 'free');
+    assert.equal(isClientVipActive(), false);
+
+    // 2. MRS_ADS.isVip() => true
+    setupGlobals({ MRS_ADS: { state: () => 'free', isVip: () => true } });
+    assert.equal(isClientVipActive(), true);
+    assert.equal(detectClientVipState().source, 'gate');
+
+    // 3. Pending gate state => locked, not VIP
+    setupGlobals({ MRS_AD_STATE: 'pending', MRS_ADS: { state: () => 'pending', isVip: () => false } });
+    const pendingRes = detectClientVipState();
+    assert.equal(pendingRes.state, 'pending');
+    assert.equal(pendingRes.isLocked, true);
+    assert.equal(pendingRes.isVip, false);
+
+    // 4. Cookie fallback
+    cookieStr = 'mrs_vip_active=1';
+    setupGlobals();
+    assert.equal(isClientVipActive(), true);
+    assert.equal(detectClientVipState().source, 'cookie');
+    cookieStr = '';
+
+    // 5. Legacy SPONSOR_REWARD_VIP ignored (stays free)
+    mockStore.set('shahintv_adfree_activation', JSON.stringify({ isActive: true, isAdFree: true, code: 'SPONSOR_REWARD_VIP', expiryDate: futureExp }));
+    setupGlobals();
+    assert.equal(isClientVipActive(), false);
+
+    // 6. Valid ad-free pass detected
+    mockStore.set('shahintv_adfree_activation', JSON.stringify({ isActive: true, isAdFree: true, code: 'MRS-1M-TEST', expiryDate: futureExp }));
+    assert.equal(isClientVipActive(), true);
+    assert.equal(detectClientVipState().source, 'adfree');
+
+    // 7. Expired token + expired hint ignored
+    mockStore.clear();
+    mockStore.set('mrs_vip_entitlement', JSON.stringify({ token: 'old-tok', expiresAt: pastExp }));
+    mockStore.set('mrs_vip_ads_hint', JSON.stringify({ expiresAt: pastExp }));
+    assert.equal(isClientVipActive(), false);
+  } finally {
+    (globalThis as any).window = origWindow;
+    (globalThis as any).document = origDocument;
+    (globalThis as any).localStorage = origLocalStorage;
+  }
+});
+
 
 
 

@@ -9,7 +9,7 @@ import {
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
-import { useAdGate } from '../lib/useAdGate';
+import { useAdGate, detectClientVipState } from '../lib/useAdGate';
 import { WatchAdVipButton } from './WatchAdVipButton';
 
 interface RewardedAdInterstitialProps {
@@ -35,11 +35,15 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
 }) => {
   const remoteConfig = useRemoteConfig();
   const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const clientVip = detectClientVipState();
   const hasRegularNetworkInterstitials = Boolean(adConfig.monetag?.showRegularAds);
   const baseEligible =
     isOpen &&
     isFreeMode &&
     !isVipLocked &&
+    !clientVip.isVip &&
+    !clientVip.isLocked &&
+    !Boolean(adFreeState?.isActive) &&
     !adConfig.testMode &&
     adConfig.formats.interstitial &&
     remoteConfig.adsConfig.enabled &&

@@ -22,7 +22,12 @@
     'quge5.com',
     'n6wxm.com',
     'al5sm.com',
-    'whomeehe.com'
+    'whomeehe.com',
+    'acscdn.com',
+    'tzegilo.com',
+    'madurird.com',
+    'propellerads',
+    'onclkds'
   ];
 
   var retryTimer = null;
@@ -148,23 +153,47 @@
       'html:not([data-mrs-ad-state="free"]) .ad-label,',
       'html:not([data-mrs-ad-state="free"]) [data-ad-slot],',
       'html:not([data-mrs-ad-state="free"]) [data-ad-link],',
+      'html:not([data-mrs-ad-state="free"]) [data-zone],',
+      'html:not([data-mrs-ad-state="free"]) [data-ad-zone],',
+      'html:not([data-mrs-ad-state="free"]) [data-monetag-zone],',
+      'html:not([data-mrs-ad-state="free"]) ins[data-zone],',
       'html:not([data-mrs-ad-state="free"]) .ad-sticky-banner,',
       'html:not([data-mrs-ad-state="free"]) #mrs-sticky-mobile-ad,',
       'html:not([data-mrs-ad-state="free"]) #mrs-banner-slot,',
+      'html:not([data-mrs-ad-state="free"]) #mrs-consent-banner,',
+      'html:not([data-mrs-ad-state="free"]) #mrs-push-preprompt,',
+      'html:not([data-mrs-ad-state="free"]) #mrs-reward-sim-modal,',
       'html:not([data-mrs-ad-state="free"]) #mrs-monetag-interstitial,',
       'html:not([data-mrs-ad-state="free"]) #mrs-popunder-script,',
       'html:not([data-mrs-ad-state="free"]) #monetag-midnight-vignette,',
       'html:not([data-mrs-ad-state="free"]) div[id*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) div[class*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) aside[id*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) aside[class*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) section[id*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) section[class*="monetag"],',
       'html:not([data-mrs-ad-state="free"]) div[id*="vignette"],',
+      'html:not([data-mrs-ad-state="free"]) div[class*="vignette"],',
       'html:not([data-mrs-ad-state="free"]) div[id*="interstitial"],',
       'html:not([data-mrs-ad-state="free"]) div[class*="interstitial"],',
       'html:not([data-mrs-ad-state="free"]) div[id*="popunder"],',
       'html:not([data-mrs-ad-state="free"]) div[class*="popunder"],',
       'html:not([data-mrs-ad-state="free"]) iframe[id*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[class*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[id*="vignette"],',
       'html:not([data-mrs-ad-state="free"]) iframe[id*="interstitial"],',
       'html:not([data-mrs-ad-state="free"]) iframe[id*="popunder"],',
       'html:not([data-mrs-ad-state="free"]) iframe[data-mrs-ad-frame="1"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="uplcm.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="5gvci.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="quge5.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="n6wxm.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="al5sm.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="whomeehe.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="acscdn.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="tzegilo.com"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[src*="madurird.com"],',
       'html:not([data-mrs-ad-state="free"]) .mrs-free-upsell {',
       '  display: none !important;',
       '  visibility: hidden !important;',
@@ -176,11 +205,29 @@
       '  pointer-events: none !important;',
       '}',
       'html[data-mrs-ad-state="vip"] .ad-slot,',
+      'html[data-mrs-ad-state="vip"] [data-zone],',
+      'html[data-mrs-ad-state="vip"] [data-ad-zone],',
+      'html[data-mrs-ad-state="vip"] [data-monetag-zone],',
+      'html[data-mrs-ad-state="vip"] [id*="vignette"],',
+      'html[data-mrs-ad-state="vip"] [class*="vignette"],',
       'html[data-mrs-ad-state="vip"] [id*="interstitial"],',
+      'html[data-mrs-ad-state="vip"] [class*="interstitial"],',
       'html[data-mrs-ad-state="vip"] [id*="popunder"],',
+      'html[data-mrs-ad-state="vip"] [class*="popunder"],',
+      'html[data-mrs-ad-state="vip"] [id*="monetag"],',
+      'html[data-mrs-ad-state="vip"] [class*="monetag"],',
       'html[data-mrs-ad-state="pending"] .ad-slot,',
+      'html[data-mrs-ad-state="pending"] [data-zone],',
+      'html[data-mrs-ad-state="pending"] [data-ad-zone],',
+      'html[data-mrs-ad-state="pending"] [data-monetag-zone],',
+      'html[data-mrs-ad-state="pending"] [id*="vignette"],',
+      'html[data-mrs-ad-state="pending"] [class*="vignette"],',
       'html[data-mrs-ad-state="pending"] [id*="interstitial"],',
-      'html[data-mrs-ad-state="pending"] [id*="popunder"] {',
+      'html[data-mrs-ad-state="pending"] [class*="interstitial"],',
+      'html[data-mrs-ad-state="pending"] [id*="popunder"],',
+      'html[data-mrs-ad-state="pending"] [class*="popunder"],',
+      'html[data-mrs-ad-state="pending"] [id*="monetag"],',
+      'html[data-mrs-ad-state="pending"] [class*="monetag"] {',
       '  display: none !important;',
       '}',
       'html[data-mrs-ad-state="free"] .ad-banner-desktop {',
@@ -228,15 +275,21 @@
         '.ad-slot',
         '.ad-label',
         '[data-ad-slot]',
+        '[data-zone]',
+        '[data-ad-zone]',
+        '[data-monetag-zone]',
+        'ins[data-zone]',
         '.ad-sticky-banner',
         '#mrs-sticky-mobile-ad',
         '#mrs-consent-banner',
         '#mrs-push-preprompt',
+        '#mrs-reward-sim-modal',
         '#mrs-monetag-interstitial',
         '#mrs-popunder-script',
         '#monetag-midnight-vignette',
         '#monetag-tag-script',
         'script[data-mrs-ad-injected="1"]',
+        'script[data-zone]',
         'script[src*="uplcm.com"]',
         'script[src*="monetag.com"]',
         'script[src*="5gvci.com"]',
@@ -244,20 +297,33 @@
         'script[src*="n6wxm.com"]',
         'script[src*="al5sm.com"]',
         'script[src*="whomeehe.com"]',
+        'script[src*="acscdn.com"]',
+        'script[src*="tzegilo.com"]',
+        'script[src*="madurird.com"]',
         'iframe[src*="uplcm.com"]',
-        'iframe[src*="monetag.com"]',
+        'iframe[src*="monetag"]',
         'iframe[src*="quge5.com"]',
         'iframe[src*="5gvci.com"]',
         'iframe[src*="n6wxm.com"]',
         'iframe[src*="al5sm.com"]',
         'iframe[src*="whomeehe.com"]',
+        'iframe[src*="acscdn.com"]',
+        'iframe[src*="tzegilo.com"]',
+        'iframe[src*="madurird.com"]',
         'iframe[id*="monetag"]',
+        'iframe[class*="monetag"]',
+        'iframe[id*="vignette"]',
         'iframe[id*="interstitial"]',
         'iframe[id*="popunder"]',
         'iframe[data-mrs-ad-frame="1"]',
         'div[id*="monetag"]',
         'div[class*="monetag"]',
+        'aside[id*="monetag"]',
+        'aside[class*="monetag"]',
+        'section[id*="monetag"]',
+        'section[class*="monetag"]',
         'div[id*="vignette"]',
+        'div[class*="vignette"]',
         'div[id*="interstitial"]',
         'div[class*="interstitial"]',
         'div[id*="popunder"]',
@@ -518,21 +584,29 @@
       win.Element.prototype.appendChild = function (child) {
         if (child && child.tagName) {
           var tag = String(child.tagName).toLowerCase();
-          if (tag === 'script' || tag === 'iframe' || tag === 'div') {
+          if (tag === 'script' || tag === 'iframe' || tag === 'div' || tag === 'ins' || tag === 'aside' || tag === 'section') {
             var src = (child.src || (child.getAttribute && child.getAttribute('src')) || '');
             var elId = (child.id || (child.getAttribute && child.getAttribute('id')) || '').toLowerCase();
             var elClass = (typeof child.className === 'string' ? child.className : (child.getAttribute && child.getAttribute('class')) || '').toLowerCase();
             var isGateApproved = child.getAttribute && child.getAttribute('data-mrs-ad-approved') === '1';
+            var hasZoneAttr = Boolean(
+              child.getAttribute &&
+              (child.getAttribute('data-zone') ||
+                child.getAttribute('data-ad-zone') ||
+                child.getAttribute('data-monetag-zone') ||
+                child.getAttribute('data-ad-slot'))
+            );
             var hasAdMarker =
-              (tag !== 'div' && isAdUrl(src)) ||
+              ((tag === 'script' || tag === 'iframe') && isAdUrl(src)) ||
+              hasZoneAttr ||
               (child.getAttribute && child.getAttribute('data-mrs-ad-injected') === '1') ||
               /(?:monetag|vignette|interstitial|popunder)/.test(elId) ||
-              /(?:monetag|interstitial|popunder)/.test(elClass);
+              /(?:monetag|vignette|interstitial|popunder)/.test(elClass);
             var currentAdState = win.MRS_AD_STATE || 'pending';
             if (currentAdState !== 'free' && hasAdMarker) {
               return child;
             }
-            if (currentAdState === 'vip' && tag !== 'div' && isAdUrl(src) && !isGateApproved) {
+            if (currentAdState === 'vip' && (tag === 'script' || tag === 'iframe') && isAdUrl(src) && !isGateApproved) {
               return child;
             }
           }
@@ -555,6 +629,18 @@
   win.MRS_ADS = {
     state: function () {
       return win.MRS_AD_STATE || 'pending';
+    },
+    isVip: function () {
+      if (win.__MRS_IS_VIP === true || win.MRS_AD_STATE === 'vip') return true;
+      try {
+        if (doc && doc.documentElement && typeof doc.documentElement.getAttribute === 'function') {
+          if (doc.documentElement.getAttribute('data-mrs-ad-state') === 'vip') return true;
+        }
+        if (doc && typeof doc.cookie === 'string' && /(?:^|;\s*)mrs_vip_active=1(?:;|$)/.test(doc.cookie)) {
+          return true;
+        }
+      } catch (e) {}
+      return false;
     },
     refresh: function () {
       retryStartedAt = 0;

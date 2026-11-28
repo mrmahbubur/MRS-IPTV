@@ -272,17 +272,49 @@
     } catch (e) {}
   }
 
+  var ALLOWED_EXTERNAL_SCRIPT_ATTRS = {
+    'data-zone': 1,
+    'data-cfasync': 1,
+    'crossorigin': 1,
+    'referrerpolicy': 1,
+    'type': 1,
+    'charset': 1,
+    'async': 1,
+    'defer': 1
+  };
+
+  function hasExistingExternalScript(src) {
+    try {
+      var list = doc.querySelectorAll ? doc.querySelectorAll('script[src]') : [];
+      for (var i = 0; i < list.length; i++) {
+        var existingSrc = list[i] && (list[i].src || (list[i].getAttribute && list[i].getAttribute('src')));
+        if (existingSrc === src) return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
   function injectExternalScript(src, attrs) {
     if (!isFreeState() || !hasAdConsent() || !src || !isSafeHttpsAdUrl(src)) return null;
-    if (doc.querySelector('script[src="' + src + '"]')) return null;
+    if (hasExistingExternalScript(src)) return null;
     var s = doc.createElement('script');
     s.src = src;
     s.async = true;
     s.setAttribute('data-mrs-ad-injected', '1');
     s.setAttribute('data-mrs-ad-approved', '1');
-    if (attrs) {
+    s.setAttribute('referrerpolicy', 'strict-origin-when-downgrade');
+    if (attrs && typeof attrs === 'object') {
       Object.keys(attrs).forEach(function (k) {
-        s.setAttribute(k, String(attrs[k]));
+        var lowerKey = String(k || '').toLowerCase();
+        if (!Object.prototype.hasOwnProperty.call(ALLOWED_EXTERNAL_SCRIPT_ATTRS, lowerKey)) return;
+        var rawVal = attrs[k];
+        if (rawVal === undefined || rawVal === null) return;
+        var strVal = String(rawVal).trim();
+        if (!strVal) return;
+        if (lowerKey === 'data-zone' && !/^[A-Za-z0-9_-]{1,32}$/.test(strVal)) return;
+        if (lowerKey === 'data-cfasync' && strVal !== 'true' && strVal !== 'false') return;
+        if (lowerKey === 'type' && strVal !== 'text/javascript' && strVal !== 'application/javascript') return;
+        s.setAttribute(lowerKey, strVal);
       });
     }
     s.onerror = function () { /* silently ignore blocked networks */ };
@@ -310,17 +342,20 @@
       /\bblob\s*:/i,
       /<\/?[a-z!?/]/i,
       /\bon[a-z]{2,}\s*=/i,
+      /\$\{/,
+      /\[\s*['"`]/,
       /\b(?:eval|Function|AsyncFunction|GeneratorFunction|AsyncGeneratorFunction|execScript|setTimeout|setInterval|setImmediate|importScripts)\s*(?:\(|`|\b)/,
-      /\bnew\s+(?:Function|Proxy|WebSocket|Worker|SharedWorker|BroadcastChannel|EventSource|XMLHttpRequest|ActiveXObject)\b/i,
+      /\bnew\s+(?:Function|Proxy|WebSocket|Worker|SharedWorker|BroadcastChannel|EventSource|XMLHttpRequest|ActiveXObject|DOMParser|XMLSerializer)\b/i,
+      /\b(?:Reflect|Proxy|DOMParser|XMLSerializer|ShadowRoot|MutationObserver|WebAssembly|trustedTypes|customElements)\b/,
       /\bimport\s*(?:\(|['"`])/i,
       /(?:^|[^\w$])(?:__proto__|prototype|constructor|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)\b/,
       /\bString\s*\.\s*(?:fromCharCode|fromCodePoint)\b/,
       /\b(?:atob|unescape|decodeURI|decodeURIComponent)\s*\(/,
       /\b(?:fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\b/,
-      /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history|location)\s*(?:\[|\.\s*(?:cookie|location|domain|write|writeln|referrer|innerHTML|outerHTML|insertAdjacentHTML|createElement|createRange|createContextualFragment|append|appendChild|src|srcdoc|assign|replace|reload|href|open|sendBeacon|fetch|serviceWorker|clipboard|credentials|pushState|replaceState|evaluate|eval|Function|window|self|top|parent|frames|globalThis|document))/,
+      /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history)\s*(?:\[|\.)/,
+      /\blocation\s*(?:\[|\.\s*(?:assign|replace|reload|href))/,
       /\b(?:innerHTML|outerHTML|insertAdjacentHTML|srcdoc|cookie)\s*(?:=|\+=)/,
       /\blocation\s*(?:=|\+=)/,
-      /\bdocument\.(?:cookie|location|domain|write|writeln|referrer|createElement|createRange|body|head|scripts)\b/i,
       /\b(?:localStorage|sessionStorage|indexedDB|cookieStore)\b/i,
       /\bwith\s*\(/
     ];
@@ -352,6 +387,7 @@
       'mrs-sticky-mobile-ad',
       'mrs-consent-banner',
       'mrs-push-preprompt',
+      'mrs-reward-sim-modal',
       'mrs-monetag-interstitial',
       'mrs-popunder-script',
       'monetag-midnight-vignette',
@@ -363,24 +399,39 @@
     }
     try {
       var injectedNodes = doc.querySelectorAll([
+        '[data-zone]',
+        '[data-ad-zone]',
+        '[data-monetag-zone]',
+        'ins[data-zone]',
         'script[data-mrs-ad-injected="1"]',
         'script[src*="uplcm.com"]',
         'script[src*="monetag.com"]',
         'script[src*="5gvci.com"]',
         'script[src*="al5sm.com"]',
         'script[src*="whomeehe.com"]',
+        'script[src*="acscdn.com"]',
+        'script[src*="tzegilo.com"]',
+        'script[src*="madurird.com"]',
         'iframe[data-mrs-ad-frame="1"]',
         'iframe[src*="uplcm.com"]',
-        'iframe[src*="monetag.com"]',
+        'iframe[src*="monetag"]',
         'iframe[src*="5gvci.com"]',
         'iframe[src*="al5sm.com"]',
         'iframe[src*="whomeehe.com"]',
+        'iframe[src*="acscdn.com"]',
+        'iframe[src*="tzegilo.com"]',
+        'iframe[src*="madurird.com"]',
         'iframe[id*="monetag"]',
+        'iframe[class*="monetag"]',
+        'iframe[id*="vignette"]',
         'iframe[id*="interstitial"]',
         'iframe[id*="popunder"]',
         'div[id*="monetag"]',
         'div[class*="monetag"]',
+        'aside[id*="monetag"]',
+        'section[id*="monetag"]',
         'div[id*="vignette"]',
+        'div[class*="vignette"]',
         'div[id*="interstitial"]',
         'div[class*="interstitial"]',
         'div[id*="popunder"]',
@@ -552,17 +603,51 @@
       ? serverFormatConfig.testMode
       : Boolean(cfg.testMode);
 
+    var href = isSafeHttpsAdUrl(zone.url) ? zone.url : '';
+    if (!href && !useTest) return;
+
     var wrap = doc.createElement('div');
     wrap.id = 'mrs-sticky-mobile-ad';
     wrap.className = 'ad-slot ad-sticky-banner ad-banner-mobile';
     wrap.style.cssText = 'position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:320px;max-width:calc(100vw - 16px);height:50px;z-index:45;background:#0c1228;border:1px solid rgba(245,179,1,0.45);border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding:0 4px 0 10px;box-shadow:0 10px 28px rgba(0,0,0,0.75);overflow:hidden;';
 
-    var href = zone.url;
-    var linkHtml = useTest
-      ? '<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:#fbbf24;font-size:11px;font-weight:700;"><span>[TEST 320x50] Monetag · ' + network + '</span></div>'
-      : '<a href="' + href + '" target="_blank" rel="nofollow noopener noreferrer" data-ad-link="true" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;"><span style="font-size:9px;font-weight:800;color:#fbbf24;text-transform:uppercase;flex-shrink:0;">Ad</span><span style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + label + '</span></a>';
+    var anchor = null;
+    if (useTest) {
+      var testBox = doc.createElement('div');
+      testBox.style.cssText = 'flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:#fbbf24;font-size:11px;font-weight:700;';
+      var testSpan = doc.createElement('span');
+      testSpan.textContent = '[TEST 320x50] Monetag · ' + network;
+      testBox.appendChild(testSpan);
+      wrap.appendChild(testBox);
+    } else {
+      anchor = doc.createElement('a');
+      anchor.setAttribute('href', href);
+      anchor.setAttribute('target', '_blank');
+      anchor.setAttribute('rel', 'nofollow noopener noreferrer');
+      anchor.setAttribute('data-ad-link', 'true');
+      anchor.style.cssText = 'flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;';
 
-    wrap.innerHTML = linkHtml + '<button type="button" id="mrs-sticky-close-btn" aria-label="Close banner" style="width:44px;height:44px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:#cbd5e1;font-size:18px;font-weight:700;cursor:pointer;flex-shrink:0;">&times;</button>';
+      var badgeSpan = doc.createElement('span');
+      badgeSpan.style.cssText = 'font-size:9px;font-weight:800;color:#fbbf24;text-transform:uppercase;flex-shrink:0;';
+      badgeSpan.textContent = 'Ad';
+
+      var labelSpan = doc.createElement('span');
+      labelSpan.style.cssText = 'font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+      labelSpan.textContent = label;
+
+      anchor.appendChild(badgeSpan);
+      anchor.appendChild(labelSpan);
+      wrap.appendChild(anchor);
+    }
+
+    var closeBtn = doc.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.id = 'mrs-sticky-close-btn';
+    closeBtn.setAttribute('aria-label', 'Close banner');
+    closeBtn.style.cssText = 'width:44px;height:44px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:#cbd5e1;font-size:18px;font-weight:700;cursor:pointer;flex-shrink:0;';
+    closeBtn.textContent = '\u00d7';
+    wrap.appendChild(closeBtn);
+
     doc.body.appendChild(wrap);
 
     enqueueAdEvent({
@@ -573,14 +658,10 @@
       network: network
     });
 
-    var closeBtn = doc.getElementById('mrs-sticky-close-btn');
-    if (closeBtn) {
-      closeBtn.onclick = function () {
-        try { if (win.sessionStorage) win.sessionStorage.setItem(STICKY_CLOSED_KEY, '1'); } catch (e) {}
-        if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
-      };
-    }
-    var anchor = wrap.querySelector('a[data-ad-link="true"]');
+    closeBtn.onclick = function () {
+      try { if (win.sessionStorage) win.sessionStorage.setItem(STICKY_CLOSED_KEY, '1'); } catch (e) {}
+      if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+    };
     if (anchor) {
       anchor.addEventListener('click', function () {
         enqueueAdEvent({

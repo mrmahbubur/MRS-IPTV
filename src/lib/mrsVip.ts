@@ -487,6 +487,116 @@ export function getCachedEntitlement(): EntitlementData | null {
 /** Synchronous VIP flag checked cleanly against cached token; server verification runs via refreshEntitlement(). */
 export const isVip = (): boolean => !!getCachedEntitlement();
 
+export interface ClientVipStateDetails {
+  isVip: boolean;
+  isPending: boolean;
+  isLocked: boolean;
+  state: 'vip' | 'pending' | 'free';
+  source: 'gate' | 'dom' | 'cookie' | 'entitlement' | 'adfree' | 'hint' | 'fallback';
+}
+
+/**
+ * Robust client-side VIP state detection across gate API, DOM state, secure cookie,
+ * signed entitlement storage, and local ad-free pass records (fail-closed on pending).
+ */
+export function detectClientVipState(): ClientVipStateDetails {
+  if (typeof window === 'undefined') {
+    return { isVip: false, isPending: true, isLocked: true, state: 'pending', source: 'fallback' };
+  }
+
+  const win = window as any;
+  const gate = win.MRS_ADS;
+  const gateIsVipFn = gate && typeof gate.isVip === 'function' ? Boolean(gate.isVip()) : false;
+  const gateState = gate && typeof gate.state === 'function' ? gate.state() : win.MRS_AD_STATE;
+
+  if (gateIsVipFn || gateState === 'vip' || win.__MRS_IS_VIP === true) {
+    return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'gate' };
+  }
+  if (gateState === 'pending') {
+    return { isVip: false, isPending: true, isLocked: true, state: 'pending', source: 'gate' };
+  }
+
+  try {
+    if (typeof document !== 'undefined') {
+      const domAttr = document.documentElement?.getAttribute?.('data-mrs-ad-state');
+      if (domAttr === 'vip') {
+        return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'dom' };
+      }
+      if (domAttr === 'pending') {
+        return { isVip: false, isPending: true, isLocked: true, state: 'pending', source: 'dom' };
+      }
+      if (typeof document.cookie === 'string' && /(?:^|;\s*)mrs_vip_active=1(?:;|$)/.test(document.cookie)) {
+        return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'cookie' };
+      }
+    }
+  } catch {
+    // ignore DOM/cookie errors
+  }
+
+  let hasEntToken = false;
+  try {
+    const rawEnt = store.get(KEY);
+    if (rawEnt) {
+      const parsedEnt = JSON.parse(rawEnt);
+      if (parsedEnt && typeof parsedEnt.token === 'string' && parsedEnt.token.trim().length > 0) {
+        hasEntToken = true;
+        const expMs = parsedEnt.expiresAt ? Date.parse(parsedEnt.expiresAt) : NaN;
+        if (!Number.isNaN(expMs) && expMs > Date.now()) {
+          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'entitlement' };
+        }
+        if (!parsedEnt.expiresAt || Number.isNaN(expMs)) {
+          return { isVip: false, isPending: true, isLocked: true, state: 'pending', source: 'entitlement' };
+        }
+      }
+    }
+  } catch {
+    // ignore malformed storage
+  }
+
+  try {
+    const rawAdFree = store.get('shahintv_adfree_activation');
+    if (rawAdFree) {
+      const parsedAf = JSON.parse(rawAdFree);
+      if (
+        parsedAf &&
+        (parsedAf.isActive === true || parsedAf.isAdFree === true) &&
+        parsedAf.code !== 'SPONSOR_REWARD_VIP'
+      ) {
+        if (!parsedAf.expiryDate) {
+          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'adfree' };
+        }
+        const afExpMs = Date.parse(parsedAf.expiryDate);
+        if (!Number.isNaN(afExpMs) && afExpMs > Date.now()) {
+          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'adfree' };
+        }
+      }
+    }
+  } catch {
+    // ignore malformed storage
+  }
+
+  if (hasEntToken) {
+    try {
+      const rawHint = store.get(ADS_HINT_KEY);
+      if (rawHint) {
+        const parsedHint = JSON.parse(rawHint);
+        const hintMs = parsedHint?.expiresAt ? Date.parse(parsedHint.expiresAt) : NaN;
+        if (!Number.isNaN(hintMs) && hintMs > Date.now()) {
+          return { isVip: true, isPending: false, isLocked: true, state: 'vip', source: 'hint' };
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  return { isVip: false, isPending: false, isLocked: false, state: 'free', source: 'fallback' };
+}
+
+export function isClientVipActive(): boolean {
+  return detectClientVipState().isVip;
+}
+
 export async function finalizeVipActivationReload(expiresAt?: string): Promise<void> {
   if (expiresAt) {
     store.set(ADS_HINT_KEY, JSON.stringify({ expiresAt }));

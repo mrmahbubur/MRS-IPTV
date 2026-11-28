@@ -195,6 +195,7 @@
   }
 
   function isVipOrLockedState() {
+    if (win.MRS_ADS && typeof win.MRS_ADS.isVip === 'function' && win.MRS_ADS.isVip()) return true;
     var gateState = (win.MRS_ADS && win.MRS_ADS.state && win.MRS_ADS.state()) || win.MRS_AD_STATE || 'pending';
     if (gateState !== 'free') return true;
     try {
@@ -214,12 +215,24 @@
       if (!ent.expiresAt) return true;
       var entExpMs = Date.parse(ent.expiresAt);
       if (!isNaN(entExpMs) && entExpMs > Date.now()) return true;
+      var hintRaw = lsGet(HINT_KEY);
+      if (hintRaw) {
+        try {
+          var hintParsed = JSON.parse(hintRaw);
+          var hintExpMs = hintParsed && hintParsed.expiresAt ? Date.parse(hintParsed.expiresAt) : NaN;
+          if (!isNaN(hintExpMs) && hintExpMs > Date.now()) return true;
+        } catch (e) {}
+      }
     }
     var adFreeRaw = lsGet('shahintv_adfree_activation');
     if (adFreeRaw) {
       try {
         var parsedAdFree = JSON.parse(adFreeRaw);
-        if (parsedAdFree && (parsedAdFree.isActive === true || parsedAdFree.isAdFree === true)) {
+        if (
+          parsedAdFree &&
+          (parsedAdFree.isActive === true || parsedAdFree.isAdFree === true) &&
+          parsedAdFree.code !== 'SPONSOR_REWARD_VIP'
+        ) {
           if (!parsedAdFree.expiryDate) return true;
           var afExpMs = Date.parse(parsedAdFree.expiryDate);
           if (!isNaN(afExpMs) && afExpMs > Date.now()) return true;

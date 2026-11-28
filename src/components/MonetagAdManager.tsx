@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AdFreeState } from '../types';
-import { useAdGate } from '../lib/useAdGate';
+import { useAdGate, detectClientVipState } from '../lib/useAdGate';
 
 interface MonetagAdManagerProps {
   adFreeState?: AdFreeState;
@@ -17,8 +17,9 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
 
   const purgeMonetagFromDom = () => {
     try {
-      const vipLocked = adState !== 'free';
-      (window as any).__MRS_IS_VIP = adState === 'vip';
+      const clientVip = detectClientVipState();
+      const vipLocked = adState !== 'free' || clientVip.isLocked;
+      (window as any).__MRS_IS_VIP = adState === 'vip' || clientVip.isVip;
 
       if (vipLocked) {
         const selectors = [
@@ -26,14 +27,20 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           '#monetag-midnight-vignette',
           '#mrs-monetag-interstitial',
           '#mrs-popunder-script',
+          '[data-zone]',
+          '[data-ad-zone]',
+          '[data-monetag-zone]',
+          'ins[data-zone]',
           'script[data-mrs-ad-injected="1"]',
+          'script[data-zone]',
           'script[src*="quge5.com"]',
           'script[src*="5gvci.com"]',
           'script[src*="al5sm.com"]',
           'script[src*="whomeehe.com"]',
-          'script[data-zone="300808"]',
+          'script[src*="acscdn.com"]',
+          'script[src*="tzegilo.com"]',
+          'script[src*="madurird.com"]',
           'script[src*="n6wxm.com"]',
-          'script[data-zone="12138523"]',
           'script[src*="uplcm.com"]',
           'script[src*="monetag.com"]',
           'iframe[src*="quge5.com"]',
@@ -41,15 +48,25 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           'iframe[src*="n6wxm.com"]',
           'iframe[src*="al5sm.com"]',
           'iframe[src*="whomeehe.com"]',
+          'iframe[src*="acscdn.com"]',
+          'iframe[src*="tzegilo.com"]',
+          'iframe[src*="madurird.com"]',
           'iframe[src*="uplcm.com"]',
-          'iframe[src*="monetag.com"]',
+          'iframe[src*="monetag"]',
           'iframe[id*="monetag"]',
+          'iframe[class*="monetag"]',
+          'iframe[id*="vignette"]',
           'iframe[id*="interstitial"]',
           'iframe[id*="popunder"]',
           'iframe[data-mrs-ad-frame="1"]',
           'div[id*="monetag"]',
           'div[class*="monetag"]',
+          'aside[id*="monetag"]',
+          'aside[class*="monetag"]',
+          'section[id*="monetag"]',
+          'section[class*="monetag"]',
           'div[id*="vignette"]',
+          'div[class*="vignette"]',
           'div[id*="interstitial"]',
           'div[class*="interstitial"]',
           'div[id*="popunder"]',
@@ -60,14 +77,14 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           '#mrs-sticky-mobile-ad',
           '#mrs-consent-banner',
           '#mrs-push-preprompt',
-          '#mrs-reward-sim-modal'
+          '#mrs-reward-sim-modal',
         ].join(', ');
 
         document.querySelectorAll(selectors).forEach((el) => el.remove());
       } else if (!adConfig.formats.interstitial) {
         document
           .querySelectorAll(
-            '#mrs-monetag-interstitial, #monetag-midnight-vignette, div[id*="interstitial"], div[class*="interstitial"], iframe[id*="interstitial"]'
+            '#mrs-monetag-interstitial, #monetag-midnight-vignette, div[id*="vignette"], div[class*="vignette"], div[id*="interstitial"], div[class*="interstitial"], iframe[id*="vignette"], iframe[id*="interstitial"]'
           )
           .forEach((el) => el.remove());
       }
@@ -92,8 +109,8 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
 
   useEffect(() => {
     const handleCaptureAdBlock = (e: Event) => {
-      const gateState = (window as any).MRS_ADS?.state?.() || (window as any).MRS_AD_STATE || 'pending';
-      if (gateState !== 'free') {
+      const clientVip = detectClientVipState();
+      if (clientVip.isLocked || clientVip.isVip) {
         const target = e.target as HTMLElement | null;
         if (target) {
           const anchor = target.closest('a');
@@ -107,13 +124,18 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
               anchor.href?.includes('n6wxm.com') ||
               anchor.href?.includes('al5sm.com') ||
               anchor.href?.includes('whomeehe.com') ||
+              anchor.href?.includes('acscdn.com') ||
+              anchor.href?.includes('tzegilo.com') ||
+              anchor.href?.includes('madurird.com') ||
               anchor.href?.includes('uplcm.com') ||
               anchor.href?.includes('monetag.com') ||
               anchor.href?.includes('/api/ads/redirect') ||
               anchorId.includes('monetag') ||
+              anchorId.includes('vignette') ||
               anchorId.includes('interstitial') ||
               anchorId.includes('popunder') ||
               anchorClass.includes('monetag') ||
+              anchorClass.includes('vignette') ||
               anchorClass.includes('interstitial') ||
               anchorClass.includes('popunder'))
           ) {

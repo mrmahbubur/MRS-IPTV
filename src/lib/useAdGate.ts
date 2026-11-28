@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getCachedEntitlement } from './mrsVip';
+import {
+  ClientVipStateDetails,
+  detectClientVipState,
+  isClientVipActive,
+} from './mrsVip';
+export { detectClientVipState, isClientVipActive };
+export type { ClientVipStateDetails };
 import {
   MONETAG_DEFAULT_VERIFICATION_ID,
   MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
@@ -97,15 +103,7 @@ function clampRuntimeInt(raw: unknown, min: number, max: number, fallback: numbe
 }
 
 export function getAdGateState(): AdGateState {
-  if (typeof window === 'undefined') return 'pending';
-  const gate = (window as any).MRS_ADS;
-  if (gate && typeof gate.state === 'function') {
-    const s = gate.state();
-    if (s === 'vip' || s === 'free' || s === 'pending') return s;
-  }
-  const s = (window as any).MRS_AD_STATE;
-  if (s === 'vip' || s === 'free' || s === 'pending') return s;
-  return getCachedEntitlement()?.token ? 'vip' : 'free';
+  return detectClientVipState().state;
 }
 
 export function getAdRuntimeConfig(): AdFormatConfig {
@@ -265,7 +263,7 @@ export function getAdRuntimeConfig(): AdFormatConfig {
 }
 
 export function isRealVipActive(): boolean {
-  return getAdGateState() === 'vip';
+  return isClientVipActive();
 }
 
 function readRewardExpiredCooldown(): number | null {
