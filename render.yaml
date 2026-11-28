@@ -92,6 +92,10 @@ services:
         value: "true"
       - key: MONETAG_VERIFICATION_ID
         value: "fa9656182dbc7301dcd9a2326441dcf3"
+      - key: MONETAG_VIGNETTE_ZONE_ID
+        value: "11242067"
+      - key: MONETAG_POPUNDER_ZONE_ID
+        value: "11226634"
       - key: MONETAG_SHOW_REGULAR_ADS
         value: "false"
       - key: MONETAG_BANNER_ENABLED
@@ -108,6 +112,10 @@ services:
         value: "30"
       - key: MONETAG_POPUNDER_MAX_PER_DAY
         value: "3"
+      - key: MONETAG_INTERSTITIAL_COOLDOWN_SECONDS
+        value: "180"
+      - key: MONETAG_INTERSTITIAL_MAX_PER_DAY
+        value: "12"
       - key: MONETAG_PUSH_DELAY_SECONDS
         value: "60"
       - key: MONETAG_PUSH_MIN_VISITS

@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { AdFreeState } from '../types';
 import { getDeviceId, getStoredAdFreeState } from './codes';
+import {
+  MONETAG_CANONICAL_ZONES,
+  MONETAG_DEFAULT_CAPS,
+  MONETAG_DEFAULT_POPUNDER_ZONE_ID,
+  MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  buildMonetagZoneUrl,
+} from './monetagConfig';
 export { getDeviceId, getStoredAdFreeState } from './codes';
 
 export interface AdZoneConfig {
@@ -20,177 +27,35 @@ export interface AdZoneConfig {
   category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema';
 }
 
-// Official Stored Partner Smartlink Zones (Active 24/7 All-Time)
-export const STORED_AD_ZONES: AdZoneConfig[] = [
-  {
-    id: 'uplcm-11226634',
-    url: 'https://uplcm.com/4/11226634',
-    network: 'Monetag Direct',
-    zoneId: '11226634',
-    estimatedCpmUsd: 4.20,
-    label: 'Ultra-HD Sports & Match Priority Line',
-    subtitle: 'High-speed sports streaming partner · Unlock 1 hour of ad-free HD TV now',
-    ctaText: 'Unlock 1h Ad-Free VIP Pass',
-    badge: '24/7 FEATURED',
-    accentColor: 'amber',
-    imageUrl: '/midnight_cinema_banner.jpg',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'sports'
-  },
-  {
-    id: 'uplcm-11683565',
-    url: 'https://uplcm.com/4/11683565',
-    network: 'Monetag Direct',
-    zoneId: '11683565',
-    estimatedCpmUsd: 4.35,
-    label: 'Live Sports Score & Goal Alert Feed',
-    subtitle: 'Real-time match notifications, cricket updates & high-bitrate streaming line',
-    ctaText: 'Activate Live Sports Pass',
-    badge: 'LIVE SPORTS',
-    accentColor: 'cyan',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'sports'
-  },
-  {
-    id: 'uplcm-11242745',
-    url: 'https://uplcm.com/4/11242745',
-    network: 'Monetag Direct',
-    zoneId: '11242745',
-    estimatedCpmUsd: 4.10,
-    label: 'Sports Highlight & Match Replay Hub',
-    subtitle: 'Trending goals, viral sports clips & global Monetag partner line',
-    ctaText: 'Visit Hub · 1h Free VIP',
-    badge: 'TRENDING',
-    accentColor: 'emerald',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'social'
-  },
-  {
-    id: 'uplcm-11242069',
-    url: 'https://uplcm.com/4/11242069',
-    network: 'Monetag Direct',
-    zoneId: '11242069',
-    estimatedCpmUsd: 4.25,
-    label: 'VIP Sports Fans Community Lounge',
-    subtitle: 'Live fan chats, trending highlights & match stream discussions · 1h Free VIP',
-    ctaText: 'Open Feed & Watch Ad-Free',
-    badge: 'FAN CLUB',
-    accentColor: 'purple',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'social'
-  },
-  {
-    id: 'uplcm-11242067',
-    url: 'https://uplcm.com/4/11242067',
-    network: 'Monetag Direct',
-    zoneId: '11242067',
-    estimatedCpmUsd: 5.50,
-    label: '24/7 Exclusive HD Cinema & Live Broadcasts',
-    subtitle: 'Always-on spotlight partner · Tap to unlock 60 minutes of zero-ad streaming',
-    ctaText: 'Enter Spotlight · 1h VIP',
-    badge: '24/7 SPOTLIGHT',
-    accentColor: 'rose',
-    imageUrl: '/midnight_cinema_banner.jpg',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'cinema'
-  },
-  {
-    id: 'uplcm-11242742',
-    url: 'https://uplcm.com/4/11242742',
-    network: 'Monetag Direct',
-    zoneId: '11242742',
-    estimatedCpmUsd: 4.15,
-    label: 'Global Sports Discussion & Fixture Hub',
-    subtitle: 'Verified Monetag broadcast line unlocking 60 minutes of uninterrupted TV',
-    ctaText: 'Claim 1-Hour Free VIP',
-    badge: 'VERIFIED',
-    accentColor: 'amber',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'social'
-  },
-  {
-    id: 'uplcm-11230440',
-    url: 'https://uplcm.com/4/11230440',
-    network: 'Monetag Direct',
-    zoneId: '11230440',
-    estimatedCpmUsd: 4.30,
-    label: 'High-Speed Global IPTV Mirror Support',
-    subtitle: 'Instant sports updates and Monetag direct line keeping 8,890+ channels free',
-    ctaText: 'Support Server & Unlock VIP',
-    badge: 'FAST LINE',
-    accentColor: 'cyan',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'vip'
-  },
-  {
-    id: 'uplcm-11683560',
-    url: 'https://uplcm.com/4/11683560',
-    network: 'Monetag Direct',
-    zoneId: '11683560',
-    estimatedCpmUsd: 4.45,
-    label: 'Prime Broadcast CDN & Zero-Lag Relay',
-    subtitle: 'Top-tier partner network supporting zero-buffer TV & cinema streams',
-    ctaText: 'Activate High-Speed Line',
-    badge: 'PRIME CDN',
-    accentColor: 'emerald',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'sports'
-  },
-  {
-    id: 'uplcm-9912130',
-    url: 'https://uplcm.com/4/9912130',
-    network: 'Monetag Direct',
-    zoneId: '9912130',
-    estimatedCpmUsd: 4.50,
-    label: 'All-Day Cinema, Reels & Sports Lounge',
-    subtitle: 'Claim 1 full hour of zero ads across all live TV & sports feeds right now',
-    ctaText: 'Unlock 1-Hour VIP Now',
-    badge: 'TOP ZONE',
-    accentColor: 'purple',
-    imageUrl: '/midnight_cinema_banner.jpg',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'cinema'
-  },
-  {
-    id: 'uplcm-11242744',
-    url: 'https://uplcm.com/4/11242744',
-    network: 'Monetag Direct',
-    zoneId: '11242744',
-    estimatedCpmUsd: 4.60,
-    label: 'International Match Stream Partner Network',
-    subtitle: 'Official 24/7 global Monetag line unlocking 60-min VIP streaming',
-    ctaText: 'Visit Partner & Watch Ad-Free',
-    badge: 'GLOBAL VIP',
-    accentColor: 'rose',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'vip'
-  }
-];
+// Official Stored Partner Smartlink Zones (Sourced from centralized monetagConfig)
+export const STORED_AD_ZONES: AdZoneConfig[] = MONETAG_CANONICAL_ZONES.map((z) => ({
+  id: z.id,
+  url: z.url,
+  network: z.network,
+  zoneId: z.zoneId,
+  estimatedCpmUsd: z.estimatedCpmUsd,
+  label: z.label,
+  subtitle: z.subtitle,
+  ctaText: z.ctaText,
+  badge: z.badge,
+  accentColor: z.accentColor,
+  ...(z.imageUrl ? { imageUrl: z.imageUrl } : {}),
+  showAllTime: z.showAllTime,
+  isMidnightOnly: z.isMidnightOnly,
+  category: z.category,
+}));
 
 export const MONETAG_DIRECT_LINKS: string[] = STORED_AD_ZONES.map(z => z.url);
 
-export const BACKUP_AD_LINKS: string[] = [
-  'https://uplcm.com/4/11226634',
-  'https://uplcm.com/4/11683565'
-];
+export const BACKUP_AD_LINKS: string[] = STORED_AD_ZONES.slice(0, 2).map(z => z.url);
 
 export const AD_LINKS: string[] = STORED_AD_ZONES.map(z => z.url);
 
 export const MONETAG_TAG_ZONES = {
   directZone: {
-    zoneId: '11226634',
+    zoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
     domain: 'uplcm.com',
-    url: 'https://uplcm.com/4/11226634',
+    url: buildMonetagZoneUrl(MONETAG_DEFAULT_POPUNDER_ZONE_ID),
     network: 'Monetag Direct',
     estimatedCpmUsd: 3.80,
     label: 'Monetag Direct Ad'
@@ -210,10 +75,11 @@ const AD_CYCLE_INDEX_KEY = 'mrs_ad_current_cycle_index_v6';
 const AD_OPENED_HISTORY_KEY = 'mrs_ad_opened_history_v6';
 const LAST_CLICKED_AD_URL_KEY = 'mrs_iptv_last_clicked_ad_url_v6';
 const LAST_INTERSTITIAL_KEY = 'mrs_last_interstitial_shown_at';
+const INTERSTITIAL_HIST_KEY = 'mrs_interstitial_daily_hist';
 const LAST_AD_CLICK_KEY = 'mrs_last_ad_click_at';
 
-// Minimum cooldown between full-screen interstitial / popup modals (3 minutes)
-const INTERSTITIAL_COOLDOWN_MS = 3 * 60 * 1000;
+// Minimum cooldown fallback between full-screen interstitial / popup modals (3 minutes)
+const INTERSTITIAL_COOLDOWN_MS = MONETAG_DEFAULT_CAPS.interstitialCooldownMs;
 
 // In-memory cache synced with localStorage
 let memoryCycleIndex: number | null = null;
@@ -349,8 +215,8 @@ export function isClientDaytimeHour(): boolean {
 }
 
 export const MONETAG_MIDNIGHT_VIGNETTE = {
-  zoneId: '11242067',
-  url: 'https://uplcm.com/4/11242067',
+  zoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  url: buildMonetagZoneUrl(MONETAG_DEFAULT_VIGNETTE_ZONE_ID),
   links: STORED_AD_ZONES
 };
 
@@ -488,28 +354,66 @@ export function getRandomAdLink(): string {
 export const getRandomSponsorLink = getRandomAdLink;
 
 /**
- * Checks if enough time has passed since the last full-screen ad modal
- * so users are never bombarded by back-to-back or overlapping popups.
+ * Checks if enough time has passed since the last full-screen ad modal and verifies
+ * the daily interstitial cap from runtime Monetag caps config.
  */
-export function canTriggerInterstitialAd(cooldownMs: number = INTERSTITIAL_COOLDOWN_MS): boolean {
+export function canTriggerInterstitialAd(cooldownMs?: number): boolean {
   try {
     const currentVip = getStoredAdFreeState();
     if (currentVip.isActive || currentVip.isAdFree) return false;
 
+    const serverCfg = typeof window !== 'undefined' ? (window as any).__MRS_ADS_SERVER_CONFIG : null;
+    const staticCfg = typeof window !== 'undefined' ? (window as any).MRS_ADS_CONFIG : null;
+    const caps = serverCfg?.monetag?.caps || staticCfg?.caps || {};
+
+    const maxPerDay =
+      typeof caps.interstitialMaxPerDay === 'number'
+        ? Math.max(0, caps.interstitialMaxPerDay)
+        : MONETAG_DEFAULT_CAPS.interstitialMaxPerDay;
+    if (maxPerDay === 0) return false;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const histRaw = localStorage.getItem(INTERSTITIAL_HIST_KEY);
+    if (histRaw) {
+      const parsed = JSON.parse(histRaw);
+      if (parsed && parsed.day === today && Number(parsed.count || 0) >= maxPerDay) {
+        return false;
+      }
+    }
+
+    const effectiveCooldownMs =
+      typeof cooldownMs === 'number' && Number.isFinite(cooldownMs)
+        ? Math.max(0, cooldownMs)
+        : typeof caps.interstitialCooldownMs === 'number' && Number.isFinite(caps.interstitialCooldownMs)
+          ? Math.max(15_000, caps.interstitialCooldownMs)
+          : INTERSTITIAL_COOLDOWN_MS;
+
     const raw = localStorage.getItem(LAST_INTERSTITIAL_KEY);
     const lastShown = raw ? parseInt(raw, 10) || 0 : 0;
-    return Date.now() - lastShown >= cooldownMs;
+    return Date.now() - lastShown >= effectiveCooldownMs;
   } catch {
     return true;
   }
 }
 
 /**
- * Marks that an interstitial/modal ad was just displayed, starting the cooldown window.
+ * Marks that an interstitial/modal ad was just displayed, starting the cooldown window
+ * and incrementing today's interstitial cap counter.
  */
 export function markInterstitialAdShown(): void {
   try {
-    localStorage.setItem(LAST_INTERSTITIAL_KEY, String(Date.now()));
+    const now = Date.now();
+    const today = new Date(now).toISOString().slice(0, 10);
+    localStorage.setItem(LAST_INTERSTITIAL_KEY, String(now));
+    let count = 0;
+    try {
+      const raw = localStorage.getItem(INTERSTITIAL_HIST_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.day === today) count = Number(parsed.count || 0);
+      }
+    } catch {}
+    localStorage.setItem(INTERSTITIAL_HIST_KEY, JSON.stringify({ day: today, count: count + 1, lastAt: now }));
   } catch {}
 }
 

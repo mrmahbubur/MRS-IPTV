@@ -1,22 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getCachedEntitlement } from './mrsVip';
+import {
+  MONETAG_DEFAULT_VERIFICATION_ID,
+  MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_POPUNDER_ZONE_ID,
+  MONETAG_DEFAULT_CAPS,
+  MonetagRuntimeCaps,
+} from './monetagConfig';
 
 export type AdGateState = 'pending' | 'vip' | 'free';
 
 export interface NetworkGateConfig {
   verificationId?: string;
+  vignetteZoneId?: string;
+  popunderZoneId?: string;
   showRegularAds: boolean;
   rewardedEnabled: boolean;
   rewardedShowFn?: string | null;
   rewardedZoneId?: string | null;
-  caps?: {
-    popunderCooldownMs: number;
-    popunderMaxPerDay: number;
-    pushDelayMs: number;
-    pushMinVisits: number;
-    pushDeclineDays: number;
-    emptySlotCollapseMs: number;
-  };
+  caps?: MonetagRuntimeCaps;
 }
 
 export interface RewardsGateConfig {
@@ -51,9 +53,12 @@ const DEFAULT_AD_CONFIG: AdFormatConfig = {
   },
   testMode: true,
   monetag: {
-    verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+    verificationId: MONETAG_DEFAULT_VERIFICATION_ID,
+    vignetteZoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+    popunderZoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
     showRegularAds: false,
     rewardedEnabled: false,
+    caps: MONETAG_DEFAULT_CAPS,
   },
   rewards: {
     durationMinutes: 60,
@@ -111,11 +116,17 @@ export function getAdRuntimeConfig(): AdFormatConfig {
     testMode,
     monetag: {
       verificationId: serverCfg.monetag?.verificationId || staticCfg.monetag?.verificationId || DEFAULT_AD_CONFIG.monetag.verificationId,
+      vignetteZoneId: serverCfg.monetag?.vignetteZoneId || staticCfg.monetag?.vignette?.zoneId || DEFAULT_AD_CONFIG.monetag.vignetteZoneId,
+      popunderZoneId: serverCfg.monetag?.popunderZoneId || DEFAULT_AD_CONFIG.monetag.popunderZoneId,
       showRegularAds: monetagShowRegular,
       rewardedEnabled: monetagRewarded,
       rewardedShowFn: serverCfg.monetag?.rewardedShowFn || null,
       rewardedZoneId: serverCfg.monetag?.rewardedZoneId || null,
-      caps: serverCfg.monetag?.caps || staticCfg.caps,
+      caps: {
+        ...MONETAG_DEFAULT_CAPS,
+        ...(staticCfg.caps || {}),
+        ...(serverCfg.monetag?.caps || {}),
+      },
     },
     rewards: {
       durationMinutes: Number(serverCfg.rewards?.durationMinutes || staticCfg.rewards?.durationMinutes || 60),

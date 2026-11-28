@@ -24,6 +24,7 @@ process.env.MONETAG_POSTBACK_SECRET = 'monetag-postback-test-secret';
 const { db, run, get, nowIso } = await import('../server/mrs-iptv-backend/src/db.js');
 const { redeem, signToken, verifyToken, sanitizeDeviceId, checkEntitlement } = await import('../server/mrs-iptv-backend/src/redeem.js');
 const { createAdsRouter, MONETAG_ZONES, sanitizeShowFn, sanitizeRewardedSnippet } = await import('../server/adsRouter.js');
+const { MONETAG_CANONICAL_ZONES, MONETAG_DEFAULT_VERIFICATION_ID, isValidShowFnIdentifier } = await import('../src/lib/monetagConfig.js');
 const paymentRouterModule = await import('../server/paymentRouter.js');
 const createPaymentRouter = paymentRouterModule.default || paymentRouterModule.createPaymentRouter;
 
@@ -1065,6 +1066,166 @@ test('16. Device ID sanitization and CSPRNG token generation/verification enforc
   assert.equal(badEnt.ok, false);
   assert.equal(badEnt.code, 'invalid_token');
 });
+
+test('17. Centralized Monetag IDs/zones and granular ad caps persist via admin API with strict bounds validation', async () => {
+  // Verify GET /api/ads/config exposes centralized zones & caps
+  const initialRes = await fetch(`${baseUrl}/api/ads/config`);
+  assert.equal(initialRes.status, 200);
+  const initialJson = await initialRes.json() as any;
+  assert.equal(initialJson.data.monetag.verificationId, MONETAG_DEFAULT_VERIFICATION_ID);
+  assert.equal(initialJson.data.monetag.vignetteZoneId, '11242067');
+  assert.equal(initialJson.data.monetag.popunderZoneId, '11226634');
+  assert.equal(initialJson.data.monetag.vignette.url, 'https://uplcm.com/4/11242067');
+  assert.equal(initialJson.data.monetag.popunder.url, 'https://uplcm.com/4/11226634');
+  assert.equal(initialJson.data.monetag.zones.length, MONETAG_CANONICAL_ZONES.length);
+  assert.equal(initialJson.data.monetag.caps.interstitialCooldownMs, 180_000);
+  assert.equal(initialJson.data.monetag.caps.interstitialMaxPerDay, 12);
+
+  // Reject out-of-range caps & invalid verification/zone IDs
+  const badCapRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({ monetag: { caps: { popunderMaxPerDay: 999 } } }),
+  });
+  assert.equal(badCapRes.status, 400);
+  assert.equal(((await badCapRes.json()) as any).error.code, 'invalid_ad_cap');
+
+  const badVerRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({ monetag: { verificationId: 'bad!' } }),
+  });
+  assert.equal(badVerRes.status, 400);
+  assert.equal(((await badVerRes.json()) as any).error.code, 'invalid_verification_id');
+
+  const badZoneRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({ monetag: { vignetteZoneId: 'bad zone!' } }),
+  });
+  assert.equal(badZoneRes.status, 400);
+  assert.equal(((await badZoneRes.json()) as any).error.code, 'invalid_zone_id');
+
+  // Update granular caps and centralized zone IDs cleanly
+  const updateRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({
+      monetag: {
+        vignetteZoneId: '9912130',
+        popunderZoneId: '11683565',
+        caps: {
+          popunderCooldownMinutes: 45,
+          popunderMaxPerDay: 2,
+          interstitialCooldownSeconds: 240,
+          interstitialMaxPerDay: 5,
+          pushDelaySeconds: 90,
+          pushMinVisits: 3,
+          pushDeclineDays: 14,
+          emptySlotCollapseMs: 2500,
+        },
+        rewarded: { zoneId: '11242067' },
+      },
+    }),
+  });
+  assert.equal(updateRes.status, 200);
+  const updatedRes = await fetch(`${baseUrl}/api/ads/config`);
+  const updatedJson = await updatedRes.json() as any;
+  assert.equal(updatedJson.data.monetag.vignetteZoneId, '9912130');
+  assert.equal(updatedJson.data.monetag.vignette.url, 'https://uplcm.com/4/9912130');
+  assert.equal(updatedJson.data.monetag.popunderZoneId, '11683565');
+  assert.equal(updatedJson.data.monetag.caps.popunderCooldownMs, 45 * 60_000);
+  assert.equal(updatedJson.data.monetag.caps.popunderMaxPerDay, 2);
+  assert.equal(updatedJson.data.monetag.caps.interstitialCooldownMs, 240_000);
+  assert.equal(updatedJson.data.monetag.caps.interstitialMaxPerDay, 5);
+  assert.equal(updatedJson.data.monetag.caps.pushDelayMs, 90_000);
+  assert.equal(updatedJson.data.monetag.caps.pushMinVisits, 3);
+  assert.equal(updatedJson.data.monetag.caps.pushDeclineDays, 14);
+  assert.equal(updatedJson.data.monetag.caps.emptySlotCollapseMs, 2500);
+
+  // Restore defaults cleanly
+  await fetch(`${baseUrl}/api/admin/ads/config`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({
+      monetag: {
+        vignetteZoneId: '11242067',
+        popunderZoneId: '11226634',
+        caps: {
+          popunderCooldownMinutes: 30,
+          popunderMaxPerDay: 3,
+          interstitialCooldownSeconds: 180,
+          interstitialMaxPerDay: 12,
+          pushDelaySeconds: 60,
+          pushMinVisits: 2,
+          pushDeclineDays: 30,
+          emptySlotCollapseMs: 4000,
+        },
+        rewarded: { zoneId: null },
+      },
+    }),
+  });
+});
+
+test('18. Expanded forbidden rewarded callback blocklist blocks DOM/network/timer/dunder sinks & native built-ins', async () => {
+  const expandedBlocked = [
+    'queueMicrotask',
+    'requestAnimationFrame',
+    'BroadcastChannel',
+    'cookieStore',
+    'sendBeacon',
+    '__defineGetter__',
+    '__lookupSetter__',
+    '__custom_dunder__',
+    'document.body',
+    'document.createElement',
+    'innerHTML',
+    'history.pushState',
+    'navigator.clipboard',
+    'Object.getOwnPropertyDescriptor',
+    'AsyncFunction',
+    '_',
+    '$$',
+    'serviceWorker.register',
+  ];
+
+  for (const candidate of expandedBlocked) {
+    assert.equal(isValidShowFnIdentifier(candidate), false, `Expected ${candidate} to be blocked`);
+    assert.throws(() => sanitizeShowFn(candidate), /Rewarded callback name/i);
+  }
+  assert.equal(isValidShowFnIdentifier('show_11226634'), true);
+  assert.equal(isValidShowFnIdentifier('MonetagSDK.rewarded.show'), true);
+
+  // rewardAds.js must also refuse any function whose toString contains [native code]
+  const storageMap = new Map<string, string>();
+  const nativeFnSandbox: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt, Uint8Array,
+    crypto: webcrypto,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: () => {}, dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: false, monetag: { rewarded: { enabled: true } } },
+    __MRS_ADS_SERVER_CONFIG: {
+      testMode: false,
+      monetag: { rewardedEnabled: true, rewardedShowFn: 'customNativeAlias' },
+      rewards: { cooldownMinutes: 180, anyRewardedAvailable: true },
+    },
+    customNativeAlias: Math.max,
+    MRS_ADS: { state: () => 'free', enterVipMode: () => {}, refresh: async () => 'free' },
+    localStorage: {
+      getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+      setItem: (k: string, v: string) => { storageMap.set(k, String(v)); },
+      removeItem: (k: string) => { storageMap.delete(k); },
+    },
+    document: { readyState: 'complete', body: { appendChild: () => {} }, createElement: () => ({ style: {}, setAttribute: () => {}, innerHTML: '' }), getElementById: () => null, addEventListener: () => {} },
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: { nonce: 'c'.repeat(48), network: 'monetag', minWatchMs: 100 } }) }),
+  };
+  nativeFnSandbox.window = nativeFnSandbox;
+  vm.runInNewContext(rewardAdsSource, nativeFnSandbox, { filename: 'rewardAds.js' });
+  await assert.rejects(nativeFnSandbox.MRS_REWARD_ADS.startAndWatch('monetag'), /not configured/i);
+});
+
 
 
 

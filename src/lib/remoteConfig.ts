@@ -1,3 +1,5 @@
+import { MONETAG_DIRECT_URLS } from './monetagConfig';
+
 export interface DynamicRemoteConfig {
   version: number;
   lastUpdated: string;
@@ -72,18 +74,7 @@ export const DEFAULT_REMOTE_CONFIG: DynamicRemoteConfig = {
     rewardHours: 1, // 1 hour Ad-Free VIP reward on sponsor engagement
     inPlayerBannerEnabled: false,
     bannerIntervalSec: 180,
-    smartlinks: [
-      "https://uplcm.com/4/11226634",
-      "https://uplcm.com/4/11683565",
-      "https://uplcm.com/4/11242745",
-      "https://uplcm.com/4/11242069",
-      "https://uplcm.com/4/11242067",
-      "https://uplcm.com/4/11242742",
-      "https://uplcm.com/4/11230440",
-      "https://uplcm.com/4/11683560",
-      "https://uplcm.com/4/9912130",
-      "https://uplcm.com/4/11242744"
-    ]
+    smartlinks: [...MONETAG_DIRECT_URLS]
   },
   uiSpacing: {
     layoutDensity: 'comfortable',

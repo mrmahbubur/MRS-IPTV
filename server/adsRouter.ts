@@ -5,6 +5,19 @@ import { getEntitlementStatus, hashDevice, sanitizeDeviceId, signToken } from '.
 import { config as backendConfig } from './mrs-iptv-backend/src/config.js';
 import { requireAdmin } from '../src/middleware/auth.js';
 import { getTrustedClientIp } from './clientIp.js';
+import {
+  MONETAG_DEFAULT_VERIFICATION_ID,
+  MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_POPUNDER_ZONE_ID,
+  MONETAG_CANONICAL_ZONES,
+  MONETAG_CAP_BOUNDS,
+  MonetagAdCapsPolicy,
+  buildMonetagZoneUrl,
+  toRuntimeCaps,
+  sanitizeMonetagZoneIdStrict,
+  sanitizeMonetagVerificationIdStrict,
+  isValidShowFnIdentifier,
+} from '../src/lib/monetagConfig.js';
 
 export interface MonetagZoneEntry {
   zoneId: string;
@@ -15,80 +28,17 @@ export interface MonetagZoneEntry {
 }
 
 /**
- * Exact verified owner Monetag zones (preserved verbatim).
+ * Exact verified owner Monetag zones (sourced from centralized monetagConfig).
  */
-export const MONETAG_ZONES: MonetagZoneEntry[] = [
-  {
-    zoneId: '11226634',
-    url: 'https://uplcm.com/4/11226634',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'Ultra-HD Sports & Match Priority Line',
-  },
-  {
-    zoneId: '11683565',
-    url: 'https://uplcm.com/4/11683565',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'Live Sports Score & Goal Alert Feed',
-  },
-  {
-    zoneId: '11242745',
-    url: 'https://uplcm.com/4/11242745',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'Sports Highlight & Match Replay Hub',
-  },
-  {
-    zoneId: '11242069',
-    url: 'https://uplcm.com/4/11242069',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'VIP Sports Fans Community Lounge',
-  },
-  {
-    zoneId: '11242067',
-    url: 'https://uplcm.com/4/11242067',
-    network: 'Monetag Direct',
-    format: 'interstitial',
-    label: '24/7 Exclusive HD Cinema & Live Broadcasts',
-  },
-  {
-    zoneId: '11242742',
-    url: 'https://uplcm.com/4/11242742',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'Global Sports Discussion & Fixture Hub',
-  },
-  {
-    zoneId: '11230440',
-    url: 'https://uplcm.com/4/11230440',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'High-Speed Global IPTV Mirror Support',
-  },
-  {
-    zoneId: '11683560',
-    url: 'https://uplcm.com/4/11683560',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'Prime Broadcast CDN & Zero-Lag Relay',
-  },
-  {
-    zoneId: '9912130',
-    url: 'https://uplcm.com/4/9912130',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'All-Day Cinema, Reels & Sports Lounge',
-  },
-  {
-    zoneId: '11242744',
-    url: 'https://uplcm.com/4/11242744',
-    network: 'Monetag Direct',
-    format: 'banner',
-    label: 'International Match Stream Partner Network',
-  },
-];
+export const MONETAG_ZONES: MonetagZoneEntry[] = MONETAG_CANONICAL_ZONES.map((z) => ({
+  zoneId: z.zoneId,
+  url: z.url,
+  network: z.network,
+  format: z.format,
+  label: z.label,
+}));
+
+export type { MonetagAdCapsPolicy };
 
 export interface AdSettings {
   formats: {
@@ -100,156 +50,19 @@ export interface AdSettings {
   };
   testMode: boolean;
   monetag: {
+    verificationId: string;
+    vignetteZoneId: string;
+    popunderZoneId: string;
     showRegularAds: boolean;
+    caps: MonetagAdCapsPolicy;
     rewarded: {
       enabled: boolean;
       snippet: string | null;
       showFn: string | null;
+      zoneId: string | null;
     };
   };
 }
-
-const SHOW_FN_SEGMENT_REGEX = /^[A-Za-z_$][A-Za-z0-9_$]{0,31}$/;
-const FORBIDDEN_SHOW_FN_SEGMENTS = new Set([
-  '__proto__',
-  'prototype',
-  'constructor',
-  'toString',
-  'valueOf',
-  'hasOwnProperty',
-  'isPrototypeOf',
-  'propertyIsEnumerable',
-  'toLocaleString',
-  'eval',
-  'Function',
-  'Object',
-  'Array',
-  'Proxy',
-  'Reflect',
-  'Symbol',
-  'BigInt',
-  'String',
-  'Number',
-  'Boolean',
-  'Promise',
-  'RegExp',
-  'Error',
-  'setTimeout',
-  'setInterval',
-  'setImmediate',
-  'clearTimeout',
-  'clearInterval',
-  'execScript',
-  'alert',
-  'confirm',
-  'prompt',
-  'fetch',
-  'XMLHttpRequest',
-  'open',
-  'close',
-  'location',
-  'document',
-  'window',
-  'self',
-  'top',
-  'parent',
-  'frames',
-  'globalThis',
-  'global',
-  'navigator',
-  'localStorage',
-  'sessionStorage',
-  'indexedDB',
-  'history',
-  'crypto',
-  'postMessage',
-  'importScripts',
-  'WebSocket',
-  'Worker',
-  'SharedWorker',
-  'process',
-  'require',
-  'module',
-  'exports',
-]);
-
-const FORBIDDEN_SHOW_FN_LOWER = new Set([
-  '__proto__',
-  'prototype',
-  'constructor',
-  'eval',
-  'function',
-  'globalthis',
-  'window',
-  'document',
-  'location',
-  'execscript',
-  'importscripts',
-  'settimeout',
-  'setinterval',
-  'setimmediate',
-  'fetch',
-  'xmlhttprequest',
-  'websocket',
-  'worker',
-  'sharedworker',
-  'postmessage',
-  'localstorage',
-  'sessionstorage',
-  'indexeddb',
-  'object',
-  'array',
-  'proxy',
-  'reflect',
-  'arguments',
-  'this',
-  'super',
-  'class',
-  'import',
-  'export',
-  'await',
-  'async',
-  'delete',
-  'typeof',
-  'void',
-  'new',
-  'in',
-  'instanceof',
-  'return',
-  'throw',
-  'try',
-  'catch',
-  'finally',
-  'with',
-  'yield',
-  'let',
-  'const',
-  'var',
-  'if',
-  'else',
-  'for',
-  'while',
-  'do',
-  'switch',
-  'case',
-  'break',
-  'continue',
-  'default',
-  'debugger',
-  'enum',
-  'extends',
-  'implements',
-  'interface',
-  'package',
-  'private',
-  'protected',
-  'public',
-  'static',
-  'null',
-  'undefined',
-  'true',
-  'false',
-]);
 
 export function sanitizeShowFn(raw: unknown): string | null {
   if (raw === null || raw === undefined) return null;
@@ -277,18 +90,12 @@ export function sanitizeShowFn(raw: unknown): string | null {
       'Rewarded callback name may contain at most 4 dot-separated segments.'
     );
   }
-  for (const part of parts) {
-    if (
-      !SHOW_FN_SEGMENT_REGEX.test(part) ||
-      FORBIDDEN_SHOW_FN_SEGMENTS.has(part) ||
-      FORBIDDEN_SHOW_FN_LOWER.has(part.toLowerCase())
-    ) {
-      throw new AdPolicyValidationError(
-        400,
-        'invalid_show_fn',
-        'Rewarded callback name must be a safe global function identifier (e.g. show_123456).'
-      );
-    }
+  if (!isValidShowFnIdentifier(trimmed)) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_show_fn',
+      'Rewarded callback name must be a safe global function identifier (e.g. show_123456).'
+    );
   }
   return trimmed;
 }
@@ -326,9 +133,87 @@ function trySanitizeSnippetEnv(raw: unknown): string | null {
 }
 
 function sanitizeZoneId(raw: unknown): string | null {
-  if (typeof raw !== 'string') return null;
+  return sanitizeMonetagZoneIdStrict(raw);
+}
+
+function validateVerificationIdInput(raw: unknown, fallback: string): string {
+  if (raw === null || raw === undefined) return fallback;
+  if (typeof raw !== 'string') {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_verification_id',
+      'Monetag verification ID must be a string.'
+    );
+  }
   const trimmed = raw.trim();
-  return /^[A-Za-z0-9_-]{1,32}$/.test(trimmed) ? trimmed : null;
+  if (!trimmed) return fallback;
+  const clean = sanitizeMonetagVerificationIdStrict(trimmed);
+  if (!clean) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_verification_id',
+      'Monetag verification ID must be 8-64 alphanumeric, dash, or underscore characters.'
+    );
+  }
+  return clean;
+}
+
+function validateZoneIdInput(raw: unknown, fallback: string | null, allowEmpty: boolean): string | null {
+  if (raw === null || raw === undefined) return fallback;
+  if (typeof raw !== 'string') {
+    throw new AdPolicyValidationError(400, 'invalid_zone_id', 'Monetag zone ID must be a string.');
+  }
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    if (allowEmpty) return null;
+    if (fallback !== null) return fallback;
+    throw new AdPolicyValidationError(400, 'invalid_zone_id', 'Monetag zone ID cannot be empty.');
+  }
+  const clean = sanitizeMonetagZoneIdStrict(trimmed);
+  if (!clean) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_zone_id',
+      'Monetag zone ID must be 1-32 alphanumeric, dash, or underscore characters.'
+    );
+  }
+  return clean;
+}
+
+type CapKey = keyof typeof MONETAG_CAP_BOUNDS;
+
+function clampCapEnv(raw: unknown, key: CapKey): number {
+  const bounds = MONETAG_CAP_BOUNDS[key];
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return bounds.defaultVal;
+  return Math.min(bounds.max, Math.max(bounds.min, Math.trunc(n)));
+}
+
+function validateCapInput(raw: unknown, key: CapKey): number {
+  const bounds = MONETAG_CAP_BOUNDS[key];
+  const n = typeof raw === 'number' ? raw : typeof raw === 'string' && raw.trim() !== '' ? Number(raw) : NaN;
+  if (!Number.isFinite(n) || !Number.isInteger(n) || n < bounds.min || n > bounds.max) {
+    throw new AdPolicyValidationError(
+      400,
+      'invalid_ad_cap',
+      `${key} must be an integer between ${bounds.min} and ${bounds.max}.`
+    );
+  }
+  return n;
+}
+
+function getDefaultCapsFromEnv(): MonetagAdCapsPolicy {
+  const r = backendConfig.rewards || ({} as any);
+  return {
+    popunderCooldownMinutes: clampCapEnv(r.monetagPopunderCooldownMinutes, 'popunderCooldownMinutes'),
+    popunderMaxPerDay: clampCapEnv(r.monetagPopunderMaxPerDay, 'popunderMaxPerDay'),
+    interstitialCooldownSeconds: clampCapEnv(r.monetagInterstitialCooldownSeconds, 'interstitialCooldownSeconds'),
+    interstitialMaxPerDay: clampCapEnv(r.monetagInterstitialMaxPerDay, 'interstitialMaxPerDay'),
+    pushDelaySeconds: clampCapEnv(r.monetagPushDelaySeconds, 'pushDelaySeconds'),
+    pushMinVisits: clampCapEnv(r.monetagPushMinVisits, 'pushMinVisits'),
+    pushDeclineDays: clampCapEnv(r.monetagPushDeclineDays, 'pushDeclineDays'),
+    emptySlotCollapseMs: clampCapEnv(r.monetagEmptySlotCollapseMs, 'emptySlotCollapseMs'),
+  };
 }
 
 const DEFAULT_AD_SETTINGS: AdSettings = {
@@ -341,11 +226,22 @@ const DEFAULT_AD_SETTINGS: AdSettings = {
   },
   testMode: typeof backendConfig.rewards?.adsTestMode === 'boolean' ? backendConfig.rewards.adsTestMode : true,
   monetag: {
+    verificationId:
+      sanitizeMonetagVerificationIdStrict(backendConfig.rewards?.monetagVerificationId) ||
+      MONETAG_DEFAULT_VERIFICATION_ID,
+    vignetteZoneId:
+      sanitizeZoneId(backendConfig.rewards?.monetagVignetteZoneId) ||
+      MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+    popunderZoneId:
+      sanitizeZoneId(backendConfig.rewards?.monetagPopunderZoneId) ||
+      MONETAG_DEFAULT_POPUNDER_ZONE_ID,
     showRegularAds: Boolean(backendConfig.rewards?.monetagShowRegularAds),
+    caps: getDefaultCapsFromEnv(),
     rewarded: {
       enabled: Boolean(backendConfig.rewards?.monetagRewardedEnabled),
       snippet: null,
       showFn: trySanitizeShowFnEnv(backendConfig.rewards?.monetagRewardedShowFn),
+      zoneId: sanitizeZoneId(backendConfig.rewards?.monetagRewardedZoneId),
     },
   },
 };
@@ -355,6 +251,7 @@ export function getAdSettings(): AdSettings {
     const row = get('SELECT value_json FROM ad_settings WHERE key = ?', 'config') as { value_json?: string } | undefined;
     if (row?.value_json) {
       const parsed = JSON.parse(row.value_json);
+      const parsedCaps = parsed.monetag?.caps || {};
       return {
         formats: {
           banner: typeof parsed.formats?.banner === 'boolean' ? parsed.formats.banner : DEFAULT_AD_SETTINGS.formats.banner,
@@ -365,11 +262,58 @@ export function getAdSettings(): AdSettings {
         },
         testMode: typeof parsed.testMode === 'boolean' ? parsed.testMode : DEFAULT_AD_SETTINGS.testMode,
         monetag: {
+          verificationId:
+            sanitizeMonetagVerificationIdStrict(parsed.monetag?.verificationId) ||
+            DEFAULT_AD_SETTINGS.monetag.verificationId,
+          vignetteZoneId:
+            sanitizeZoneId(parsed.monetag?.vignetteZoneId) ||
+            DEFAULT_AD_SETTINGS.monetag.vignetteZoneId,
+          popunderZoneId:
+            sanitizeZoneId(parsed.monetag?.popunderZoneId) ||
+            DEFAULT_AD_SETTINGS.monetag.popunderZoneId,
           showRegularAds: Boolean(parsed.monetag?.showRegularAds),
+          caps: {
+            popunderCooldownMinutes:
+              parsedCaps.popunderCooldownMinutes !== undefined
+                ? clampCapEnv(parsedCaps.popunderCooldownMinutes, 'popunderCooldownMinutes')
+                : DEFAULT_AD_SETTINGS.monetag.caps.popunderCooldownMinutes,
+            popunderMaxPerDay:
+              parsedCaps.popunderMaxPerDay !== undefined
+                ? clampCapEnv(parsedCaps.popunderMaxPerDay, 'popunderMaxPerDay')
+                : DEFAULT_AD_SETTINGS.monetag.caps.popunderMaxPerDay,
+            interstitialCooldownSeconds:
+              parsedCaps.interstitialCooldownSeconds !== undefined
+                ? clampCapEnv(parsedCaps.interstitialCooldownSeconds, 'interstitialCooldownSeconds')
+                : DEFAULT_AD_SETTINGS.monetag.caps.interstitialCooldownSeconds,
+            interstitialMaxPerDay:
+              parsedCaps.interstitialMaxPerDay !== undefined
+                ? clampCapEnv(parsedCaps.interstitialMaxPerDay, 'interstitialMaxPerDay')
+                : DEFAULT_AD_SETTINGS.monetag.caps.interstitialMaxPerDay,
+            pushDelaySeconds:
+              parsedCaps.pushDelaySeconds !== undefined
+                ? clampCapEnv(parsedCaps.pushDelaySeconds, 'pushDelaySeconds')
+                : DEFAULT_AD_SETTINGS.monetag.caps.pushDelaySeconds,
+            pushMinVisits:
+              parsedCaps.pushMinVisits !== undefined
+                ? clampCapEnv(parsedCaps.pushMinVisits, 'pushMinVisits')
+                : DEFAULT_AD_SETTINGS.monetag.caps.pushMinVisits,
+            pushDeclineDays:
+              parsedCaps.pushDeclineDays !== undefined
+                ? clampCapEnv(parsedCaps.pushDeclineDays, 'pushDeclineDays')
+                : DEFAULT_AD_SETTINGS.monetag.caps.pushDeclineDays,
+            emptySlotCollapseMs:
+              parsedCaps.emptySlotCollapseMs !== undefined
+                ? clampCapEnv(parsedCaps.emptySlotCollapseMs, 'emptySlotCollapseMs')
+                : DEFAULT_AD_SETTINGS.monetag.caps.emptySlotCollapseMs,
+          },
           rewarded: {
             enabled: Boolean(parsed.monetag?.rewarded?.enabled),
             snippet: trySanitizeSnippetEnv(parsed.monetag?.rewarded?.snippet),
             showFn: trySanitizeShowFnEnv(parsed.monetag?.rewarded?.showFn),
+            zoneId:
+              parsed.monetag?.rewarded && 'zoneId' in parsed.monetag.rewarded
+                ? sanitizeZoneId(parsed.monetag.rewarded.zoneId)
+                : DEFAULT_AD_SETTINGS.monetag.rewarded.zoneId,
           },
         },
       };
@@ -388,8 +332,20 @@ export class AdPolicyValidationError extends Error {
   }
 }
 
-export function saveAdSettings(partial: Partial<AdSettings>): AdSettings {
+export function saveAdSettings(partial: {
+  formats?: Partial<AdSettings['formats']>;
+  testMode?: boolean;
+  monetag?: {
+    verificationId?: string;
+    vignetteZoneId?: string;
+    popunderZoneId?: string;
+    showRegularAds?: boolean;
+    caps?: Partial<MonetagAdCapsPolicy>;
+    rewarded?: Partial<AdSettings['monetag']['rewarded']>;
+  };
+}): AdSettings {
   const current = getAdSettings();
+  const inCaps = partial.monetag?.caps;
 
   const next: AdSettings = {
     formats: {
@@ -401,10 +357,56 @@ export function saveAdSettings(partial: Partial<AdSettings>): AdSettings {
     },
     testMode: typeof partial.testMode === 'boolean' ? partial.testMode : current.testMode,
     monetag: {
+      verificationId:
+        partial.monetag && 'verificationId' in partial.monetag
+          ? validateVerificationIdInput(partial.monetag.verificationId, DEFAULT_AD_SETTINGS.monetag.verificationId)
+          : current.monetag.verificationId,
+      vignetteZoneId:
+        partial.monetag && 'vignetteZoneId' in partial.monetag
+          ? (validateZoneIdInput(partial.monetag.vignetteZoneId, DEFAULT_AD_SETTINGS.monetag.vignetteZoneId, false) as string)
+          : current.monetag.vignetteZoneId,
+      popunderZoneId:
+        partial.monetag && 'popunderZoneId' in partial.monetag
+          ? (validateZoneIdInput(partial.monetag.popunderZoneId, DEFAULT_AD_SETTINGS.monetag.popunderZoneId, false) as string)
+          : current.monetag.popunderZoneId,
       showRegularAds:
         typeof partial.monetag?.showRegularAds === 'boolean'
           ? partial.monetag.showRegularAds
           : current.monetag.showRegularAds,
+      caps: {
+        popunderCooldownMinutes:
+          inCaps && 'popunderCooldownMinutes' in inCaps && inCaps.popunderCooldownMinutes !== undefined
+            ? validateCapInput(inCaps.popunderCooldownMinutes, 'popunderCooldownMinutes')
+            : current.monetag.caps.popunderCooldownMinutes,
+        popunderMaxPerDay:
+          inCaps && 'popunderMaxPerDay' in inCaps && inCaps.popunderMaxPerDay !== undefined
+            ? validateCapInput(inCaps.popunderMaxPerDay, 'popunderMaxPerDay')
+            : current.monetag.caps.popunderMaxPerDay,
+        interstitialCooldownSeconds:
+          inCaps && 'interstitialCooldownSeconds' in inCaps && inCaps.interstitialCooldownSeconds !== undefined
+            ? validateCapInput(inCaps.interstitialCooldownSeconds, 'interstitialCooldownSeconds')
+            : current.monetag.caps.interstitialCooldownSeconds,
+        interstitialMaxPerDay:
+          inCaps && 'interstitialMaxPerDay' in inCaps && inCaps.interstitialMaxPerDay !== undefined
+            ? validateCapInput(inCaps.interstitialMaxPerDay, 'interstitialMaxPerDay')
+            : current.monetag.caps.interstitialMaxPerDay,
+        pushDelaySeconds:
+          inCaps && 'pushDelaySeconds' in inCaps && inCaps.pushDelaySeconds !== undefined
+            ? validateCapInput(inCaps.pushDelaySeconds, 'pushDelaySeconds')
+            : current.monetag.caps.pushDelaySeconds,
+        pushMinVisits:
+          inCaps && 'pushMinVisits' in inCaps && inCaps.pushMinVisits !== undefined
+            ? validateCapInput(inCaps.pushMinVisits, 'pushMinVisits')
+            : current.monetag.caps.pushMinVisits,
+        pushDeclineDays:
+          inCaps && 'pushDeclineDays' in inCaps && inCaps.pushDeclineDays !== undefined
+            ? validateCapInput(inCaps.pushDeclineDays, 'pushDeclineDays')
+            : current.monetag.caps.pushDeclineDays,
+        emptySlotCollapseMs:
+          inCaps && 'emptySlotCollapseMs' in inCaps && inCaps.emptySlotCollapseMs !== undefined
+            ? validateCapInput(inCaps.emptySlotCollapseMs, 'emptySlotCollapseMs')
+            : current.monetag.caps.emptySlotCollapseMs,
+      },
       rewarded: {
         enabled:
           partial.monetag?.rewarded && typeof partial.monetag.rewarded.enabled === 'boolean'
@@ -418,6 +420,10 @@ export function saveAdSettings(partial: Partial<AdSettings>): AdSettings {
           partial.monetag?.rewarded && 'showFn' in partial.monetag.rewarded
             ? sanitizeShowFn(partial.monetag.rewarded.showFn)
             : current.monetag.rewarded.showFn,
+        zoneId:
+          partial.monetag?.rewarded && 'zoneId' in partial.monetag.rewarded
+            ? validateZoneIdInput(partial.monetag.rewarded.zoneId, null, true)
+            : current.monetag.rewarded.zoneId,
       },
     },
   };
@@ -502,8 +508,11 @@ export function createAdsRouter() {
       settings.monetag.rewarded.enabled &&
       (settings.testMode || settings.monetag.rewarded.snippet || safeShowFn)
     );
-    const verificationId = sanitizeZoneId(rewardsCfg.monetagVerificationId) || 'fa9656182dbc7301dcd9a2326441dcf3';
-    const rewardedZoneId = sanitizeZoneId(rewardsCfg.monetagRewardedZoneId);
+    const verificationId =
+      sanitizeMonetagVerificationIdStrict(settings.monetag.verificationId) || MONETAG_DEFAULT_VERIFICATION_ID;
+    const vignetteZoneId = sanitizeZoneId(settings.monetag.vignetteZoneId) || MONETAG_DEFAULT_VIGNETTE_ZONE_ID;
+    const popunderZoneId = sanitizeZoneId(settings.monetag.popunderZoneId) || MONETAG_DEFAULT_POPUNDER_ZONE_ID;
+    const rewardedZoneId = sanitizeZoneId(settings.monetag.rewarded.zoneId);
 
     res.setHeader('Cache-Control', 'public, max-age=15, stale-while-revalidate=45');
     return res.json({
@@ -513,18 +522,29 @@ export function createAdsRouter() {
         testMode: settings.testMode,
         monetag: {
           verificationId,
+          vignetteZoneId,
+          popunderZoneId,
+          vignette: {
+            zoneId: vignetteZoneId,
+            url: buildMonetagZoneUrl(vignetteZoneId),
+          },
+          popunder: {
+            zoneId: popunderZoneId,
+            url: buildMonetagZoneUrl(popunderZoneId),
+          },
+          zones: MONETAG_CANONICAL_ZONES.map((z) => ({
+            id: z.id,
+            zoneId: z.zoneId,
+            url: z.url,
+            format: z.format,
+            label: z.label,
+          })),
           showRegularAds: Boolean(settings.monetag.showRegularAds),
           rewardedEnabled: monetagRewardedEnabled,
           rewardedShowFn: monetagRewardedEnabled ? safeShowFn : null,
           rewardedZoneId: monetagRewardedEnabled ? rewardedZoneId : null,
-          caps: {
-            popunderCooldownMs: Math.max(1, Number(rewardsCfg.monetagPopunderCooldownMinutes ?? 30)) * 60_000,
-            popunderMaxPerDay: Math.max(0, Number(rewardsCfg.monetagPopunderMaxPerDay ?? 3)),
-            pushDelayMs: Math.max(5, Number(rewardsCfg.monetagPushDelaySeconds ?? 60)) * 1000,
-            pushMinVisits: Math.max(1, Number(rewardsCfg.monetagPushMinVisits ?? 2)),
-            pushDeclineDays: Math.max(1, Number(rewardsCfg.monetagPushDeclineDays ?? 30)),
-            emptySlotCollapseMs: Math.max(500, Number(rewardsCfg.monetagEmptySlotCollapseMs ?? 4000)),
-          },
+          caps: toRuntimeCaps(settings.monetag.caps),
+          capPolicy: settings.monetag.caps,
         },
         rewards: {
           durationMinutes: rewardsCfg.durationMinutes,
@@ -1352,6 +1372,7 @@ export function createAdsRouter() {
     const enabled = req.body?.enabled;
     const showRegularAds = req.body?.showRegularAds;
     const hasShowFn = req.body && typeof req.body === 'object' && 'showFn' in req.body;
+    const hasZoneId = req.body && typeof req.body === 'object' && 'zoneId' in req.body;
 
     if (network !== 'monetag') {
       return res.status(400).json({
@@ -1363,17 +1384,17 @@ export function createAdsRouter() {
 
     try {
       const current = getAdSettings();
-      const partial: Partial<AdSettings> = {
+      const updated = saveAdSettings({
         monetag: {
           showRegularAds: typeof showRegularAds === 'boolean' ? showRegularAds : current.monetag.showRegularAds,
           rewarded: {
             ...current.monetag.rewarded,
             enabled: typeof enabled === 'boolean' ? enabled : current.monetag.rewarded.enabled,
             ...(hasShowFn ? { showFn: req.body.showFn } : {}),
+            ...(hasZoneId ? { zoneId: req.body.zoneId } : {}),
           },
         },
-      };
-      const updated = saveAdSettings(partial);
+      });
       return res.json({ ok: true, data: updated, error: null });
     } catch (err: any) {
       if (err instanceof AdPolicyValidationError) {

@@ -33,34 +33,56 @@
   }
 
   var FORBIDDEN_FN_SEGMENTS = {
-    '__proto__': 1, 'prototype': 1, 'constructor': 1, 'toString': 1, 'valueOf': 1,
+    '__proto__': 1, '__defineGetter__': 1, '__defineSetter__': 1, '__lookupGetter__': 1,
+    '__lookupSetter__': 1, '__dirname': 1, '__filename': 1,
+    'prototype': 1, 'constructor': 1, 'toString': 1, 'valueOf': 1,
     'hasOwnProperty': 1, 'isPrototypeOf': 1, 'propertyIsEnumerable': 1, 'toLocaleString': 1,
-    'eval': 1, 'Function': 1, 'Object': 1, 'Array': 1, 'Proxy': 1, 'Reflect': 1,
-    'Symbol': 1, 'BigInt': 1, 'String': 1, 'Number': 1, 'Boolean': 1, 'Promise': 1,
-    'RegExp': 1, 'Error': 1, 'setTimeout': 1, 'setInterval': 1, 'setImmediate': 1,
-    'clearTimeout': 1, 'clearInterval': 1, 'execScript': 1, 'alert': 1, 'confirm': 1,
-    'prompt': 1, 'fetch': 1, 'XMLHttpRequest': 1, 'open': 1, 'close': 1, 'location': 1,
-    'document': 1, 'window': 1, 'self': 1, 'top': 1, 'parent': 1, 'frames': 1,
-    'globalThis': 1, 'global': 1, 'navigator': 1, 'localStorage': 1, 'sessionStorage': 1,
-    'indexedDB': 1, 'history': 1, 'crypto': 1, 'postMessage': 1, 'importScripts': 1,
-    'WebSocket': 1, 'Worker': 1, 'SharedWorker': 1
+    'eval': 1, 'Function': 1, 'AsyncFunction': 1, 'GeneratorFunction': 1, 'AsyncGeneratorFunction': 1,
+    'Object': 1, 'Array': 1, 'Proxy': 1, 'Reflect': 1, 'Symbol': 1, 'BigInt': 1,
+    'String': 1, 'Number': 1, 'Boolean': 1, 'Promise': 1, 'RegExp': 1, 'Error': 1, 'JSON': 1,
+    'WeakRef': 1, 'FinalizationRegistry': 1,
+    'setTimeout': 1, 'setInterval': 1, 'setImmediate': 1, 'clearTimeout': 1, 'clearInterval': 1, 'clearImmediate': 1,
+    'requestAnimationFrame': 1, 'cancelAnimationFrame': 1, 'requestIdleCallback': 1, 'cancelIdleCallback': 1, 'queueMicrotask': 1,
+    'execScript': 1, 'alert': 1, 'confirm': 1, 'prompt': 1, 'print': 1, 'focus': 1, 'blur': 1, 'find': 1, 'stop': 1,
+    'fetch': 1, 'XMLHttpRequest': 1, 'sendBeacon': 1, 'EventSource': 1, 'RTCPeerConnection': 1, 'WebTransport': 1,
+    'Request': 1, 'Response': 1, 'Headers': 1, 'URL': 1, 'URLSearchParams': 1,
+    'Blob': 1, 'File': 1, 'FileReader': 1, 'FormData': 1, 'atob': 1, 'btoa': 1,
+    'open': 1, 'close': 1, 'opener': 1, 'frameElement': 1,
+    'location': 1, 'assign': 1, 'replace': 1, 'reload': 1, 'href': 1, 'origin': 1,
+    'document': 1, 'documentElement': 1, 'body': 1, 'head': 1, 'scripts': 1, 'styleSheets': 1,
+    'domain': 1, 'referrer': 1, 'cookie': 1, 'cookieStore': 1, 'caches': 1,
+    'createElement': 1, 'createRange': 1, 'createContextualFragment': 1,
+    'innerHTML': 1, 'outerHTML': 1, 'insertAdjacentHTML': 1, 'write': 1, 'writeln': 1, 'append': 1, 'appendChild': 1,
+    'src': 1, 'srcdoc': 1, 'addEventListener': 1, 'removeEventListener': 1, 'dispatchEvent': 1,
+    'window': 1, 'self': 1, 'top': 1, 'parent': 1, 'frames': 1, 'globalThis': 1, 'global': 1,
+    'navigator': 1, 'serviceWorker': 1, 'ServiceWorker': 1, 'Notification': 1, 'Permissions': 1,
+    'clipboard': 1, 'Clipboard': 1, 'geolocation': 1, 'credentials': 1,
+    'localStorage': 1, 'sessionStorage': 1, 'indexedDB': 1, 'history': 1, 'pushState': 1, 'replaceState': 1,
+    'crypto': 1, 'postMessage': 1, 'importScripts': 1,
+    'WebSocket': 1, 'Worker': 1, 'SharedWorker': 1, 'BroadcastChannel': 1, 'MessageChannel': 1, 'MessagePort': 1,
+    'defineProperty': 1, 'defineProperties': 1, 'getOwnPropertyDescriptor': 1, 'getPrototypeOf': 1, 'setPrototypeOf': 1,
+    'freeze': 1, 'seal': 1, 'parse': 1, 'stringify': 1, 'Buffer': 1, 'process': 1, 'require': 1, 'module': 1, 'exports': 1,
+    'caller': 1, 'callee': 1, 'arguments': 1, 'apply': 1, 'call': 1, 'bind': 1, 'name': 1, 'length': 1
   };
-  var FORBIDDEN_FN_LOWER = {
-    '__proto__': 1, 'prototype': 1, 'constructor': 1, 'eval': 1, 'function': 1,
-    'globalthis': 1, 'window': 1, 'document': 1, 'location': 1, 'execscript': 1,
-    'importscripts': 1, 'settimeout': 1, 'setinterval': 1, 'setimmediate': 1,
-    'fetch': 1, 'xmlhttprequest': 1, 'websocket': 1, 'worker': 1, 'sharedworker': 1,
-    'postmessage': 1, 'localstorage': 1, 'sessionstorage': 1, 'indexeddb': 1,
-    'object': 1, 'array': 1, 'proxy': 1, 'reflect': 1, 'arguments': 1, 'this': 1,
-    'super': 1, 'class': 1, 'import': 1, 'export': 1, 'await': 1, 'async': 1,
-    'delete': 1, 'typeof': 1, 'void': 1, 'new': 1, 'in': 1, 'instanceof': 1,
-    'return': 1, 'throw': 1, 'try': 1, 'catch': 1, 'finally': 1, 'with': 1,
-    'yield': 1, 'let': 1, 'const': 1, 'var': 1, 'if': 1, 'else': 1, 'for': 1,
-    'while': 1, 'do': 1, 'switch': 1, 'case': 1, 'break': 1, 'continue': 1,
-    'default': 1, 'debugger': 1, 'enum': 1, 'extends': 1, 'implements': 1,
-    'interface': 1, 'package': 1, 'private': 1, 'protected': 1, 'public': 1,
-    'static': 1, 'null': 1, 'undefined': 1, 'true': 1, 'false': 1
-  };
+  var FORBIDDEN_FN_LOWER = {};
+  (function () {
+    var k;
+    for (k in FORBIDDEN_FN_SEGMENTS) {
+      if (Object.prototype.hasOwnProperty.call(FORBIDDEN_FN_SEGMENTS, k)) {
+        FORBIDDEN_FN_LOWER[k.toLowerCase()] = 1;
+      }
+    }
+    var kw = [
+      'this', 'super', 'class', 'import', 'export', 'await', 'async', 'delete', 'typeof', 'void',
+      'new', 'in', 'instanceof', 'return', 'throw', 'try', 'catch', 'finally', 'with', 'yield',
+      'let', 'const', 'var', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break',
+      'continue', 'default', 'debugger', 'enum', 'extends', 'implements', 'interface', 'package',
+      'private', 'protected', 'public', 'static', 'null', 'undefined', 'true', 'false'
+    ];
+    for (var j = 0; j < kw.length; j++) {
+      FORBIDDEN_FN_LOWER[kw[j]] = 1;
+    }
+  })();
   var FN_SEGMENT_RE = /^[A-Za-z_$][A-Za-z0-9_$]{0,31}$/;
 
   function generateCryptoId() {
@@ -119,6 +141,8 @@
     for (var i = 0; i < parts.length; i++) {
       var seg = parts[i];
       if (!FN_SEGMENT_RE.test(seg)) return false;
+      if (/^[_$]+$/.test(seg)) return false;
+      if (/^__.*__$/.test(seg)) return false;
       if (Object.prototype.hasOwnProperty.call(FORBIDDEN_FN_SEGMENTS, seg)) return false;
       if (Object.prototype.hasOwnProperty.call(FORBIDDEN_FN_LOWER, seg.toLowerCase())) return false;
     }
@@ -139,6 +163,12 @@
       if (cur === win || (win.Node && cur instanceof win.Node)) return null;
     }
     if (typeof cur !== 'function') return null;
+    try {
+      var fnSrc = Function.prototype.toString.call(cur);
+      if (fnSrc.indexOf('[native code]') !== -1) return null;
+    } catch (e) {
+      return null;
+    }
     return parent && parent !== win ? cur.bind(parent) : cur;
   }
 

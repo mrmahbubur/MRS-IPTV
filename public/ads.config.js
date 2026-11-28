@@ -48,6 +48,7 @@
         inlineSnippet: null
       },
       popunder: {
+        zoneId: '11226634',
         scriptSrc: null,
         inlineSnippet: null,
         directZoneUrl: 'https://uplcm.com/4/11226634'
@@ -69,6 +70,8 @@
     caps: {
       popunderCooldownMs: 30 * 60 * 1000, // 1 per 30 minutes
       popunderMaxPerDay: 3,               // max 3 per day
+      interstitialCooldownMs: 3 * 60 * 1000, // 1 per 3 minutes
+      interstitialMaxPerDay: 12,          // max 12 per day
       pushDelayMs: 60 * 1000,             // after 60 seconds on site
       pushMinVisits: 2,                   // or 2nd visit
       pushDeclineDays: 30,                // remember "No" for 30 days

@@ -15,6 +15,13 @@ import {
   syncPaymentsFromGmailBackend,
   flushOutboxViaGmailBackend,
 } from '../lib/googleWorkspace';
+import {
+  MONETAG_DEFAULT_VERIFICATION_ID,
+  MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_POPUNDER_ZONE_ID,
+  MONETAG_CAP_BOUNDS,
+  MonetagAdCapsPolicy,
+} from '../lib/monetagConfig';
 
 interface AdminDashboardViewProps {
   onBackToHome: () => void;
@@ -43,13 +50,52 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
   const [adsSettings, setAdsSettings] = useState<{
     formats: { banner: boolean; sticky: boolean; popunder: boolean; interstitial: boolean; push: boolean };
     testMode: boolean;
-    monetag?: { showRegularAds: boolean; rewarded?: { enabled: boolean; showFn?: string | null } };
+    monetag?: {
+      verificationId?: string;
+      vignetteZoneId?: string;
+      popunderZoneId?: string;
+      showRegularAds: boolean;
+      caps?: MonetagAdCapsPolicy;
+      rewarded?: { enabled: boolean; showFn?: string | null; zoneId?: string | null };
+    };
   }>({
     formats: { banner: true, sticky: true, popunder: false, interstitial: false, push: false },
     testMode: true,
-    monetag: { showRegularAds: false, rewarded: { enabled: false, showFn: null } },
+    monetag: {
+      verificationId: MONETAG_DEFAULT_VERIFICATION_ID,
+      vignetteZoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+      popunderZoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
+      showRegularAds: false,
+      caps: {
+        popunderCooldownMinutes: MONETAG_CAP_BOUNDS.popunderCooldownMinutes.defaultVal,
+        popunderMaxPerDay: MONETAG_CAP_BOUNDS.popunderMaxPerDay.defaultVal,
+        interstitialCooldownSeconds: MONETAG_CAP_BOUNDS.interstitialCooldownSeconds.defaultVal,
+        interstitialMaxPerDay: MONETAG_CAP_BOUNDS.interstitialMaxPerDay.defaultVal,
+        pushDelaySeconds: MONETAG_CAP_BOUNDS.pushDelaySeconds.defaultVal,
+        pushMinVisits: MONETAG_CAP_BOUNDS.pushMinVisits.defaultVal,
+        pushDeclineDays: MONETAG_CAP_BOUNDS.pushDeclineDays.defaultVal,
+        emptySlotCollapseMs: MONETAG_CAP_BOUNDS.emptySlotCollapseMs.defaultVal,
+      },
+      rewarded: { enabled: false, showFn: null, zoneId: null },
+    },
   });
   const [rewardedShowFnInput, setRewardedShowFnInput] = useState('');
+  const [monetagIdsDraft, setMonetagIdsDraft] = useState({
+    verificationId: MONETAG_DEFAULT_VERIFICATION_ID,
+    vignetteZoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+    popunderZoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
+    rewardedZoneId: '',
+  });
+  const [monetagCapsDraft, setMonetagCapsDraft] = useState<MonetagAdCapsPolicy>({
+    popunderCooldownMinutes: MONETAG_CAP_BOUNDS.popunderCooldownMinutes.defaultVal,
+    popunderMaxPerDay: MONETAG_CAP_BOUNDS.popunderMaxPerDay.defaultVal,
+    interstitialCooldownSeconds: MONETAG_CAP_BOUNDS.interstitialCooldownSeconds.defaultVal,
+    interstitialMaxPerDay: MONETAG_CAP_BOUNDS.interstitialMaxPerDay.defaultVal,
+    pushDelaySeconds: MONETAG_CAP_BOUNDS.pushDelaySeconds.defaultVal,
+    pushMinVisits: MONETAG_CAP_BOUNDS.pushMinVisits.defaultVal,
+    pushDeclineDays: MONETAG_CAP_BOUNDS.pushDeclineDays.defaultVal,
+    emptySlotCollapseMs: MONETAG_CAP_BOUNDS.emptySlotCollapseMs.defaultVal,
+  });
   const [adsBusy, setAdsBusy] = useState(false);
 
   // Dashboard Data
@@ -206,8 +252,27 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
       if (adsRes?.ok && adsRes?.data) {
         setAdsReport(adsRes.data);
         if (adsRes.data.settings) {
-          setAdsSettings(adsRes.data.settings);
-          setRewardedShowFnInput(String(adsRes.data.settings.monetag?.rewarded?.showFn || ''));
+          const s = adsRes.data.settings;
+          setAdsSettings(s);
+          setRewardedShowFnInput(String(s.monetag?.rewarded?.showFn || ''));
+          setMonetagIdsDraft({
+            verificationId: String(s.monetag?.verificationId || MONETAG_DEFAULT_VERIFICATION_ID),
+            vignetteZoneId: String(s.monetag?.vignetteZoneId || MONETAG_DEFAULT_VIGNETTE_ZONE_ID),
+            popunderZoneId: String(s.monetag?.popunderZoneId || MONETAG_DEFAULT_POPUNDER_ZONE_ID),
+            rewardedZoneId: String(s.monetag?.rewarded?.zoneId || ''),
+          });
+          if (s.monetag?.caps) {
+            setMonetagCapsDraft({
+              popunderCooldownMinutes: Number(s.monetag.caps.popunderCooldownMinutes ?? MONETAG_CAP_BOUNDS.popunderCooldownMinutes.defaultVal),
+              popunderMaxPerDay: Number(s.monetag.caps.popunderMaxPerDay ?? MONETAG_CAP_BOUNDS.popunderMaxPerDay.defaultVal),
+              interstitialCooldownSeconds: Number(s.monetag.caps.interstitialCooldownSeconds ?? MONETAG_CAP_BOUNDS.interstitialCooldownSeconds.defaultVal),
+              interstitialMaxPerDay: Number(s.monetag.caps.interstitialMaxPerDay ?? MONETAG_CAP_BOUNDS.interstitialMaxPerDay.defaultVal),
+              pushDelaySeconds: Number(s.monetag.caps.pushDelaySeconds ?? MONETAG_CAP_BOUNDS.pushDelaySeconds.defaultVal),
+              pushMinVisits: Number(s.monetag.caps.pushMinVisits ?? MONETAG_CAP_BOUNDS.pushMinVisits.defaultVal),
+              pushDeclineDays: Number(s.monetag.caps.pushDeclineDays ?? MONETAG_CAP_BOUNDS.pushDeclineDays.defaultVal),
+              emptySlotCollapseMs: Number(s.monetag.caps.emptySlotCollapseMs ?? MONETAG_CAP_BOUNDS.emptySlotCollapseMs.defaultVal),
+            });
+          }
         }
       }
       if (rewRes?.ok && rewRes?.data) {
@@ -1871,6 +1936,143 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                       </button>
                     )}
                   </div>
+                </div>
+              </div>
+
+              {/* Centralized Monetag IDs & Granular Frequency Caps */}
+              <div className="p-4 rounded-xl bg-[#050816] border border-white/10 space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-xs font-black text-white uppercase tracking-wider">
+                    Centralized Monetag IDs &amp; Ad Caps
+                  </div>
+                  <button
+                    type="button"
+                    disabled={adsBusy}
+                    onClick={async () => {
+                      try {
+                        setAdsBusy(true);
+                        const r = await adminFetch('/api/admin/ads/config', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            monetag: {
+                              verificationId: monetagIdsDraft.verificationId.trim(),
+                              vignetteZoneId: monetagIdsDraft.vignetteZoneId.trim(),
+                              popunderZoneId: monetagIdsDraft.popunderZoneId.trim(),
+                              caps: monetagCapsDraft,
+                              rewarded: {
+                                zoneId: monetagIdsDraft.rewardedZoneId.trim() || null,
+                              },
+                            },
+                          }),
+                        });
+                        const j = await r.json();
+                        if (!r.ok || !j?.ok) throw new Error(j?.error?.message || 'Failed to save Monetag policy');
+                        if (j?.data) {
+                          setAdsSettings(j.data);
+                          setMonetagIdsDraft({
+                            verificationId: String(j.data.monetag?.verificationId || MONETAG_DEFAULT_VERIFICATION_ID),
+                            vignetteZoneId: String(j.data.monetag?.vignetteZoneId || MONETAG_DEFAULT_VIGNETTE_ZONE_ID),
+                            popunderZoneId: String(j.data.monetag?.popunderZoneId || MONETAG_DEFAULT_POPUNDER_ZONE_ID),
+                            rewardedZoneId: String(j.data.monetag?.rewarded?.zoneId || ''),
+                          });
+                          if (j.data.monetag?.caps) setMonetagCapsDraft(j.data.monetag.caps);
+                        }
+                        showBanner('ok', 'Centralized Monetag IDs and frequency caps saved.');
+                      } catch (err: any) {
+                        showBanner('err', err?.message || 'Invalid Monetag configuration');
+                      } finally {
+                        setAdsBusy(false);
+                      }
+                    }}
+                    className="min-h-[34px] px-3 py-1 rounded-lg bg-[#00D9FF]/20 hover:bg-[#00D9FF]/30 border border-[#00D9FF]/45 text-[11px] font-bold text-[#00D9FF] cursor-pointer disabled:opacity-60"
+                  >
+                    Save IDs &amp; Caps
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase text-[#94A3B8] mb-1">
+                      Verification ID
+                    </label>
+                    <input
+                      type="text"
+                      value={monetagIdsDraft.verificationId}
+                      onChange={(e) => setMonetagIdsDraft((p) => ({ ...p, verificationId: e.target.value }))}
+                      className="w-full min-h-[36px] px-2.5 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase text-[#94A3B8] mb-1">
+                      Rewarded Zone ID
+                    </label>
+                    <input
+                      type="text"
+                      value={monetagIdsDraft.rewardedZoneId}
+                      onChange={(e) => setMonetagIdsDraft((p) => ({ ...p, rewardedZoneId: e.target.value }))}
+                      placeholder="Optional Zone ID"
+                      className="w-full min-h-[36px] px-2.5 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white placeholder-[#64748B] focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase text-[#94A3B8] mb-1">
+                      Vignette Zone ID
+                    </label>
+                    <input
+                      type="text"
+                      value={monetagIdsDraft.vignetteZoneId}
+                      onChange={(e) => setMonetagIdsDraft((p) => ({ ...p, vignetteZoneId: e.target.value }))}
+                      className="w-full min-h-[36px] px-2.5 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase text-[#94A3B8] mb-1">
+                      Popunder Zone ID
+                    </label>
+                    <input
+                      type="text"
+                      value={monetagIdsDraft.popunderZoneId}
+                      onChange={(e) => setMonetagIdsDraft((p) => ({ ...p, popunderZoneId: e.target.value }))}
+                      className="w-full min-h-[36px] px-2.5 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {([
+                    { key: 'popunderCooldownMinutes', label: 'Popunder Cooldown (m)' },
+                    { key: 'popunderMaxPerDay', label: 'Popunder Max / Day' },
+                    { key: 'interstitialCooldownSeconds', label: 'Interstitial Cooldown (s)' },
+                    { key: 'interstitialMaxPerDay', label: 'Interstitial Max / Day' },
+                    { key: 'pushDelaySeconds', label: 'Push Delay (s)' },
+                    { key: 'pushMinVisits', label: 'Push Min Visits' },
+                    { key: 'pushDeclineDays', label: 'Push Decline (d)' },
+                    { key: 'emptySlotCollapseMs', label: 'Slot Collapse (ms)' },
+                  ] as const).map((field) => {
+                    const bounds = MONETAG_CAP_BOUNDS[field.key];
+                    return (
+                      <div key={field.key}>
+                        <label className="block text-[10px] font-mono text-[#94A3B8] mb-1 truncate" title={field.label}>
+                          {field.label}
+                        </label>
+                        <input
+                          type="number"
+                          min={bounds.min}
+                          max={bounds.max}
+                          value={monetagCapsDraft[field.key]}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value, 10);
+                            setMonetagCapsDraft((prev) => ({
+                              ...prev,
+                              [field.key]: Number.isNaN(val) ? bounds.min : val,
+                            }));
+                          }}
+                          className="w-full min-h-[34px] px-2 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white focus:outline-none tabular-nums"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

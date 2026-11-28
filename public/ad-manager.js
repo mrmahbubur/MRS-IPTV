@@ -33,13 +33,18 @@
     testMode: true,
     monetag: {
       verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+      vignetteZoneId: '11242067',
+      popunderZoneId: '11226634',
       showRegularAds: false,
       rewardedEnabled: false,
       rewardedShowFn: null,
       rewardedZoneId: null,
+      zones: null,
       caps: {
         popunderCooldownMs: 1800000,
         popunderMaxPerDay: 3,
+        interstitialCooldownMs: 180000,
+        interstitialMaxPerDay: 12,
         pushDelayMs: 60000,
         pushMinVisits: 2,
         pushDeclineDays: 30,
@@ -358,8 +363,14 @@
 
   function pickStickyMonetagZone() {
     var cfg = win.MRS_ADS_CONFIG || {};
-    if (isMonetagRegularAllowed() && cfg.monetag && Array.isArray(cfg.monetag.directZones) && cfg.monetag.directZones.length > 0) {
-      var z = cfg.monetag.directZones[0];
+    var serverZones = serverFormatConfig.monetag && Array.isArray(serverFormatConfig.monetag.zones)
+      ? serverFormatConfig.monetag.zones
+      : null;
+    var zoneList = (serverZones && serverZones.length > 0)
+      ? serverZones
+      : (cfg.monetag && Array.isArray(cfg.monetag.directZones) ? cfg.monetag.directZones : []);
+    if (isMonetagRegularAllowed() && zoneList.length > 0) {
+      var z = zoneList[0];
       return {
         offerId: z.zoneId,
         label: z.label,
@@ -482,10 +493,12 @@
       };
     };
 
-    if (visits >= (caps.pushMinVisits || 2)) {
-      pushTimer = setTimeout(showPrePrompt, 3500);
+    var pushDelayMs = typeof caps.pushDelayMs === 'number' && caps.pushDelayMs > 0 ? caps.pushDelayMs : 60000;
+    var pushMinVisits = typeof caps.pushMinVisits === 'number' && caps.pushMinVisits >= 1 ? caps.pushMinVisits : 2;
+    if (visits >= pushMinVisits) {
+      pushTimer = setTimeout(showPrePrompt, Math.min(3500, pushDelayMs));
     } else {
-      pushTimer = setTimeout(showPrePrompt, caps.pushDelayMs || 60000);
+      pushTimer = setTimeout(showPrePrompt, pushDelayMs);
     }
   }
 
@@ -520,12 +533,47 @@
 
     // Monetag Vignette / Interstitial ONLY when monetag.showRegularAds === true
     if (isMonetagRegularAllowed() && formats.interstitial && !isPlayerActive() && cfg.monetag && cfg.monetag.vignette) {
+      var activeVigZone = (serverFormatConfig.monetag && serverFormatConfig.monetag.vignetteZoneId) || cfg.monetag.vignette.zoneId;
       if (cfg.monetag.vignette.scriptSrc) {
-        injectExternalScript(cfg.monetag.vignette.scriptSrc, { 'data-zone': cfg.monetag.vignette.zoneId });
+        injectExternalScript(cfg.monetag.vignette.scriptSrc, { 'data-zone': activeVigZone });
       } else if (cfg.monetag.vignette.inlineSnippet) {
         injectInlineSnippet(cfg.monetag.vignette.inlineSnippet, 'mrs-monetag-vignette');
       }
     }
+  }
+
+  function syncCentralizedMonetagMetadata() {
+    try {
+      var m = serverFormatConfig.monetag || {};
+      if (m.verificationId && doc && doc.querySelector) {
+        var meta = doc.querySelector('meta[name="monetag"]');
+        if (meta && meta.getAttribute('content') !== m.verificationId) {
+          meta.setAttribute('content', m.verificationId);
+        }
+      }
+      if (win.MRS_ADS_CONFIG && win.MRS_ADS_CONFIG.monetag) {
+        if (m.verificationId) {
+          win.MRS_ADS_CONFIG.monetag.verificationId = m.verificationId;
+          if (win.MRS_ADS_CONFIG.publisherMeta) {
+            win.MRS_ADS_CONFIG.publisherMeta.monetag = m.verificationId;
+          }
+        }
+        if (m.vignette && win.MRS_ADS_CONFIG.monetag.vignette) {
+          win.MRS_ADS_CONFIG.monetag.vignette.zoneId = m.vignette.zoneId;
+          win.MRS_ADS_CONFIG.monetag.vignette.url = m.vignette.url;
+        }
+        if (m.popunder && win.MRS_ADS_CONFIG.monetag.popunder) {
+          win.MRS_ADS_CONFIG.monetag.popunder.zoneId = m.popunder.zoneId;
+          win.MRS_ADS_CONFIG.monetag.popunder.directZoneUrl = m.popunder.url;
+        }
+        if (Array.isArray(m.zones) && m.zones.length > 0) {
+          win.MRS_ADS_CONFIG.monetag.directZones = m.zones;
+        }
+        if (m.caps) {
+          win.MRS_ADS_CONFIG.caps = Object.assign({}, win.MRS_ADS_CONFIG.caps || {}, m.caps);
+        }
+      }
+    } catch (e) {}
   }
 
   function bootFreeAds() {
@@ -554,11 +602,14 @@
           serverFormatConfig.testMode = data.testMode;
         }
         if (data && data.monetag) {
-          serverFormatConfig.monetag = Object.assign({}, serverFormatConfig.monetag, data.monetag);
+          serverFormatConfig.monetag = Object.assign({}, serverFormatConfig.monetag, data.monetag, {
+            caps: Object.assign({}, serverFormatConfig.monetag.caps || {}, data.monetag.caps || {})
+          });
         }
         if (data && data.rewards) {
           serverFormatConfig.rewards = Object.assign({}, serverFormatConfig.rewards, data.rewards);
         }
+        syncCentralizedMonetagMetadata();
         win.__MRS_ADS_SERVER_CONFIG = serverFormatConfig;
         try {
           win.dispatchEvent(new CustomEvent('mrs_ads_config_loaded', { detail: serverFormatConfig }));
