@@ -194,7 +194,43 @@
     return parent && parent !== win ? cur.bind(parent) : cur;
   }
 
+  function isVipOrLockedState() {
+    var gateState = (win.MRS_ADS && win.MRS_ADS.state && win.MRS_ADS.state()) || win.MRS_AD_STATE || 'pending';
+    if (gateState !== 'free') return true;
+    try {
+      if (doc && doc.documentElement && typeof doc.documentElement.getAttribute === 'function') {
+        var domAttrState = doc.documentElement.getAttribute('data-mrs-ad-state');
+        if (domAttrState && domAttrState !== 'free') return true;
+      }
+    } catch (e) {}
+    if (win.__MRS_IS_VIP === true) return true;
+    try {
+      if (doc && typeof doc.cookie === 'string' && /(?:^|;\s*)mrs_vip_active=1(?:;|$)/.test(doc.cookie)) {
+        return true;
+      }
+    } catch (e) {}
+    var ent = getSavedEntitlement();
+    if (ent && typeof ent.token === 'string' && ent.token.trim().length > 0) {
+      if (!ent.expiresAt) return true;
+      var entExpMs = Date.parse(ent.expiresAt);
+      if (!isNaN(entExpMs) && entExpMs > Date.now()) return true;
+    }
+    var adFreeRaw = lsGet('shahintv_adfree_activation');
+    if (adFreeRaw) {
+      try {
+        var parsedAdFree = JSON.parse(adFreeRaw);
+        if (parsedAdFree && (parsedAdFree.isActive === true || parsedAdFree.isAdFree === true)) {
+          if (!parsedAdFree.expiryDate) return true;
+          var afExpMs = Date.parse(parsedAdFree.expiryDate);
+          if (!isNaN(afExpMs) && afExpMs > Date.now()) return true;
+        }
+      } catch (e) {}
+    }
+    return false;
+  }
+
   function getRuntimeState() {
+    var vipActive = isVipOrLockedState();
     var serverCfg = win.__MRS_ADS_SERVER_CONFIG || {};
     var staticCfg = win.MRS_ADS_CONFIG || {};
     var testMode = typeof serverCfg.testMode === 'boolean'
@@ -202,21 +238,24 @@
       : Boolean(staticCfg.testMode);
 
     var monetagCfg = staticCfg.monetag && staticCfg.monetag.rewarded ? staticCfg.monetag.rewarded : {};
-    var resolvedServerFn = serverCfg.monetag && serverCfg.monetag.rewardedShowFn
+    var resolvedServerFn = !vipActive && serverCfg.monetag && serverCfg.monetag.rewardedShowFn
       ? resolveGlobalShowFn(serverCfg.monetag.rewardedShowFn)
       : null;
-    var resolvedShowFn = typeof monetagCfg.showFn === 'function'
-      ? monetagCfg.showFn
-      : typeof monetagCfg.showFn === 'string'
-        ? resolveGlobalShowFn(monetagCfg.showFn)
-        : resolvedServerFn;
+    var resolvedShowFn = vipActive
+      ? null
+      : typeof monetagCfg.showFn === 'function'
+        ? monetagCfg.showFn
+        : typeof monetagCfg.showFn === 'string'
+          ? resolveGlobalShowFn(monetagCfg.showFn)
+          : resolvedServerFn;
 
-    var monetagAvailable = Boolean(
+    var monetagAvailable = !vipActive && Boolean(
       (serverCfg.monetag && serverCfg.monetag.rewardedEnabled) ||
       (monetagCfg.enabled && (testMode || resolvedShowFn || monetagCfg.snippet))
     );
 
     return {
+      vipActive: vipActive,
       testMode: testMode,
       monetagAvailable: monetagAvailable,
       anyAvailable: monetagAvailable,
@@ -237,8 +276,7 @@
   }
 
   function isAvailable() {
-    var gateState = (win.MRS_ADS && win.MRS_ADS.state && win.MRS_ADS.state()) || win.MRS_AD_STATE || 'pending';
-    if (gateState !== 'free') {
+    if (isVipOrLockedState()) {
       return { available: false, reason: 'vip_active', cooldownMinutes: 0 };
     }
     var rt = getRuntimeState();
@@ -322,8 +360,7 @@
   }
 
   function runOfficialNetworkReward(network, minWatchMs) {
-    var gateState = (win.MRS_ADS && win.MRS_ADS.state && win.MRS_ADS.state()) || win.MRS_AD_STATE || 'pending';
-    if (gateState !== 'free') {
+    if (isVipOrLockedState()) {
       return Promise.reject(new Error('VIP is already active.'));
     }
 
@@ -411,6 +448,9 @@
 
         var session = res.json.data;
         return runOfficialNetworkReward(session.network || network, session.minWatchMs).then(function () {
+          if (isVipOrLockedState()) {
+            throw new Error('VIP is already active.');
+          }
           return fetch(base + '/api/rewards/claim', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -473,6 +513,13 @@
   }
 
   function refreshStatus() {
+    if (isVipOrLockedState()) {
+      var vipPayload = { eligible: false, reason: 'vip_active', activeVip: true, cooldownMinutes: 0 };
+      try {
+        win.dispatchEvent(new CustomEvent('mrs_reward_status_updated', { detail: vipPayload }));
+      } catch (e) {}
+      return Promise.resolve(vipPayload);
+    }
     var base = getApiBase();
     var deviceId = getDeviceId();
     return fetch(base + '/api/rewards/status?deviceId=' + encodeURIComponent(deviceId), {

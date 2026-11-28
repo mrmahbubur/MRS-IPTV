@@ -1580,6 +1580,346 @@ test('21. Enhanced reward snippet sanitization rejects obfuscated/DOM/external-h
   assert.ok(removedIds.includes('mrs-monetag-interstitial'));
 });
 
+test('22. ad-manager.js inline snippet regex sanitizer blocks obfuscated/BOM vectors & teardown purges interstitial/popunder nodes', async () => {
+  const unsafeSnippets = [
+    'location = "https://evil.test"',
+    'String.fromCharCode(97,108,101,114,116)',
+    'document.createElement("script")',
+    'top["eval"]("alert(1)")',
+    '\\141lert(1)',
+    'new Worker("https://evil.test/w.js")',
+    'with(document){cookie}',
+  ];
+
+  for (const snippet of unsafeSnippets) {
+    const injectedScripts: any[] = [];
+    const sb: any = {
+      console, Date, Math, JSON, Promise, Error, parseInt, URL, Blob,
+      setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+      CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+      addEventListener: () => {},
+      dispatchEvent: () => true,
+      MRS_AD_STATE: 'free',
+      MRS_ADS: { state: () => 'free', _trackLoadedScript: () => {} },
+      MRS_ADS_CONFIG: {
+        apiBaseUrl: '',
+        testMode: false,
+        monetag: {
+          verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+          showRegularAds: true,
+          directZones: [{ id: 'uplcm-11226634', zoneId: '11226634', url: 'https://uplcm.com/4/11226634', label: 'Z1' }],
+          interstitial: {
+            zoneId: '11242067',
+            url: 'https://uplcm.com/4/11242067',
+            scriptSrc: null,
+            inlineSnippet: snippet,
+          },
+        },
+        caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay: 5 },
+      },
+      navigator: { language: 'en-US', userAgent: 'Mozilla/5.0' },
+      location: { pathname: '/', hash: '' },
+      innerWidth: 1280,
+      localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+      sessionStorage: { getItem: () => null, setItem: () => {} },
+      document: {
+        readyState: 'complete',
+        documentElement: { getAttribute: () => null },
+        body: { appendChild: (el: any) => injectedScripts.push(el) },
+        querySelector: () => null,
+        querySelectorAll: () => [],
+        getElementById: () => null,
+        createElement: (tag: string) => ({
+          tagName: tag.toUpperCase(),
+          attributes: {} as Record<string, string>,
+          style: {},
+          setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+        }),
+        addEventListener: () => {},
+      },
+      fetch: async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          ok: true,
+          data: {
+            formats: { banner: true, sticky: false, popunder: false, interstitial: true, push: false },
+            testMode: false,
+            monetag: { showRegularAds: true, interstitialZoneId: '11242067', caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay: 5 } },
+          },
+        }),
+      }),
+    };
+    sb.window = sb;
+    vm.runInNewContext(adManagerSource, sb, { filename: 'ad-manager.js' });
+    await new Promise((r) => setTimeout(r, 15));
+    assert.equal(injectedScripts.length, 0, `Expected unsafe snippet to be blocked: ${snippet}`);
+  }
+
+  // Verify teardownAllAdsUi queries interstitial & popunder nodes on VIP transition
+  const queriedSelectors: string[] = [];
+  const removedNodes: string[] = [];
+  let onStateChange: ((e: any) => void) | null = null;
+  let state = 'free';
+  const purgeSb: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt, URL, Blob,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: (ev: string, fn: any) => { if (ev === 'mrs_ads_state_change') onStateChange = fn; },
+    dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS: { state: () => state, _trackLoadedScript: () => {} },
+    MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: true, monetag: { verificationId: 'fa9656182dbc7301dcd9a2326441dcf3', showRegularAds: false } },
+    navigator: { language: 'en-US', userAgent: 'Mozilla/5.0' },
+    location: { pathname: '/', hash: '' },
+    innerWidth: 1280,
+    localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    sessionStorage: { getItem: () => null, setItem: () => {} },
+    document: {
+      readyState: 'complete',
+      documentElement: { getAttribute: () => null },
+      body: { appendChild: () => {} },
+      querySelector: () => null,
+      querySelectorAll: (sel: string) => {
+        queriedSelectors.push(sel);
+        return [
+          { parentNode: { removeChild: () => removedNodes.push('interstitial-div') } },
+          { parentNode: { removeChild: () => removedNodes.push('popunder-iframe') } },
+        ];
+      },
+      getElementById: () => null,
+      createElement: (tag: string) => ({ tagName: tag.toUpperCase(), attributes: {}, style: {}, setAttribute: () => {} }),
+      addEventListener: () => {},
+    },
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: {} }) }),
+  };
+  purgeSb.window = purgeSb;
+  vm.runInNewContext(adManagerSource, purgeSb, { filename: 'ad-manager.js' });
+  state = 'vip';
+  onStateChange?.({ detail: { state: 'vip' } });
+  const combinedSel = queriedSelectors.join(',');
+  assert.ok(combinedSel.includes('div[id*="interstitial"]'));
+  assert.ok(combinedSel.includes('div[id*="popunder"]'));
+  assert.ok(combinedSel.includes('iframe[id*="interstitial"]'));
+  assert.ok(combinedSel.includes('iframe[id*="popunder"]'));
+  assert.ok(removedNodes.includes('interstitial-div'));
+  assert.ok(removedNodes.includes('popunder-iframe'));
+});
+
+test('23. ad-gate.js injects interstitial & popunder blocker CSS selectors, purges ad DOM, and blocks dynamic div/iframe appends when VIP', async () => {
+  const capturedStyles: string[] = [];
+  const purgeQueries: string[] = [];
+  const domAttrs = new Map<string, string>();
+  const appended: any[] = [];
+  const storageMap = new Map<string, string>([
+    ['mrs_vip_entitlement', JSON.stringify({ token: 'vip-blocker-tok' })],
+  ]);
+  const futureExp = new Date(Date.now() + 86400_000).toISOString();
+
+  const doc: any = {
+    cookie: '',
+    head: {
+      appendChild: (el: any) => {
+        if (el?.childrenText) capturedStyles.push(el.childrenText);
+        return el;
+      },
+    },
+    documentElement: {
+      setAttribute: (k: string, v: string) => domAttrs.set(k, String(v)),
+      getAttribute: (k: string) => domAttrs.get(k) || null,
+      appendChild: (el: any) => el,
+    },
+    getElementById: () => null,
+    createElement: (tag: string) => ({
+      tagName: tag.toUpperCase(),
+      childrenText: '',
+      attributes: {} as Record<string, string>,
+      setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+      getAttribute(k: string) { return this.attributes[k] || null; },
+      appendChild(node: any) { if (node?.textContent) this.childrenText += node.textContent; },
+    }),
+    createTextNode: (t: string) => ({ textContent: t }),
+    querySelectorAll: (sel: string) => {
+      purgeQueries.push(sel);
+      return [];
+    },
+  };
+
+  function MockElement() {}
+  MockElement.prototype.appendChild = (child: any) => {
+    appended.push(child);
+    return child;
+  };
+
+  const sb: any = {
+    console, Date, Math, JSON, Promise, AbortController, encodeURIComponent,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    Element: MockElement,
+    document: doc,
+    navigator: { serviceWorker: { getRegistrations: async () => [] } },
+    localStorage: {
+      get length() { return storageMap.size; },
+      key: (i: number) => Array.from(storageMap.keys())[i] ?? null,
+      getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+      setItem: (k: string, v: string) => { storageMap.set(String(k), String(v)); },
+      removeItem: (k: string) => { storageMap.delete(String(k)); },
+    },
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: { active: true, expiresAt: futureExp } }) }),
+    open: () => ({ opened: true }),
+    addEventListener: () => {},
+    dispatchEvent: () => true,
+  };
+  sb.window = sb;
+  vm.runInNewContext(adGateSource, sb, { filename: 'ad-gate.js' });
+  await sb.MRS_ADS.refresh();
+
+  const styleCss = capturedStyles.join('\n');
+  assert.ok(styleCss.includes('#mrs-monetag-interstitial'));
+  assert.ok(styleCss.includes('#mrs-popunder-script'));
+  assert.ok(styleCss.includes('div[id*="interstitial"]'));
+  assert.ok(styleCss.includes('div[class*="interstitial"]'));
+  assert.ok(styleCss.includes('div[id*="popunder"]'));
+  assert.ok(styleCss.includes('div[class*="popunder"]'));
+  assert.ok(styleCss.includes('iframe[id*="interstitial"]'));
+  assert.ok(styleCss.includes('iframe[id*="popunder"]'));
+
+  const purgeSel = purgeQueries.join(',');
+  assert.ok(purgeSel.includes('div[id*="interstitial"]'));
+  assert.ok(purgeSel.includes('div[id*="popunder"]'));
+  assert.ok(purgeSel.includes('iframe[id*="interstitial"]'));
+  assert.ok(purgeSel.includes('iframe[id*="popunder"]'));
+  assert.ok(purgeSel.includes('script[src*="al5sm.com"]'));
+
+  // Dynamic appendChild must block Monetag interstitial & popunder overlays while VIP is active, while allowing normal app divs
+  const badOverlay = { tagName: 'DIV', id: 'monetag-interstitial-overlay', className: 'popunder-wrap', getAttribute: () => null };
+  const normalDiv = { tagName: 'DIV', id: 'channel-grid', className: 'grid', getAttribute: () => null };
+  sb.Element.prototype.appendChild.call(doc.head, badOverlay);
+  sb.Element.prototype.appendChild.call(doc.head, normalDiv);
+  assert.equal(appended.includes(badOverlay), false);
+  assert.equal(appended.includes(normalDiv), true);
+});
+
+test('24. rewardAds.js enforces comprehensive VIP state checks across availability, status refresh, and watch execution', async () => {
+  const futureExp = new Date(Date.now() + 3600_000).toISOString();
+  const buildVipCheckSandbox = (opts: {
+    cookie?: string;
+    domState?: string;
+    isVipFlag?: boolean;
+    entitlement?: string;
+    adFree?: string;
+  }) => {
+    let networkCalls = 0;
+    const storageMap = new Map<string, string>();
+    if (opts.entitlement) storageMap.set('mrs_vip_entitlement', opts.entitlement);
+    if (opts.adFree) storageMap.set('shahintv_adfree_activation', opts.adFree);
+
+    const sb: any = {
+      console, Date, Math, JSON, Promise, Error, parseInt, Uint8Array,
+      crypto: webcrypto,
+      setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+      CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+      addEventListener: () => {}, dispatchEvent: () => true,
+      MRS_AD_STATE: 'free',
+      __MRS_IS_VIP: Boolean(opts.isVipFlag),
+      MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: true, monetag: { rewarded: { enabled: true } } },
+      __MRS_ADS_SERVER_CONFIG: { testMode: true, monetag: { rewardedEnabled: true }, rewards: { cooldownMinutes: 180, anyRewardedAvailable: true } },
+      MRS_ADS: { state: () => 'free', enterVipMode: () => {}, refresh: async () => 'free' },
+      localStorage: {
+        getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+        setItem: (k: string, v: string) => { storageMap.set(k, String(v)); },
+        removeItem: (k: string) => { storageMap.delete(k); },
+      },
+      document: {
+        readyState: 'complete',
+        cookie: opts.cookie || '',
+        documentElement: { getAttribute: (k: string) => (k === 'data-mrs-ad-state' ? (opts.domState ?? 'free') : null) },
+        body: { appendChild: () => {} },
+        createElement: () => ({ style: {}, setAttribute: () => {}, innerHTML: '' }),
+        getElementById: () => null,
+        addEventListener: () => {},
+      },
+      fetch: async () => {
+        networkCalls += 1;
+        return { ok: true, status: 200, json: async () => ({ ok: true, data: {} }) };
+      },
+    };
+    sb.window = sb;
+    vm.runInNewContext(rewardAdsSource, sb, { filename: 'rewardAds.js' });
+    return { sb, getNetworkCalls: () => networkCalls };
+  };
+
+  const scenarios = [
+    { name: 'cookie mrs_vip_active=1', opts: { cookie: 'mrs_vip_active=1' } },
+    { name: 'dom attribute vip', opts: { domState: 'vip' } },
+    { name: 'global __MRS_IS_VIP flag', opts: { isVipFlag: true } },
+    { name: 'active entitlement token', opts: { entitlement: JSON.stringify({ token: 'vip-tok', expiresAt: futureExp }) } },
+    { name: 'active adfree activation', opts: { adFree: JSON.stringify({ isActive: true, isAdFree: true, expiryDate: futureExp }) } },
+  ];
+
+  for (const s of scenarios) {
+    const { sb, getNetworkCalls } = buildVipCheckSandbox(s.opts);
+    const avail = sb.MRS_REWARD_ADS.isAvailable();
+    assert.equal(avail.available, false, `Expected unavailable for ${s.name}`);
+    assert.equal(avail.reason, 'vip_active', `Expected vip_active for ${s.name}`);
+    const statusRes = await sb.MRS_REWARD_ADS.refreshStatus();
+    assert.equal(statusRes.reason, 'vip_active');
+    await assert.rejects(sb.MRS_REWARD_ADS.startAndWatch('monetag'), /VIP is already active/i);
+    assert.equal(getNetworkCalls(), 0, `Expected 0 network calls when VIP (${s.name})`);
+  }
+});
+
+test('25. Environment config NaN/ID validation and admin API strict boolean/object payload validation', async () => {
+  // Invalid boolean/object fields in PUT /api/admin/ads/config must return 400 invalid_ad_config
+  const invalidPayloads = [
+    { testMode: 'yes' },
+    { formats: { banner: 'true' } },
+    { formats: 'invalid' },
+    { monetag: { showRegularAds: 1 } },
+    { monetag: { rewarded: { enabled: 'on' } } },
+  ];
+
+  for (const payload of invalidPayloads) {
+    const res = await fetch(`${baseUrl}/api/admin/ads/config`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+      body: JSON.stringify(payload),
+    });
+    assert.equal(res.status, 400, `Expected 400 for payload ${JSON.stringify(payload)}`);
+    const json = await res.json() as any;
+    assert.equal(json.error.code, 'invalid_ad_config');
+  }
+
+  // Test NaN/invalid env fallback in config.js via isolated ESM query import
+  const prevEnv = {
+    REWARD_MIN_WATCH_MS: process.env.REWARD_MIN_WATCH_MS,
+    MONETAG_POPUNDER_MAX_PER_DAY: process.env.MONETAG_POPUNDER_MAX_PER_DAY,
+    MONETAG_VERIFICATION_ID: process.env.MONETAG_VERIFICATION_ID,
+    MONETAG_INTERSTITIAL_ZONE_ID: process.env.MONETAG_INTERSTITIAL_ZONE_ID,
+    MONETAG_REWARDED_SHOW_FN: process.env.MONETAG_REWARDED_SHOW_FN,
+  };
+  try {
+    process.env.REWARD_MIN_WATCH_MS = 'not-a-number';
+    process.env.MONETAG_POPUNDER_MAX_PER_DAY = '9999';
+    process.env.MONETAG_VERIFICATION_ID = 'bad!id';
+    process.env.MONETAG_INTERSTITIAL_ZONE_ID = 'bad zone!';
+    process.env.MONETAG_REWARDED_SHOW_FN = 'eval("bad")';
+
+    const isolatedMod = await import(`../server/mrs-iptv-backend/src/config.js?t=${Date.now()}`);
+    assert.equal(isolatedMod.config.rewards.minWatchMs, 15000);
+    assert.equal(isolatedMod.config.rewards.monetagPopunderMaxPerDay, 20);
+    assert.equal(isolatedMod.config.rewards.monetagVerificationId, MONETAG_DEFAULT_VERIFICATION_ID);
+    assert.equal(isolatedMod.config.rewards.monetagInterstitialZoneId, MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID);
+    assert.equal(isolatedMod.config.rewards.monetagRewardedShowFn, '');
+  } finally {
+    for (const [k, v] of Object.entries(prevEnv)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+  }
+});
+
+
 
 
 

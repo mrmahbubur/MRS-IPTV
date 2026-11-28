@@ -28,6 +28,9 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           '#mrs-popunder-script',
           'script[data-mrs-ad-injected="1"]',
           'script[src*="quge5.com"]',
+          'script[src*="5gvci.com"]',
+          'script[src*="al5sm.com"]',
+          'script[src*="whomeehe.com"]',
           'script[data-zone="300808"]',
           'script[src*="n6wxm.com"]',
           'script[data-zone="12138523"]',
@@ -36,12 +39,22 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
           'iframe[src*="quge5.com"]',
           'iframe[src*="5gvci.com"]',
           'iframe[src*="n6wxm.com"]',
+          'iframe[src*="al5sm.com"]',
+          'iframe[src*="whomeehe.com"]',
           'iframe[src*="uplcm.com"]',
           'iframe[src*="monetag.com"]',
+          'iframe[id*="monetag"]',
+          'iframe[id*="interstitial"]',
+          'iframe[id*="popunder"]',
           'iframe[data-mrs-ad-frame="1"]',
           'div[id*="monetag"]',
           'div[class*="monetag"]',
           'div[id*="vignette"]',
+          'div[id*="interstitial"]',
+          'div[class*="interstitial"]',
+          'div[id*="popunder"]',
+          'div[class*="popunder"]',
+          'a[data-ad-link]',
           '.ad-slot',
           '.ad-sticky-banner',
           '#mrs-sticky-mobile-ad',
@@ -52,7 +65,11 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
 
         document.querySelectorAll(selectors).forEach((el) => el.remove());
       } else if (!adConfig.formats.interstitial) {
-        document.querySelectorAll('#mrs-monetag-interstitial, #monetag-midnight-vignette').forEach((el) => el.remove());
+        document
+          .querySelectorAll(
+            '#mrs-monetag-interstitial, #monetag-midnight-vignette, div[id*="interstitial"], div[class*="interstitial"], iframe[id*="interstitial"]'
+          )
+          .forEach((el) => el.remove());
       }
     } catch {}
   };
@@ -80,17 +97,25 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
         const target = e.target as HTMLElement | null;
         if (target) {
           const anchor = target.closest('a');
+          const anchorId = (anchor?.id || '').toLowerCase();
+          const anchorClass = (typeof anchor?.className === 'string' ? anchor.className : '').toLowerCase();
           if (
             anchor &&
             (anchor.hasAttribute('data-ad-link') ||
               anchor.href?.includes('quge5.com') ||
               anchor.href?.includes('5gvci.com') ||
               anchor.href?.includes('n6wxm.com') ||
+              anchor.href?.includes('al5sm.com') ||
+              anchor.href?.includes('whomeehe.com') ||
               anchor.href?.includes('uplcm.com') ||
               anchor.href?.includes('monetag.com') ||
               anchor.href?.includes('/api/ads/redirect') ||
-              anchor.id?.includes('monetag') ||
-              anchor.className?.includes('monetag'))
+              anchorId.includes('monetag') ||
+              anchorId.includes('interstitial') ||
+              anchorId.includes('popunder') ||
+              anchorClass.includes('monetag') ||
+              anchorClass.includes('interstitial') ||
+              anchorClass.includes('popunder'))
           ) {
             e.preventDefault();
             e.stopImmediatePropagation();

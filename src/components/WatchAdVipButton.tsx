@@ -92,10 +92,11 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
     syncCooldown();
     window.addEventListener('mrs_reward_status_updated', handleStatusUpdated);
 
-    if (isFreeMode && !isVipLocked && isRewardAvailable) {
+    if (isFreeMode && !isVipLocked && isRewardAvailable && !vipCountdown.isActive && !adFreeState?.isActive) {
       try {
         const rewardApi = (window as any).MRS_REWARD_ADS;
-        if (rewardApi && typeof rewardApi.refreshStatus === 'function') {
+        const availability = rewardApi && typeof rewardApi.isAvailable === 'function' ? rewardApi.isAvailable() : null;
+        if ((!availability || availability.reason !== 'vip_active') && rewardApi && typeof rewardApi.refreshStatus === 'function') {
           rewardApi.refreshStatus();
         }
       } catch {}
@@ -125,12 +126,20 @@ export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
   const isDisabled = isWatching || isDailyCapReached;
 
   const handleStartReward = async () => {
-    if (isDisabled) return;
+    if (isDisabled || !isFreeMode || isVipLocked || vipCountdown.isActive || adFreeState?.isActive) return;
     setErrorMsg(null);
     const rewardApi = (window as any).MRS_REWARD_ADS;
     if (!rewardApi || typeof rewardApi.startAndWatch !== 'function') {
       setErrorMsg('Rewarded player is unavailable right now.');
       return;
+    }
+    if (typeof rewardApi.isAvailable === 'function') {
+      const availability = rewardApi.isAvailable();
+      if (availability && !availability.available) {
+        if (availability.reason === 'vip_active') return;
+        setErrorMsg('Rewarded video is currently unavailable.');
+        return;
+      }
     }
 
     setIsWatching(true);

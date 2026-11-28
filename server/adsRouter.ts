@@ -337,6 +337,22 @@ export class AdPolicyValidationError extends Error {
   }
 }
 
+function validateBooleanField(raw: unknown, fallback: boolean, fieldName: string): boolean {
+  if (raw === undefined) return fallback;
+  if (typeof raw !== 'boolean') {
+    throw new AdPolicyValidationError(400, 'invalid_ad_config', `${fieldName} must be a boolean.`);
+  }
+  return raw;
+}
+
+function assertPlainObjectIfDefined(raw: unknown, fieldName: string): Record<string, any> | undefined {
+  if (raw === undefined) return undefined;
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new AdPolicyValidationError(400, 'invalid_ad_config', `${fieldName} must be a JSON object.`);
+  }
+  return raw as Record<string, any>;
+}
+
 export function saveAdSettings(partial: {
   formats?: Partial<AdSettings['formats']>;
   testMode?: boolean;
@@ -351,48 +367,53 @@ export function saveAdSettings(partial: {
     rewarded?: Partial<AdSettings['monetag']['rewarded']>;
   };
 }): AdSettings {
+  if (!partial || typeof partial !== 'object' || Array.isArray(partial)) {
+    throw new AdPolicyValidationError(400, 'invalid_ad_config', 'Ad settings payload must be a JSON object.');
+  }
   const current = getAdSettings();
-  const inCaps = partial.monetag?.caps;
+  const inFormats = assertPlainObjectIfDefined(partial.formats, 'formats');
+  const inMonetag = assertPlainObjectIfDefined(partial.monetag, 'monetag');
+  const inInterstitial = inMonetag ? assertPlainObjectIfDefined(inMonetag.interstitial, 'monetag.interstitial') : undefined;
+  const inCaps = inMonetag ? assertPlainObjectIfDefined(inMonetag.caps, 'monetag.caps') : undefined;
+  const inRewarded = inMonetag ? assertPlainObjectIfDefined(inMonetag.rewarded, 'monetag.rewarded') : undefined;
+
   const hasInterstitialZoneInput = Boolean(
-    partial.monetag &&
-      ('interstitialZoneId' in partial.monetag ||
-        (partial.monetag.interstitial && 'zoneId' in partial.monetag.interstitial))
+    inMonetag &&
+      ('interstitialZoneId' in inMonetag ||
+        (inInterstitial && 'zoneId' in inInterstitial))
   );
   const rawInterstitialZoneInput =
-    partial.monetag && 'interstitialZoneId' in partial.monetag
-      ? partial.monetag.interstitialZoneId
-      : partial.monetag?.interstitial?.zoneId;
+    inMonetag && 'interstitialZoneId' in inMonetag
+      ? inMonetag.interstitialZoneId
+      : inInterstitial?.zoneId;
 
   const next: AdSettings = {
     formats: {
-      banner: typeof partial.formats?.banner === 'boolean' ? partial.formats.banner : current.formats.banner,
-      sticky: typeof partial.formats?.sticky === 'boolean' ? partial.formats.sticky : current.formats.sticky,
-      popunder: typeof partial.formats?.popunder === 'boolean' ? partial.formats.popunder : current.formats.popunder,
-      interstitial: typeof partial.formats?.interstitial === 'boolean' ? partial.formats.interstitial : current.formats.interstitial,
-      push: typeof partial.formats?.push === 'boolean' ? partial.formats.push : current.formats.push,
+      banner: validateBooleanField(inFormats?.banner, current.formats.banner, 'formats.banner'),
+      sticky: validateBooleanField(inFormats?.sticky, current.formats.sticky, 'formats.sticky'),
+      popunder: validateBooleanField(inFormats?.popunder, current.formats.popunder, 'formats.popunder'),
+      interstitial: validateBooleanField(inFormats?.interstitial, current.formats.interstitial, 'formats.interstitial'),
+      push: validateBooleanField(inFormats?.push, current.formats.push, 'formats.push'),
     },
-    testMode: typeof partial.testMode === 'boolean' ? partial.testMode : current.testMode,
+    testMode: validateBooleanField(partial.testMode, current.testMode, 'testMode'),
     monetag: {
       verificationId:
-        partial.monetag && 'verificationId' in partial.monetag
-          ? validateVerificationIdInput(partial.monetag.verificationId, DEFAULT_AD_SETTINGS.monetag.verificationId)
+        inMonetag && 'verificationId' in inMonetag
+          ? validateVerificationIdInput(inMonetag.verificationId, DEFAULT_AD_SETTINGS.monetag.verificationId)
           : current.monetag.verificationId,
       vignetteZoneId:
-        partial.monetag && 'vignetteZoneId' in partial.monetag
-          ? (validateZoneIdInput(partial.monetag.vignetteZoneId, DEFAULT_AD_SETTINGS.monetag.vignetteZoneId, false) as string)
+        inMonetag && 'vignetteZoneId' in inMonetag
+          ? (validateZoneIdInput(inMonetag.vignetteZoneId, DEFAULT_AD_SETTINGS.monetag.vignetteZoneId, false) as string)
           : current.monetag.vignetteZoneId,
       interstitialZoneId:
         hasInterstitialZoneInput
           ? (validateZoneIdInput(rawInterstitialZoneInput, DEFAULT_AD_SETTINGS.monetag.interstitialZoneId, false) as string)
           : current.monetag.interstitialZoneId,
       popunderZoneId:
-        partial.monetag && 'popunderZoneId' in partial.monetag
-          ? (validateZoneIdInput(partial.monetag.popunderZoneId, DEFAULT_AD_SETTINGS.monetag.popunderZoneId, false) as string)
+        inMonetag && 'popunderZoneId' in inMonetag
+          ? (validateZoneIdInput(inMonetag.popunderZoneId, DEFAULT_AD_SETTINGS.monetag.popunderZoneId, false) as string)
           : current.monetag.popunderZoneId,
-      showRegularAds:
-        typeof partial.monetag?.showRegularAds === 'boolean'
-          ? partial.monetag.showRegularAds
-          : current.monetag.showRegularAds,
+      showRegularAds: validateBooleanField(inMonetag?.showRegularAds, current.monetag.showRegularAds, 'monetag.showRegularAds'),
       caps: {
         popunderCooldownMinutes:
           inCaps && 'popunderCooldownMinutes' in inCaps && inCaps.popunderCooldownMinutes !== undefined
@@ -428,21 +449,18 @@ export function saveAdSettings(partial: {
             : current.monetag.caps.emptySlotCollapseMs,
       },
       rewarded: {
-        enabled:
-          partial.monetag?.rewarded && typeof partial.monetag.rewarded.enabled === 'boolean'
-            ? partial.monetag.rewarded.enabled
-            : current.monetag.rewarded.enabled,
+        enabled: validateBooleanField(inRewarded?.enabled, current.monetag.rewarded.enabled, 'monetag.rewarded.enabled'),
         snippet:
-          partial.monetag?.rewarded && 'snippet' in partial.monetag.rewarded
-            ? sanitizeRewardedSnippet(partial.monetag.rewarded.snippet)
+          inRewarded && 'snippet' in inRewarded
+            ? sanitizeRewardedSnippet(inRewarded.snippet)
             : current.monetag.rewarded.snippet,
         showFn:
-          partial.monetag?.rewarded && 'showFn' in partial.monetag.rewarded
-            ? sanitizeShowFn(partial.monetag.rewarded.showFn)
+          inRewarded && 'showFn' in inRewarded
+            ? sanitizeShowFn(inRewarded.showFn)
             : current.monetag.rewarded.showFn,
         zoneId:
-          partial.monetag?.rewarded && 'zoneId' in partial.monetag.rewarded
-            ? validateZoneIdInput(partial.monetag.rewarded.zoneId, null, true)
+          inRewarded && 'zoneId' in inRewarded
+            ? validateZoneIdInput(inRewarded.zoneId, null, true)
             : current.monetag.rewarded.zoneId,
       },
     },
@@ -1412,10 +1430,10 @@ export function createAdsRouter() {
       const current = getAdSettings();
       const updated = saveAdSettings({
         monetag: {
-          showRegularAds: typeof showRegularAds === 'boolean' ? showRegularAds : current.monetag.showRegularAds,
+          ...(showRegularAds !== undefined ? { showRegularAds } : {}),
           rewarded: {
             ...current.monetag.rewarded,
-            enabled: typeof enabled === 'boolean' ? enabled : current.monetag.rewarded.enabled,
+            ...(enabled !== undefined ? { enabled } : {}),
             ...(hasShowFn ? { showFn: req.body.showFn } : {}),
             ...(hasZoneId ? { zoneId: req.body.zoneId } : {}),
           },

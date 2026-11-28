@@ -6,10 +6,14 @@ import {
   MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
   MONETAG_DEFAULT_POPUNDER_ZONE_ID,
   MONETAG_DEFAULT_CAPS,
+  MONETAG_CAP_BOUNDS,
   DynamicMonetagZone,
   MonetagRuntimeCaps,
   buildMonetagZoneUrl,
   isSafeMonetagZoneUrl,
+  sanitizeMonetagVerificationIdStrict,
+  sanitizeMonetagZoneIdStrict,
+  isValidShowFnIdentifier,
 } from './monetagConfig';
 import { fetchDynamicAdConfig } from './adSystem';
 
@@ -86,6 +90,12 @@ const DEFAULT_AD_CONFIG: AdFormatConfig = {
 const EXPIRED_NOTICE_KEY = 'mrs_ads_expired_notice';
 const REWARD_EXPIRED_PENDING_KEY = 'mrs_reward_expired_notice_pending';
 
+function clampRuntimeInt(raw: unknown, min: number, max: number, fallback: number): number {
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, Math.trunc(n)));
+}
+
 export function getAdGateState(): AdGateState {
   if (typeof window === 'undefined') return 'pending';
   const gate = (window as any).MRS_ADS;
@@ -121,58 +131,130 @@ export function getAdRuntimeConfig(): AdFormatConfig {
         (typeof staticCfg.monetag?.rewarded?.showFn === 'function' || staticCfg.monetag?.rewarded?.snippet))
   );
 
+  const verificationId =
+    sanitizeMonetagVerificationIdStrict(serverCfg.monetag?.verificationId) ||
+    sanitizeMonetagVerificationIdStrict(staticCfg.monetag?.verificationId) ||
+    MONETAG_DEFAULT_VERIFICATION_ID;
+
+  const vignetteZoneId =
+    sanitizeMonetagZoneIdStrict(serverCfg.monetag?.vignetteZoneId) ||
+    sanitizeMonetagZoneIdStrict(staticCfg.monetag?.vignette?.zoneId) ||
+    MONETAG_DEFAULT_VIGNETTE_ZONE_ID;
+
+  const interstitialZoneId =
+    sanitizeMonetagZoneIdStrict(serverCfg.monetag?.interstitialZoneId) ||
+    sanitizeMonetagZoneIdStrict(serverCfg.monetag?.interstitial?.zoneId) ||
+    sanitizeMonetagZoneIdStrict(staticCfg.monetag?.interstitial?.zoneId) ||
+    sanitizeMonetagZoneIdStrict(serverCfg.monetag?.vignetteZoneId) ||
+    MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID;
+
+  const popunderZoneId =
+    sanitizeMonetagZoneIdStrict(serverCfg.monetag?.popunderZoneId) ||
+    sanitizeMonetagZoneIdStrict(staticCfg.monetag?.popunder?.zoneId) ||
+    MONETAG_DEFAULT_POPUNDER_ZONE_ID;
+
+  const rawShowFn = serverCfg.monetag?.rewardedShowFn;
+  const safeShowFn = typeof rawShowFn === 'string' && isValidShowFnIdentifier(rawShowFn) ? rawShowFn.trim() : null;
+  const rewardedZoneId = sanitizeMonetagZoneIdStrict(serverCfg.monetag?.rewardedZoneId);
+
+  const rawCaps = {
+    ...MONETAG_DEFAULT_CAPS,
+    ...(staticCfg.caps || {}),
+    ...(serverCfg.monetag?.caps || {}),
+  };
+
+  const caps: MonetagRuntimeCaps = {
+    popunderCooldownMs: clampRuntimeInt(
+      rawCaps.popunderCooldownMs,
+      MONETAG_CAP_BOUNDS.popunderCooldownMinutes.min * 60_000,
+      MONETAG_CAP_BOUNDS.popunderCooldownMinutes.max * 60_000,
+      MONETAG_DEFAULT_CAPS.popunderCooldownMs
+    ),
+    popunderMaxPerDay: clampRuntimeInt(
+      rawCaps.popunderMaxPerDay,
+      MONETAG_CAP_BOUNDS.popunderMaxPerDay.min,
+      MONETAG_CAP_BOUNDS.popunderMaxPerDay.max,
+      MONETAG_DEFAULT_CAPS.popunderMaxPerDay
+    ),
+    interstitialCooldownMs: clampRuntimeInt(
+      rawCaps.interstitialCooldownMs,
+      MONETAG_CAP_BOUNDS.interstitialCooldownSeconds.min * 1000,
+      MONETAG_CAP_BOUNDS.interstitialCooldownSeconds.max * 1000,
+      MONETAG_DEFAULT_CAPS.interstitialCooldownMs
+    ),
+    interstitialMaxPerDay: clampRuntimeInt(
+      rawCaps.interstitialMaxPerDay,
+      MONETAG_CAP_BOUNDS.interstitialMaxPerDay.min,
+      MONETAG_CAP_BOUNDS.interstitialMaxPerDay.max,
+      MONETAG_DEFAULT_CAPS.interstitialMaxPerDay
+    ),
+    pushDelayMs: clampRuntimeInt(
+      rawCaps.pushDelayMs,
+      MONETAG_CAP_BOUNDS.pushDelaySeconds.min * 1000,
+      MONETAG_CAP_BOUNDS.pushDelaySeconds.max * 1000,
+      MONETAG_DEFAULT_CAPS.pushDelayMs
+    ),
+    pushMinVisits: clampRuntimeInt(
+      rawCaps.pushMinVisits,
+      MONETAG_CAP_BOUNDS.pushMinVisits.min,
+      MONETAG_CAP_BOUNDS.pushMinVisits.max,
+      MONETAG_DEFAULT_CAPS.pushMinVisits
+    ),
+    pushDeclineDays: clampRuntimeInt(
+      rawCaps.pushDeclineDays,
+      MONETAG_CAP_BOUNDS.pushDeclineDays.min,
+      MONETAG_CAP_BOUNDS.pushDeclineDays.max,
+      MONETAG_DEFAULT_CAPS.pushDeclineDays
+    ),
+    emptySlotCollapseMs: clampRuntimeInt(
+      rawCaps.emptySlotCollapseMs,
+      MONETAG_CAP_BOUNDS.emptySlotCollapseMs.min,
+      MONETAG_CAP_BOUNDS.emptySlotCollapseMs.max,
+      MONETAG_DEFAULT_CAPS.emptySlotCollapseMs
+    ),
+  };
+
+  const candidateInterstitialUrl =
+    serverCfg.monetag?.interstitial?.url ||
+    staticCfg.monetag?.interstitial?.url ||
+    buildMonetagZoneUrl(interstitialZoneId);
+
   return {
     formats: {
-      ...DEFAULT_AD_CONFIG.formats,
-      ...(serverCfg.formats || {}),
+      banner: typeof serverCfg.formats?.banner === 'boolean' ? serverCfg.formats.banner : DEFAULT_AD_CONFIG.formats.banner,
+      sticky: typeof serverCfg.formats?.sticky === 'boolean' ? serverCfg.formats.sticky : DEFAULT_AD_CONFIG.formats.sticky,
+      popunder: typeof serverCfg.formats?.popunder === 'boolean' ? serverCfg.formats.popunder : DEFAULT_AD_CONFIG.formats.popunder,
+      interstitial: typeof serverCfg.formats?.interstitial === 'boolean' ? serverCfg.formats.interstitial : DEFAULT_AD_CONFIG.formats.interstitial,
+      push: typeof serverCfg.formats?.push === 'boolean' ? serverCfg.formats.push : DEFAULT_AD_CONFIG.formats.push,
     },
     testMode,
     monetag: {
-      verificationId: serverCfg.monetag?.verificationId || staticCfg.monetag?.verificationId || DEFAULT_AD_CONFIG.monetag.verificationId,
-      vignetteZoneId: serverCfg.monetag?.vignetteZoneId || staticCfg.monetag?.vignette?.zoneId || DEFAULT_AD_CONFIG.monetag.vignetteZoneId,
-      interstitialZoneId:
-        serverCfg.monetag?.interstitialZoneId ||
-        serverCfg.monetag?.interstitial?.zoneId ||
-        staticCfg.monetag?.interstitial?.zoneId ||
-        serverCfg.monetag?.vignetteZoneId ||
-        DEFAULT_AD_CONFIG.monetag.interstitialZoneId,
-      interstitial: (() => {
-        const zId =
-          serverCfg.monetag?.interstitialZoneId ||
-          serverCfg.monetag?.interstitial?.zoneId ||
-          staticCfg.monetag?.interstitial?.zoneId ||
-          serverCfg.monetag?.vignetteZoneId ||
-          MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID;
-        const candidateUrl =
-          serverCfg.monetag?.interstitial?.url ||
-          staticCfg.monetag?.interstitial?.url ||
-          buildMonetagZoneUrl(zId);
-        return {
-          zoneId: zId,
-          url: isSafeMonetagZoneUrl(candidateUrl) ? candidateUrl : buildMonetagZoneUrl(zId),
-        };
-      })(),
-      popunderZoneId: serverCfg.monetag?.popunderZoneId || DEFAULT_AD_CONFIG.monetag.popunderZoneId,
+      verificationId,
+      vignetteZoneId,
+      interstitialZoneId,
+      interstitial: {
+        zoneId: interstitialZoneId,
+        url: isSafeMonetagZoneUrl(candidateInterstitialUrl)
+          ? candidateInterstitialUrl
+          : buildMonetagZoneUrl(interstitialZoneId),
+      },
+      popunderZoneId,
       zones: Array.isArray(serverCfg.monetag?.zones)
-        ? serverCfg.monetag.zones.filter((z: DynamicMonetagZone) => z && isSafeMonetagZoneUrl(z.url))
+        ? serverCfg.monetag.zones.filter((z: DynamicMonetagZone) => z && sanitizeMonetagZoneIdStrict(z.zoneId) && isSafeMonetagZoneUrl(z.url))
         : Array.isArray(staticCfg.monetag?.directZones)
-          ? staticCfg.monetag.directZones.filter((z: DynamicMonetagZone) => z && isSafeMonetagZoneUrl(z.url))
+          ? staticCfg.monetag.directZones.filter((z: DynamicMonetagZone) => z && sanitizeMonetagZoneIdStrict(z.zoneId) && isSafeMonetagZoneUrl(z.url))
           : undefined,
       showRegularAds: monetagShowRegular,
       rewardedEnabled: monetagRewarded,
-      rewardedShowFn: serverCfg.monetag?.rewardedShowFn || null,
-      rewardedZoneId: serverCfg.monetag?.rewardedZoneId || null,
-      caps: {
-        ...MONETAG_DEFAULT_CAPS,
-        ...(staticCfg.caps || {}),
-        ...(serverCfg.monetag?.caps || {}),
-      },
+      rewardedShowFn: safeShowFn,
+      rewardedZoneId,
+      caps,
     },
     rewards: {
-      durationMinutes: Number(serverCfg.rewards?.durationMinutes || staticCfg.rewards?.durationMinutes || 60),
-      minWatchMs: Number(serverCfg.rewards?.minWatchMs || staticCfg.rewards?.minWatchMs || 15000),
-      cooldownMinutes: Number(serverCfg.rewards?.cooldownMinutes || staticCfg.rewards?.cooldownMinutes || 180),
-      maxPerDevicePerDay: Number(serverCfg.rewards?.maxPerDevicePerDay || staticCfg.rewards?.maxPerDevicePerDay || 3),
+      durationMinutes: clampRuntimeInt(serverCfg.rewards?.durationMinutes ?? staticCfg.rewards?.durationMinutes, 1, 1440, 60),
+      minWatchMs: clampRuntimeInt(serverCfg.rewards?.minWatchMs ?? staticCfg.rewards?.minWatchMs, 1000, 300000, 15000),
+      cooldownMinutes: clampRuntimeInt(serverCfg.rewards?.cooldownMinutes ?? staticCfg.rewards?.cooldownMinutes, 0, 1440, 180),
+      maxPerDevicePerDay: clampRuntimeInt(serverCfg.rewards?.maxPerDevicePerDay ?? staticCfg.rewards?.maxPerDevicePerDay, 0, 100, 3),
       unlocksVipChannels:
         typeof serverCfg.rewards?.unlocksVipChannels === 'boolean'
           ? serverCfg.rewards.unlocksVipChannels

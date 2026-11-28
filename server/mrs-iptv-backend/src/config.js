@@ -7,8 +7,21 @@ try { process.loadEnvFile(); } catch { /* no .env file – environment variables
 const env = process.env;
 const bool = (v, d) => (v === undefined || v === '' ? d : /^(1|true|yes|on)$/i.test(v));
 const int = (v, d) => (v === undefined || v === '' ? d : Number.parseInt(v, 10));
+const boundedInt = (v, d, min, max) => {
+  if (v === undefined || v === '') return d;
+  const n = Number.parseInt(String(v).trim(), 10);
+  if (!Number.isFinite(n)) return d;
+  return Math.min(max, Math.max(min, n));
+};
 const num = (v, d) => (v === undefined || v === '' ? d : Number.parseFloat(v));
 const list = (v, d) => (v ? v.split(',').map((s) => s.trim()).filter(Boolean) : d);
+const validId = (v, re, fallback, label) => {
+  const s = String(v || '').trim();
+  if (!s) return fallback;
+  if (re.test(s)) return s;
+  console.warn(`[Config] Ignoring invalid ${label}; falling back to default.`);
+  return fallback;
+};
 
 // ---------------------------------------------------------------------------
 // Plans. Prices are the ones shown in the VIP Pass modal.
@@ -270,38 +283,38 @@ export const config = {
 
   // 1-Hour Rewarded VIP & Ad Gate configuration
   rewards: {
-    durationMinutes: int(env.REWARD_DURATION_MINUTES, 60),
-    minWatchMs: int(env.REWARD_MIN_WATCH_MS, 15000),
-    cooldownMinutes: int(env.REWARD_COOLDOWN_MINUTES, 180),
-    maxPerDevicePerDay: int(env.REWARD_MAX_PER_DEVICE_PER_DAY, 3),
-    maxPerIpPerDay: int(env.REWARD_MAX_PER_IP_PER_DAY, 6),
-    maxStartsPerIpPerHour: int(env.REWARD_MAX_STARTS_PER_IP_PER_HOUR, 20),
+    durationMinutes: boundedInt(env.REWARD_DURATION_MINUTES, 60, 1, 1440),
+    minWatchMs: boundedInt(env.REWARD_MIN_WATCH_MS, 15000, 1000, 300000),
+    cooldownMinutes: boundedInt(env.REWARD_COOLDOWN_MINUTES, 180, 0, 1440),
+    maxPerDevicePerDay: boundedInt(env.REWARD_MAX_PER_DEVICE_PER_DAY, 3, 0, 100),
+    maxPerIpPerDay: boundedInt(env.REWARD_MAX_PER_IP_PER_DAY, 6, 0, 500),
+    maxStartsPerIpPerHour: boundedInt(env.REWARD_MAX_STARTS_PER_IP_PER_HOUR, 20, 1, 1000),
     requirePostback: bool(env.REWARD_REQUIRE_POSTBACK, false),
     unlocksVipChannels: bool(env.REWARD_UNLOCKS_VIP_CHANNELS, true),
     monetagPostbackSecret: env.MONETAG_POSTBACK_SECRET || '',
     adsTestMode: bool(env.ADS_TEST_MODE, true),
-    monetagVerificationId: String(env.MONETAG_VERIFICATION_ID || 'fa9656182dbc7301dcd9a2326441dcf3').trim(),
-    monetagVignetteZoneId: String(env.MONETAG_VIGNETTE_ZONE_ID || '11242067').trim(),
-    monetagInterstitialZoneId: String(env.MONETAG_INTERSTITIAL_ZONE_ID || env.MONETAG_VIGNETTE_ZONE_ID || '11242067').trim(),
-    monetagPopunderZoneId: String(env.MONETAG_POPUNDER_ZONE_ID || '11226634').trim(),
+    monetagVerificationId: validId(env.MONETAG_VERIFICATION_ID, /^[A-Za-z0-9_-]{8,64}$/, 'fa9656182dbc7301dcd9a2326441dcf3', 'MONETAG_VERIFICATION_ID'),
+    monetagVignetteZoneId: validId(env.MONETAG_VIGNETTE_ZONE_ID, /^[A-Za-z0-9_-]{1,32}$/, '11242067', 'MONETAG_VIGNETTE_ZONE_ID'),
+    monetagInterstitialZoneId: validId(env.MONETAG_INTERSTITIAL_ZONE_ID || env.MONETAG_VIGNETTE_ZONE_ID, /^[A-Za-z0-9_-]{1,32}$/, '11242067', 'MONETAG_INTERSTITIAL_ZONE_ID'),
+    monetagPopunderZoneId: validId(env.MONETAG_POPUNDER_ZONE_ID, /^[A-Za-z0-9_-]{1,32}$/, '11226634', 'MONETAG_POPUNDER_ZONE_ID'),
     monetagShowRegularAds: bool(env.MONETAG_SHOW_REGULAR_ADS, false),
     monetagBannerEnabled: bool(env.MONETAG_BANNER_ENABLED, true),
     monetagStickyEnabled: bool(env.MONETAG_STICKY_ENABLED, true),
     monetagPopunderEnabled: bool(env.MONETAG_POPUNDER_ENABLED, false),
     monetagInterstitialEnabled: bool(env.MONETAG_INTERSTITIAL_ENABLED, false),
     monetagPushEnabled: bool(env.MONETAG_PUSH_ENABLED, false),
-    monetagPopunderCooldownMinutes: Math.min(1440, Math.max(1, int(env.MONETAG_POPUNDER_COOLDOWN_MINUTES, 30))),
-    monetagPopunderMaxPerDay: Math.min(20, Math.max(0, int(env.MONETAG_POPUNDER_MAX_PER_DAY, 3))),
-    monetagInterstitialCooldownSeconds: Math.min(3600, Math.max(15, int(env.MONETAG_INTERSTITIAL_COOLDOWN_SECONDS, 180))),
-    monetagInterstitialMaxPerDay: Math.min(50, Math.max(0, int(env.MONETAG_INTERSTITIAL_MAX_PER_DAY, 12))),
-    monetagPushDelaySeconds: Math.min(600, Math.max(5, int(env.MONETAG_PUSH_DELAY_SECONDS, 60))),
-    monetagPushMinVisits: Math.min(20, Math.max(1, int(env.MONETAG_PUSH_MIN_VISITS, 2))),
-    monetagPushDeclineDays: Math.min(365, Math.max(1, int(env.MONETAG_PUSH_DECLINE_DAYS, 30))),
-    monetagEmptySlotCollapseMs: Math.min(15000, Math.max(500, int(env.MONETAG_EMPTY_SLOT_COLLAPSE_MS, 4000))),
+    monetagPopunderCooldownMinutes: boundedInt(env.MONETAG_POPUNDER_COOLDOWN_MINUTES, 30, 1, 1440),
+    monetagPopunderMaxPerDay: boundedInt(env.MONETAG_POPUNDER_MAX_PER_DAY, 3, 0, 20),
+    monetagInterstitialCooldownSeconds: boundedInt(env.MONETAG_INTERSTITIAL_COOLDOWN_SECONDS, 180, 15, 3600),
+    monetagInterstitialMaxPerDay: boundedInt(env.MONETAG_INTERSTITIAL_MAX_PER_DAY, 12, 0, 50),
+    monetagPushDelaySeconds: boundedInt(env.MONETAG_PUSH_DELAY_SECONDS, 60, 5, 600),
+    monetagPushMinVisits: boundedInt(env.MONETAG_PUSH_MIN_VISITS, 2, 1, 20),
+    monetagPushDeclineDays: boundedInt(env.MONETAG_PUSH_DECLINE_DAYS, 30, 1, 365),
+    monetagEmptySlotCollapseMs: boundedInt(env.MONETAG_EMPTY_SLOT_COLLAPSE_MS, 4000, 500, 15000),
     monetagRewardedEnabled: bool(env.MONETAG_REWARDED_ENABLED, false),
     monetagRewardedSnippet: String(env.MONETAG_REWARDED_SNIPPET || '').trim(),
-    monetagRewardedShowFn: String(env.MONETAG_REWARDED_SHOW_FN || '').trim(),
-    monetagRewardedZoneId: String(env.MONETAG_REWARDED_ZONE_ID || '').trim(),
+    monetagRewardedShowFn: validId(env.MONETAG_REWARDED_SHOW_FN, /^[A-Za-z_$][A-Za-z0-9_$]{0,31}(\.[A-Za-z_$][A-Za-z0-9_$]{0,31}){0,3}$/, '', 'MONETAG_REWARDED_SHOW_FN'),
+    monetagRewardedZoneId: validId(env.MONETAG_REWARDED_ZONE_ID, /^[A-Za-z0-9_-]{1,32}$/, '', 'MONETAG_REWARDED_ZONE_ID'),
   },
 };
 

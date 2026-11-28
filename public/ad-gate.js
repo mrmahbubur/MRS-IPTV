@@ -151,6 +151,20 @@
       'html:not([data-mrs-ad-state="free"]) .ad-sticky-banner,',
       'html:not([data-mrs-ad-state="free"]) #mrs-sticky-mobile-ad,',
       'html:not([data-mrs-ad-state="free"]) #mrs-banner-slot,',
+      'html:not([data-mrs-ad-state="free"]) #mrs-monetag-interstitial,',
+      'html:not([data-mrs-ad-state="free"]) #mrs-popunder-script,',
+      'html:not([data-mrs-ad-state="free"]) #monetag-midnight-vignette,',
+      'html:not([data-mrs-ad-state="free"]) div[id*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) div[class*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) div[id*="vignette"],',
+      'html:not([data-mrs-ad-state="free"]) div[id*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) div[class*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) div[id*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) div[class*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[id*="monetag"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[id*="interstitial"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[id*="popunder"],',
+      'html:not([data-mrs-ad-state="free"]) iframe[data-mrs-ad-frame="1"],',
       'html:not([data-mrs-ad-state="free"]) .mrs-free-upsell {',
       '  display: none !important;',
       '  visibility: hidden !important;',
@@ -162,7 +176,11 @@
       '  pointer-events: none !important;',
       '}',
       'html[data-mrs-ad-state="vip"] .ad-slot,',
-      'html[data-mrs-ad-state="pending"] .ad-slot {',
+      'html[data-mrs-ad-state="vip"] [id*="interstitial"],',
+      'html[data-mrs-ad-state="vip"] [id*="popunder"],',
+      'html[data-mrs-ad-state="pending"] .ad-slot,',
+      'html[data-mrs-ad-state="pending"] [id*="interstitial"],',
+      'html[data-mrs-ad-state="pending"] [id*="popunder"] {',
       '  display: none !important;',
       '}',
       'html[data-mrs-ad-state="free"] .ad-banner-desktop {',
@@ -216,20 +234,35 @@
         '#mrs-push-preprompt',
         '#mrs-monetag-interstitial',
         '#mrs-popunder-script',
+        '#monetag-midnight-vignette',
+        '#monetag-tag-script',
         'script[data-mrs-ad-injected="1"]',
         'script[src*="uplcm.com"]',
         'script[src*="monetag.com"]',
+        'script[src*="5gvci.com"]',
         'script[src*="quge5.com"]',
         'script[src*="n6wxm.com"]',
+        'script[src*="al5sm.com"]',
+        'script[src*="whomeehe.com"]',
         'iframe[src*="uplcm.com"]',
         'iframe[src*="monetag.com"]',
         'iframe[src*="quge5.com"]',
         'iframe[src*="5gvci.com"]',
         'iframe[src*="n6wxm.com"]',
+        'iframe[src*="al5sm.com"]',
+        'iframe[src*="whomeehe.com"]',
+        'iframe[id*="monetag"]',
+        'iframe[id*="interstitial"]',
+        'iframe[id*="popunder"]',
         'iframe[data-mrs-ad-frame="1"]',
         'div[id*="monetag"]',
         'div[class*="monetag"]',
-        'div[id*="vignette"]'
+        'div[id*="vignette"]',
+        'div[id*="interstitial"]',
+        'div[class*="interstitial"]',
+        'div[id*="popunder"]',
+        'div[class*="popunder"]',
+        'a[data-ad-link]'
       ].join(',');
 
       var nodes = doc.querySelectorAll(selectors);
@@ -479,19 +512,27 @@
       };
     }
 
-    // 3. Guard dynamic DOM appends against third-party ad scripts/iframes unless state === 'free'
+    // 3. Guard dynamic DOM appends against third-party ad scripts/iframes/overlays unless state === 'free'
     if (win.Element && win.Element.prototype && win.Element.prototype.appendChild) {
       var origAppendChild = win.Element.prototype.appendChild;
       win.Element.prototype.appendChild = function (child) {
         if (child && child.tagName) {
           var tag = String(child.tagName).toLowerCase();
-          if (tag === 'script' || tag === 'iframe') {
+          if (tag === 'script' || tag === 'iframe' || tag === 'div') {
             var src = (child.src || (child.getAttribute && child.getAttribute('src')) || '');
+            var elId = (child.id || (child.getAttribute && child.getAttribute('id')) || '').toLowerCase();
+            var elClass = (typeof child.className === 'string' ? child.className : (child.getAttribute && child.getAttribute('class')) || '').toLowerCase();
             var isGateApproved = child.getAttribute && child.getAttribute('data-mrs-ad-approved') === '1';
-            if ((win.MRS_AD_STATE || 'pending') !== 'free' && (isAdUrl(src) || (child.getAttribute && child.getAttribute('data-mrs-ad-injected') === '1'))) {
+            var hasAdMarker =
+              (tag !== 'div' && isAdUrl(src)) ||
+              (child.getAttribute && child.getAttribute('data-mrs-ad-injected') === '1') ||
+              /(?:monetag|vignette|interstitial|popunder)/.test(elId) ||
+              /(?:monetag|interstitial|popunder)/.test(elClass);
+            var currentAdState = win.MRS_AD_STATE || 'pending';
+            if (currentAdState !== 'free' && hasAdMarker) {
               return child;
             }
-            if ((win.MRS_AD_STATE || 'pending') === 'vip' && isAdUrl(src) && !isGateApproved) {
+            if (currentAdState === 'vip' && tag !== 'div' && isAdUrl(src) && !isGateApproved) {
               return child;
             }
           }

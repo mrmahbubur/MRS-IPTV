@@ -312,6 +312,27 @@ export const MONETAG_DEFAULT_CAPS: MonetagRuntimeCaps = {
   emptySlotCollapseMs: MONETAG_CAP_BOUNDS.emptySlotCollapseMs.defaultVal,
 };
 
+export function clampMonetagCap(key: keyof typeof MONETAG_CAP_BOUNDS, raw: unknown): number {
+  const bounds = MONETAG_CAP_BOUNDS[key];
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return bounds.defaultVal;
+  return Math.min(bounds.max, Math.max(bounds.min, Math.trunc(n)));
+}
+
+export function sanitizeMonetagCapsPolicy(raw: Partial<Record<keyof typeof MONETAG_CAP_BOUNDS, unknown>> | null | undefined): MonetagAdCapsPolicy {
+  const input = raw && typeof raw === 'object' ? raw : {};
+  return {
+    popunderCooldownMinutes: clampMonetagCap('popunderCooldownMinutes', input.popunderCooldownMinutes),
+    popunderMaxPerDay: clampMonetagCap('popunderMaxPerDay', input.popunderMaxPerDay),
+    interstitialCooldownSeconds: clampMonetagCap('interstitialCooldownSeconds', input.interstitialCooldownSeconds),
+    interstitialMaxPerDay: clampMonetagCap('interstitialMaxPerDay', input.interstitialMaxPerDay),
+    pushDelaySeconds: clampMonetagCap('pushDelaySeconds', input.pushDelaySeconds),
+    pushMinVisits: clampMonetagCap('pushMinVisits', input.pushMinVisits),
+    pushDeclineDays: clampMonetagCap('pushDeclineDays', input.pushDeclineDays),
+    emptySlotCollapseMs: clampMonetagCap('emptySlotCollapseMs', input.emptySlotCollapseMs),
+  };
+}
+
 export function toRuntimeCaps(caps: MonetagAdCapsPolicy): MonetagRuntimeCaps {
   return {
     popunderCooldownMs: caps.popunderCooldownMinutes * 60_000,
@@ -680,8 +701,9 @@ const SNIPPET_DISALLOWED_INLINE_PATTERNS: RegExp[] = [
   /\bString\s*\.\s*(?:fromCharCode|fromCodePoint)\b/,
   /\b(?:atob|unescape|decodeURI|decodeURIComponent)\s*\(/,
   /\b(?:fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\b/,
-  /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history|location)\s*(?:\[|\.\s*(?:cookie|location|domain|write|writeln|referrer|innerHTML|outerHTML|insertAdjacentHTML|createElement|createRange|createContextualFragment|append|appendChild|src|srcdoc|assign|replace|reload|href|open|sendBeacon|fetch|serviceWorker|clipboard|credentials|pushState|replaceState|evaluate))/,
+  /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history|location)\s*(?:\[|\.\s*(?:cookie|location|domain|write|writeln|referrer|innerHTML|outerHTML|insertAdjacentHTML|createElement|createRange|createContextualFragment|append|appendChild|src|srcdoc|assign|replace|reload|href|open|sendBeacon|fetch|serviceWorker|clipboard|credentials|pushState|replaceState|evaluate|eval|Function|window|self|top|parent|frames|globalThis|document))/,
   /\b(?:innerHTML|outerHTML|insertAdjacentHTML|srcdoc|cookie)\s*(?:=|\+=)/,
+  /\blocation\s*(?:=|\+=)/,
   /\bdocument\.(?:cookie|location|domain|write|writeln|referrer|createElement|createRange|body|head|scripts)\b/i,
   /\bwindow\.location\b/i,
   /\b(?:localStorage|sessionStorage|indexedDB|cookieStore)\b/i,

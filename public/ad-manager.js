@@ -301,15 +301,31 @@
     if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]/.test(trimmed)) {
       return false;
     }
-    if (/(?:&#(?:x[0-9a-f]+|\d+);|\\(?:x[0-9a-f]{2}|u[0-9a-f]{4}|u\{[0-9a-f]+\})|<!--)/i.test(trimmed)) {
+    if (/(?:&#(?:x[0-9a-f]+|\d+);|&(?:colon|tab|newline);|\\(?:x[0-9a-f]{2}|u[0-9a-f]{4}|u\{[0-9a-f]+\}|[0-7]{1,3})|<!--|-->)/i.test(trimmed)) {
       return false;
     }
-    if (
-      /(?:javascript:|vbscript:|data:text\/html|<\/?[a-z!?/]|\bon[a-z]{2,}\s*=|\b(?:eval|Function|AsyncFunction|execScript|setTimeout|setInterval|setImmediate|atob|unescape|fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\s*\(?|(?:^|[^\w$])(?:__proto__|prototype|constructor)\b|\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|cookieStore|navigator|history|location)\s*\[|\bdocument\.(?:cookie|location|domain|write|writeln|referrer)|\.(?:inner|outer)HTML\s*=|\bimport\s*(?:\(|['"`]))/i.test(
-        trimmed
-      )
-    ) {
-      return false;
+    var disallowed = [
+      /\b(?:javascript|vbscript)\s*:/i,
+      /\bdata\s*:\s*(?:text\/html|application\/|image\/svg)/i,
+      /\bblob\s*:/i,
+      /<\/?[a-z!?/]/i,
+      /\bon[a-z]{2,}\s*=/i,
+      /\b(?:eval|Function|AsyncFunction|GeneratorFunction|AsyncGeneratorFunction|execScript|setTimeout|setInterval|setImmediate|importScripts)\s*(?:\(|`|\b)/,
+      /\bnew\s+(?:Function|Proxy|WebSocket|Worker|SharedWorker|BroadcastChannel|EventSource|XMLHttpRequest|ActiveXObject)\b/i,
+      /\bimport\s*(?:\(|['"`])/i,
+      /(?:^|[^\w$])(?:__proto__|prototype|constructor|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)\b/,
+      /\bString\s*\.\s*(?:fromCharCode|fromCodePoint)\b/,
+      /\b(?:atob|unescape|decodeURI|decodeURIComponent)\s*\(/,
+      /\b(?:fetch|fetchLater|XMLHttpRequest|sendBeacon|EventSource|WebSocket)\b/,
+      /\b(?:window|self|top|parent|frames|globalThis|document|localStorage|sessionStorage|indexedDB|caches|cookieStore|navigator|history|location)\s*(?:\[|\.\s*(?:cookie|location|domain|write|writeln|referrer|innerHTML|outerHTML|insertAdjacentHTML|createElement|createRange|createContextualFragment|append|appendChild|src|srcdoc|assign|replace|reload|href|open|sendBeacon|fetch|serviceWorker|clipboard|credentials|pushState|replaceState|evaluate|eval|Function|window|self|top|parent|frames|globalThis|document))/,
+      /\b(?:innerHTML|outerHTML|insertAdjacentHTML|srcdoc|cookie)\s*(?:=|\+=)/,
+      /\blocation\s*(?:=|\+=)/,
+      /\bdocument\.(?:cookie|location|domain|write|writeln|referrer|createElement|createRange|body|head|scripts)\b/i,
+      /\b(?:localStorage|sessionStorage|indexedDB|cookieStore)\b/i,
+      /\bwith\s*\(/
+    ];
+    for (var i = 0; i < disallowed.length; i++) {
+      if (disallowed[i].test(trimmed)) return false;
     }
     return true;
   }
@@ -337,14 +353,39 @@
       'mrs-consent-banner',
       'mrs-push-preprompt',
       'mrs-monetag-interstitial',
-      'mrs-popunder-script'
+      'mrs-popunder-script',
+      'monetag-midnight-vignette',
+      'monetag-tag-script'
     ];
     for (var i = 0; i < idsToRemove.length; i++) {
       var el = doc.getElementById(idsToRemove[i]);
       if (el && el.parentNode) el.parentNode.removeChild(el);
     }
     try {
-      var injectedNodes = doc.querySelectorAll('script[data-mrs-ad-injected="1"], iframe[data-mrs-ad-frame="1"]');
+      var injectedNodes = doc.querySelectorAll([
+        'script[data-mrs-ad-injected="1"]',
+        'script[src*="uplcm.com"]',
+        'script[src*="monetag.com"]',
+        'script[src*="5gvci.com"]',
+        'script[src*="al5sm.com"]',
+        'script[src*="whomeehe.com"]',
+        'iframe[data-mrs-ad-frame="1"]',
+        'iframe[src*="uplcm.com"]',
+        'iframe[src*="monetag.com"]',
+        'iframe[src*="5gvci.com"]',
+        'iframe[src*="al5sm.com"]',
+        'iframe[src*="whomeehe.com"]',
+        'iframe[id*="monetag"]',
+        'iframe[id*="interstitial"]',
+        'iframe[id*="popunder"]',
+        'div[id*="monetag"]',
+        'div[class*="monetag"]',
+        'div[id*="vignette"]',
+        'div[id*="interstitial"]',
+        'div[class*="interstitial"]',
+        'div[id*="popunder"]',
+        'div[class*="popunder"]'
+      ].join(','));
       for (var j = 0; j < injectedNodes.length; j++) {
         if (injectedNodes[j] && injectedNodes[j].parentNode) {
           injectedNodes[j].parentNode.removeChild(injectedNodes[j]);
@@ -415,9 +456,10 @@
     if (Boolean(serverFormatConfig.testMode)) return;
 
     var cfg = win.MRS_ADS_CONFIG || {};
-    var popSnippet = isMonetagRegularAllowed() && cfg.monetag && cfg.monetag.popunder
+    var rawPopSnippet = isMonetagRegularAllowed() && cfg.monetag && cfg.monetag.popunder
       ? (cfg.monetag.popunder.scriptSrc || cfg.monetag.popunder.inlineSnippet)
       : null;
+    var popSnippet = typeof rawPopSnippet === 'string' ? rawPopSnippet.trim() : '';
 
     // Only bind if that network's showRegularAds is true and an explicit popunder script exists
     if (!popSnippet) return;
@@ -454,9 +496,9 @@
       hist.lastAt = now;
       lsSet(POP_HIST_KEY, JSON.stringify(hist));
 
-      if (typeof popSnippet === 'string' && popSnippet.indexOf('http') === 0) {
+      if (popSnippet.indexOf('https://') === 0) {
         injectExternalScript(popSnippet);
-      } else if (typeof popSnippet === 'string') {
+      } else {
         injectInlineSnippet(popSnippet, 'mrs-popunder-script');
       }
       enqueueAdEvent({ eventType: 'view', format: 'popunder', placement: 'page-body', offerId: 'popunder-cap' });
