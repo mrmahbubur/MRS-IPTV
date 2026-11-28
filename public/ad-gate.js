@@ -17,20 +17,12 @@
 
   var AD_HOST_MARKERS = [
     'uplcm.com',
-    'rzekl.com',
     'monetag',
-    'adsterra',
-    'atOptions',
-    'invoke.js',
-    'highperformanceformat',
-    'topcreativeformat',
-    'profitablegate',
     '5gvci.com',
     'quge5.com',
     'n6wxm.com',
     'al5sm.com',
-    'whomeehe.com',
-    'asiafilm.org'
+    'whomeehe.com'
   ];
 
   var retryTimer = null;
@@ -131,17 +123,7 @@
   function clearStaleVipCredentials(markExpiredNotice) {
     safeStorageRemove(ENTITLE_KEY);
     safeStorageRemove(HINT_KEY);
-    try {
-      var legacyRaw = safeStorageGet('shahintv_adfree_activation');
-      if (legacyRaw) {
-        var legacy = JSON.parse(legacyRaw);
-        if (legacy && legacy.code !== 'SPONSOR_REWARD_VIP') {
-          safeStorageRemove('shahintv_adfree_activation');
-        }
-      }
-    } catch (e) {
-      safeStorageRemove('shahintv_adfree_activation');
-    }
+    safeStorageRemove('shahintv_adfree_activation');
     if (markExpiredNotice) {
       safeStorageSet(EXPIRED_NOTICE_KEY, '1');
     }
@@ -155,7 +137,7 @@
     for (var i = 0; i < AD_HOST_MARKERS.length; i++) {
       if (lower.indexOf(AD_HOST_MARKERS[i].toLowerCase()) !== -1) return true;
     }
-    if (lower.indexOf('/go/') !== -1 || lower.indexOf('/api/ads/redirect') !== -1) return true;
+    if (lower.indexOf('/api/ads/redirect') !== -1) return true;
     return false;
   }
 
@@ -166,14 +148,10 @@
       'html:not([data-mrs-ad-state="free"]) .ad-label,',
       'html:not([data-mrs-ad-state="free"]) [data-ad-slot],',
       'html:not([data-mrs-ad-state="free"]) [data-ad-link],',
-      'html:not([data-mrs-ad-state="free"]) [data-sponsored],',
-      'html:not([data-mrs-ad-state="free"]) .sponsored-block,',
-      'html:not([data-mrs-ad-state="free"]) .affiliate-block,',
       'html:not([data-mrs-ad-state="free"]) .ad-sticky-banner,',
       'html:not([data-mrs-ad-state="free"]) #mrs-sticky-mobile-ad,',
       'html:not([data-mrs-ad-state="free"]) #mrs-banner-slot,',
-      'html:not([data-mrs-ad-state="free"]) .mrs-free-upsell,',
-      'html:not([data-mrs-ad-state="free"]) .mrs-offers-nav {',
+      'html:not([data-mrs-ad-state="free"]) .mrs-free-upsell {',
       '  display: none !important;',
       '  visibility: hidden !important;',
       '  height: 0 !important;',
@@ -232,27 +210,18 @@
         '.ad-slot',
         '.ad-label',
         '[data-ad-slot]',
-        '[data-sponsored]',
-        '.sponsored-block',
-        '.affiliate-block',
         '.ad-sticky-banner',
         '#mrs-sticky-mobile-ad',
         '#mrs-consent-banner',
         '#mrs-push-preprompt',
         'script[data-mrs-ad-injected="1"]',
         'script[src*="uplcm.com"]',
-        'script[src*="rzekl.com"]',
         'script[src*="quge5.com"]',
         'script[src*="n6wxm.com"]',
-        'script[src*="highperformanceformat"]',
-        'script[src*="topcreativeformat"]',
-        'script[src*="profitablegate"]',
         'iframe[src*="uplcm.com"]',
-        'iframe[src*="rzekl.com"]',
         'iframe[src*="quge5.com"]',
         'iframe[src*="5gvci.com"]',
         'iframe[src*="n6wxm.com"]',
-        'iframe[src*="asiafilm.org"]',
         'iframe[data-mrs-ad-frame="1"]',
         'div[id*="monetag"]',
         'div[class*="monetag"]',
@@ -332,7 +301,6 @@
               lowerUrl.indexOf('monetag') !== -1 ||
               lowerUrl.indexOf('onesignal') !== -1 ||
               lowerUrl.indexOf('push') !== -1 ||
-              lowerUrl.indexOf('adsterra') !== -1 ||
               lowerUrl.indexOf('5gvci') !== -1 ||
               lowerUrl.indexOf('sw__2__') !== -1;
 
@@ -545,7 +513,7 @@
       retryStartedAt = 0;
       return verifyVipWithServer();
     },
-    enterVipMode: function (expiresAt) {
+    enterVipMode: function (expiresAt, opts) {
       stopRetryTimer();
       retryStartedAt = 0;
       if (expiresAt) {
@@ -555,7 +523,13 @@
       clearAdFrequencyStorage();
       purgeAdDomElements();
       setAdState('vip');
-      return unregisterAdWorkersAndPush();
+      return unregisterAdWorkersAndPush().finally(function () {
+        if ((!opts || !opts.noReload) && win.location && typeof win.location.reload === 'function') {
+          try {
+            win.location.reload();
+          } catch (e) {}
+        }
+      });
     },
     debug: function () {
       var ent = getSavedEntitlement();

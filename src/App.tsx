@@ -57,7 +57,14 @@ export default function App() {
   useSpatialNavigation();
   useBroadcastTheme();
   const remoteConfig = useRemoteConfig();
-  const { isFreeMode, expiredNotice, dismissExpiredNotice, adConfig } = useAdGate();
+  const {
+    isFreeMode,
+    expiredNotice,
+    dismissExpiredNotice,
+    rewardExpiredNotice,
+    dismissRewardExpiredNotice,
+    adConfig,
+  } = useAdGate();
   const [channels, setChannels] = useState<Channel[]>(() => {
     try {
       const cached = localStorage.getItem('shahintv_channels_cache');
@@ -566,6 +573,17 @@ export default function App() {
     return () => window.removeEventListener('mrs_1h_vip_expired_first_time', onFirstVipExpired);
   }, []);
 
+  // Show "VIP unlocked for 1 hour" toast once after enterVipMode() reload
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('mrs_reward_just_unlocked') === '1') {
+        localStorage.removeItem('mrs_reward_just_unlocked');
+        setCacheNotice('VIP unlocked for 1 hour');
+        setTimeout(() => setCacheNotice(null), 5000);
+      }
+    } catch {}
+  }, []);
+
   // Function to verify expiration date on load and remove expired codes from localStorage
   const verifyAndCleanExpiredAdFreeState = useCallback(() => {
     try {
@@ -579,9 +597,8 @@ export default function App() {
 
         if (now >= expiry) {
           const isTemp1hVip =
-            data.code === 'SPONSOR_REWARD_VIP' ||
-            Number(data.durationMonths) === 0 ||
-            Boolean(data.isAdFree);
+            data.code === 'REWARD_1H_VIP' ||
+            Number(data.durationMonths) === 0;
           // Expiry date has passed: remove activation code from localStorage and restore ad-supported state
           localStorage.removeItem('shahintv_adfree_activation');
           try {
@@ -690,9 +707,9 @@ export default function App() {
     const handleAdUpdated = (e: any) => {
       const updated = e.detail || getStoredAdFreeState();
       setAdFreeState(updated);
-      if (updated?.isActive && updated?.code === 'SPONSOR_REWARD_VIP') {
-        setCacheNotice('1-Hour Ad-Free VIP Premium Activated! Enjoy 60 minutes of zero-ad streaming.');
-        setTimeout(() => setCacheNotice(null), 4000);
+      if (updated?.isActive && (updated?.code === 'REWARD_1H_VIP' || getCachedEntitlement()?.plan === 'reward1h')) {
+        setCacheNotice('VIP unlocked for 1 hour');
+        setTimeout(() => setCacheNotice(null), 5000);
       }
     };
     window.addEventListener('shahintv_adfree_updated', handleAdUpdated);
@@ -999,23 +1016,65 @@ export default function App() {
           </div>
         )}
 
-        {firstTimeVipExpiryTip && isFreeMode && !expiredNotice && !adFreeState.isActive && !adFreeState.isAdFree && (
-          <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[125] w-[92%] max-w-md p-3.5 rounded-xl bg-[rgba(12,18,40,0.96)] border border-[#F5B301]/50 shadow-[0_18px_45px_rgba(0,0,0,0.92)] backdrop-blur-xl flex items-center justify-between gap-3 text-white midnight-glass-noise">
+        {rewardExpiredNotice !== null && isFreeMode && !selectedChannel && activeView !== 'admin' && !adFreeState.isActive && (
+          <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[126] w-[92%] max-w-lg p-3.5 rounded-xl bg-[rgba(12,18,40,0.96)] border border-amber-400/50 shadow-[0_18px_45px_rgba(0,0,0,0.92)] backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-white">
             <div className="min-w-0">
-              <p className="text-xs font-bold text-[#F5B301]">1-Hour VIP Pass Expired</p>
-              <p className="text-[11px] text-white/75 leading-snug mt-0.5">
-                Your ad-free session has ended. Renew anytime for another free 1-hour pass.
+              <p className="text-xs font-bold text-amber-300">Free VIP Hour Ended</p>
+              <p className="text-[11px] text-white/85 leading-snug mt-0.5">
+                {rewardExpiredNotice > 0
+                  ? `Your free hour ended. Watch another ad (available in ${rewardExpiredNotice} minutes) or go VIP.`
+                  : 'Your free hour ended. Watch another ad now or go VIP.'}
               </p>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
-              <WatchAdVipButton
-                variant="player"
-                adFreeState={adFreeState}
-                onRewardedGranted={(newState) => {
-                  setAdFreeState(newState);
-                  setFirstTimeVipExpiryTip(false);
+              {rewardExpiredNotice <= 0 && (
+                <WatchAdVipButton
+                  variant="header"
+                  adFreeState={adFreeState}
+                  onAfterClick={dismissRewardExpiredNotice}
+                />
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  dismissRewardExpiredNotice();
+                  setIsPremiumModalOpen(true);
                 }}
-              />
+                className="mrs-free-upsell min-h-[36px] px-3 py-1.5 rounded-lg btn-premium-gold text-xs font-extrabold cursor-pointer shrink-0"
+              >
+                Go VIP
+              </button>
+              <button
+                type="button"
+                aria-label="Dismiss free hour ended message"
+                onClick={dismissRewardExpiredNotice}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+              >
+                <X className="w-4 h-4 shrink-0" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {firstTimeVipExpiryTip && rewardExpiredNotice === null && isFreeMode && !expiredNotice && !adFreeState.isActive && !adFreeState.isAdFree && (
+          <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[125] w-[92%] max-w-md p-3.5 rounded-xl bg-[rgba(12,18,40,0.96)] border border-[#F5B301]/50 shadow-[0_18px_45px_rgba(0,0,0,0.92)] backdrop-blur-xl flex items-center justify-between gap-3 text-white midnight-glass-noise">
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-[#F5B301]">Free VIP Hour Ended</p>
+              <p className="text-[11px] text-white/75 leading-snug mt-0.5">
+                Your free hour ended. Watch another ad after cooldown or go VIP.
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setFirstTimeVipExpiryTip(false);
+                  setIsPremiumModalOpen(true);
+                }}
+                className="mrs-free-upsell min-h-[36px] px-3 py-1.5 rounded-lg btn-premium-gold text-xs font-extrabold cursor-pointer shrink-0"
+              >
+                Go VIP
+              </button>
               <button
                 type="button"
                 aria-label="Dismiss VIP expiry tip"

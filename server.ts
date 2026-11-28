@@ -42,7 +42,7 @@ import {
   pendingM3uBatches 
 } from "./server/m3uChecker";
 import { createPaymentRouter } from "./server/paymentRouter";
-import { createAdsRouter, isVipRequest } from "./server/adsRouter";
+import { createAdsRouter, isVipRequest, getAdSettings } from "./server/adsRouter";
 import { createGoogleWorkspaceRouter } from "./server/googleWorkspaceRouter";
 import { M3uDoctorService, createM3uDoctorRouter } from "./server/m3uDoctor";
 import { triggerDelayedActivations, reconcilePending } from "./server/mrs-iptv-backend/src/verify.js";
@@ -234,7 +234,7 @@ async function startServer() {
       : (isRender || isDevSandbox || process.env.NODE_ENV === 'production' ? 1 : 0);
   app.set('trust proxy', trustProxyHops);
 
-  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+  const PORT = isDevSandbox ? 3000 : (process.env.PORT ? parseInt(process.env.PORT, 10) : 3000);
 
   // Enable HTTP response compression for ultra-fast transfers
   app.use(compression({
@@ -384,7 +384,7 @@ async function startServer() {
   // 4b. M R S IPTV VIP Pass Payment Verification & Code Management Backend
   app.use('/api', createPaymentRouter({ channelLookup: isChannelInKnownCatalogue }));
 
-  // 4b-1. Central Ad Gate, Affiliate Redirect (/go/:offerId), Event Telemetry & Admin Report
+  // 4b-1. Central Monetag Ad Gate, Event Telemetry & Admin Report
   app.use(createAdsRouter());
 
   // 4b-2. Backend Google Drive & Gmail Integration Routes (Bearer token auth)
@@ -922,13 +922,14 @@ async function startServer() {
         description: "Each VIP Pass activation code is cryptographically tied to strictly 1 active device session at a time to prevent unauthorized multi-device sharing and safeguard streaming bandwidth.",
         revocationClause: "Attempts to broadcast simultaneously on multiple devices using the same pass code will trigger an automated lock and revoke the pass to the security blacklist."
       },
-      privacyTerms: "M R S IPTV operates under a privacy-first architecture: no personal activity logs, browsing history, or playback records are sold or transferred to third parties. Streaming preferences and favorites are stored locally on the user's device.",
+      privacyTerms: "M R S IPTV operates under a privacy-first architecture: streaming preferences and favorites stay on your device, and VIP members never load third-party ad scripts. For free users, Monetag is the sole advertising network; cookies/identifiers are only used after EU/UK consent. To prevent abuse of the 1-hour rewarded VIP feature, only cryptographically hashed device IDs and hashed IP addresses are stored.",
+      rewardTerms: "Watching an official completed Monetag rewarded ad (when enabled) grants 1 hour of ad-free VIP access (1 active reward per device, 3-hour post-expiry cooldown, max 3 grants per device/day, max 6 per IP/day). Automated abuse, forged claims, or postback bypass results in immediate revocation.",
       automatedBackendRenewal: "This policy document, copyright terms, and licensing records are dynamically re-calculated and refreshed annually on January 1st by the M R S IPTV backend autonomous engine."
     };
 
     if (req.query.format === 'text') {
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-      return res.send(`${policyPayload.copyrightNotice}\n\nPlatform: ${policyPayload.platform} (Policy Version: ${policyPayload.policyVersion})\nStatus: ${policyPayload.annualRenewalStatus}\nNext Annual Auto-Renewal: ${policyPayload.nextAnnualRenewalDate}\n\nFAIR USE & COPYRIGHT DISCLAIMER:\n${policyPayload.fairUseDisclaimer}\n\nDMCA NOTICE:\n${policyPayload.dmcaCompliance.statement}\nContact: ${policyPayload.dmcaCompliance.designatedAgentEmail}\nSupport: ${policyPayload.dmcaCompliance.supportChannel}\n\nVIP PASS SINGLE-DEVICE POLICY:\n${policyPayload.singleDeviceVipPolicy.description}\n\nPRIVACY:\n${policyPayload.privacyTerms}`);
+      return res.send(`${policyPayload.copyrightNotice}\n\nPlatform: ${policyPayload.platform} (Policy Version: ${policyPayload.policyVersion})\nStatus: ${policyPayload.annualRenewalStatus}\nNext Annual Auto-Renewal: ${policyPayload.nextAnnualRenewalDate}\n\nFAIR USE & COPYRIGHT DISCLAIMER:\n${policyPayload.fairUseDisclaimer}\n\nDMCA NOTICE:\n${policyPayload.dmcaCompliance.statement}\nContact: ${policyPayload.dmcaCompliance.designatedAgentEmail}\nSupport: ${policyPayload.dmcaCompliance.supportChannel}\n\nVIP PASS SINGLE-DEVICE POLICY:\n${policyPayload.singleDeviceVipPolicy.description}\n\nPRIVACY & ADVERTISING NETWORK:\n${policyPayload.privacyTerms}\n\nREWARD TERMS:\n${policyPayload.rewardTerms}`);
     }
 
     res.setHeader('Cache-Control', 'public, max-age=3600');
@@ -967,7 +968,7 @@ async function startServer() {
     index: number;
     id: string;
     url: string;
-    network: 'Monetag Direct' | 'CPM Smartlink' | 'AsiaFilm 18+ Direct' | 'Mitgo Affiliate';
+    network: 'Monetag Direct';
     zoneOrKey: string;
     name: string;
     headline: string;
@@ -979,7 +980,7 @@ async function startServer() {
     bannerUrl?: string;
     isMidnightOnly?: boolean;
     showAllTime?: boolean;
-    category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema' | 'advertisement';
+    category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema';
   }
 
   const BACKEND_STORED_AD_LINKS: BackendAdLink[] = [
@@ -1060,7 +1061,7 @@ async function startServer() {
       zoneOrKey: '11242067',
       name: '24/7 VIP Cinema & Match Direct',
       headline: '24/7 Exclusive HD Cinema & Live Broadcasts',
-      description: 'Always-on partner spotlight · Visit sponsor to enjoy 1 hour completely ad-free.',
+      description: 'Always-on Monetag spotlight · Visit ad to enjoy 1 hour completely ad-free.',
       ctaText: 'Enter Spotlight · 1h VIP',
       badge: '24/7 SPOTLIGHT',
       accentColor: 'rose',
@@ -1112,7 +1113,7 @@ async function startServer() {
       zoneOrKey: '11683560',
       name: 'Trending Sports Media Channel',
       headline: 'Prime Broadcast CDN & Zero-Lag Relay',
-      description: 'Top-tier sponsor offer supporting ultra-low-latency sports & movie playback.',
+      description: 'Top-tier Monetag stream line supporting ultra-low-latency sports & movie playback.',
       ctaText: 'Activate High-Speed Line',
       badge: 'PRIME CDN',
       accentColor: 'emerald',
@@ -1131,7 +1132,7 @@ async function startServer() {
       headline: 'All-Day Cinema, Reels & Sports Lounge',
       description: 'Claim 1 full hour of zero ads across Live TV & Sports feeds right now.',
       ctaText: 'Unlock 1-Hour VIP Now',
-      badge: 'TOP OFFER',
+      badge: 'TOP ZONE',
       accentColor: 'purple',
       bannerUrl: '/midnight_cinema_banner.jpg',
       estimatedCpmUsd: 4.50,
@@ -1147,7 +1148,7 @@ async function startServer() {
       zoneOrKey: '11242744',
       name: 'Global Match Stream Network',
       headline: 'International Broadcast Partner Network',
-      description: 'Official 24/7 sponsor deal · Instant 60-minute ad-free VIP pass activation.',
+      description: 'Official 24/7 Monetag ad · Instant 60-minute ad-free VIP pass activation.',
       ctaText: 'Visit & Watch Ad-Free',
       badge: 'GLOBAL VIP',
       accentColor: 'rose',
@@ -1155,40 +1156,6 @@ async function startServer() {
       showAllTime: true,
       isMidnightOnly: false,
       category: 'vip'
-    },
-    {
-      index: 11,
-      id: 'rzekl-pm1aev55clcb5002cfdd219aa26f6f',
-      url: 'https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/',
-      network: 'Mitgo Affiliate',
-      zoneOrKey: 'pm1aev55clcb5002cfdd219aa26f6f',
-      name: 'Featured Affiliate Offer I',
-      headline: 'Exclusive Partner Deal & Rewards Hub',
-      description: 'Explore our featured affiliate partner offer and unlock 1 hour of ad-free streaming.',
-      ctaText: 'Visit Partner Offer',
-      badge: 'PARTNER OFFER',
-      accentColor: 'amber',
-      estimatedCpmUsd: 5.00,
-      showAllTime: true,
-      isMidnightOnly: false,
-      category: 'advertisement'
-    },
-    {
-      index: 12,
-      id: 'rzekl-1e8d114494cb5002cfdd16525dc3e8',
-      url: 'https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/',
-      network: 'Mitgo Affiliate',
-      zoneOrKey: '1e8d114494cb5002cfdd16525dc3e8',
-      name: 'Featured Affiliate Offer II',
-      headline: 'Verified Sponsor Spotlight & Special Promo',
-      description: 'Discover curated partner promotions supporting free 24/7 live TV channels.',
-      ctaText: 'Explore Offer',
-      badge: 'SPONSORED DEAL',
-      accentColor: 'cyan',
-      estimatedCpmUsd: 5.00,
-      showAllTime: true,
-      isMidnightOnly: false,
-      category: 'advertisement'
     }
   ];
 
@@ -1377,6 +1344,14 @@ async function startServer() {
       if (midnightInfo.isVip) {
         return res.status(204).end();
       }
+      const adSettings = getAdSettings();
+      if (!adSettings.monetag.showRegularAds) {
+        return res.status(403).json({
+          ok: false,
+          data: null,
+          error: { code: 'regular_ads_disabled', message: 'Regular Monetag redirects are disabled. Use the official rewarded VIP flow.' },
+        });
+      }
       const isActiveAdUser = !midnightInfo.isVip;
       const pickRandom = req.query.mode === 'random';
 
@@ -1403,7 +1378,7 @@ async function startServer() {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="0; url=${encodeURI(ad.url)}">
-  <title>Opening Sponsor Offer...</title>
+  <title>Opening Monetag Ad...</title>
   <style>
     body {
       background-color: #0b0f19;
@@ -1466,7 +1441,7 @@ async function startServer() {
 </head>
 <body>
   <div class="card">
-    <div class="badge">${ad.badge} · FEATURED SPONSOR</div>
+    <div class="badge">${ad.badge} · MONETAG AD</div>
     <h2>${ad.headline}</h2>
     <p>${ad.description}</p>
     <a href="${safeUrl}" class="btn">${ad.ctaText} &rarr;</a>
@@ -1496,10 +1471,11 @@ async function startServer() {
       const isTier1 = clientCountry && TIER1_HIGH_CPM_COUNTRIES.includes(clientCountry.toUpperCase());
 
       const midnightInfo = checkUserMidnightRegion(req);
-      if (midnightInfo.isVip) {
+      const adSettings = getAdSettings();
+      if (midnightInfo.isVip || !adSettings.monetag.showRegularAds) {
         return res.json({
           success: true,
-          isVip: true,
+          isVip: midnightInfo.isVip,
           isMidnightActive: false,
           alwaysShowAds: false,
           currentAd: null,
@@ -1542,7 +1518,8 @@ async function startServer() {
   app.get('/api/ads/midnight-status', (req, res) => {
     try {
       const status = checkUserMidnightRegion(req);
-      const shouldShowAdsAllTime = !status.isVip;
+      const adSettings = getAdSettings();
+      const shouldShowAdsAllTime = !status.isVip && Boolean(adSettings.monetag.showRegularAds);
       const featuredAd = BACKEND_STORED_AD_LINKS[backendAdsState.globalIndex % BACKEND_STORED_AD_LINKS.length] || BACKEND_STORED_AD_LINKS[0];
 
       res.json({
@@ -1580,7 +1557,7 @@ async function startServer() {
     }
   });
 
-  // 4. Active Sponsor Redirect Status Endpoint (No public enumeration/listing)
+  // 4. Active Monetag Redirect Status Endpoint (No public enumeration/listing)
   app.get('/api/ads/links', (_req, res) => {
     res.json({
       success: true,
@@ -4380,7 +4357,7 @@ async function startServer() {
       channelPlayThreshold: 2,
       dwellTimerSeconds: 5,
       rewardHours: 1,
-      inPlayerBannerEnabled: true,
+      inPlayerBannerEnabled: false,
       bannerIntervalSec: 180,
       smartlinks: [
         "https://uplcm.com/4/11226634",
@@ -7320,8 +7297,12 @@ M R S IPTV Team
 
   if (!isProduction) {
     const { createServer: createViteServer } = await import("vite");
+    const disableHmr = isDevSandbox || process.env.DISABLE_HMR === 'true';
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        ...(disableHmr ? { hmr: false, watch: null } : {}),
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);

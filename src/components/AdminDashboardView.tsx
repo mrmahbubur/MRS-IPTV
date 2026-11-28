@@ -39,14 +39,15 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'ledger' | 'codes' | 'outbox' | 'audit' | 'doctor' | 'ads'>('overview');
   const [actionBanner, setActionBanner] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
   const [adsReport, setAdsReport] = useState<any>(null);
+  const [rewardsReport, setRewardsReport] = useState<any>(null);
   const [adsSettings, setAdsSettings] = useState<{
-    formats: { banner: boolean; sticky: boolean; popunder: boolean; interstitial: boolean; push: boolean; affiliate: boolean };
-    hideOffersForVip: boolean;
+    formats: { banner: boolean; sticky: boolean; popunder: boolean; interstitial: boolean; push: boolean };
     testMode: boolean;
+    monetag?: { showRegularAds: boolean; rewarded?: { enabled: boolean } };
   }>({
-    formats: { banner: true, sticky: true, popunder: true, interstitial: true, push: false, affiliate: true },
-    hideOffersForVip: true,
-    testMode: false,
+    formats: { banner: true, sticky: true, popunder: false, interstitial: false, push: false },
+    testMode: true,
+    monetag: { showRegularAds: false, rewarded: { enabled: false } },
   });
   const [adsBusy, setAdsBusy] = useState(false);
 
@@ -160,7 +161,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
         ...(deadSourceFilter ? { source: deadSourceFilter } : {}),
       }).toString();
 
-      const [statsRes, revRes, auditRes, ordersRes, ledgerRes, codesRes, outboxRes, camRes, docRes, docLogsRes, chkSrcRes, chkDeadRes, adsRes] = await Promise.all([
+      const [statsRes, revRes, auditRes, ordersRes, ledgerRes, codesRes, outboxRes, camRes, docRes, docLogsRes, chkSrcRes, chkDeadRes, adsRes, rewRes] = await Promise.all([
         adminFetch('/api/admin/stats'),
         adminFetch('/api/admin/revenue'),
         adminFetch('/api/admin/audit?limit=120'),
@@ -178,6 +179,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
         adminFetch('/api/admin/checker/sources').then(r => r.ok ? r.json() : null).catch(() => null),
         adminFetch(`/api/admin/checker/dead?${deadQs}`).then(r => r.ok ? r.json() : null).catch(() => null),
         adminFetch('/api/admin/ads/report?days=30').then(r => r.ok ? r.json() : null).catch(() => null),
+        adminFetch('/api/admin/rewards/report?days=30').then(r => r.ok ? r.json() : null).catch(() => null),
       ]);
 
       const statsJson = await statsRes.json();
@@ -202,7 +204,12 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
       if (chkDeadRes?.dead) setCheckerDead(chkDeadRes.dead);
       if (adsRes?.ok && adsRes?.data) {
         setAdsReport(adsRes.data);
-        if (adsRes.data.settings) setAdsSettings(adsRes.data.settings);
+        if (adsRes.data.settings) {
+          setAdsSettings(adsRes.data.settings);
+        }
+      }
+      if (rewRes?.ok && rewRes?.data) {
+        setRewardsReport(rewRes.data);
       }
       setIsAuthenticated(true);
     } catch (e: any) {
@@ -718,7 +725,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
           { id: 'outbox', label: `Email Outbox (${outboxRows.length})`, icon: Mail },
           { id: 'audit', label: `Audit Log (${auditRows.length})`, icon: ShieldCheck },
           { id: 'doctor', label: 'M3U Doctor', icon: Cpu },
-          { id: 'ads', label: 'Ads & Offers', icon: Megaphone },
+          { id: 'ads', label: 'Monetag Ads', icon: Megaphone },
         ].map((t) => {
           const Icon = t.icon;
           const active = activeTab === t.id;
@@ -1510,7 +1517,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
         </div>
       )}
 
-      {/* TAB 8: ADS & OFFERS GATE CONTROLS */}
+      {/* TAB 8: MONETAG AD GATE CONTROLS */}
       {activeTab === 'ads' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1522,17 +1529,17 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
               <div className="text-[11px] text-[#C9D1E0]">VIP users emit zero view events</div>
             </div>
             <div className="p-4 rounded-xl bg-[#0B132B] border border-white/10 space-y-1">
-              <span className="text-[10px] uppercase font-mono text-[#94A3B8]">Ad &amp; /go Affiliate Clicks (30d)</span>
+              <span className="text-[10px] uppercase font-mono text-[#94A3B8]">Monetag Ad Clicks (30d)</span>
               <div className="text-2xl font-black text-emerald-400 tabular-nums">
                 {Number(adsReport?.totals?.clicks || 0).toLocaleString()}
               </div>
-              <div className="text-[11px] text-[#C9D1E0]">Actual earnings live in network dashboards</div>
+              <div className="text-[11px] text-[#C9D1E0]">Actual earnings live in Monetag dashboard</div>
             </div>
             <div className="p-4 rounded-xl bg-[#0B132B] border border-white/10 space-y-1">
               <span className="text-[10px] uppercase font-mono text-[#94A3B8]">Gate Enforcement</span>
               <div className="text-xl font-black text-amber-300">VIP Strictly Ad-Free</div>
               <div className="text-[11px] text-[#C9D1E0]">
-                Fail-closed gate · hideOffersForVip: {adsSettings.hideOffersForVip ? 'ON' : 'OFF'}
+                Fail-closed gate · Monetag Only · Test Mode: {adsSettings.testMode ? 'ON' : 'OFF'}
               </div>
             </div>
           </div>
@@ -1540,22 +1547,21 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
           <div className="p-5 rounded-xl bg-[#0B132B] border border-white/10 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <h3 className="text-sm font-black text-white uppercase tracking-wider">Free-Mode Ad Format Controls</h3>
+                <h3 className="text-sm font-black text-white uppercase tracking-wider">Free-Mode Monetag Ad Format Controls</h3>
                 <p className="text-xs text-[#94A3B8] mt-0.5">
-                  Toggle individual ad formats for free visitors. Active VIP users never load any format.
+                  Toggle individual Monetag ad formats for free visitors. Active VIP and 1-hour reward users never load any format.
                 </p>
               </div>
               {adsBusy && <span className="text-xs font-mono text-sky-400">Saving...</span>}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {([
                 { key: 'banner', label: 'Display Banners' },
                 { key: 'sticky', label: 'Mobile Sticky Banner' },
-                { key: 'popunder', label: 'Popunder / SmartLink' },
+                { key: 'popunder', label: 'Popunder / OnClick' },
                 { key: 'interstitial', label: 'Interstitial Modals' },
                 { key: 'push', label: 'Push Pre-Prompt' },
-                { key: 'affiliate', label: 'Affiliate & Offers' },
               ] as const).map((item) => {
                 const enabled = Boolean(adsSettings.formats[item.key]);
                 return (
@@ -1638,74 +1644,229 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                   {adsSettings.testMode ? 'ON' : 'OFF'}
                 </span>
               </button>
-
-              <button
-                type="button"
-                disabled={adsBusy}
-                onClick={async () => {
-                  try {
-                    setAdsBusy(true);
-                    const nextVal = !adsSettings.hideOffersForVip;
-                    const r = await adminFetch('/api/admin/ads/config', {
-                      method: 'PUT',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ ...adsSettings, hideOffersForVip: nextVal }),
-                    });
-                    const j = await r.json();
-                    if (j?.ok && j?.data) {
-                      setAdsSettings(j.data);
-                      showBanner('ok', `hideOffersForVip set to ${nextVal ? 'true' : 'false'}.`);
-                    }
-                  } catch (err: any) {
-                    showBanner('err', err?.message || 'Failed to update hideOffersForVip');
-                  } finally {
-                    setAdsBusy(false);
-                  }
-                }}
-                className={`min-h-[44px] px-3.5 py-2.5 rounded-lg border text-left flex items-center justify-between gap-2 cursor-pointer transition-colors ${
-                  adsSettings.hideOffersForVip
-                    ? 'bg-sky-500/15 border-sky-400/45 text-white'
-                    : 'bg-[#050816] border-white/10 text-[#94A3B8]'
-                }`}
-              >
-                <span className="text-xs font-bold">Hide Offers For VIP</span>
-                <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded ${
-                  adsSettings.hideOffersForVip ? 'bg-sky-500/25 text-sky-300' : 'bg-white/10 text-[#94A3B8]'
-                }`}>
-                  {adsSettings.hideOffersForVip ? 'ON' : 'OFF'}
-                </span>
-              </button>
             </div>
           </div>
 
           <div className="bg-[#0B132B] border border-white/10 rounded-xl overflow-hidden">
             <div className="px-4 py-2.5 bg-[#050816] border-b border-white/10 text-xs font-black uppercase tracking-wider text-white">
-              Views &amp; Clicks by Offer / Zone (Last 30 Days)
+              Views &amp; Clicks by Monetag Zone (Last 30 Days)
             </div>
             <div className="overflow-x-auto max-h-80 overflow-y-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-[#050816] border-b border-white/10 text-[#94A3B8] uppercase font-mono text-[10px]">
                   <tr>
-                    <th className="p-2.5">Offer / Zone ID</th>
+                    <th className="p-2.5">Monetag Zone ID</th>
                     <th className="p-2.5">Network</th>
                     <th className="p-2.5 text-right">Views</th>
                     <th className="p-2.5 text-right">Clicks</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5 font-mono text-[11px]">
-                  {(adsReport?.byOffer || []).map((row: any, i: number) => (
-                    <tr key={`${row.offerId}-${i}`}>
-                      <td className="p-2.5 text-white font-bold">{row.offerId}</td>
+                  {(adsReport?.byZone || []).map((row: any, i: number) => (
+                    <tr key={`${row.zoneId}-${i}`}>
+                      <td className="p-2.5 text-white font-bold">{row.zoneId}</td>
                       <td className="p-2.5 text-[#C9D1E0]">{row.network}</td>
                       <td className="p-2.5 text-right tabular-nums text-sky-300">{Number(row.views || 0).toLocaleString()}</td>
                       <td className="p-2.5 text-right tabular-nums text-emerald-400 font-bold">{Number(row.clicks || 0).toLocaleString()}</td>
                     </tr>
                   ))}
-                  {(!adsReport?.byOffer || adsReport.byOffer.length === 0) && (
+                  {(!adsReport?.byZone || adsReport.byZone.length === 0) && (
                     <tr><td colSpan={4} className="p-4 text-center text-[#94A3B8]">No ad view or click events recorded yet.</td></tr>
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          {/* 1-Hour Free VIP Rewards Policy & Telemetry */}
+          <div className="p-5 rounded-xl bg-[#0B132B] border border-white/10 space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                  Rewarded 1-Hour VIP Controls &amp; Network Policy
+                </h3>
+                <p className="text-xs text-[#94A3B8] mt-0.5">
+                  Monetag defaults to rewarded-only (showRegularAds OFF) and remains completely hidden for VIP and active 1-hour reward users.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
+                <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Reward Starts</div>
+                <div className="text-xl font-black text-white tabular-nums mt-0.5">
+                  {Number(rewardsReport?.totals?.starts || 0).toLocaleString()}
+                </div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
+                <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Reward Claims</div>
+                <div className="text-xl font-black text-emerald-400 tabular-nums mt-0.5">
+                  {Number(rewardsReport?.totals?.claims || 0).toLocaleString()}
+                </div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
+                <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Claim Rate</div>
+                <div className="text-xl font-black text-sky-400 tabular-nums mt-0.5">
+                  {Number(rewardsReport?.totals?.claimRatePercent || 0)}%
+                </div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-[#050816] border border-white/10">
+                <div className="text-[10px] font-mono uppercase text-[#94A3B8]">Active 1h Grants</div>
+                <div className="text-xl font-black text-amber-300 tabular-nums mt-0.5">
+                  {Number(rewardsReport?.totals?.activeGrantsNow || 0).toLocaleString()}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Monetag Controls */}
+              <div className="p-4 rounded-xl bg-[#050816] border border-white/10 space-y-3">
+                <div className="text-xs font-black text-white uppercase tracking-wider">Monetag Policy</div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    disabled={adsBusy}
+                    onClick={async () => {
+                      try {
+                        setAdsBusy(true);
+                        const nextVal = !Boolean(adsSettings.monetag?.rewarded?.enabled);
+                        const r = await adminFetch('/api/admin/rewards/toggle', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ network: 'monetag', enabled: nextVal }),
+                        });
+                        const j = await r.json();
+                        if (!r.ok) throw new Error(j?.error?.message || 'Toggle failed');
+                        if (j?.data?.settings) setAdsSettings(j.data.settings);
+                        showBanner('ok', `Monetag rewarded ${nextVal ? 'enabled' : 'disabled'}.`);
+                      } catch (err: any) {
+                        showBanner('err', err?.message || 'Failed to toggle Monetag');
+                      } finally {
+                        setAdsBusy(false);
+                      }
+                    }}
+                    className={`min-h-[38px] px-3 py-1.5 rounded-lg border text-xs font-bold cursor-pointer ${
+                      adsSettings.monetag?.rewarded?.enabled
+                        ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-300'
+                        : 'bg-white/5 border-white/15 text-[#C9D1E0]'
+                    }`}
+                  >
+                    Rewarded: {adsSettings.monetag?.rewarded?.enabled ? 'ON' : 'OFF'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={adsBusy}
+                    onClick={async () => {
+                      try {
+                        setAdsBusy(true);
+                        const nextVal = !Boolean(adsSettings.monetag?.showRegularAds);
+                        const r = await adminFetch('/api/admin/ads/config', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            ...adsSettings,
+                            monetag: { ...adsSettings.monetag, showRegularAds: nextVal },
+                          }),
+                        });
+                        const j = await r.json();
+                        if (!r.ok) throw new Error(j?.error?.message || 'Update failed');
+                        if (j?.data) setAdsSettings(j.data);
+                        showBanner('ok', `Monetag showRegularAds ${nextVal ? 'ON' : 'OFF'}.`);
+                      } catch (err: any) {
+                        showBanner('err', err?.message || 'Failed to update Monetag');
+                      } finally {
+                        setAdsBusy(false);
+                      }
+                    }}
+                    className={`min-h-[38px] px-3 py-1.5 rounded-lg border text-xs font-bold cursor-pointer ${
+                      adsSettings.monetag?.showRegularAds
+                        ? 'bg-amber-500/20 border-amber-400/50 text-amber-300'
+                        : 'bg-white/5 border-white/15 text-[#C9D1E0]'
+                    }`}
+                  >
+                    showRegularAds: {adsSettings.monetag?.showRegularAds ? 'ON' : 'OFF'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Per-Day & Suspicious Devices */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="bg-[#050816] border border-white/10 rounded-xl overflow-hidden">
+                <div className="px-3.5 py-2 border-b border-white/10 text-[11px] font-black uppercase text-white">
+                  Grants Per Day &amp; Network (Counts Only)
+                </div>
+                <table className="w-full text-left text-xs font-mono">
+                  <thead className="text-[#94A3B8] text-[10px] border-b border-white/10">
+                    <tr>
+                      <th className="p-2">Day</th>
+                      <th className="p-2">Network</th>
+                      <th className="p-2 text-right">Grants</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5 text-[11px]">
+                    {(rewardsReport?.grantsPerDay || []).map((g: any, idx: number) => (
+                      <tr key={idx}>
+                        <td className="p-2 text-white">{g.day}</td>
+                        <td className="p-2 text-sky-300">{g.network}</td>
+                        <td className="p-2 text-right text-emerald-400 font-bold">{g.grants}</td>
+                      </tr>
+                    ))}
+                    {(!rewardsReport?.grantsPerDay || rewardsReport.grantsPerDay.length === 0) && (
+                      <tr><td colSpan={3} className="p-3 text-center text-[#94A3B8]">No grants recorded yet.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="bg-[#050816] border border-white/10 rounded-xl overflow-hidden">
+                <div className="px-3.5 py-2 border-b border-white/10 text-[11px] font-black uppercase text-white">
+                  Suspicious Devices (Abuse Monitor)
+                </div>
+                <table className="w-full text-left text-xs font-mono">
+                  <thead className="text-[#94A3B8] text-[10px] border-b border-white/10">
+                    <tr>
+                      <th className="p-2">Device Hash</th>
+                      <th className="p-2 text-right">Grants</th>
+                      <th className="p-2 text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5 text-[11px]">
+                    {(rewardsReport?.suspiciousDevices || []).map((d: any) => (
+                      <tr key={d.deviceHash}>
+                        <td className="p-2 text-amber-300">{String(d.deviceHash).slice(0, 14)}...</td>
+                        <td className="p-2 text-right text-rose-400 font-bold">{d.grants}</td>
+                        <td className="p-2 text-right">
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              try {
+                                const r = await adminFetch('/api/admin/rewards/revoke', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ deviceHash: d.deviceHash }),
+                                });
+                                if (r.ok) {
+                                  showBanner('ok', `Revoked active reward grants for ${String(d.deviceHash).slice(0, 12)}...`);
+                                  loadAllDashboardData();
+                                }
+                              } catch (err: any) {
+                                showBanner('err', err?.message || 'Revoke failed');
+                              }
+                            }}
+                            className="px-2 py-1 rounded bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 text-[10px] font-bold cursor-pointer"
+                          >
+                            Revoke
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                    {(!rewardsReport?.suspiciousDevices || rewardsReport.suspiciousDevices.length === 0) && (
+                      <tr><td colSpan={3} className="p-3 text-center text-[#94A3B8]">No suspicious devices flagged.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

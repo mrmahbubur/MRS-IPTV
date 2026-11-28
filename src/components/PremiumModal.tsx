@@ -1482,7 +1482,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                 {[
                   {
                     title: '100% Ad-Free Streaming',
-                    desc: 'Completely removes banner overlays and sponsored gateways across all 8,890+ live channels.',
+                    desc: 'Completely removes banner overlays and ad gateways across all 8,890+ live channels.',
                     icon: Zap,
                     color: 'text-amber-400',
                     border: 'border-amber-400/40'
@@ -1532,7 +1532,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                   </thead>
                   <tbody className="divide-y divide-white/5 text-[#C9D1E0]">
                     <tr><td className="p-2.5">Free-to-Air Live Channels</td><td className="p-2.5">Included</td><td className="p-2.5 text-emerald-400 font-bold">Included + Priority</td></tr>
-                    <tr><td className="p-2.5">Sponsored Interstitials</td><td className="p-2.5">Periodic</td><td className="p-2.5 text-emerald-400 font-bold">0 Ads (100% Ad-Free)</td></tr>
+                    <tr><td className="p-2.5">Monetag Interstitials</td><td className="p-2.5">Periodic</td><td className="p-2.5 text-emerald-400 font-bold">0 Ads (100% Ad-Free)</td></tr>
                     <tr><td className="p-2.5">Android TV Full Gate Unlock</td><td className="p-2.5">Locked</td><td className="p-2.5 text-emerald-400 font-bold">Full DPAD TV Access</td></tr>
                     <tr><td className="p-2.5">High-Bitrate VIP Channels</td><td className="p-2.5">Standard</td><td className="p-2.5 text-emerald-400 font-bold">Full FHD / 4K Priority</td></tr>
                     <tr><td className="p-2.5">Active Device Limit</td><td className="p-2.5">1 Browser</td><td className="p-2.5 text-emerald-400 font-bold">Up to 2 Linked Devices</td></tr>

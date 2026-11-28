@@ -5,11 +5,9 @@ import {
   AdZoneConfig,
   getRandomAdZone,
   recordAdEvent,
-  grantRewardedAdFreeTime,
-  getBackendAdRedirectUrl,
   canTriggerInterstitialAd,
   markInterstitialAdShown,
-  hasUserViewedAdInLastHour
+  hasUserViewedAdInLastHour,
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
 import { useAdGate } from '../lib/useAdGate';
@@ -28,50 +26,50 @@ const CLIENT_LANGUAGE_FALLBACKS: Record<string, LocalizedPromptData> = {
     langKey: 'bn',
     languageName: 'বাংলা',
     badge: 'ফ্রি লাইভ টিভি সাপোর্ট · স্পনসর বার্তা',
-    headline: 'ফ্রি স্ট্রিমিং চালু রাখতে একটি স্পনসর বিজ্ঞাপন দেখুন!',
+    headline: 'ফ্রি স্ট্রিমিং চালু রাখতে স্পনসর অফার দেখুন!',
     subtext: '৮,৮৯০+ চ্যানেল ফ্রি দেখতে নিচের বাটনে ট্যাপ করে স্পনসর অফার দেখুন অথবা VIP পাস নিন।',
-    ctaText: 'স্পনসর দেখুন'
+    ctaText: 'স্পনসর দেখুন',
   },
   hi: {
     langKey: 'hi',
     languageName: 'हिन्दी',
     badge: 'फ्री लाइव टीवी सपोर्ट · स्पॉन्सर संदेश',
-    headline: 'फ्री स्ट्रीमिंग जारी रखने के लिए एक स्पॉन्सर विज्ञापन देखें!',
+    headline: 'फ्री स्ट्रीमिंग जारी रखने के लिए स्पॉन्सर ऑफर देखें!',
     subtext: '8,890+ लाइव चैनल फ्री देखने के लिए नीचे टैप करें या VIP पास लें।',
-    ctaText: 'विज्ञापन देखें'
+    ctaText: 'विज्ञापन देखें',
   },
   ur: {
     langKey: 'ur',
     languageName: 'اردو',
     badge: 'فری لائیو ٹی وی سپورٹ',
-    headline: 'فری اسٹریمنگ جاری رکھنے کے لیے ایک اسپانسر اشتہار دیکھیں!',
+    headline: 'فری اسٹریمنگ جاری رکھنے کے لیے اسپانسر آفر دیکھیں!',
     subtext: 'چینلز مفت دیکھنے کے لیے نیچے کلک کریں یا VIP پاس لیں۔',
-    ctaText: 'اشتہار دیکھیں'
+    ctaText: 'اشتہار دیکھیں',
   },
   ar: {
     langKey: 'ar',
     languageName: 'العربية',
     badge: 'دعم البث المباشر المجاني',
-    headline: 'شاهد إعلان الراعي لاستمرار البث المباشر مجاناً!',
+    headline: 'تصفح عرض الراعي لاستمرار البث المباشر مجاناً!',
     subtext: 'اضغط أدناه لمشاهدة عرض الراعي أو احصل على VIP بدون إعلانات.',
-    ctaText: 'شاهد الإعلان'
+    ctaText: 'شاهد الإعلان',
   },
   es: {
     langKey: 'es',
     languageName: 'Español',
     badge: 'Soporte de TV en Vivo',
-    headline: '¡Mira un anuncio patrocinado para mantener la TV en vivo gratis!',
+    headline: '¡Apoya la TV en vivo gratuita!',
     subtext: 'Toca abajo para apoyar el servidor gratuito o obtén el pase VIP sin anuncios.',
-    ctaText: 'Ver Anuncio'
+    ctaText: 'Ver Anuncio',
   },
   en: {
     langKey: 'en',
     languageName: 'English',
-    badge: 'Free Live TV Support · Sponsored',
+    badge: 'Free Live TV Support · Monetag Ad',
     headline: 'Support Free Live TV Streaming!',
-    subtext: 'Tap below to visit our partner sponsor and keep free channels streaming, or upgrade to VIP for zero ads.',
-    ctaText: 'Visit Sponsor Offer'
-  }
+    subtext: 'Tap below to visit our Monetag ad partner and keep free channels streaming, or upgrade to VIP for zero ads.',
+    ctaText: 'View Monetag Ad',
+  },
 };
 
 function detectInitialClientLanguage(): LocalizedPromptData {
@@ -95,30 +93,22 @@ interface HourlyAdReminderOverlayProps {
 
 export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = ({
   adFreeState,
-  onRewardedGranted,
-  onOpenVipModal
+  onOpenVipModal,
 }) => {
-  const { isFreeMode, adConfig } = useAdGate();
-  const isTempPaused = Boolean(adFreeState?.isActive && adFreeState?.code === 'SPONSOR_REWARD_VIP');
-  const canOperate = isFreeMode && !isTempPaused && adConfig.formats.interstitial;
+  const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const hasRegularNetworkInterstitials = Boolean(adConfig.monetag?.showRegularAds);
+  const canOperate =
+    isFreeMode &&
+    !isVipLocked &&
+    !adFreeState?.isActive &&
+    !adConfig.testMode &&
+    adConfig.formats.interstitial &&
+    hasRegularNetworkInterstitials;
 
   const [isVisible, setIsVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(5);
   const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getRandomAdZone());
   const [localizedData, setLocalizedData] = useState<LocalizedPromptData>(() => detectInitialClientLanguage());
-
-  useEffect(() => {
-    const handleRotation = (e: Event) => {
-      const evt = e as CustomEvent<{ nextZone?: AdZoneConfig }>;
-      if (evt.detail?.nextZone) {
-        setActiveZone(evt.detail.nextZone);
-      } else {
-        setActiveZone(getRandomAdZone());
-      }
-    };
-    window.addEventListener('mrs_ad_zone_rotated', handleRotation);
-    return () => window.removeEventListener('mrs_ad_zone_rotated', handleRotation);
-  }, []);
 
   useEffect(() => {
     if (!canOperate) return;
@@ -131,13 +121,11 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
     fetch('/api/ai/localized-ad-prompt', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lang, timezone: tz })
+      body: JSON.stringify({ lang, timezone: tz }),
     })
-      .then(r => r.json())
-      .then(data => {
-        if (data && data.headline) {
-          setLocalizedData(data);
-        }
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && data.headline) setLocalizedData(data);
       })
       .catch(() => {});
   }, [canOperate]);
@@ -154,7 +142,7 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
         if (docEl.getAttribute('data-mrs-player-active') === '1') return true;
         if (docEl.getAttribute('data-mrs-modal-open') === '1') return true;
         const v = (docEl.getAttribute('data-mrs-view') || '').toLowerCase();
-        if (v === 'admin' || v === 'checkout' || v === 'activate' || v === 'account' || v === 'support' || v === 'legal') {
+        if (['admin', 'checkout', 'activate', 'account', 'support', 'legal'].includes(v)) {
           return true;
         }
       } catch {}
@@ -178,28 +166,16 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
     const initialTimer = setTimeout(checkAndShowHourlyReminder, 2 * 60 * 1000);
     const periodicInterval = setInterval(checkAndShowHourlyReminder, 15 * 60 * 1000);
 
-    const handleManualTrigger = () => {
-      if (!canOperate || isBlockedContext()) return;
-      const nextZone = getRandomAdZone();
-      setActiveZone(nextZone);
-      recordAdEvent('impression', nextZone, 'hourly-visual-reminder');
-      setSecondsLeft(5);
-      setIsVisible(true);
-    };
-    window.addEventListener('mrs_trigger_hourly_ad_reminder', handleManualTrigger);
-
     return () => {
       clearTimeout(initialTimer);
       clearInterval(periodicInterval);
-      window.removeEventListener('mrs_trigger_hourly_ad_reminder', handleManualTrigger);
     };
   }, [canOperate]);
 
   useEffect(() => {
     if (!isVisible) return;
-
     const countdownInterval = setInterval(() => {
-      setSecondsLeft(prev => {
+      setSecondsLeft((prev) => {
         if (prev <= 1) {
           clearInterval(countdownInterval);
           setIsVisible(false);
@@ -208,28 +184,21 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
         return prev - 1;
       });
     }, 1000);
-
     return () => clearInterval(countdownInterval);
   }, [isVisible]);
 
   if (!isVisible || !canOperate) return null;
 
   const progressPct = ((5 - secondsLeft) / 5) * 100;
-  const backendAdUrl = getBackendAdRedirectUrl('hourly-visual-reminder-click', activeZone.zoneId);
+  const targetHref = activeZone.url;
 
-  const handleWatchAdAndClaimVip = () => {
-    recordAdEvent('click', activeZone, 'hourly-visual-reminder-click');
-    const newState = grantRewardedAdFreeTime(1);
-    if (onRewardedGranted) {
-      onRewardedGranted(newState);
-    }
-    setTimeout(() => {
-      setIsVisible(false);
-    }, 400);
+  const handleAdClick = () => {
+    recordAdEvent('click', activeZone, 'hourly-visual-reminder');
+    setTimeout(() => setIsVisible(false), 300);
   };
 
   return (
-    <div data-sponsored="true" className="ad-slot fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-200 select-none">
+    <div className="ad-slot fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-200 select-none">
       <div className="relative w-full max-w-lg bg-[#0E1019] border border-amber-400/50 rounded-2xl shadow-2xl overflow-hidden">
         <div className="w-full h-1.5 bg-[#07080D]">
           <div
@@ -239,11 +208,11 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
         </div>
 
         <a
-          href={backendAdUrl}
+          href={targetHref}
           target="_blank"
-          rel="sponsored nofollow noopener"
+          rel="nofollow noopener noreferrer"
           data-ad-link="true"
-          onClick={handleWatchAdAndClaimVip}
+          onClick={handleAdClick}
           className="relative block w-full aspect-video overflow-hidden bg-black group cursor-pointer"
         >
           <img
@@ -281,11 +250,11 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
 
         <div className="p-4 sm:p-5 bg-[#0E1019] space-y-2.5">
           <a
-            href={backendAdUrl}
+            href={targetHref}
             target="_blank"
-            rel="sponsored nofollow noopener"
+            rel="nofollow noopener noreferrer"
             data-ad-link="true"
-            onClick={handleWatchAdAndClaimVip}
+            onClick={handleAdClick}
             className="w-full min-h-[46px] py-3.5 px-5 rounded-xl btn-premium-gold text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
           >
             <Gift className="w-4 h-4 shrink-0 text-amber-300" />

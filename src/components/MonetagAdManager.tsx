@@ -30,22 +30,19 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
         'script[src*="n6wxm.com"]',
         'script[data-zone="12138523"]',
         'script[src*="uplcm.com"]',
-        'script[src*="rzekl.com"]',
-        'script[src*="highperformanceformat"]',
-        'script[src*="topcreativeformat"]',
-        'script[src*="profitablegate"]',
         'iframe[src*="quge5.com"]',
         'iframe[src*="5gvci.com"]',
         'iframe[src*="n6wxm.com"]',
-        'iframe[src*="asiafilm.org"]',
         'iframe[src*="uplcm.com"]',
-        'iframe[src*="rzekl.com"]',
         'div[id*="monetag"]',
         'div[class*="monetag"]',
         'div[id*="vignette"]',
         '.ad-slot',
         '.ad-sticky-banner',
-        '#mrs-sticky-mobile-ad'
+        '#mrs-sticky-mobile-ad',
+        '#mrs-consent-banner',
+        '#mrs-push-preprompt',
+        '#mrs-reward-sim-modal'
       ].join(', ');
 
       document.querySelectorAll(selectors).forEach((el) => el.remove());
@@ -69,10 +66,7 @@ export const MonetagAdManager: React.FC<MonetagAdManagerProps> = () => {
               anchor.href?.includes('quge5.com') ||
               anchor.href?.includes('5gvci.com') ||
               anchor.href?.includes('n6wxm.com') ||
-              anchor.href?.includes('asiafilm.org') ||
               anchor.href?.includes('uplcm.com') ||
-              anchor.href?.includes('rzekl.com') ||
-              anchor.href?.includes('/go/') ||
               anchor.href?.includes('/api/ads/redirect') ||
               anchor.id?.includes('monetag') ||
               anchor.className?.includes('monetag'))

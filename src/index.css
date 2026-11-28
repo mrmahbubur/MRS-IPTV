@@ -757,12 +757,8 @@ html:not([data-mrs-ad-state="free"]) .ad-slot,
 html:not([data-mrs-ad-state="free"]) .ad-label,
 html:not([data-mrs-ad-state="free"]) [data-ad-slot],
 html:not([data-mrs-ad-state="free"]) [data-ad-link],
-html:not([data-mrs-ad-state="free"]) [data-sponsored],
-html:not([data-mrs-ad-state="free"]) .sponsored-block,
-html:not([data-mrs-ad-state="free"]) .affiliate-block,
 html:not([data-mrs-ad-state="free"]) .ad-sticky-banner,
-html:not([data-mrs-ad-state="free"]) .mrs-free-upsell,
-html:not([data-mrs-ad-state="free"]) .mrs-offers-nav {
+html:not([data-mrs-ad-state="free"]) .mrs-free-upsell {
   display: none !important;
 }
 

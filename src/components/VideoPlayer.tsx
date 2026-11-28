@@ -4,7 +4,6 @@ import { getChannelLogo, getChannelFallbackLogo } from '../lib/channelLogos';
 import { ChannelThumbnail } from './ChannelThumbnail';
 import { motion, AnimatePresence } from 'motion/react';
 import { HlsPlayer } from './HlsPlayer';
-import { AdBannerUnit } from './AdBannerUnit';
 import { InPlayerMiniGuide } from './InPlayerMiniGuide';
 import { MoreMenuSheet } from './MoreMenuSheet';
 import { TvGuideSheet } from './TvGuideSheet';
@@ -2037,16 +2036,6 @@ export default function VideoPlayer({
               </button>
             </div>
           </div>
-
-          {!isVip && (
-            <AdBannerUnit
-              placement="player-below"
-              compact
-              adFreeState={adFreeState}
-              onRewardedGranted={onRewardedGranted}
-              refreshTrigger={channel.id}
-            />
-          )}
         </div>
       )}
 

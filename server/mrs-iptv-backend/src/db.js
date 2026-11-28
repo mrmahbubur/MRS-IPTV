@@ -448,22 +448,47 @@ CREATE INDEX IF NOT EXISTS idx_channels_source ON channels(source, status);
 CREATE TABLE IF NOT EXISTS ad_events (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   event_type TEXT NOT NULL, -- 'view' | 'click'
-  format     TEXT NOT NULL, -- 'banner' | 'sticky' | 'popunder' | 'interstitial' | 'push' | 'affiliate'
+  format     TEXT NOT NULL, -- 'banner' | 'sticky' | 'popunder' | 'interstitial' | 'push'
   placement  TEXT NOT NULL,
-  offer_id   TEXT NOT NULL,
+  zone_id    TEXT NOT NULL,
   network    TEXT NOT NULL DEFAULT 'Monetag Direct',
-  subid      TEXT,
   ip_hash    TEXT,
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_ad_events_created ON ad_events(created_at, event_type);
-CREATE INDEX IF NOT EXISTS idx_ad_events_offer   ON ad_events(offer_id, event_type);
+CREATE INDEX IF NOT EXISTS idx_ad_events_zone    ON ad_events(zone_id, event_type);
 
 CREATE TABLE IF NOT EXISTS ad_settings (
   key        TEXT PRIMARY KEY,
   value_json TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS reward_sessions (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  nonce       TEXT NOT NULL UNIQUE,
+  device_hash TEXT NOT NULL,
+  ip_hash     TEXT NOT NULL,
+  network     TEXT NOT NULL,
+  created_at  TEXT NOT NULL,
+  verified_at TEXT,
+  claimed_at  TEXT,
+  status      TEXT NOT NULL DEFAULT 'started' -- 'started' | 'verified' | 'claimed' | 'expired'
+);
+CREATE INDEX IF NOT EXISTS idx_reward_sessions_dev ON reward_sessions(device_hash, created_at);
+CREATE INDEX IF NOT EXISTS idx_reward_sessions_ip  ON reward_sessions(ip_hash, created_at);
+
+CREATE TABLE IF NOT EXISTS reward_grants (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  device_hash TEXT NOT NULL,
+  ip_hash     TEXT NOT NULL,
+  network     TEXT NOT NULL,
+  granted_at  TEXT NOT NULL,
+  expires_at  TEXT NOT NULL,
+  revoked_at  TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_reward_grants_dev ON reward_grants(device_hash, expires_at);
+CREATE INDEX IF NOT EXISTS idx_reward_grants_ip  ON reward_grants(ip_hash, granted_at);
 `);
 
 try { db.exec('ALTER TABLE orders ADD COLUMN customer_name TEXT;'); } catch (_) {}
@@ -486,6 +511,16 @@ try { db.exec('ALTER TABLE catalog_channels ADD COLUMN http_status INTEGER;'); }
 try { db.exec('ALTER TABLE channels ADD COLUMN best_profile TEXT;'); } catch (_) {}
 try { db.exec('ALTER TABLE channels ADD COLUMN cors INTEGER;'); } catch (_) {}
 try { db.exec('CREATE INDEX IF NOT EXISTS idx_channels_source ON channels(source, status);'); } catch (_) {}
+try { db.exec('ALTER TABLE ad_events RENAME COLUMN offer_id TO zone_id;'); } catch (_) {}
+try {
+  const cols = db.prepare('PRAGMA table_info(ad_events)').all();
+  const allowed = new Set(['id', 'event_type', 'format', 'placement', 'zone_id', 'network', 'ip_hash', 'created_at']);
+  for (const c of cols) {
+    if (c?.name && !allowed.has(c.name)) {
+      try { db.exec(`ALTER TABLE ad_events DROP COLUMN "${String(c.name).replace(/"/g, '')}";`); } catch (_) {}
+    }
+  }
+} catch (_) {}
 
 export const nowIso = () => new Date().toISOString();
 export const get = (sql, ...p) => db.prepare(sql).get(...p);

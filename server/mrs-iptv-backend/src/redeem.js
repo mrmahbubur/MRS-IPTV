@@ -371,6 +371,40 @@ export function checkEntitlement({ token, deviceId }) {
   const p = verifyToken(token);
   if (!p || !deviceId || p.dev !== hashDevice(String(deviceId))) return fail(401, 'invalid_token', 'Invalid pass token', 'INVALID_CODE');
 
+  // 1. Rewarded 1-Hour VIP Grant Tokens
+  if (p.kind === 'reward') {
+    const grantId = Number(p.gid);
+    if (!Number.isFinite(grantId) || grantId <= 0) {
+      return fail(401, 'invalid_token', 'Invalid reward token', 'INVALID_CODE');
+    }
+    const grant = get('SELECT * FROM reward_grants WHERE id=? AND device_hash=?', grantId, p.dev);
+    if (!grant || grant.revoked_at) {
+      return fail(403, 'not_active', 'Reward pass is no longer active', 'REVOKED');
+    }
+    if (Date.parse(grant.expires_at) <= Date.now()) {
+      return fail(410, 'expired', 'Your 1-hour free VIP pass has expired', 'EXPIRED');
+    }
+    return {
+      ok: true,
+      kind: 'reward',
+      grantId: grant.id,
+      active: true,
+      plan: 'reward1h',
+      planCode: 'reward1h',
+      planLabel: '1-Hour Free VIP (Reward)',
+      network: grant.network,
+      months: 0,
+      durationDays: 0,
+      activatedAt: grant.granted_at,
+      expiresAt: grant.expires_at,
+      daysRemaining: 0,
+      deviceLimit: 1,
+      unlocksVipChannels: Boolean(config.rewards?.unlocksVipChannels ?? true),
+      token,
+    };
+  }
+
+  // 2. Paid VIP Activation Code & Multi-Device Entitlements
   const row = get('SELECT * FROM codes WHERE id=?', p.cid);
   if (!row || row.status !== 'redeemed') return fail(403, 'not_active', 'This pass is no longer active', 'REVOKED');
 

@@ -256,6 +256,15 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
                         M R S IPTV provides user accessibility through custom multi-profile stream proxies (VLC, Smarters, Smart TV, Chrome) to bypass browser CORS headers and codec limitations for personal, non-commercial entertainment.
                       </p>
                     </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-extrabold text-white text-xs uppercase tracking-wider text-[var(--theme-accent,#38BDF8)]">
+                        3. Rewarded 1-Hour VIP &amp; Monetag Ad Policy
+                      </h4>
+                      <p className="leading-relaxed">
+                        Free users may optionally watch an official Monetag rewarded ad format (when enabled) to unlock 1 hour of ad-free VIP access. Grants require official ad completion, are limited by a 3-hour cooldown after expiry, up to 3 grants per device per day and 6 grants per hashed IP per day, and cannot stack on active VIP or reward sessions. Automated spoofing or abuse results in immediate token revocation. Paid VIP and active 1-hour reward users see zero ads.
+                      </p>
+                    </div>
                   </div>
                 )}
 
@@ -337,10 +346,19 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
 
                     <div className="space-y-2">
                       <h4 className="font-extrabold text-white text-xs uppercase tracking-wider text-[var(--theme-accent,#38BDF8)]">
-                        Cookies & Local Storage
+                        Cookies, Local Storage &amp; Consent
                       </h4>
                       <p className="leading-relaxed">
-                        The platform only uses browser local storage for essential features (user volume, channel favorites, aspect ratio preferences, manual region preference, and VIP Pass token validation). No tracking or profiling cookies are utilized.
+                        The platform uses browser local storage for essential playback preferences (volume, favorites, aspect ratio, region preference, and VIP Pass token validation). For free-tier visitors, an EU/UK consent prompt runs before any advertising script initializes, and you may update your preferences anytime via &ldquo;Ad &amp; privacy settings&rdquo; in the footer. Paid VIP and active 1-hour reward users load zero ad scripts, zero push notifications, and zero Monetag ad elements.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-extrabold text-white text-xs uppercase tracking-wider text-[var(--theme-accent,#38BDF8)]">
+                        Advertising Network &amp; Reward Abuse Prevention
+                      </h4>
+                      <p className="leading-relaxed">
+                        <strong>Monetag</strong> is the sole advertising network on M R S IPTV. Free-tier monetization supports optional Monetag ad units and official rewarded ad completion (when explicitly enabled in compliance with network terms). Monetag may use cookies or pseudonymous identifiers in accordance with its own privacy policy only after you consent in free mode. To prevent abuse of the 1-hour free VIP reward system, the backend hashes your device identifier and IP address using one-way cryptographic hashes (never storing raw IPs in reward tables) to enforce cooldowns and daily caps.
                       </p>
                     </div>
 

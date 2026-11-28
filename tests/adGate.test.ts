@@ -14,14 +14,20 @@ process.env.UPLOAD_DIR = path.join(tmpDir, 'uploads');
 process.env.ADMIN_TOKEN = 'test-admin-secret-123';
 process.env.SIGNING_SECRET = 'test-signing-secret-xyz';
 process.env.TOKEN_SECRET = 'test-token-secret-xyz';
+process.env.REWARD_MIN_WATCH_MS = '15000';
+process.env.REWARD_COOLDOWN_MINUTES = '180';
+process.env.REWARD_MAX_PER_DEVICE_PER_DAY = '3';
+process.env.REWARD_MAX_PER_IP_PER_DAY = '6';
+process.env.MONETAG_POSTBACK_SECRET = 'monetag-postback-test-secret';
 
 const { db, run, get, nowIso } = await import('../server/mrs-iptv-backend/src/db.js');
 const { redeem } = await import('../server/mrs-iptv-backend/src/redeem.js');
-const { createAdsRouter, VERIFIED_OFFERS } = await import('../server/adsRouter.js');
+const { createAdsRouter, MONETAG_ZONES } = await import('../server/adsRouter.js');
 const paymentRouterModule = await import('../server/paymentRouter.js');
 const createPaymentRouter = paymentRouterModule.default || paymentRouterModule.createPaymentRouter;
 
 const adGateSource = fs.readFileSync(path.join(process.cwd(), 'public', 'ad-gate.js'), 'utf8');
+const rewardAdsSource = fs.readFileSync(path.join(process.cwd(), 'public', 'rewardAds.js'), 'utf8');
 
 function createDomSandbox(options: {
   initialStorage?: Record<string, string>;
@@ -60,6 +66,7 @@ function createDomSandbox(options: {
 
   const scheduledDelays: number[] = [];
   let timerSeq = 1;
+  let reloadCalled = 0;
 
   const sandbox: any = {
     console,
@@ -69,11 +76,18 @@ function createDomSandbox(options: {
     Promise,
     AbortController,
     encodeURIComponent,
+    location: {
+      reload: () => {
+        reloadCalled += 1;
+      },
+    },
     setTimeout: (_fn: any, ms: number) => {
       scheduledDelays.push(Number(ms || 0));
       return timerSeq++;
     },
     clearTimeout: () => {},
+    setInterval: () => timerSeq++,
+    clearInterval: () => {},
     CustomEvent: class CustomEvent {
       type: string;
       detail: any;
@@ -139,6 +153,7 @@ function createDomSandbox(options: {
     removedSelectors,
     unregisteredUrls,
     getPushUnsubscribed: () => pushUnsubscribed,
+    getReloadCalled: () => reloadCalled,
   };
 }
 
@@ -297,28 +312,27 @@ test('5. enterVipMode() purges ad DOM, clears mrs_ads_* keys, unregisters ad SWs
   assert.ok(env.removedSelectors.includes('.ad-slot'));
   assert.deepEqual(env.unregisteredUrls, ['https://example.com/monetag-push-sw.js']);
   assert.equal(env.getPushUnsubscribed(), 1);
+  assert.equal(env.getReloadCalled(), 1);
 });
 
-test('6. GET /go/:offerId redirects verified Mitgo/Monetag offers and blocks open redirects', async () => {
-  const mitgoOffer = VERIFIED_OFFERS.find((o) => o.offerId === 'pm1aev55clcb5002cfdd219aa26f6f');
-  assert.ok(mitgoOffer);
+test('6. /go/:offerId is completely unmounted (404), MONETAG_ZONES preserves all 10 uplcm.com URLs, and /api/ads/config is Monetag-only', async () => {
+  assert.equal(MONETAG_ZONES.length, 10);
+  const monetagZone = MONETAG_ZONES.find((z) => z.zoneId === '11226634');
+  assert.ok(monetagZone);
+  assert.equal(monetagZone.url, 'https://uplcm.com/4/11226634');
 
-  const okRes = await fetch(`${baseUrl}/go/pm1aev55clcb5002cfdd219aa26f6f?subid=hero_unit_1`, {
-    redirect: 'manual',
-  });
-  assert.equal(okRes.status, 302);
-  assert.equal(okRes.headers.get('location'), 'https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/');
+  const removedGoRes = await fetch(`${baseUrl}/go/11226634`, { redirect: 'manual' });
+  assert.equal(removedGoRes.status, 404);
 
-  // Open redirect attempt must fail closed with 404
-  const badRes = await fetch(`${baseUrl}/go/https%3A%2F%2Fevil.example.com`, { redirect: 'manual' });
-  assert.equal(badRes.status, 404);
-
-  const logged = get(
-    `SELECT event_type, offer_id, subid FROM ad_events WHERE offer_id = ? ORDER BY id DESC LIMIT 1`,
-    'pm1aev55clcb5002cfdd219aa26f6f'
-  ) as any;
-  assert.equal(logged?.event_type, 'click');
-  assert.equal(logged?.subid, 'hero_unit_1');
+  const cfgRes = await fetch(`${baseUrl}/api/ads/config`);
+  assert.equal(cfgRes.status, 200);
+  const cfgJson = await cfgRes.json() as any;
+  assert.equal(cfgJson.ok, true);
+  assert.equal(cfgJson.data.hideOffersForVip, undefined);
+  assert.equal(cfgJson.data.offers, undefined);
+  assert.equal(cfgJson.data.formats.affiliate, undefined);
+  assert.equal(cfgJson.data.monetag.rewardedEnabled, false);
+  assert.equal(cfgJson.data.rewards.anyRewardedAvailable, false);
 });
 
 test('7. POST /api/ads/event records free events and ignores active VIP Bearer requests', async () => {
@@ -352,9 +366,19 @@ test('7. POST /api/ads/event records free events and ignores active VIP Bearer r
   assert.equal(freeEvJson.data.accepted, 1);
 });
 
-test('8. Admin ads report & config routes enforce x-admin-token and persist toggles', async () => {
+test('8. Admin ads report & config routes enforce x-admin-token and persist Monetag-only toggles', async () => {
   const unauthRes = await fetch(`${baseUrl}/api/admin/ads/report`);
   assert.equal(unauthRes.status, 401);
+
+  // Record a free-user click event directly via /api/ads/event
+  const clickEvRes = await fetch(`${baseUrl}/api/ads/event`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      events: [{ eventType: 'click', format: 'banner', placement: 'home-top', zoneId: '11226634' }],
+    }),
+  });
+  assert.equal(clickEvRes.status, 200);
 
   const putRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
     method: 'PUT',
@@ -365,13 +389,14 @@ test('8. Admin ads report & config routes enforce x-admin-token and persist togg
     body: JSON.stringify({
       formats: { popunder: false, banner: true },
       testMode: true,
-      hideOffersForVip: true,
     }),
   });
   assert.equal(putRes.status, 200);
   const putJson = await putRes.json() as any;
   assert.equal(putJson.ok, true);
   assert.equal(putJson.data.formats.popunder, false);
+  assert.equal(putJson.data.formats.affiliate, undefined);
+  assert.equal(putJson.data.hideOffersForVip, undefined);
   assert.equal(putJson.data.testMode, true);
 
   const reportRes = await fetch(`${baseUrl}/api/admin/ads/report?days=30`, {
@@ -382,9 +407,10 @@ test('8. Admin ads report & config routes enforce x-admin-token and persist togg
   assert.equal(reportJson.ok, true);
   assert.ok(reportJson.data.totals.views >= 1);
   assert.ok(reportJson.data.totals.clicks >= 1);
+  assert.ok(Array.isArray(reportJson.data.byZone) && reportJson.data.byZone.length >= 1);
 });
 
-test('9. GET /api/status returns { ok, data: { active, plan, expiresAt } } for VIP and { active: false } for free/invalid', async () => {
+test('9. GET /api/status returns { ok, data: { active, plan: "vip", planCode, expiresAt } } for paid VIP and { active: false } for free/invalid', async () => {
   const vipRes = await fetch(`${baseUrl}/api/status?deviceId=${encodeURIComponent(TEST_DEVICE)}`, {
     headers: { Authorization: `Bearer ${activeVipToken}` },
   });
@@ -392,7 +418,8 @@ test('9. GET /api/status returns { ok, data: { active, plan, expiresAt } } for V
   const vipJson = await vipRes.json() as any;
   assert.equal(vipJson.ok, true);
   assert.equal(vipJson.data.active, true);
-  assert.equal(vipJson.data.plan, '1m');
+  assert.equal(vipJson.data.plan, 'vip');
+  assert.equal(vipJson.data.planCode, '1m');
   assert.ok(typeof vipJson.data.expiresAt === 'string' && vipJson.data.expiresAt.length > 0);
 
   const anonRes = await fetch(`${baseUrl}/api/status`);
@@ -401,3 +428,406 @@ test('9. GET /api/status returns { ok, data: { active, plan, expiresAt } } for V
   assert.equal(anonJson.ok, false);
   assert.equal(anonJson.data.active, false);
 });
+
+test('10. Reward start -> early claim rejected -> valid claim grants reward1h -> nonce reuse blocked -> /api/status active', async () => {
+  const rewardDev = 'reward-dev-flow-0001';
+
+  // Paid VIP cannot start a reward session
+  const vipStartRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${activeVipToken}`,
+      'x-device-id': TEST_DEVICE,
+    },
+    body: JSON.stringify({ deviceId: TEST_DEVICE, network: 'monetag' }),
+  });
+  assert.equal(vipStartRes.status, 409);
+
+  // Unsupported reward networks (including removed Adsterra) stay rejected
+  const unsupportedStartRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: rewardDev, network: 'adsterra' }),
+  });
+  assert.equal(unsupportedStartRes.status, 400);
+
+  // Free user starts reward session
+  const startRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: rewardDev, network: 'monetag' }),
+  });
+  assert.equal(startRes.status, 200);
+  const startJson = await startRes.json() as any;
+  assert.equal(startJson.ok, true);
+  assert.ok(typeof startJson.data.nonce === 'string' && startJson.data.nonce.length >= 32);
+  assert.equal(startJson.data.minWatchMs, 15000);
+
+  // Claiming before minWatchMs elapses is rejected
+  const earlyClaimRes = await fetch(`${baseUrl}/api/rewards/claim`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nonce: startJson.data.nonce, deviceId: rewardDev }),
+  });
+  assert.equal(earlyClaimRes.status, 400);
+  const earlyClaimJson = await earlyClaimRes.json() as any;
+  assert.equal(earlyClaimJson.error.code, 'too_early');
+
+  // Backdate session created_at beyond minWatchMs
+  const backdated = new Date(Date.now() - 20_000).toISOString();
+  run(`UPDATE reward_sessions SET created_at = ? WHERE nonce = ?`, backdated, startJson.data.nonce);
+
+  const claimRes = await fetch(`${baseUrl}/api/rewards/claim`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nonce: startJson.data.nonce, deviceId: rewardDev }),
+  });
+  assert.equal(claimRes.status, 200);
+  const claimJson = await claimRes.json() as any;
+  assert.equal(claimJson.ok, true);
+  assert.equal(claimJson.data.plan, 'reward1h');
+  assert.ok(typeof claimJson.data.token === 'string' && claimJson.data.token.length > 20);
+
+  // Nonce reuse fails cleanly
+  const reuseRes = await fetch(`${baseUrl}/api/rewards/claim`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nonce: startJson.data.nonce, deviceId: rewardDev }),
+  });
+  assert.equal(reuseRes.status, 409);
+
+  // Stacking another reward while active fails
+  const stackStartRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: rewardDev, network: 'monetag' }),
+  });
+  assert.equal(stackStartRes.status, 409);
+
+  // /api/status treats reward1h token as active VIP
+  const statusRes = await fetch(`${baseUrl}/api/status?deviceId=${encodeURIComponent(rewardDev)}`, {
+    headers: { Authorization: `Bearer ${claimJson.data.token}` },
+  });
+  assert.equal(statusRes.status, 200);
+  const statusJson = await statusRes.json() as any;
+  assert.equal(statusJson.ok, true);
+  assert.equal(statusJson.data.active, true);
+  assert.equal(statusJson.data.plan, 'reward1h');
+  assert.equal(statusJson.data.planCode, 'reward1h');
+
+  // Reward user ad events are ignored just like paid VIP
+  const evRes = await fetch(`${baseUrl}/api/ads/event`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${claimJson.data.token}`,
+      'x-device-id': rewardDev,
+    },
+    body: JSON.stringify({ events: [{ eventType: 'view', format: 'banner', placement: 'home-top', offerId: '11226634' }] }),
+  });
+  const evJson = await evRes.json() as any;
+  assert.equal(evJson.data.accepted, 0);
+  assert.equal(evJson.data.ignored, 'vip');
+});
+
+test('11. Post-expiry cooldown & daily per-device cap enforce server limits', async () => {
+  const capDev = 'reward-dev-cap-0002';
+  const { hashDevice } = await import('../server/mrs-iptv-backend/src/redeem.js');
+  const devHash = hashDevice(capDev);
+
+  // Insert an expired grant from 10 minutes ago -> still inside 180-min cooldown
+  const tenMinAgo = new Date(Date.now() - 10 * 60_000).toISOString();
+  const seventyMinAgo = new Date(Date.now() - 70 * 60_000).toISOString();
+  run(
+    `INSERT INTO reward_grants(device_hash, ip_hash, network, granted_at, expires_at) VALUES (?, 'iphash1', 'monetag', ?, ?)`,
+    devHash,
+    seventyMinAgo,
+    tenMinAgo
+  );
+
+  const cooldownRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: capDev, network: 'monetag' }),
+  });
+  assert.equal(cooldownRes.status, 429);
+  const cooldownJson = await cooldownRes.json() as any;
+  assert.equal(cooldownJson.error.code, 'reward_cooldown');
+  assert.ok(cooldownJson.error.retryAfterMinutes >= 1);
+
+  // Move latest grant expiry past 180m cooldown, and add 2 more today -> hits 3/day device cap
+  const fourHoursAgo = new Date(Date.now() - 4 * 3600_000).toISOString();
+  const fiveHoursAgo = new Date(Date.now() - 5 * 3600_000).toISOString();
+  run(`UPDATE reward_grants SET granted_at = ?, expires_at = ? WHERE device_hash = ?`, fiveHoursAgo, fourHoursAgo, devHash);
+  run(
+    `INSERT INTO reward_grants(device_hash, ip_hash, network, granted_at, expires_at) VALUES (?, 'iphash1', 'monetag', ?, ?), (?, 'iphash1', 'monetag', ?, ?)`,
+    devHash, fiveHoursAgo, fourHoursAgo,
+    devHash, fiveHoursAgo, fourHoursAgo
+  );
+
+  const capRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: capDev, network: 'monetag' }),
+  });
+  assert.equal(capRes.status, 429);
+  const capJson = await capRes.json() as any;
+  assert.equal(capJson.error.code, 'device_daily_cap');
+});
+
+test('12. Admin reward report, revoke, Monetag toggle, and removal verification', async () => {
+  // Rejects removed non-Monetag network toggles
+  const refuseRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': 'test-admin-secret-123',
+    },
+    body: JSON.stringify({ network: 'adsterra', enabled: true }),
+  });
+  assert.equal(refuseRes.status, 400);
+  const refuseJson = await refuseRes.json() as any;
+  assert.equal(refuseJson.error.code, 'invalid_network');
+
+  // Allows toggling Monetag settings cleanly and resets back to false
+  const allowRes = await fetch(`${baseUrl}/admin/rewards/toggle`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': 'test-admin-secret-123',
+    },
+    body: JSON.stringify({ network: 'monetag', enabled: true }),
+  });
+  assert.equal(allowRes.status, 200);
+  const allowJson = await allowRes.json() as any;
+  assert.equal(allowJson.data.monetag.rewarded.enabled, true);
+
+  await fetch(`${baseUrl}/admin/rewards/toggle`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
+    body: JSON.stringify({ network: 'monetag', enabled: false }),
+  });
+
+  // Static files confirm complete removal of Adsterra/Admitad/Mitgo/offers.json/subid/affiliate while preserving Monetag
+  const indexHtml = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
+  assert.equal(indexHtml.includes('mitgo-verification'), false);
+  assert.ok(indexHtml.includes('name="monetag"'));
+  assert.equal(fs.existsSync(path.join(process.cwd(), 'data', 'offers.json')), false);
+  assert.equal(fs.existsSync(path.join(process.cwd(), 'src', 'components', 'AdvertisementCategoryView.tsx')), false);
+
+  const adsConfigSource = fs.readFileSync(path.join(process.cwd(), 'public', 'ads.config.js'), 'utf8');
+  assert.ok(adsConfigSource.includes('https://uplcm.com/4/11226634'));
+
+  const auditedFiles = [
+    'index.html',
+    'public/ad-gate.js',
+    'public/ads.config.js',
+    'public/ad-manager.js',
+    'public/rewardAds.js',
+    'server/adsRouter.ts',
+    'src/lib/useAdGate.ts',
+    'src/lib/adSystem.ts',
+    'src/components/AdBannerUnit.tsx',
+    'src/components/LegalPolicyModal.tsx',
+  ];
+  const forbiddenPattern = /adsterra|admitad|mitgo|rzekl|subid|\/go\/|offers_clicks|offers\.json|affiliate/i;
+  for (const rel of auditedFiles) {
+    const content = fs.readFileSync(path.join(process.cwd(), rel), 'utf8');
+    assert.equal(forbiddenPattern.test(content), false, `Forbidden reference found in ${rel}`);
+  }
+
+  // Report returns aggregated counts
+  const repRes = await fetch(`${baseUrl}/admin/rewards/report?days=30`, {
+    headers: { 'x-admin-token': 'test-admin-secret-123' },
+  });
+  assert.equal(repRes.status, 200);
+  const repJson = await repRes.json() as any;
+  assert.equal(repJson.ok, true);
+  assert.ok(repJson.data.starts >= 1);
+  assert.ok(repJson.data.claims >= 1);
+
+  // Revoking reward-dev-flow-0001 invalidates active reward grant
+  const { hashDevice } = await import('../server/mrs-iptv-backend/src/redeem.js');
+  const revHash = hashDevice('reward-dev-flow-0001');
+  const revokeRes = await fetch(`${baseUrl}/admin/rewards/revoke`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': 'test-admin-secret-123',
+    },
+    body: JSON.stringify({ deviceHash: revHash }),
+  });
+  assert.equal(revokeRes.status, 200);
+  const revokeJson = await revokeRes.json() as any;
+  assert.ok(revokeJson.data.revokedGrants >= 1);
+});
+
+test('13. POST /api/rewards/postback verifies shared secret & marks session verified', async () => {
+  const pbDev = 'reward-dev-postback-03';
+  const startRes = await fetch(`${baseUrl}/api/rewards/start`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId: pbDev, network: 'monetag' }),
+  });
+  const startJson = await startRes.json() as any;
+  assert.equal(startJson.ok, true);
+
+  const badPb = await fetch(`${baseUrl}/api/rewards/postback`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-postback-secret': 'wrong-secret' },
+    body: JSON.stringify({ nonce: startJson.data.nonce, network: 'monetag' }),
+  });
+  assert.equal(badPb.status, 401);
+
+  const okPb = await fetch(`${baseUrl}/api/rewards/postback`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-postback-secret': 'monetag-postback-test-secret' },
+    body: JSON.stringify({ nonce: startJson.data.nonce, network: 'monetag' }),
+  });
+  assert.equal(okPb.status, 200);
+  const row = get(`SELECT status FROM reward_sessions WHERE nonce = ?`, startJson.data.nonce) as any;
+  assert.equal(row?.status, 'verified');
+});
+
+test('14. rewardAds.js client flow: early cancel grants nothing; completion calls enterVipMode()', async () => {
+  const createdEls: Record<string, any> = {};
+  let claimCalls = 0;
+  let intervalCb: any = null;
+  let enterVipCalls = 0;
+  const storageMap = new Map<string, string>([['mrs_device_id', 'sandbox-reward-dev-123']]);
+
+  const makeEl = (tag: string, id = '') => {
+    const el: any = {
+      tagName: tag.toUpperCase(),
+      id,
+      style: {},
+      textContent: '',
+      _innerHTML: '',
+      parentNode: { removeChild: () => {} },
+      setAttribute: () => {},
+      onclick: null,
+    };
+    Object.defineProperty(el, 'innerHTML', {
+      get: () => el._innerHTML,
+      set: (val: string) => {
+        el._innerHTML = val;
+        if (val.includes('mrs-sim-cancel')) {
+          createdEls['mrs-sim-cancel'] = { onclick: null };
+        }
+        if (val.includes('mrs-sim-timer')) {
+          createdEls['mrs-sim-timer'] = { textContent: '' };
+        }
+      },
+    });
+    if (id) createdEls[id] = el;
+    return el;
+  };
+
+  // Verify default disabled state (Rule 6: hidden when Monetag rewarded is disabled)
+  const disabledSandbox: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: () => {}, dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: true, monetag: { rewarded: { enabled: false, snippet: null, showFn: null } } },
+    __MRS_ADS_SERVER_CONFIG: { testMode: true, monetag: { rewardedEnabled: false }, rewards: { cooldownMinutes: 180, anyRewardedAvailable: false } },
+    MRS_ADS: { state: () => 'free', enterVipMode: () => {}, refresh: async () => 'free' },
+    localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    document: { readyState: 'complete', body: { appendChild: () => {} }, createElement: () => makeEl('div'), getElementById: () => null, addEventListener: () => {} },
+    fetch: async () => ({ ok: false, status: 404, json: async () => ({}) }),
+  };
+  disabledSandbox.window = disabledSandbox;
+  vm.runInNewContext(rewardAdsSource, disabledSandbox, { filename: 'rewardAds.js' });
+  assert.equal(disabledSandbox.MRS_REWARD_ADS.isAvailable().available, false);
+
+  const sandbox: any = {
+    console,
+    Date,
+    Math,
+    JSON,
+    Promise,
+    Error,
+    parseInt,
+    setTimeout: () => 1,
+    clearTimeout: () => {},
+    setInterval: (fn: any) => {
+      intervalCb = fn;
+      return 2;
+    },
+    clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: () => {},
+    dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: true, monetag: { rewarded: { enabled: true } } },
+    __MRS_ADS_SERVER_CONFIG: { testMode: true, monetag: { rewardedEnabled: true }, rewards: { cooldownMinutes: 180, anyRewardedAvailable: true } },
+    MRS_ADS: {
+      state: () => sandbox.MRS_AD_STATE,
+      enterVipMode: () => {
+        enterVipCalls += 1;
+        sandbox.MRS_AD_STATE = 'vip';
+      },
+      refresh: async () => sandbox.MRS_AD_STATE,
+    },
+    localStorage: {
+      getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+      setItem: (k: string, v: string) => { storageMap.set(k, String(v)); },
+      removeItem: (k: string) => { storageMap.delete(k); },
+    },
+    document: {
+      readyState: 'complete',
+      body: { appendChild: (el: any) => { if (el.id) createdEls[el.id] = el; } },
+      createElement: (tag: string) => makeEl(tag),
+      getElementById: (id: string) => createdEls[id] || null,
+      addEventListener: () => {},
+    },
+    fetch: async (url: string) => {
+      if (url.includes('/api/rewards/start')) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ ok: true, data: { nonce: 'a'.repeat(48), network: 'monetag', minWatchMs: 2000 } }),
+        };
+      }
+      if (url.includes('/api/rewards/claim')) {
+        claimCalls += 1;
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            ok: true,
+            data: { token: 'signed-reward-token', plan: 'reward1h', expiresAt: new Date(Date.now() + 3600_000).toISOString() },
+          }),
+        };
+      }
+      return { ok: false, status: 404, json: async () => ({ ok: false }) };
+    },
+  };
+  sandbox.window = sandbox;
+
+  vm.runInNewContext(rewardAdsSource, sandbox, { filename: 'rewardAds.js' });
+
+  // Case A: User cancels simulated ad before completion -> rejects & 0 claim calls
+  const cancelPromise = sandbox.MRS_REWARD_ADS.startAndWatch('monetag');
+  await new Promise((r) => setTimeout(r, 20));
+  assert.ok(createdEls['mrs-sim-cancel']?.onclick);
+  createdEls['mrs-sim-cancel'].onclick();
+  await assert.rejects(cancelPromise, /closed before completion/i);
+  assert.equal(claimCalls, 0);
+  assert.equal(enterVipCalls, 0);
+
+  // Case B: User waits to completion -> claims token, sets mrs_reward_just_unlocked, calls enterVipMode()
+  const okPromise = sandbox.MRS_REWARD_ADS.startAndWatch('monetag');
+  await new Promise((r) => setTimeout(r, 20));
+  assert.ok(typeof intervalCb === 'function');
+  intervalCb();
+  intervalCb();
+  const ent = await okPromise;
+  assert.equal(ent.plan, 'reward1h');
+  assert.equal(claimCalls, 1);
+  assert.equal(enterVipCalls, 1);
+  assert.equal(storageMap.get('mrs_reward_just_unlocked'), '1');
+});
+

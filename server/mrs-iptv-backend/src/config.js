@@ -267,6 +267,20 @@ export const config = {
     batchSleepMs: int(env.CHECK_BATCH_SLEEP_MS, 2000),
     userAgent: env.CHECK_USER_AGENT || 'Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36',
   },
+
+  // 1-Hour Rewarded VIP & Ad Gate configuration
+  rewards: {
+    durationMinutes: int(env.REWARD_DURATION_MINUTES, 60),
+    minWatchMs: int(env.REWARD_MIN_WATCH_MS, 15000),
+    cooldownMinutes: int(env.REWARD_COOLDOWN_MINUTES, 180),
+    maxPerDevicePerDay: int(env.REWARD_MAX_PER_DEVICE_PER_DAY, 3),
+    maxPerIpPerDay: int(env.REWARD_MAX_PER_IP_PER_DAY, 6),
+    maxStartsPerIpPerHour: int(env.REWARD_MAX_STARTS_PER_IP_PER_HOUR, 20),
+    requirePostback: bool(env.REWARD_REQUIRE_POSTBACK, false),
+    unlocksVipChannels: bool(env.REWARD_UNLOCKS_VIP_CHANNELS, true),
+    monetagPostbackSecret: env.MONETAG_POSTBACK_SECRET || '',
+    adsTestMode: bool(env.ADS_TEST_MODE, true),
+  },
 };
 
 if (production) {

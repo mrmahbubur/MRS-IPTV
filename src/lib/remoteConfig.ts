@@ -70,7 +70,7 @@ export const DEFAULT_REMOTE_CONFIG: DynamicRemoteConfig = {
     channelPlayThreshold: 4, // Prompts after 4 channel switches in non-VIP mode
     dwellTimerSeconds: 5, // Clean, comfortable 5-second countdown with direct skip/continue
     rewardHours: 1, // 1 hour Ad-Free VIP reward on sponsor engagement
-    inPlayerBannerEnabled: true,
+    inPlayerBannerEnabled: false,
     bannerIntervalSec: 180,
     smartlinks: [
       "https://uplcm.com/4/11226634",
@@ -82,9 +82,7 @@ export const DEFAULT_REMOTE_CONFIG: DynamicRemoteConfig = {
       "https://uplcm.com/4/11230440",
       "https://uplcm.com/4/11683560",
       "https://uplcm.com/4/9912130",
-      "https://uplcm.com/4/11242744",
-      "https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/",
-      "https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/"
+      "https://uplcm.com/4/11242744"
     ]
   },
   uiSpacing: {

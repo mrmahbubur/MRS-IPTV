@@ -125,12 +125,20 @@ export function getStoredAdFreeState(): AdFreeState {
         document.cookie = `mrs_vip_active=1; max-age=2592000; path=/; SameSite=Lax`;
         if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = true;
       } catch {}
-      const durMonths =
-        entitlement.plan === '12m' ? 12 : entitlement.plan === '6m' ? 6 : entitlement.plan === '2m' ? 2 : 1;
+      const isReward1h = entitlement.plan === 'reward1h' || (entitlement as any).kind === 'reward';
+      const durMonths = isReward1h
+        ? 0
+        : entitlement.plan === '12m'
+          ? 12
+          : entitlement.plan === '6m'
+            ? 6
+            : entitlement.plan === '2m'
+              ? 2
+              : 1;
       return {
         isActive: true,
         isAdFree: true,
-        code: 'VIP_PASS',
+        code: isReward1h ? 'REWARD_1H_VIP' : 'VIP_PASS',
         deviceId,
         activatedAt: entitlement.activatedAt || new Date().toISOString(),
         expiryDate: entitlement.expiresAt,
@@ -138,12 +146,16 @@ export function getStoredAdFreeState(): AdFreeState {
       };
     }
 
-    // Also allow active short-lived 1-hour rewarded sponsor / referral session stored locally
+    // Legacy referral / server-backed state (never honor click-reward SPONSOR_REWARD_VIP)
     const raw = localStorage.getItem('shahintv_adfree_activation');
     if (!raw) return emptyState;
 
     const data: AdFreeState = JSON.parse(raw);
     if (!data || !data.code || !data.expiryDate) return emptyState;
+    if (data.code === 'SPONSOR_REWARD_VIP') {
+      localStorage.removeItem('shahintv_adfree_activation');
+      return emptyState;
+    }
 
     if (data.deviceId && data.deviceId !== deviceId) {
       localStorage.removeItem('shahintv_adfree_activation');
@@ -154,12 +166,12 @@ export function getStoredAdFreeState(): AdFreeState {
     const expiry = new Date(data.expiryDate);
 
     if (now < expiry) {
-      // Only honor temporary ad-rewarded passes or server-backed passes paired with cached entitlement
-      const isTempReward = data.code === 'SPONSOR_REWARD_VIP' || data.code.startsWith('REFERRAL_') || Number(data.durationMonths) === 0;
-      if (!isTempReward && !entitlement) {
+      // Only honor explicit referral passes or server-backed passes paired with cached entitlement
+      const isReferral = data.code.startsWith('REFERRAL_');
+      if (!isReferral && !entitlement) {
         return emptyState;
       }
-      if (!isTempReward && entitlement?.token) {
+      if (!isReferral && entitlement?.token) {
         try {
           document.cookie = `mrs_vip_active=1; max-age=2592000; path=/; SameSite=Lax`;
           if (typeof window !== 'undefined') (window as any).__MRS_IS_VIP = true;

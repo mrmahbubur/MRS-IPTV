@@ -5,16 +5,14 @@ import {
   Bookmark, ChevronRight, ChevronLeft, Play, ShieldCheck,
   Clapperboard, Tv2, Newspaper, Smile, Music2, Globe, LayoutGrid,
   Trophy, Flame, Radio, ArrowRight, Heart, Compass,
-  Search, RefreshCw, Trash2, History, Megaphone
+  Search, RefreshCw, Trash2, History
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { usePassiveTouchScroll } from '../hooks/usePassiveTouchScroll';
 import { AiPersonalizedRecommendations } from './AiPersonalizedRecommendations';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { AdBannerUnit } from './AdBannerUnit';
-import { AdvertisementCategoryView } from './AdvertisementCategoryView';
 import { WatchAdVipButton } from './WatchAdVipButton';
-import { ADVERTISEMENT_AFFILIATE_ZONES } from '../lib/adSystem';
 import { getStoredAdFreeState } from '../lib/codes';
 import { useBroadcastTheme } from '../lib/themeSystem';
 import { LegalPolicyModal } from './LegalPolicyModal';
@@ -198,71 +196,72 @@ const ChannelGrid = ({
             const statusMeta = getChannelStatusMeta(performanceData?.[channel.id]);
 
             return (
-              <div
-                key={channel.id}
-                onClick={() => onSelectChannel(channel, channelsList)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    onSelectChannel(channel, channelsList);
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Watch ${channel.name}`}
-                className="channel-item group relative bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-3 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] flex flex-col justify-between transition-colors motion-reduce:transition-none"
-              >
-                {/* Micro Header */}
-                <div className="flex items-center justify-between gap-1 mb-2">
-                  <div className="flex items-center gap-1.5 text-[11px] font-mono tabular-nums">
-                    <span className="text-[var(--theme-accent,#38BDF8)] font-bold">
-                      {String(idx + 1).padStart(3, '0')}
-                    </span>
-                    <span className="text-[#C9D1E0]/40" aria-hidden="true">·</span>
-                    <span className={statusMeta.isOffline ? 'text-amber-400/90 font-semibold' : 'text-emerald-400 font-semibold'}>
-                      {statusMeta.label}
-                    </span>
+              <React.Fragment key={channel.id}>
+                <div
+                  onClick={() => onSelectChannel(channel, channelsList)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onSelectChannel(channel, channelsList);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Watch ${channel.name}`}
+                  className="channel-item group relative bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-3 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] flex flex-col justify-between transition-colors motion-reduce:transition-none"
+                >
+                  {/* Micro Header */}
+                  <div className="flex items-center justify-between gap-1 mb-2">
+                    <div className="flex items-center gap-1.5 text-[11px] font-mono tabular-nums">
+                      <span className="text-[var(--theme-accent,#38BDF8)] font-bold">
+                        {String(idx + 1).padStart(3, '0')}
+                      </span>
+                      <span className="text-[#C9D1E0]/40" aria-hidden="true">·</span>
+                      <span className={statusMeta.isOffline ? 'text-amber-400/90 font-semibold' : 'text-emerald-400 font-semibold'}>
+                        {statusMeta.label}
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (isFav) {
+                          setFavorites(favorites.filter(id => id !== channel.id));
+                        } else {
+                          setFavorites([...favorites, channel.id]);
+                        }
+                      }}
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-[#C9D1E0]/75 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer shrink-0 motion-reduce:transition-none"
+                      title={isFav ? 'Remove Favorite' : 'Save Channel'}
+                      aria-label={isFav ? `Remove ${channel.name} from favorites` : `Save ${channel.name} to favorites`}
+                    >
+                      <Bookmark strokeWidth={1.75} className={`w-4 h-4 shrink-0 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
+                    </button>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (isFav) {
-                        setFavorites(favorites.filter(id => id !== channel.id));
-                      } else {
-                        setFavorites([...favorites, channel.id]);
-                      }
-                    }}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-[#C9D1E0]/75 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer shrink-0 motion-reduce:transition-none"
-                    title={isFav ? 'Remove Favorite' : 'Save Channel'}
-                    aria-label={isFav ? `Remove ${channel.name} from favorites` : `Save ${channel.name} to favorites`}
-                  >
-                    <Bookmark strokeWidth={1.75} className={`w-4 h-4 shrink-0 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
-                  </button>
-                </div>
+                  {/* Fit-Size Channel Logo Stage */}
+                  <ChannelThumbnail
+                    channel={channel}
+                    variant="grid"
+                    borderless={true}
+                    showHoverPlay={true}
+                  />
 
-                {/* Fit-Size Channel Logo Stage */}
-                <ChannelThumbnail
-                  channel={channel}
-                  variant="grid"
-                  borderless={true}
-                  showHoverPlay={true}
-                />
-
-                {/* Highlighted Channel Metadata */}
-                <div className="mt-2.5 space-y-0.5">
-                  <h4 title={channel.name} className="text-xs sm:text-[13px] font-extrabold text-white group-hover:text-[var(--theme-accent,#38BDF8)] transition-colors truncate">
-                    {channel.name}
-                  </h4>
-                  <div className="flex items-center justify-between text-[11px] text-[#C9D1E0]/80">
-                    <span className="truncate font-medium">{channel.category || 'Live TV'}</span>
-                    <span className="text-emerald-400 font-mono text-[10px] font-bold shrink-0 ml-1">
-                      LIVE
-                    </span>
+                  {/* Highlighted Channel Metadata */}
+                  <div className="mt-2.5 space-y-0.5">
+                    <h4 title={channel.name} className="text-xs sm:text-[13px] font-extrabold text-white group-hover:text-[var(--theme-accent,#38BDF8)] transition-colors truncate">
+                      {channel.name}
+                    </h4>
+                    <div className="flex items-center justify-between text-[11px] text-[#C9D1E0]/80">
+                      <span className="truncate font-medium">{channel.category || 'Live TV'}</span>
+                      <span className="text-emerald-400 font-mono text-[10px] font-bold shrink-0 ml-1">
+                        LIVE
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </React.Fragment>
             );
           })}
 
@@ -512,8 +511,7 @@ export const Home: React.FC<HomeProps> = ({
   usePassiveTouchScroll(mainHomeScrollRef);
   const remoteConfig = useRemoteConfig();
   const { theme } = useBroadcastTheme();
-  const { isFreeMode, adConfig, openPrivacySettings } = useAdGate();
-  const showOffersNav = isFreeMode && adConfig.formats.affiliate;
+  const { isFreeMode, openPrivacySettings } = useAdGate();
 
   // Region / Country Filter state
   const [selectedCountryFilter, setSelectedCountryFilter] = useState<string>('ALL');
@@ -844,50 +842,9 @@ export const Home: React.FC<HomeProps> = ({
                 />
               </div>
             ))}
-
-            {showOffersNav && (
-              <div
-                role="button"
-                tabIndex={0}
-                aria-label="Browse Advertisement offers"
-                onClick={() => setActiveView('category:Advertisement')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setActiveView('category:Advertisement');
-                  }
-                }}
-                className="nav-item mrs-offers-nav flex items-center gap-3.5 p-4 bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
-              >
-                <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
-                <div className="min-w-0 flex-1">
-                  <h3 title="Advertisement" className="text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
-                    Advertisement
-                  </h3>
-                  <p className="text-xs text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5">
-                    {ADVERTISEMENT_AFFILIATE_ZONES.length} featured offers
-                  </p>
-                </div>
-                <ChevronRight
-                  strokeWidth={1.75}
-                  className="w-4 h-4 text-[#C9D1E0]/60 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
-                />
-              </div>
-            )}
           </div>
         </motion.div>
       </div>
-    );
-  }
-
-  if (activeView === 'category:Advertisement') {
-    return (
-      <AdvertisementCategoryView
-        onBackHome={() => setActiveView('home')}
-        adFreeState={adFreeState}
-        onRewardedGranted={onRewardedGranted}
-        onOpenVipModal={onOpenVipModal}
-      />
     );
   }
 
@@ -961,17 +918,6 @@ export const Home: React.FC<HomeProps> = ({
                 </button>
               );
             })}
-
-            {showOffersNav && (
-              <button
-                type="button"
-                onClick={() => setActiveView('category:Advertisement')}
-                className="nav-item mrs-offers-nav min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer motion-reduce:transition-none"
-              >
-                <Megaphone strokeWidth={1.75} className="w-3.5 h-3.5 shrink-0 text-amber-400" />
-                <span>Advertisement</span>
-              </button>
-            )}
 
             <button
               type="button"
@@ -1336,65 +1282,66 @@ export const Home: React.FC<HomeProps> = ({
                     const statusMeta = getChannelStatusMeta(performanceData?.[channel.id]);
 
                     return (
-                      <div
-                        key={channel.id}
-                        onClick={() => onSelectChannel(channel, countryFilteredChannels)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            onSelectChannel(channel, countryFilteredChannels);
-                          }
-                        }}
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Watch ${channel.name}`}
-                        className="channel-item group relative bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-3 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] flex flex-col justify-between transition-colors motion-reduce:transition-none"
-                      >
-                        <div className="flex items-center justify-between gap-1 mb-2">
-                          <div className="flex items-center gap-1.5 text-[10px] font-mono tabular-nums">
-                            <span className={`${theme.accentTextClass} font-bold`}>
-                              {String(idx + 1).padStart(2, '0')}
-                            </span>
-                            <span className="text-[#C9D1E0]/40" aria-hidden="true">·</span>
-                            <span className={statusMeta.isOffline ? 'text-amber-400/90 font-semibold' : 'text-emerald-400 font-semibold'}>
-                              {statusMeta.label}
-                            </span>
+                      <React.Fragment key={channel.id}>
+                        <div
+                          onClick={() => onSelectChannel(channel, countryFilteredChannels)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onSelectChannel(channel, countryFilteredChannels);
+                            }
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Watch ${channel.name}`}
+                          className="channel-item group relative bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-3 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] flex flex-col justify-between transition-colors motion-reduce:transition-none"
+                        >
+                          <div className="flex items-center justify-between gap-1 mb-2">
+                            <div className="flex items-center gap-1.5 text-[10px] font-mono tabular-nums">
+                              <span className={`${theme.accentTextClass} font-bold`}>
+                                {String(idx + 1).padStart(2, '0')}
+                              </span>
+                              <span className="text-[#C9D1E0]/40" aria-hidden="true">·</span>
+                              <span className={statusMeta.isOffline ? 'text-amber-400/90 font-semibold' : 'text-emerald-400 font-semibold'}>
+                                {statusMeta.label}
+                              </span>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (isFav) {
+                                  setFavorites(favorites.filter(id => id !== channel.id));
+                                } else {
+                                  setFavorites([...favorites, channel.id]);
+                                }
+                              }}
+                              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#C9D1E0]/75 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer shrink-0 motion-reduce:transition-none"
+                              title={isFav ? 'Remove Favorite' : 'Save Channel'}
+                              aria-label={isFav ? `Remove ${channel.name} from favorites` : `Save ${channel.name} to favorites`}
+                            >
+                              <Bookmark strokeWidth={1.75} className={`w-4 h-4 shrink-0 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
+                            </button>
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (isFav) {
-                                setFavorites(favorites.filter(id => id !== channel.id));
-                              } else {
-                                setFavorites([...favorites, channel.id]);
-                              }
-                            }}
-                            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#C9D1E0]/75 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer shrink-0 motion-reduce:transition-none"
-                            title={isFav ? 'Remove Favorite' : 'Save Channel'}
-                            aria-label={isFav ? `Remove ${channel.name} from favorites` : `Save ${channel.name} to favorites`}
-                          >
-                            <Bookmark strokeWidth={1.75} className={`w-4 h-4 shrink-0 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
-                          </button>
-                        </div>
+                          <ChannelThumbnail
+                            channel={channel}
+                            variant="grid"
+                            borderless={true}
+                            showHoverPlay={true}
+                          />
 
-                        <ChannelThumbnail
-                          channel={channel}
-                          variant="grid"
-                          borderless={true}
-                          showHoverPlay={true}
-                        />
-
-                        <div className="mt-2.5 space-y-0.5">
-                          <h4 title={channel.name} className="text-xs sm:text-[13px] font-extrabold text-white group-hover:text-[var(--theme-accent,#38BDF8)] transition-colors truncate">
-                            {channel.name}
-                          </h4>
-                          <p className="text-[11px] text-[#C9D1E0]/80 truncate font-medium">
-                            {channel.category || 'Live IPTV'}
-                          </p>
+                          <div className="mt-2.5 space-y-0.5">
+                            <h4 title={channel.name} className="text-xs sm:text-[13px] font-extrabold text-white group-hover:text-[var(--theme-accent,#38BDF8)] transition-colors truncate">
+                              {channel.name}
+                            </h4>
+                            <p className="text-[11px] text-[#C9D1E0]/80 truncate font-medium">
+                              {channel.category || 'Live IPTV'}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      </React.Fragment>
                     );
                   })}
                 </div>
@@ -1469,109 +1416,81 @@ export const Home: React.FC<HomeProps> = ({
                     </div>
                   );
                 })}
-
-                {showOffersNav && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    aria-label="Open Advertisement category"
-                    onClick={() => setActiveView('category:Advertisement')}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        setActiveView('category:Advertisement');
-                      }
-                    }}
-                    className="nav-item mrs-offers-nav bg-[var(--theme-card,#131B2B)]/60 hover:bg-[var(--theme-card-hover,#182236)] rounded-xl p-4 flex items-center gap-3.5 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#38BDF8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg,#070A11)] transition-colors motion-reduce:transition-none"
-                  >
-                    <Megaphone strokeWidth={1.75} className="w-5 h-5 shrink-0 text-amber-400" />
-                    <div className="min-w-0 flex-1">
-                      <h3 title="Advertisement" className="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 transition-colors truncate">
-                        Advertisement
-                      </h3>
-                      <p className="text-[11px] text-[#C9D1E0]/80 font-mono tabular-nums mt-0.5 truncate">
-                        {ADVERTISEMENT_AFFILIATE_ZONES.length} affiliate offers
-                      </p>
-                    </div>
-                    <ChevronRight
-                      strokeWidth={1.75}
-                      className="w-4 h-4 text-[#C9D1E0]/55 group-hover:text-amber-400 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-all shrink-0"
-                    />
-                  </div>
-                )}
               </div>
             </section>
           )}
 
           {/* Section G: Automated Annual Copyright & Compliance Policy Footer */}
-          <footer className="mt-8 pt-6 pb-6 border-t border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#C9D1E0]">
-            <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
-              <span className="font-mono text-white font-semibold">
-                {backendPolicy?.copyrightNotice || `Copyright © 2024–${new Date().getFullYear()} M R S IPTV. All rights reserved.`}
-              </span>
-              <span className="hidden sm:inline text-white/25" aria-hidden="true">·</span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--theme-accent,#38BDF8)]">
-                <ShieldCheck strokeWidth={1.75} className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Annual Policy Auto-Renewed · v{backendPolicy?.policyVersion || 'LTS'}</span>
-              </span>
-            </div>
+          <footer className="mt-8 pt-6 pb-6 border-t border-white/[0.06] space-y-3 text-xs text-[#C9D1E0]">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
+                <span className="font-mono text-white font-semibold">
+                  {backendPolicy?.copyrightNotice || `Copyright © 2024–${new Date().getFullYear()} M R S IPTV. All rights reserved.`}
+                </span>
+                <span className="hidden sm:inline text-white/25" aria-hidden="true">·</span>
+                <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--theme-accent,#38BDF8)]">
+                  <ShieldCheck strokeWidth={1.75} className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Annual Policy Auto-Renewed · v{backendPolicy?.policyVersion || 'LTS'}</span>
+                </span>
+              </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 font-semibold text-[11px]">
-              <button
-                type="button"
-                onClick={() => { setLegalTab('terms'); setIsLegalModalOpen(true); }}
-                className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
-              >
-                Terms & Fair Use
-              </button>
-              <span className="text-white/20" aria-hidden="true">|</span>
-              <button
-                type="button"
-                onClick={() => { setLegalTab('dmca'); setIsLegalModalOpen(true); }}
-                className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
-              >
-                DMCA Notice
-              </button>
-              <span className="text-white/20" aria-hidden="true">|</span>
-              <button
-                type="button"
-                onClick={() => { setLegalTab('vip'); setIsLegalModalOpen(true); }}
-                className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
-              >
-                Single-Device Policy
-              </button>
-              <span className="text-white/20" aria-hidden="true">|</span>
-              <button
-                type="button"
-                onClick={() => { setLegalTab('privacy'); setIsLegalModalOpen(true); }}
-                className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
-              >
-                Privacy
-              </button>
-              {isFreeMode && (
-                <>
-                  <span className="text-white/20" aria-hidden="true">|</span>
-                  <button
-                    type="button"
-                    onClick={openPrivacySettings}
-                    className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
-                  >
-                    Ad &amp; privacy settings
-                  </button>
-                  {onOpenVipModal && (
-                    <>
-                      <span className="text-white/20" aria-hidden="true">|</span>
-                      <button
-                        type="button"
-                        onClick={onOpenVipModal}
-                        className="mrs-free-upsell min-h-[38px] px-2.5 inline-flex items-center rounded-lg text-amber-300 hover:bg-amber-500/10 hover:text-amber-200 transition-colors cursor-pointer"
-                      >
-                        Go ad-free with VIP
-                      </button>
-                    </>
-                  )}
-                </>
-              )}
+              <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 font-semibold text-[11px]">
+                <button
+                  type="button"
+                  onClick={() => { setLegalTab('terms'); setIsLegalModalOpen(true); }}
+                  className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                >
+                  Terms &amp; Fair Use
+                </button>
+                <span className="text-white/20" aria-hidden="true">|</span>
+                <button
+                  type="button"
+                  onClick={() => { setLegalTab('dmca'); setIsLegalModalOpen(true); }}
+                  className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                >
+                  DMCA Notice
+                </button>
+                <span className="text-white/20" aria-hidden="true">|</span>
+                <button
+                  type="button"
+                  onClick={() => { setLegalTab('vip'); setIsLegalModalOpen(true); }}
+                  className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                >
+                  Single-Device Policy
+                </button>
+                <span className="text-white/20" aria-hidden="true">|</span>
+                <button
+                  type="button"
+                  onClick={() => { setLegalTab('privacy'); setIsLegalModalOpen(true); }}
+                  className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                >
+                  Privacy
+                </button>
+                {isFreeMode && (
+                  <>
+                    <span className="text-white/20" aria-hidden="true">|</span>
+                    <button
+                      type="button"
+                      onClick={openPrivacySettings}
+                      className="min-h-[38px] px-2.5 inline-flex items-center rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                    >
+                      Ad &amp; privacy settings
+                    </button>
+                    {onOpenVipModal && (
+                      <>
+                        <span className="text-white/20" aria-hidden="true">|</span>
+                        <button
+                          type="button"
+                          onClick={onOpenVipModal}
+                          className="mrs-free-upsell min-h-[38px] px-2.5 inline-flex items-center rounded-lg text-amber-300 hover:bg-amber-500/10 hover:text-amber-200 transition-colors cursor-pointer"
+                        >
+                          Go ad-free with VIP
+                        </button>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </footer>
         </motion.div>

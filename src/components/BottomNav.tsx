@@ -2,6 +2,7 @@ import React from 'react';
 import { Home, Radio, LayoutGrid, Crown, UserCheck } from 'lucide-react';
 import { AdFreeState } from '../types';
 import { useBroadcastTheme } from '../lib/themeSystem';
+import { useAdGate } from '../lib/useAdGate';
 
 interface BottomNavProps {
   activeView: string;
@@ -21,7 +22,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   isMobileMenuOpen = false
 }) => {
   const { theme } = useBroadcastTheme();
-  const isVip = Boolean(adFreeState?.isActive || adFreeState?.isAdFree);
+  const { isVipLocked } = useAdGate();
+  const isVip = isVipLocked || Boolean(adFreeState?.isActive || adFreeState?.isAdFree);
 
   const handleTap = (id: string) => {
     if (id === 'vip' && onOpenPremiumModal) {

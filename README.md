@@ -29,23 +29,29 @@ Production full-stack streaming platform featuring a dark premium UI, HLS live T
 │   ├── channels.json               # Curated channel metadata template
 │   ├── mrs.sqlite                  # SQLite database (auto-initialized)
 │   └── uploads/                    # Uploaded payment screenshots (outside public root)
+├── public/
+│   ├── ad-gate.js                  # Synchronous <head> gate, fail-closed VIP check & DOM purge
+│   ├── ads.config.js               # Central Monetag zone & rewarded config
+│   ├── ad-manager.js               # Free-only Monetag loader, EU/UK consent, caps & empty-slot collapse
+│   └── rewardAds.js                # Official Monetag rewarded VIP flow (hidden until official snippet enabled)
 ├── scripts/
 │   ├── generate-codes.js           # Idempotent CSPRNG code generator (default 1200/plan)
 │   ├── export-codes.js             # Exports unused codes CSV backup + inventory summary
 │   └── smoke-check.mjs             # Automated staging/Render deployment smoke check
 ├── server.ts                       # Main Express + Vite / production entry point (Port 3000)
 ├── server/
+│   ├── adsRouter.ts                # Monetag-only /api/ads/*, /api/rewards/*, /admin/rewards/*
 │   ├── clientIp.ts                 # Centralized IP normalization, trust proxy & subnet masking
 │   ├── security.ts                 # WAF, Security Headers, DNS/redirect-safe SSRF & rate limiters
 │   ├── paymentRouter.ts            # Express mount for /api/* payment, activation & admin routes
 │   └── mrs-iptv-backend/src/
 │       ├── clientIp.js             # Pure-Node IP normalization, CIDR/origin checks & proxy resolver
-│       ├── config.js               # Environment config, plans & receiving accounts
-│       ├── db.js                   # SQLite schema, migrations, audit_log, atomic transactions
+│       ├── config.js               # Environment config, plans, rewards & receiving accounts
+│       ├── db.js                   # SQLite schema (including ad_events, reward_sessions & reward_grants)
 │       ├── codes.js                # Code inventory, atomic reservation & low-stock alerts
 │       ├── orders.js               # Order creation, duplicate TrxID block & 48h expiry
 │       ├── verify.js               # SMS/provider matching engine & manual approve/reject
-│       ├── redeem.js               # Atomic activation, plan extension & 2-device lock
+│       ├── redeem.js               # Atomic activation, reward1h HMAC tokens & device lock
 │       ├── mailer.js               # Bilingual EN/BN HTML+text email templates & retry queue
 │       ├── validators.js           # Zod input schemas & sanitization
 │       ├── parsers.js              # bKash & Nagad SMS parser
@@ -54,14 +60,17 @@ Production full-stack streaming platform featuring a dark premium UI, HLS live T
 │       └── providers/              # Modular adapters (bkash, nagad, binance, skrill, payoneer)
 ├── src/
 │   ├── lib/mrsVip.ts               # Client SDK (API_BASE_URL, PoW challenge solver, checkout, status, activation, devices)
-│   ├── lib/codes.ts                # Server-validated VIP state & device fingerprint helper
+│   ├── lib/codes.ts                # Server-validated VIP & reward1h state + device fingerprint helper
+│   ├── lib/useAdGate.ts            # React bridge to window.MRS_ADS, consent & reward expiry alerts
 │   └── components/
+│       ├── AdBannerUnit.tsx        # Free-only Monetag 728x90 / 320x50 banner (never on player/checkout/legal)
+│       ├── WatchAdVipButton.tsx    # Official Monetag rewarded 1-hour VIP CTA (hidden until snippet configured)
 │       ├── CaptchaChallengeWidget.tsx # Optional Turnstile / hCaptcha checkout widget
 │       ├── PremiumModal.tsx        # VIP Plans, Free vs VIP table, Checkout & Activate flows
 │       ├── AndroidTvVipGate.tsx    # TV VIP unlock & challenge-protected checkout
 │       ├── AccountSupportModal.tsx # Account status, devices, favorites, support & FAQ
-│       ├── LegalPolicyModal.tsx    # Terms, Refund, Privacy, DMCA & About M R S TV
-│       └── AdminDashboardView.tsx  # #admin verification queue, SMTP health, revenue, audit log & stock
+│       ├── LegalPolicyModal.tsx    # Terms, Refund, Privacy (Monetag only), DMCA & About
+│       └── AdminDashboardView.tsx  # #admin verification queue, Monetag ad & reward analytics, toggles & stock
 └── .env.example                    # Complete documented environment template
 ```
 
@@ -285,7 +294,7 @@ Run the automated backend integration suite (33 assertions covering code generat
 ```bash
 npm run test:payments
 npm run test:livecheck
-npx tsx --test server/channelGeo.test.ts tests/clientIp.test.ts
+npx tsx --test tests/adGate.test.ts server/channelGeo.test.ts tests/clientIp.test.ts
 
 # Post-deploy / staging smoke test against local or Render URL:
 BASE_URL=https://your-app.onrender.com npm run smoke
@@ -301,3 +310,44 @@ Manual E2E checklist:
 - [ ] **2-Device Lock & Removal**: Activating a 3rd distinct `deviceId` returns `DEVICE_LIMIT`; removing an old device in **Account > Devices** frees the slot.
 - [ ] **Expired Order**: Orders unverified past `PENDING_TTL_HOURS` (`48h`) transition to `expired` and cannot be verified.
 - [ ] **Concurrent Orders Get Different Codes**: Two simultaneous approvals/auto-matches execute inside exclusive DB transactions and never receive the same code.
+
+---
+
+## 6. Ad Monetization Policy & Rewarded 1-Hour VIP System
+
+M R S IPTV uses **Monetag as the sole advertising network** and enforces strict separation between free-tier advertisements and zero-ad VIP experiences:
+
+### Network Policy (Monetag Only)
+- **Monetag (`monetag.showRegularAds: false` by default)**:
+  - Existing owner publisher verification (`<meta name="monetag" content="fa9656182dbc7301dcd9a2326441dcf3" />`) and all 10 Smartlink zone URLs (`https://uplcm.com/4/...`) remain intact inside `public/ads.config.js` and `server/adsRouter.ts`.
+  - **Rewarded 1-Hour VIP (`monetag.rewarded.enabled: false` by default)**: **Monetag has no official rewarded-ad format snippet/callback configured for this site yet (`snippet: null`, `showFn: null`), so the "Watch an ad, get 1 hour VIP" button is automatically hidden on the UI.** To enable it later, paste Monetag's official rewarded-format snippet and completion callback function into `public/ads.config.js` (under `monetag.rewarded`) and set `enabled: true`. No SDK function names or callbacks are fabricated.
+- **Placement & Cap Rules**:
+  - Monetag ads load ONLY in Free mode (`MRS_ADS.state() === 'free'`) after EU/UK consent.
+  - Never shown on the player page, checkout, activation, account, support, legal, or admin pages.
+  - Popunder / OnClick max 1 per 30 minutes and 3 per day, triggered only from normal page clicks (never Play, Close, or form buttons) and disabled in app WebViews.
+  - Push pre-prompt appears only after the 2nd visit or 60 seconds on site, and "No thanks" is remembered for 30 days.
+
+### Central Ad Gate & Fail-Closed Protection
+- `public/ad-gate.js` loads synchronously first in `<head>`, starts in `window.MRS_AD_STATE = "pending"`, and injects CSS hiding all `.ad-slot` / `.mrs-free-upsell` containers until verified `"free"`.
+- Verification uses `GET /api/status` (3s timeout) with the saved Bearer token. Paid VIP (`plan: "vip"`) and active 1-hour rewards (`plan: "reward1h"`) are both returned as `active: true` and receive the identical zero-ad experience (no banners, no upsells, and `enterVipMode()` unregisters Monetag push service workers and unsubscribes Web Push).
+- If a token exists and `/api/status` fails or times out, the gate **fails closed** (stays `"pending"` or uses the future `mrs_vip_ads_hint` expiry for ad-hiding only, never showing ads and never granting channel access from `localStorage` alone).
+
+### "Watch an Ad, Get 1 Hour VIP" Backend Limits
+- **Client (`public/rewardAds.js` + `WatchAdVipButton.tsx`)**: Hidden by default until Monetag's official rewarded completion callback is configured; when active, starts `POST /api/rewards/start { deviceId, network: 'monetag' }`, awaits official completion, and calls `POST /api/rewards/claim { nonce, deviceId }` + `MRS_ADS.enterVipMode()`.
+- **Server Routes (`server/adsRouter.ts`)**:
+  - `POST /api/rewards/start` — Creates a single-use cryptographic `nonce` (valid 10 min) and enforces caps.
+  - `POST /api/rewards/claim` — Atomically verifies `nonce`, `(now - created_at) >= minWatchMs` (`15000`ms default), single-use locking, and issues a `60`-minute `reward1h` token (`reward_sessions` + `reward_grants` tables).
+  - `POST /api/rewards/postback` — Optional S2S callback protected by `MONETAG_POSTBACK_SECRET` (timing-safe comparison).
+  - `GET /admin/rewards/report`, `POST /admin/rewards/revoke`, `POST /admin/rewards/toggle` (protected by `x-admin-token` / `Authorization: Bearer <ADMIN_TOKEN>`).
+- **Default Abuse Limits (configurable via `.env`)**:
+  - `REWARD_DURATION_MINUTES=60`, `REWARD_MIN_WATCH_MS=15000`
+  - `REWARD_COOLDOWN_MINUTES=180` (3-hour cooldown after expiry)
+  - `REWARD_MAX_PER_DEVICE_PER_DAY=3`, `REWARD_MAX_PER_IP_PER_DAY=6`, `REWARD_MAX_STARTS_PER_IP_PER_HOUR=20`
+  - Rejects stacking while paid VIP or an active reward pass is already active. Only HMAC-hashed device IDs and client IPs are stored.
+
+### Test Mode (`testMode: true` Default)
+- While `ADS_TEST_MODE=true` (default in `.env.example` and `server/adsRouter.ts`), all banner slots render `[TEST 728x90]` / `[TEST 320x50]` placeholders and the reward button opens a simulated countdown modal with **zero external ad-network calls**. Canceling/closing the modal rejects cleanly and grants zero VIP time.
+
+### Honest Security Limitation
+> **Important Note on Reward Verification Without S2S Postbacks:**  
+> Without an active server-to-server (S2S) network postback (`REWARD_REQUIRE_POSTBACK=true` with a verified network secret), the server can enforce `minWatchMs` (`15s`) elapsed time between `/api/rewards/start` and `/api/rewards/claim`, single-use nonces, and device/IP binding — **not** cryptographic proof that a user visually watched the third-party player. A determined user could script a `POST /api/rewards/claim` call after waiting `minWatchMs`. Server-enforced 3-hour cooldowns, 1-active-reward-per-device locks, daily device/IP caps, hourly start rate limits, and `/admin/rewards/revoke` keep worst-case abuse bounded to a few free hours per device per day.

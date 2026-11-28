@@ -1,6 +1,7 @@
 /**
- * M R S IPTV - Free-Only Ad Manager (ad-manager.js)
- * Loads ad scripts, sticky mobile banner, EU/UK consent banner, push pre-prompt,
+ * M R S IPTV - Free-Only Monetag Ad Manager (ad-manager.js)
+ * Loads Monetag banners, sticky mobile banner (when Monetag regular ads are enabled),
+ * EU/UK consent banner, Monetag scripts (ONLY when showRegularAds === true),
  * safe popunder capping, and batched analytics ONLY when MRS_ADS.state() === "free".
  */
 (function (win, doc) {
@@ -25,13 +26,23 @@
     formats: {
       banner: true,
       sticky: true,
-      popunder: true,
-      interstitial: true,
-      push: false,
-      affiliate: true
+      popunder: false,
+      interstitial: false,
+      push: false
     },
-    hideOffersForVip: true,
-    testMode: false
+    testMode: true,
+    monetag: {
+      showRegularAds: false,
+      rewardedEnabled: false
+    },
+    rewards: {
+      durationMinutes: 60,
+      minWatchMs: 15000,
+      cooldownMinutes: 180,
+      maxPerDevicePerDay: 3,
+      unlocksVipChannels: true,
+      anyRewardedAvailable: false
+    }
   };
 
   var EU_UK_TIMEZONES = [
@@ -107,8 +118,7 @@
     var raw = lsGet(CONSENT_KEY);
     if (!raw) return null;
     try {
-      var parsed = JSON.parse(raw);
-      return parsed;
+      return JSON.parse(raw);
     } catch (e) {
       return null;
     }
@@ -119,6 +129,14 @@
     var consent = getConsentStatus();
     if (!consent) return false;
     return consent.choice === 'accept';
+  }
+
+  function isMonetagRegularAllowed() {
+    var cfg = win.MRS_ADS_CONFIG || {};
+    return Boolean(
+      (serverFormatConfig.monetag && serverFormatConfig.monetag.showRegularAds) ||
+      (cfg.monetag && cfg.monetag.showRegularAds)
+    );
   }
 
   function enqueueAdEvent(ev) {
@@ -230,9 +248,9 @@
 
     bar.innerHTML = [
       '<div style="font-weight:800;font-size:13px;color:#fff;margin-bottom:4px;">Ad &amp; Privacy Settings</div>',
-      '<div style="color:#cbd5e1;line-height:1.45;margin-bottom:10px;">M R S IPTV is free thanks to partner sponsors. Choose whether to allow sponsor cookies &amp; personalized offers in Free Mode (VIP members never see ads).</div>',
+      '<div style="color:#cbd5e1;line-height:1.45;margin-bottom:10px;">M R S IPTV is free thanks to Monetag advertising. Choose whether to allow Monetag cookies &amp; personalized ads in Free Mode (VIP members never see ads).</div>',
       '<div id="mrs-consent-manage-panel" style="display:none;background:rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;margin-bottom:10px;">',
-      '  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox" id="mrs-consent-chk-ads" checked /> <span>Allow Sponsor Banners &amp; Offers</span></label>',
+      '  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="checkbox" id="mrs-consent-chk-ads" checked /> <span>Allow Monetag Ads</span></label>',
       '</div>',
       '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;">',
       '  <button type="button" id="mrs-consent-manage" style="min-height:36px;padding:6px 12px;border-radius:8px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.2);font-weight:700;cursor:pointer;">Manage</button>',
@@ -249,7 +267,6 @@
       if (choice === 'accept') {
         bootFreeAds();
       } else {
-        // Rejected: suppress ad networks for this visitor
         var sticky = doc.getElementById('mrs-sticky-mobile-ad');
         if (sticky && sticky.parentNode) sticky.parentNode.removeChild(sticky);
       }
@@ -277,12 +294,14 @@
   function setupSafePopunderCap() {
     if (popunderHandlerBound || !isFreeState() || !hasAdConsent()) return;
     if (isNativeWebView() || !serverFormatConfig.formats.popunder) return;
+    if (Boolean(serverFormatConfig.testMode)) return;
 
     var cfg = win.MRS_ADS_CONFIG || {};
-    var popSnippet = (cfg.monetag && cfg.monetag.popunder && (cfg.monetag.popunder.scriptSrc || cfg.monetag.popunder.inlineSnippet))
-      || (cfg.adsterra && cfg.adsterra.popunder);
+    var popSnippet = isMonetagRegularAllowed() && cfg.monetag && cfg.monetag.popunder
+      ? (cfg.monetag.popunder.scriptSrc || cfg.monetag.popunder.inlineSnippet)
+      : null;
 
-    // Note: Only bind if an actual popunder tag is configured; do not invent extra popups.
+    // Only bind if that network's showRegularAds is true and an explicit popunder script exists
     if (!popSnippet) return;
 
     popunderHandlerBound = true;
@@ -292,7 +311,6 @@
       }
       var target = e && e.target;
       if (!target || !target.closest) return;
-      // Never fire on Play buttons, Close buttons, buttons, inputs, forms, or channel cards
       if (target.closest('button, [role="button"], .player-ctrl-btn, video, [data-player-control], form, input, select, a[href], [data-channel-card]')) {
         return;
       }
@@ -327,6 +345,20 @@
     }, { passive: true });
   }
 
+  function pickStickyMonetagZone() {
+    var cfg = win.MRS_ADS_CONFIG || {};
+    if (isMonetagRegularAllowed() && cfg.monetag && Array.isArray(cfg.monetag.directZones) && cfg.monetag.directZones.length > 0) {
+      var z = cfg.monetag.directZones[0];
+      return {
+        offerId: z.zoneId,
+        label: z.label,
+        network: 'Monetag Direct',
+        url: z.url
+      };
+    }
+    return null;
+  }
+
   function renderStickyMobileBanner() {
     if (!isFreeState() || !hasAdConsent()) return;
     if (!serverFormatConfig.formats.sticky) return;
@@ -342,24 +374,35 @@
     if (doc.getElementById('mrs-sticky-mobile-ad')) return;
 
     var cfg = win.MRS_ADS_CONFIG || {};
-    var zones = (cfg.monetag && cfg.monetag.directZones) || [];
-    var zone = zones[0] || { zoneId: '11226634', label: 'Featured Sports Sponsor' };
-    var useTest = Boolean(cfg.testMode || serverFormatConfig.testMode);
+    var zone = pickStickyMonetagZone();
+    if (!zone) return;
+    var zoneId = zone.offerId;
+    var label = zone.label || 'Monetag Live TV Ad';
+    var network = zone.network || 'Monetag Direct';
+    var useTest = typeof serverFormatConfig.testMode === 'boolean'
+      ? serverFormatConfig.testMode
+      : Boolean(cfg.testMode);
 
     var wrap = doc.createElement('div');
     wrap.id = 'mrs-sticky-mobile-ad';
     wrap.className = 'ad-slot ad-sticky-banner ad-banner-mobile';
     wrap.style.cssText = 'position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:320px;max-width:calc(100vw - 16px);height:50px;z-index:45;background:#0c1228;border:1px solid rgba(245,179,1,0.45);border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding:0 4px 0 10px;box-shadow:0 10px 28px rgba(0,0,0,0.75);overflow:hidden;';
 
-    var href = useTest ? '#ad-preview' : ('/api/ads/redirect?placement=sticky-mobile&zoneId=' + encodeURIComponent(zone.zoneId));
+    var href = zone.url;
     var linkHtml = useTest
-      ? '<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:#fbbf24;font-size:11px;font-weight:700;"><span>[TEST 320x50] Sponsor Banner</span></div>'
-      : '<a href="' + href + '" target="_blank" rel="sponsored nofollow noopener" data-ad-link="true" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;"><span style="font-size:9px;font-weight:800;color:#fbbf24;text-transform:uppercase;flex-shrink:0;">Sponsored</span><span style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + zone.label + '</span></a>';
+      ? '<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:#fbbf24;font-size:11px;font-weight:700;"><span>[TEST 320x50] Monetag · ' + network + '</span></div>'
+      : '<a href="' + href + '" target="_blank" rel="nofollow noopener noreferrer" data-ad-link="true" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;"><span style="font-size:9px;font-weight:800;color:#fbbf24;text-transform:uppercase;flex-shrink:0;">Ad</span><span style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + label + '</span></a>';
 
     wrap.innerHTML = linkHtml + '<button type="button" id="mrs-sticky-close-btn" aria-label="Close banner" style="width:44px;height:44px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:#cbd5e1;font-size:18px;font-weight:700;cursor:pointer;flex-shrink:0;">&times;</button>';
     doc.body.appendChild(wrap);
 
-    enqueueAdEvent({ eventType: 'view', format: 'sticky', placement: 'sticky-mobile-320x50', offerId: zone.zoneId });
+    enqueueAdEvent({
+      eventType: 'view',
+      format: 'sticky',
+      placement: 'sticky-mobile-320x50',
+      offerId: zoneId,
+      network: network
+    });
 
     var closeBtn = doc.getElementById('mrs-sticky-close-btn');
     if (closeBtn) {
@@ -371,13 +414,20 @@
     var anchor = wrap.querySelector('a[data-ad-link="true"]');
     if (anchor) {
       anchor.addEventListener('click', function () {
-        enqueueAdEvent({ eventType: 'click', format: 'sticky', placement: 'sticky-mobile-320x50', offerId: zone.zoneId });
+        enqueueAdEvent({
+          eventType: 'click',
+          format: 'sticky',
+          placement: 'sticky-mobile-320x50',
+          offerId: zoneId,
+          network: network
+        });
       });
     }
   }
 
   function schedulePushPrePrompt() {
     if (!isFreeState() || !hasAdConsent() || !serverFormatConfig.formats.push) return;
+    if (!isMonetagRegularAllowed() || Boolean(serverFormatConfig.testMode)) return;
     if (isNativeWebView() || !('Notification' in win)) return;
     if (win.Notification.permission !== 'default') return;
 
@@ -440,7 +490,6 @@
         var hasContent = el.children.length > 0 && el.innerText.trim().length > 0;
         if (!hasContent) {
           el.style.display = 'none';
-          // Polite ad-blocker telemetry (no blocking wall)
           var seenVisits = parseInt(lsGet(BLOCKER_NOTICE_COUNT_KEY) || '0', 10) || 0;
           if (seenVisits % 5 === 0) {
             lsSet(BLOCKER_NOTICE_COUNT_KEY, String(seenVisits + 1));
@@ -452,27 +501,17 @@
 
   function loadConfiguredNetworkScripts() {
     if (!isFreeState() || !hasAdConsent() || isExcludedPageOrContext()) return;
+    if (Boolean(serverFormatConfig.testMode)) return;
+
     var cfg = win.MRS_ADS_CONFIG || {};
     var formats = serverFormatConfig.formats || {};
 
-    // Monetag Vignette / Popunder (never while video is playing, never stacked with Adsterra Social Bar)
-    var vignetteAdded = false;
-    if (formats.interstitial && !isPlayerActive() && cfg.monetag && cfg.monetag.vignette) {
+    // Monetag Vignette / Interstitial ONLY when monetag.showRegularAds === true
+    if (isMonetagRegularAllowed() && formats.interstitial && !isPlayerActive() && cfg.monetag && cfg.monetag.vignette) {
       if (cfg.monetag.vignette.scriptSrc) {
         injectExternalScript(cfg.monetag.vignette.scriptSrc, { 'data-zone': cfg.monetag.vignette.zoneId });
-        vignetteAdded = true;
       } else if (cfg.monetag.vignette.inlineSnippet) {
         injectInlineSnippet(cfg.monetag.vignette.inlineSnippet, 'mrs-monetag-vignette');
-        vignetteAdded = true;
-      }
-    }
-
-    // Adsterra Social Bar (do not stack with Monetag Vignette on same page)
-    if (!vignetteAdded && formats.interstitial && !isPlayerActive() && cfg.adsterra && cfg.adsterra.socialBar) {
-      if (typeof cfg.adsterra.socialBar === 'string' && cfg.adsterra.socialBar.indexOf('http') === 0) {
-        injectExternalScript(cfg.adsterra.socialBar);
-      } else if (typeof cfg.adsterra.socialBar === 'string') {
-        injectInlineSnippet(cfg.adsterra.socialBar, 'mrs-adsterra-social');
       }
     }
   }
@@ -486,7 +525,6 @@
     if (managerBootedForFree) return;
     managerBootedForFree = true;
 
-    // Count visit for free-user push cadence
     var prevVisits = parseInt(lsGet(VISITS_KEY) || '0', 10) || 0;
     lsSet(VISITS_KEY, String(prevVisits + 1));
 
@@ -500,11 +538,14 @@
         if (data && data.formats) {
           serverFormatConfig.formats = Object.assign({}, serverFormatConfig.formats, data.formats);
         }
-        if (data && typeof data.hideOffersForVip === 'boolean') {
-          serverFormatConfig.hideOffersForVip = data.hideOffersForVip;
-        }
         if (data && typeof data.testMode === 'boolean') {
           serverFormatConfig.testMode = data.testMode;
+        }
+        if (data && data.monetag) {
+          serverFormatConfig.monetag = Object.assign({}, serverFormatConfig.monetag, data.monetag);
+        }
+        if (data && data.rewards) {
+          serverFormatConfig.rewards = Object.assign({}, serverFormatConfig.rewards, data.rewards);
         }
         win.__MRS_ADS_SERVER_CONFIG = serverFormatConfig;
         try {

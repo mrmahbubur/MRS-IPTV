@@ -394,10 +394,10 @@ test('buildContentSecurityPolicy includes partner/CAPTCHA hosts and rejects unsa
     },
     () => {
       const csp = buildContentSecurityPolicy();
-      assert.ok(csp.includes('https://*.mitgo.com'));
-      assert.ok(csp.includes('https://*.admitad.com'));
-      assert.ok(csp.includes('https://rzekl.com'));
-      assert.ok(csp.includes('https://*.rzekl.com'));
+      assert.ok(csp.includes('https://uplcm.com'));
+      assert.equal(csp.includes('mitgo.com'), false);
+      assert.equal(csp.includes('admitad.com'), false);
+      assert.equal(csp.includes('rzekl.com'), false);
       assert.ok(csp.includes('https://challenges.cloudflare.com'));
       assert.ok(csp.includes('https://tag.example.net'));
       assert.ok(csp.includes('https://widget.example.org'));

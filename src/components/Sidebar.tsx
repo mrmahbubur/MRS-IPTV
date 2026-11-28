@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { 
   Home, Tv, Activity, Film, MonitorPlay, Newspaper, Baby, Music, 
   Star, Crown, ChevronRight, 
-  Tv2, Radio, Globe, Compass, Heart, Megaphone,
+  Tv2, Radio, Globe, Compass, Heart,
   Smartphone, Gift, Download, X, UserCheck, HelpCircle
 } from 'lucide-react';
 import { AdFreeState } from '../types';
@@ -56,8 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const sidebarRef = useRef<HTMLElement | null>(null);
   usePassiveTouchScroll(sidebarRef);
 
-  const { isFreeMode, isVipLocked, adConfig } = useAdGate();
-  const showOffersNav = isFreeMode && adConfig.formats.affiliate;
+  const { isVipLocked, isFreeMode } = useAdGate();
   const vipCountdown = useRealtimeVipCountdown(adFreeState);
   const isVipActive = isVipLocked || vipCountdown.isActive;
 
@@ -162,8 +161,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'category:Kids', icon: Baby, label: 'Kids & Family', meta: 'Family', iconColorClass: 'text-pink-400', metaHighlightClass: 'text-pink-400' },
     { id: 'category:Music', icon: Music, label: 'Music & Studio', meta: 'Audio', iconColorClass: 'text-violet-400', metaHighlightClass: 'text-violet-400' },
     { id: 'category:Documentary', icon: Compass, label: 'Documentary & Nature', meta: '4K Doc', iconColorClass: 'text-teal-400', metaHighlightClass: 'text-teal-400' },
-    { id: 'category:Religious', icon: Heart, label: 'Religious & Spiritual', meta: '24/7', iconColorClass: 'text-yellow-400', metaHighlightClass: 'text-yellow-400' },
-    ...(showOffersNav ? [{ id: 'category:Advertisement', icon: Megaphone, label: 'Advertisement', meta: 'Offers', iconColorClass: 'text-amber-400', metaHighlightClass: 'text-amber-400' }] : [])
+    { id: 'category:Religious', icon: Heart, label: 'Religious & Spiritual', meta: '24/7', iconColorClass: 'text-yellow-400', metaHighlightClass: 'text-yellow-400' }
   ];
 
   const handleNavClick = (id: string) => {
@@ -420,7 +418,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* ================================================================= */}
         <div className="px-3.5 space-y-2.5 pt-3.5 border-t border-white/[0.09] shrink-0">
           {/* 1-Click Watch Ad & Get 1 Hour Free VIP Card (Free Mode Only) */}
-          {isFreeMode && (
+          {isFreeMode && !isVipActive && (
             <WatchAdVipButton
               variant="sidebar"
               adFreeState={adFreeState}
@@ -466,7 +464,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               if (onOpenPremiumModal) onOpenPremiumModal();
               if (onCloseMobileMenu) onCloseMobileMenu();
             }}
-            className="w-full min-h-[52px] relative overflow-hidden sidebar-square-btn-active rounded-xl p-3 text-left cursor-pointer group transition-all motion-reduce:transition-none shadow-lg"
+            className={`${!isVipActive ? 'mrs-free-upsell ' : ''}w-full min-h-[52px] relative overflow-hidden sidebar-square-btn-active rounded-xl p-3 text-left cursor-pointer group transition-all motion-reduce:transition-none shadow-lg`}
           >
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2.5 min-w-0">

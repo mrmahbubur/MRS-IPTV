@@ -1,27 +1,33 @@
 /**
- * M R S IPTV - Central Ad & Affiliate Configuration (ads.config.js)
- * Pure data only: third-party snippets/URLs are stored here inertly and loaded
- * ONLY by ad-manager.js when window.MRS_ADS.state() === "free".
- * Owner publisher IDs, Monetag zones, and Admitad/Mitgo links are preserved verbatim.
+ * M R S IPTV - Central Monetag Ad Configuration (ads.config.js)
+ * Pure data only: Monetag snippets/URLs are stored here inertly and loaded
+ * ONLY by ad-manager.js when window.MRS_ADS.state() === "free",
+ * or by rewardAds.js for Monetag's official rewarded ad completion callback.
+ * Owner publisher ID and Monetag zones are preserved verbatim.
  */
 (function (win) {
   'use strict';
 
   win.MRS_ADS_CONFIG = {
     apiBaseUrl: '',
-    hideOffersForVip: true,
-    testMode: false,
+    testMode: true,
 
     excludedViews: ['checkout', 'activate', 'account', 'support', 'legal', 'admin'],
     excludedPages: ['/checkout', '/activate', '/account', '/support', '/legal', '/admin'],
 
     publisherMeta: {
-      monetag: 'fa9656182dbc7301dcd9a2326441dcf3',
-      mitgo: '9cc5bab4-f968-4c91-9b46-b150cae3355f'
+      monetag: 'fa9656182dbc7301dcd9a2326441dcf3'
     },
 
     monetag: {
       verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+      showRegularAds: false,
+      rewarded: {
+        enabled: false,
+        // Owner pastes official rewarded snippet / completion function from Monetag dashboard here.
+        snippet: null,
+        showFn: null
+      },
       // 10 Owner Verified Monetag Direct Smartlink Zones (unchanged)
       directZones: [
         { id: 'uplcm-11226634', zoneId: '11226634', url: 'https://uplcm.com/4/11226634', label: 'Ultra-HD Sports & Match Priority Line' },
@@ -52,36 +58,12 @@
       }
     },
 
-    // Adsterra slot config (no active Adsterra script present in current repo; gated if configured later)
-    adsterra: {
-      socialBar: null,
-      popunder: null,
-      nativeBanner: null,
-      banner728x90: null,
-      banner320x50: null
-    },
-
-    // Admitad / Mitgo Affiliate Links (unchanged)
-    admitad: {
-      verificationId: '9cc5bab4-f968-4c91-9b46-b150cae3355f',
-      offers: [
-        {
-          offerId: 'pm1aev55clcb5002cfdd219aa26f6f',
-          network: 'Mitgo Affiliate',
-          label: 'Featured Partner Marketplace Offer',
-          targetUrl: 'https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/',
-          goPath: '/go/pm1aev55clcb5002cfdd219aa26f6f',
-          rel: 'sponsored nofollow noopener'
-        },
-        {
-          offerId: '1e8d114494cb5002cfdd16525dc3e8',
-          network: 'Mitgo Affiliate',
-          label: 'Verified Sponsor Spotlight Promotion',
-          targetUrl: 'https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/',
-          goPath: '/go/1e8d114494cb5002cfdd16525dc3e8',
-          rel: 'sponsored nofollow noopener'
-        }
-      ]
+    rewards: {
+      durationMinutes: 60,
+      minWatchMs: 15000,
+      cooldownMinutes: 180,
+      maxPerDevicePerDay: 3,
+      unlocksVipChannels: true
     },
 
     caps: {

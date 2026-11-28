@@ -3,6 +3,20 @@ import { getCachedEntitlement } from './mrsVip';
 
 export type AdGateState = 'pending' | 'vip' | 'free';
 
+export interface NetworkGateConfig {
+  showRegularAds: boolean;
+  rewardedEnabled: boolean;
+}
+
+export interface RewardsGateConfig {
+  durationMinutes: number;
+  minWatchMs: number;
+  cooldownMinutes: number;
+  maxPerDevicePerDay: number;
+  unlocksVipChannels: boolean;
+  anyRewardedAvailable: boolean;
+}
+
 export interface AdFormatConfig {
   formats: {
     banner: boolean;
@@ -10,26 +24,37 @@ export interface AdFormatConfig {
     popunder: boolean;
     interstitial: boolean;
     push: boolean;
-    affiliate: boolean;
   };
-  hideOffersForVip: boolean;
   testMode: boolean;
+  monetag: NetworkGateConfig;
+  rewards: RewardsGateConfig;
 }
 
 const DEFAULT_AD_CONFIG: AdFormatConfig = {
   formats: {
     banner: true,
     sticky: true,
-    popunder: true,
-    interstitial: true,
+    popunder: false,
+    interstitial: false,
     push: false,
-    affiliate: true,
   },
-  hideOffersForVip: true,
-  testMode: false,
+  testMode: true,
+  monetag: {
+    showRegularAds: false,
+    rewardedEnabled: false,
+  },
+  rewards: {
+    durationMinutes: 60,
+    minWatchMs: 15000,
+    cooldownMinutes: 180,
+    maxPerDevicePerDay: 3,
+    unlocksVipChannels: true,
+    anyRewardedAvailable: false,
+  },
 };
 
 const EXPIRED_NOTICE_KEY = 'mrs_ads_expired_notice';
+const REWARD_EXPIRED_PENDING_KEY = 'mrs_reward_expired_notice_pending';
 
 export function getAdGateState(): AdGateState {
   if (typeof window === 'undefined') return 'pending';
@@ -45,29 +70,65 @@ export function getAdGateState(): AdGateState {
 
 export function getAdRuntimeConfig(): AdFormatConfig {
   if (typeof window === 'undefined') return DEFAULT_AD_CONFIG;
-  const serverCfg = (window as any).__MRS_ADS_SERVER_CONFIG;
-  const staticCfg = (window as any).MRS_ADS_CONFIG;
+  const serverCfg = (window as any).__MRS_ADS_SERVER_CONFIG || {};
+  const staticCfg = (window as any).MRS_ADS_CONFIG || {};
+
+  const testMode =
+    typeof serverCfg.testMode === 'boolean'
+      ? serverCfg.testMode
+      : typeof staticCfg.testMode === 'boolean'
+        ? staticCfg.testMode
+        : DEFAULT_AD_CONFIG.testMode;
+
+  const monetagShowRegular = Boolean(
+    typeof serverCfg.monetag?.showRegularAds === 'boolean'
+      ? serverCfg.monetag.showRegularAds
+      : staticCfg.monetag?.showRegularAds
+  );
+  const monetagRewarded = Boolean(
+    serverCfg.monetag?.rewardedEnabled ||
+      (staticCfg.monetag?.rewarded?.enabled &&
+        (typeof staticCfg.monetag?.rewarded?.showFn === 'function' || staticCfg.monetag?.rewarded?.snippet))
+  );
+
   return {
     formats: {
       ...DEFAULT_AD_CONFIG.formats,
-      ...(serverCfg?.formats || {}),
+      ...(serverCfg.formats || {}),
     },
-    hideOffersForVip:
-      typeof serverCfg?.hideOffersForVip === 'boolean'
-        ? serverCfg.hideOffersForVip
-        : typeof staticCfg?.hideOffersForVip === 'boolean'
-          ? staticCfg.hideOffersForVip
+    testMode,
+    monetag: {
+      showRegularAds: monetagShowRegular,
+      rewardedEnabled: monetagRewarded,
+    },
+    rewards: {
+      durationMinutes: Number(serverCfg.rewards?.durationMinutes || staticCfg.rewards?.durationMinutes || 60),
+      minWatchMs: Number(serverCfg.rewards?.minWatchMs || staticCfg.rewards?.minWatchMs || 15000),
+      cooldownMinutes: Number(serverCfg.rewards?.cooldownMinutes || staticCfg.rewards?.cooldownMinutes || 180),
+      maxPerDevicePerDay: Number(serverCfg.rewards?.maxPerDevicePerDay || staticCfg.rewards?.maxPerDevicePerDay || 3),
+      unlocksVipChannels:
+        typeof serverCfg.rewards?.unlocksVipChannels === 'boolean'
+          ? serverCfg.rewards.unlocksVipChannels
           : true,
-    testMode:
-      typeof serverCfg?.testMode === 'boolean'
-        ? serverCfg.testMode
-        : Boolean(staticCfg?.testMode),
+      anyRewardedAvailable: monetagRewarded,
+    },
   };
 }
 
 export function isRealVipActive(): boolean {
-  const state = getAdGateState();
-  return state === 'vip';
+  return getAdGateState() === 'vip';
+}
+
+function readRewardExpiredCooldown(): number | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(REWARD_EXPIRED_PENDING_KEY);
+    if (!raw) return null;
+    const mins = parseInt(raw, 10);
+    return isNaN(mins) ? 180 : Math.max(0, mins);
+  } catch {
+    return null;
+  }
 }
 
 export function useAdGate() {
@@ -80,6 +141,7 @@ export function useAdGate() {
       return false;
     }
   });
+  const [rewardExpiredNotice, setRewardExpiredNotice] = useState<number | null>(() => readRewardExpiredCooldown());
 
   useEffect(() => {
     const syncState = () => {
@@ -87,9 +149,17 @@ export function useAdGate() {
       setAdState(next);
       try {
         setExpiredNotice(localStorage.getItem(EXPIRED_NOTICE_KEY) === '1');
+        setRewardExpiredNotice(readRewardExpiredCooldown());
       } catch {}
     };
     const syncConfig = () => setAdConfig(getAdRuntimeConfig());
+    const onRewardExpiredOnce = (ev: Event) => {
+      const detail = (ev as CustomEvent)?.detail;
+      const mins = typeof detail?.cooldownMinutes === 'number' ? detail.cooldownMinutes : readRewardExpiredCooldown();
+      if (mins !== null && mins !== undefined) {
+        setRewardExpiredNotice(Math.max(0, mins));
+      }
+    };
 
     syncState();
     syncConfig();
@@ -97,12 +167,14 @@ export function useAdGate() {
     window.addEventListener('mrs_ads_state_change', syncState);
     window.addEventListener('mrs_ads_config_loaded', syncConfig);
     window.addEventListener('shahintv_adfree_updated', syncState);
+    window.addEventListener('mrs_reward_expired_once', onRewardExpiredOnce);
     window.addEventListener('storage', syncState);
 
     return () => {
       window.removeEventListener('mrs_ads_state_change', syncState);
       window.removeEventListener('mrs_ads_config_loaded', syncConfig);
       window.removeEventListener('shahintv_adfree_updated', syncState);
+      window.removeEventListener('mrs_reward_expired_once', onRewardExpiredOnce);
       window.removeEventListener('storage', syncState);
     };
   }, []);
@@ -111,6 +183,13 @@ export function useAdGate() {
     setExpiredNotice(false);
     try {
       localStorage.removeItem(EXPIRED_NOTICE_KEY);
+    } catch {}
+  }, []);
+
+  const dismissRewardExpiredNotice = useCallback(() => {
+    setRewardExpiredNotice(null);
+    try {
+      localStorage.removeItem(REWARD_EXPIRED_PENDING_KEY);
     } catch {}
   }, []);
 
@@ -128,6 +207,8 @@ export function useAdGate() {
     adConfig,
     expiredNotice,
     dismissExpiredNotice,
+    rewardExpiredNotice,
+    dismissRewardExpiredNotice,
     openPrivacySettings,
   };
 }

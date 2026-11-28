@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Gift, ExternalLink, Play,
-  Tv, X, Clock, ArrowRight, Zap, ShieldCheck
-} from 'lucide-react';
+import { ExternalLink, Play, Tv, X, Clock, ArrowRight, Zap, ShieldCheck } from 'lucide-react';
 import {
   AdZoneConfig,
   getNextAdZone,
   recordAdEvent,
-  getBackendAdRedirectUrl,
-  grantRewardedAdFreeTime,
-  markInterstitialAdShown
+  markInterstitialAdShown,
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { useAdGate } from '../lib/useAdGate';
+import { WatchAdVipButton } from './WatchAdVipButton';
 
 interface RewardedAdInterstitialProps {
   isOpen: boolean;
@@ -29,41 +25,34 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
   isOpen,
   onClose,
   onProceed,
-  onRewardedGranted,
-  title = 'Sponsor Stream Gateway',
+  title = 'Monetag Stream Gateway',
   dwellSeconds: customDwell,
-  channelName
+  channelName,
 }) => {
   const remoteConfig = useRemoteConfig();
-  const { isFreeMode, adConfig } = useAdGate();
-  const canShow = isOpen && isFreeMode && adConfig.formats.interstitial && remoteConfig.adsConfig.enabled;
+  const { isFreeMode, isVipLocked, adConfig } = useAdGate();
+  const hasRegularNetworkInterstitials = Boolean(adConfig.monetag?.showRegularAds);
+  const canShow =
+    isOpen &&
+    isFreeMode &&
+    !isVipLocked &&
+    !adConfig.testMode &&
+    adConfig.formats.interstitial &&
+    remoteConfig.adsConfig.enabled &&
+    hasRegularNetworkInterstitials;
+
   const configuredDwell = customDwell || remoteConfig.adsConfig.dwellTimerSeconds || 5;
 
   const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getNextAdZone());
   const [countdown, setCountdown] = useState<number>(configuredDwell);
   const [canSkip, setCanSkip] = useState<boolean>(false);
-  const [hasClaimedReward, setHasClaimedReward] = useState<boolean>(false);
   const verifiedRef = useRef<boolean>(false);
-  const backendAdUrl = getBackendAdRedirectUrl('interstitial-reward-vip', activeZone.zoneId);
-
-  useEffect(() => {
-    const handleRotation = (e: Event) => {
-      const evt = e as CustomEvent<{ nextZone?: AdZoneConfig }>;
-      if (evt.detail?.nextZone) {
-        setActiveZone(evt.detail.nextZone);
-      } else {
-        setActiveZone(getNextAdZone());
-      }
-    };
-    window.addEventListener('mrs_ad_zone_rotated', handleRotation);
-    return () => window.removeEventListener('mrs_ad_zone_rotated', handleRotation);
-  }, []);
+  const offerHref = activeZone.url;
 
   useEffect(() => {
     if (!canShow) {
       setCountdown(configuredDwell);
       setCanSkip(false);
-      setHasClaimedReward(false);
       verifiedRef.current = false;
       return;
     }
@@ -72,12 +61,11 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
     setActiveZone(nextZone);
     setCountdown(configuredDwell);
     setCanSkip(false);
-    setHasClaimedReward(false);
     verifiedRef.current = false;
     markInterstitialAdShown();
 
     const timer = setInterval(() => {
-      setCountdown(prev => {
+      setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
           setCanSkip(true);
@@ -105,27 +93,13 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
 
   const progressPct = ((configuredDwell - countdown) / configuredDwell) * 100;
 
-  const handleSponsorClickAndReward = () => {
-    recordAdEvent('click', activeZone, 'interstitial-reward-vip');
-    const newState = grantRewardedAdFreeTime(remoteConfig.adsConfig.rewardHours || 1);
-    setHasClaimedReward(true);
-    setCanSkip(true);
-    if (onRewardedGranted) {
-      onRewardedGranted(newState);
-    }
-    setTimeout(() => {
-      onProceed();
-      onClose();
-    }, 400);
-  };
-
   const handleSkipAndWatch = () => {
     onProceed();
     onClose();
   };
 
   return (
-    <div data-sponsored="true" className="ad-slot fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-200 select-none">
+    <div className="ad-slot fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-200 select-none">
       <div className="relative w-full max-w-md bg-[#0E1019] border border-amber-400/50 rounded-2xl p-5 sm:p-6 shadow-2xl flex flex-col overflow-hidden text-center">
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#07080D]">
           <div
@@ -152,7 +126,7 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
             </button>
           ) : (
             <span className="ad-label text-xs font-mono text-amber-400 font-bold tabular-nums">
-              Sponsored · {countdown}s
+              Ad · {countdown}s
             </span>
           )}
         </div>
@@ -163,7 +137,7 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
               {activeZone.badge}
             </div>
             <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mt-1">
-              {hasClaimedReward ? 'Sponsor Bonus Activated!' : title}
+              {title}
             </h3>
             <p className="text-xs text-[#C9D1E0] max-w-xs mx-auto mt-0.5 leading-relaxed">
               {activeZone.subtitle}
@@ -171,11 +145,11 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
           </div>
 
           <a
-            href={backendAdUrl}
+            href={offerHref}
             target="_blank"
-            rel="sponsored nofollow noopener"
+            rel="nofollow noopener noreferrer"
             data-ad-link="true"
-            onClick={handleSponsorClickAndReward}
+            onClick={() => recordAdEvent('click', activeZone, 'interstitial-gateway')}
             className="block w-full rounded-xl p-4 premium-card text-left transition-all group cursor-pointer"
           >
             <div className="flex items-start justify-between gap-3">
@@ -186,7 +160,7 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold uppercase">
                     <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                    <span>Sponsored Partner Offer</span>
+                    <span>Ad · Monetag</span>
                   </div>
                   <h4 className="text-sm font-black text-white group-hover:text-amber-300 truncate mt-0.5">
                     {activeZone.label}
@@ -195,31 +169,12 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
               </div>
               <ExternalLink className="w-4 h-4 text-amber-400 shrink-0 mt-1 group-hover:translate-x-0.5 transition-transform" />
             </div>
-
-            <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs">
-              <span className="text-[#C9D1E0] font-semibold">{activeZone.ctaText}</span>
-              <span className="text-amber-400 font-bold text-[11px] flex items-center gap-1">
-                <Gift className="w-3.5 h-3.5 shrink-0" />
-                <span>Opens in new tab</span>
-              </span>
-            </div>
           </a>
+
+          <WatchAdVipButton variant="hero" className="w-full" onAfterClick={handleSkipAndWatch} />
         </div>
 
         <div className="space-y-2 relative z-10 pt-2 border-t border-white/10">
-          <a
-            href={backendAdUrl}
-            target="_blank"
-            rel="sponsored nofollow noopener"
-            data-ad-link="true"
-            onClick={handleSponsorClickAndReward}
-            className="w-full min-h-[44px] py-3 px-4 rounded-xl btn-premium-gold text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
-          >
-            <Gift className="w-4 h-4 text-amber-300 shrink-0" />
-            <span>Open Sponsor Offer</span>
-            <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-          </a>
-
           {canSkip ? (
             <button
               type="button"

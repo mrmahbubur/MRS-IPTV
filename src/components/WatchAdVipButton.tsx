@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, CheckCircle2 } from 'lucide-react';
-import {
-  AdZoneConfig,
-  getNextAdZone,
-  getRandomAdZone,
-  getBackendAdRedirectUrl,
-  grantRewardedAdFreeTime,
-  recordAdEvent,
-  useRealtimeVipCountdown
-} from '../lib/adSystem';
+import { Loader2, Sparkles, Clock } from 'lucide-react';
+import { useRealtimeVipCountdown } from '../lib/adSystem';
 import { AdFreeState } from '../types';
-import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { useAdGate } from '../lib/useAdGate';
 
 export const WatchAdVipIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
@@ -52,169 +43,207 @@ interface WatchAdVipButtonProps {
 export const WatchAdVipButton: React.FC<WatchAdVipButtonProps> = ({
   variant = 'header',
   adFreeState,
-  onRewardedGranted,
   onAfterClick,
-  className = ''
+  className = '',
 }) => {
-  const remoteConfig = useRemoteConfig();
-  const { isFreeMode, adConfig } = useAdGate();
-  const [adZone, setAdZone] = useState<AdZoneConfig>(() => getNextAdZone());
-  const [justClaimed, setJustClaimed] = useState(false);
+  const { isFreeMode, isVipLocked, adConfig } = useAdGate();
   const vipCountdown = useRealtimeVipCountdown(adFreeState);
-  const backendAdUrl = getBackendAdRedirectUrl(`watch-ad-vip-${variant}`, adZone.zoneId);
+  const [isWatching, setIsWatching] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [cooldownMins, setCooldownMins] = useState<number>(0);
 
   useEffect(() => {
-    const handleRotation = (e: Event) => {
-      const evt = e as CustomEvent<{ currentZone?: AdZoneConfig; nextZone?: AdZoneConfig }>;
-      if (evt.detail?.nextZone) {
-        setAdZone(evt.detail.nextZone);
-      } else {
-        setAdZone(getNextAdZone());
-      }
+    const syncCooldown = () => {
+      try {
+        const rewardApi = (window as any).MRS_REWARD_ADS;
+        if (rewardApi && typeof rewardApi.getCooldownRemainingMinutes === 'function') {
+          setCooldownMins(rewardApi.getCooldownRemainingMinutes());
+        }
+      } catch {}
     };
-    window.addEventListener('mrs_ad_zone_rotated', handleRotation);
-    return () => window.removeEventListener('mrs_ad_zone_rotated', handleRotation);
+    syncCooldown();
+    const id = setInterval(syncCooldown, 15000);
+    return () => clearInterval(id);
   }, []);
 
-  // Strictly suppress for VIP/pending, checkout modal banner, and disabled banner format
-  if (!isFreeMode || !remoteConfig.adsConfig.enabled || !adConfig.formats.banner || variant === 'modal-banner') {
+  const isRewardAvailable = Boolean(
+    adConfig.monetag?.rewardedEnabled || adConfig.rewards?.anyRewardedAvailable
+  );
+
+  // Never show while VIP or active reward1h is active, on player/modal-banner, or when no rewarded format is enabled
+  if (
+    !isFreeMode ||
+    isVipLocked ||
+    vipCountdown.isActive ||
+    Boolean(adFreeState?.isActive) ||
+    !isRewardAvailable ||
+    variant === 'modal-banner' ||
+    variant === 'player'
+  ) {
     return null;
   }
 
-  const handleClick = () => {
-    recordAdEvent('click', adZone, `watch-ad-vip-${variant}`);
-    setAdZone(getRandomAdZone());
-    const rewardHours = remoteConfig.adsConfig.rewardHours || 1;
-    const newState = grantRewardedAdFreeTime(rewardHours);
-    setJustClaimed(true);
-    setTimeout(() => setJustClaimed(false), 4000);
-    if (onRewardedGranted) {
-      onRewardedGranted(newState);
+  const handleStartReward = async () => {
+    if (isWatching) return;
+    setErrorMsg(null);
+    const rewardApi = (window as any).MRS_REWARD_ADS;
+    if (!rewardApi || typeof rewardApi.startAndWatch !== 'function') {
+      setErrorMsg('Rewarded player is unavailable right now.');
+      return;
     }
-    if (onAfterClick) {
-      onAfterClick();
+
+    setIsWatching(true);
+    try {
+      await rewardApi.startAndWatch();
+      if (onAfterClick) onAfterClick();
+    } catch (err: any) {
+      const msg = err?.message || 'Rewarded ad could not be completed.';
+      setErrorMsg(msg);
+      try {
+        if (typeof rewardApi.getCooldownRemainingMinutes === 'function') {
+          setCooldownMins(rewardApi.getCooldownRemainingMinutes());
+        }
+      } catch {}
+      setTimeout(() => setErrorMsg(null), 5000);
+    } finally {
+      setIsWatching(false);
     }
   };
 
+  const fullHonestLabel = 'Watch a short ad to unlock 1 hour of VIP (free)';
+
   if (variant === 'sidebar') {
     return (
-      <a
-        href={backendAdUrl}
-        target="_blank"
-        rel="sponsored nofollow noopener"
-        data-ad-link="true"
-        data-sponsored="true"
-        onClick={handleClick}
-        id="sidebar-watch-ad-vip-btn"
-        title="Visit Sponsor Offer"
-        className={`ad-slot w-full min-h-[52px] relative overflow-hidden sidebar-square-btn rounded-xl p-3 text-left transition-all motion-reduce:transition-none group shadow-lg cursor-pointer block border-amber-400/40 hover:border-amber-400 ${className}`}
-      >
-        <div className="flex items-center justify-between gap-2.5">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-amber-500/15 text-amber-400 border border-amber-400/40 shrink-0 group-hover:scale-105 motion-reduce:group-hover:scale-100 transition-transform">
-              {justClaimed ? (
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              ) : (
-                <WatchAdVipIcon className="w-4 h-4 text-amber-400" />
-              )}
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-extrabold text-white truncate">
-                  {justClaimed ? 'Bonus Activated!' : 'Sponsored · Support TV'}
-                </span>
+      <div className="space-y-1.5">
+        <button
+          type="button"
+          onClick={handleStartReward}
+          disabled={isWatching}
+          id="sidebar-watch-ad-vip-btn"
+          title={fullHonestLabel}
+          aria-label={fullHonestLabel}
+          className={`mrs-free-upsell w-full min-h-[52px] relative overflow-hidden sidebar-square-btn rounded-xl p-3 text-left transition-all motion-reduce:transition-none group shadow-lg cursor-pointer block border-amber-400/40 hover:border-amber-400 disabled:opacity-60 ${className}`}
+        >
+          <div className="flex items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-amber-500/15 text-amber-400 border border-amber-400/40 shrink-0">
+                {isWatching ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                ) : (
+                  <WatchAdVipIcon className="w-4 h-4 text-amber-400" />
+                )}
               </div>
-              <span className="text-[11px] text-amber-400 font-semibold block truncate mt-0.5 tabular-nums">
-                {vipCountdown.isActive && vipCountdown.isTemporary
-                  ? `Bonus (${vipCountdown.formattedClock})`
-                  : 'Featured Partner Offer'}
-              </span>
+              <div className="min-w-0">
+                <span className="text-xs font-extrabold text-white block leading-snug">
+                  {isWatching ? 'Watching rewarded ad...' : fullHonestLabel}
+                </span>
+                {cooldownMins > 0 && (
+                  <span className="text-[11px] text-amber-300 font-semibold flex items-center gap-1 mt-0.5 tabular-nums">
+                    <Clock className="w-3 h-3 shrink-0" />
+                    <span>Available in {cooldownMins} min</span>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          <ExternalLink className="w-4 h-4 text-amber-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
-        </div>
-      </a>
+        </button>
+        {errorMsg && (
+          <p className="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-400/30 rounded-lg px-2.5 py-1.5">
+            {errorMsg}
+          </p>
+        )}
+      </div>
     );
   }
 
   if (variant === 'hero') {
     return (
-      <a
-        href={backendAdUrl}
-        target="_blank"
-        rel="sponsored nofollow noopener"
-        data-ad-link="true"
-        data-sponsored="true"
-        onClick={handleClick}
-        title="Visit Featured Sponsor"
-        className={`ad-slot min-h-[44px] px-4 py-2.5 rounded-lg btn-square btn-premium-gold font-extrabold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 whitespace-nowrap ${className}`}
-      >
-        {justClaimed ? (
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-        ) : (
-          <WatchAdVipIcon className="w-4 h-4 text-amber-400 shrink-0" />
+      <div className="inline-flex flex-col items-start gap-1.5">
+        <button
+          type="button"
+          onClick={handleStartReward}
+          disabled={isWatching}
+          title={fullHonestLabel}
+          aria-label={fullHonestLabel}
+          className={`mrs-free-upsell min-h-[44px] px-4 py-2.5 rounded-lg btn-square btn-premium-gold font-extrabold text-xs sm:text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 disabled:opacity-60 ${className}`}
+        >
+          {isWatching ? (
+            <Loader2 className="w-4 h-4 animate-spin text-amber-300 shrink-0" />
+          ) : (
+            <WatchAdVipIcon className="w-4 h-4 text-amber-300 shrink-0" />
+          )}
+          <span>
+            {isWatching
+              ? 'Watching ad...'
+              : cooldownMins > 0
+                ? `Free 1h VIP (in ${cooldownMins} min)`
+                : fullHonestLabel}
+          </span>
+        </button>
+        {errorMsg && (
+          <span className="text-[11px] text-amber-300 font-medium">{errorMsg}</span>
         )}
-        <span>{justClaimed ? 'Bonus Active!' : 'Sponsor Offer'}</span>
-        <ExternalLink className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-      </a>
+      </div>
     );
-  }
-
-  if (variant === 'player') {
-    return null; // Player controls remain 100% free of ad triggers
   }
 
   if (variant === 'mobile-bar') {
     return (
-      <a
-        href={backendAdUrl}
-        target="_blank"
-        rel="sponsored nofollow noopener"
-        data-ad-link="true"
-        data-sponsored="true"
-        onClick={handleClick}
+      <button
+        type="button"
+        onClick={handleStartReward}
+        disabled={isWatching}
         id="mobile-watch-ad-vip-btn"
-        title="Visit Featured Sponsor"
-        className={`ad-slot w-full min-h-[44px] flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer shadow-md btn-premium-gold ${className}`}
+        title={fullHonestLabel}
+        aria-label={fullHonestLabel}
+        className={`mrs-free-upsell w-full min-h-[44px] flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer shadow-md btn-premium-gold disabled:opacity-60 ${className}`}
       >
-        {justClaimed ? (
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        {isWatching ? (
+          <Loader2 className="w-4 h-4 animate-spin text-amber-300 shrink-0" />
         ) : (
-          <WatchAdVipIcon className="w-4 h-4 shrink-0 text-amber-400" />
+          <WatchAdVipIcon className="w-4 h-4 shrink-0 text-amber-300" />
         )}
         <div className="flex flex-col text-left leading-tight truncate">
           <span className="text-[11px] font-extrabold text-white truncate">
-            {justClaimed ? 'Bonus Active!' : 'Sponsor Offer'}
+            {isWatching ? 'Watching ad...' : 'Get 1 hour VIP free'}
           </span>
-          <span className="text-[9px] text-amber-300 font-mono tabular-nums truncate">
-            Sponsored
+          <span className="text-[9px] text-amber-200 font-mono tabular-nums truncate">
+            {cooldownMins > 0 ? `Wait ${cooldownMins} min` : 'Watch a short ad'}
           </span>
         </div>
-      </a>
+      </button>
     );
   }
 
   return (
-    <a
-      href={backendAdUrl}
-      target="_blank"
-      rel="sponsored nofollow noopener"
-      data-ad-link="true"
-      data-sponsored="true"
-      onClick={handleClick}
-      id="header-watch-ad-vip-btn"
-      title="Visit Featured Sponsor"
-      className={`ad-slot inline-flex items-center justify-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap btn-square btn-premium-gold group ${className}`}
-    >
-      {justClaimed ? (
-        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-      ) : (
-        <WatchAdVipIcon className="w-4 h-4 text-amber-400 group-hover:scale-105 motion-reduce:group-hover:scale-100 transition-transform shrink-0" />
+    <div className="relative inline-flex items-center">
+      <button
+        type="button"
+        onClick={handleStartReward}
+        disabled={isWatching}
+        id="header-watch-ad-vip-btn"
+        title={fullHonestLabel}
+        aria-label={fullHonestLabel}
+        className={`mrs-free-upsell inline-flex items-center justify-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap btn-square btn-premium-gold group disabled:opacity-60 ${className}`}
+      >
+        {isWatching ? (
+          <Loader2 className="w-4 h-4 animate-spin text-amber-300 shrink-0" />
+        ) : (
+          <Sparkles className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+        )}
+        <span className="text-white tracking-tight tabular-nums">
+          {isWatching
+            ? 'Watching...'
+            : cooldownMins > 0
+              ? `1h VIP (${cooldownMins}m)`
+              : 'Get 1h VIP free'}
+        </span>
+      </button>
+      {errorMsg && (
+        <div className="absolute right-0 top-full mt-1.5 z-50 w-64 rounded-lg bg-[#0E131F] border border-amber-400/50 px-3 py-2 text-[11px] text-amber-200 shadow-xl">
+          {errorMsg}
+        </div>
       )}
-      <span className="text-white tracking-tight tabular-nums">
-        {justClaimed ? 'Bonus!' : 'Sponsor'}
-      </span>
-      <ExternalLink className="hidden xl:inline w-3.5 h-3.5 text-amber-400/90 shrink-0" />
-    </a>
+    </div>
   );
 };

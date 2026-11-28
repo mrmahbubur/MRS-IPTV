@@ -839,8 +839,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
             {/* Desktop Only Actions in Top Bar (Windows, Smart TV, Large Displays: hidden lg:flex) */}
             <div className="hidden lg:flex items-center gap-2">
-              {/* Watch Ad & Get 1 Hour Free VIP Icon Button (Free Mode Only) */}
-              {isFreeMode && (
+              {/* Watch Ad & Get 1 Hour Free VIP Button (Free Mode Only, never while VIP/reward active) */}
+              {isFreeMode && !isVipActive && (
                 <WatchAdVipButton
                   variant="header"
                   adFreeState={adFreeState}
@@ -852,7 +852,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
               <button 
                 type="button"
                 onClick={onOpenPremiumModal}
-                className={`flex items-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap shrink-0 motion-reduce:transition-none ${
+                className={`${!isVipActive ? 'mrs-free-upsell ' : ''}flex items-center gap-1.5 px-3.5 h-10 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap shrink-0 motion-reduce:transition-none ${
                   isVipActive && vipCountdown.isTemporary ? 'btn-premium-emerald' : 'btn-premium-gold'
                 }`}
                 title={isVipActive ? "VIP Membership Active" : "Upgrade to VIP Pass"}
@@ -863,7 +863,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                   <Radio className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 )}
                 <span className="font-mono tabular-nums tracking-tight">
-                  {isVipActive ? (vipCountdown.shortBadgeText || 'VIP Active') : 'Get VIP Pass'}
+                  {isVipActive ? (vipCountdown.shortBadgeText || 'VIP Active') : 'Go VIP'}
                 </span>
               </button>
 
@@ -992,9 +992,9 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           </div>
 
           {/* 2 & 3. Important Sections: 1-Hour VIP Pass & VIP Access Priority Buttons in HEAD */}
-          <div className={`grid ${isFreeMode ? 'grid-cols-2' : 'grid-cols-1'} gap-2 w-full`}>
+          <div className={`grid ${isFreeMode && !isVipActive ? 'grid-cols-2' : 'grid-cols-1'} gap-2 w-full`}>
             {/* 1-Hour Free VIP Pass Button (Free Mode Only) */}
-            {isFreeMode && (
+            {isFreeMode && !isVipActive && (
               <WatchAdVipButton
                 variant="mobile-bar"
                 adFreeState={adFreeState}
@@ -1006,7 +1006,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             <button
               type="button"
               onClick={onOpenPremiumModal}
-              className={`w-full min-h-[44px] flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer shadow-md motion-reduce:transition-none ${
+              className={`${!isVipActive ? 'mrs-free-upsell ' : ''}w-full min-h-[44px] flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer shadow-md motion-reduce:transition-none ${
                 isVipActive && vipCountdown.isTemporary ? 'btn-premium-emerald' : 'btn-premium-gold'
               }`}
               title="VIP Access & Code Activation"

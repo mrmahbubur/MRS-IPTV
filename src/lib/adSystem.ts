@@ -6,7 +6,7 @@ export { getDeviceId, getStoredAdFreeState } from './codes';
 export interface AdZoneConfig {
   id: string;
   url: string;
-  network: 'Monetag Direct' | 'AsiaFilm 18+ Direct' | 'Mitgo Affiliate';
+  network: 'Monetag Direct';
   zoneId: string;
   estimatedCpmUsd: number;
   label: string;
@@ -17,7 +17,7 @@ export interface AdZoneConfig {
   imageUrl?: string;
   isMidnightOnly?: boolean;
   showAllTime?: boolean;
-  category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema' | 'advertisement';
+  category?: 'social' | 'adult' | 'sports' | 'vip' | 'cinema';
 }
 
 // Official Stored Partner Smartlink Zones (Active 24/7 All-Time)
@@ -60,7 +60,7 @@ export const STORED_AD_ZONES: AdZoneConfig[] = [
     zoneId: '11242745',
     estimatedCpmUsd: 4.10,
     label: 'Sports Highlight & Match Replay Hub',
-    subtitle: 'Trending goals, viral sports clips & global community sponsor offer',
+    subtitle: 'Trending goals, viral sports clips & global Monetag partner line',
     ctaText: 'Visit Hub · 1h Free VIP',
     badge: 'TRENDING',
     accentColor: 'emerald',
@@ -106,7 +106,7 @@ export const STORED_AD_ZONES: AdZoneConfig[] = [
     zoneId: '11242742',
     estimatedCpmUsd: 4.15,
     label: 'Global Sports Discussion & Fixture Hub',
-    subtitle: 'Verified broadcast sponsor unlocking 60 minutes of uninterrupted TV',
+    subtitle: 'Verified Monetag broadcast line unlocking 60 minutes of uninterrupted TV',
     ctaText: 'Claim 1-Hour Free VIP',
     badge: 'VERIFIED',
     accentColor: 'amber',
@@ -121,7 +121,7 @@ export const STORED_AD_ZONES: AdZoneConfig[] = [
     zoneId: '11230440',
     estimatedCpmUsd: 4.30,
     label: 'High-Speed Global IPTV Mirror Support',
-    subtitle: 'Instant sports updates and verified sponsor deal keeping 8,890+ channels free',
+    subtitle: 'Instant sports updates and Monetag direct line keeping 8,890+ channels free',
     ctaText: 'Support Server & Unlock VIP',
     badge: 'FAST LINE',
     accentColor: 'cyan',
@@ -153,7 +153,7 @@ export const STORED_AD_ZONES: AdZoneConfig[] = [
     label: 'All-Day Cinema, Reels & Sports Lounge',
     subtitle: 'Claim 1 full hour of zero ads across all live TV & sports feeds right now',
     ctaText: 'Unlock 1-Hour VIP Now',
-    badge: 'TOP OFFER',
+    badge: 'TOP ZONE',
     accentColor: 'purple',
     imageUrl: '/midnight_cinema_banner.jpg',
     showAllTime: true,
@@ -167,49 +167,15 @@ export const STORED_AD_ZONES: AdZoneConfig[] = [
     zoneId: '11242744',
     estimatedCpmUsd: 4.60,
     label: 'International Match Stream Partner Network',
-    subtitle: 'Official 24/7 global broadcast sponsor unlocking 60-min VIP streaming',
+    subtitle: 'Official 24/7 global Monetag line unlocking 60-min VIP streaming',
     ctaText: 'Visit Partner & Watch Ad-Free',
     badge: 'GLOBAL VIP',
     accentColor: 'rose',
     showAllTime: true,
     isMidnightOnly: false,
     category: 'vip'
-  },
-  {
-    id: 'rzekl-pm1aev55clcb5002cfdd219aa26f6f',
-    url: 'https://rzekl.com/g/pm1aev55clcb5002cfdd219aa26f6f/',
-    network: 'Mitgo Affiliate',
-    zoneId: 'pm1aev55clcb5002cfdd219aa26f6f',
-    estimatedCpmUsd: 5.00,
-    label: 'Featured Partner Marketplace Offer',
-    subtitle: 'Curated affiliate deal supporting free live sports & television access',
-    ctaText: 'Visit Partner Offer',
-    badge: 'PARTNER OFFER',
-    accentColor: 'amber',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'advertisement'
-  },
-  {
-    id: 'rzekl-1e8d114494cb5002cfdd16525dc3e8',
-    url: 'https://rzekl.com/g/1e8d114494cb5002cfdd16525dc3e8/',
-    network: 'Mitgo Affiliate',
-    zoneId: '1e8d114494cb5002cfdd16525dc3e8',
-    estimatedCpmUsd: 5.00,
-    label: 'Verified Sponsor Spotlight Promotion',
-    subtitle: 'Exclusive promotional partner offer · Opens in a new tab with 1h ad-free bonus',
-    ctaText: 'Explore Offer',
-    badge: 'SPONSORED DEAL',
-    accentColor: 'cyan',
-    showAllTime: true,
-    isMidnightOnly: false,
-    category: 'advertisement'
   }
 ];
-
-export const ADVERTISEMENT_AFFILIATE_ZONES: AdZoneConfig[] = STORED_AD_ZONES.filter(
-  (z) => z.category === 'advertisement'
-);
 
 export const MONETAG_DIRECT_LINKS: string[] = STORED_AD_ZONES.map(z => z.url);
 
@@ -227,7 +193,7 @@ export const MONETAG_TAG_ZONES = {
     url: 'https://uplcm.com/4/11226634',
     network: 'Monetag Direct',
     estimatedCpmUsd: 3.80,
-    label: 'Direct Sponsor Offer'
+    label: 'Monetag Direct Ad'
   }
 };
 
@@ -431,7 +397,7 @@ export function getBackendAdRedirectUrl(placement: string = 'direct-button', zon
   try {
     country = localStorage.getItem('shahintv_user_country_code') || '';
   } catch {}
-  return `/api/ads/redirect?device=${encodeURIComponent(devId)}&placement=${encodeURIComponent(placement)}&reward=1h${zoneId ? `&zoneId=${encodeURIComponent(zoneId)}` : ''}${country ? `&country=${encodeURIComponent(country)}` : ''}`;
+  return `/api/ads/redirect?device=${encodeURIComponent(devId)}&placement=${encodeURIComponent(placement)}${zoneId ? `&zoneId=${encodeURIComponent(zoneId)}` : ''}${country ? `&country=${encodeURIComponent(country)}` : ''}`;
 }
 
 /**
@@ -510,8 +476,6 @@ export interface AdConfirmationRequest {
  */
 export function triggerAdConfirmation(request: AdConfirmationRequest): void {
   const { openedZone } = confirmAndOpenCurrentAd(request.placement);
-  const rewardHours = request.rewardHours || 1;
-  const newState = grantRewardedAdFreeTime(rewardHours);
   if (request.onConfirmed) {
     request.onConfirmed(openedZone);
   }
@@ -649,9 +613,17 @@ export function useRealtimeVipCountdown(adFreeState?: AdFreeState) {
     };
   }, [adFreeState?.isActive, adFreeState?.expiryDate, adFreeState?.code]);
 
+  let cachedPlan: string | undefined;
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem('mrs_vip_entitlement') : null;
+    if (raw) cachedPlan = JSON.parse(raw)?.plan;
+  } catch {}
+
   const isRewardedHourPass =
     Boolean(adFreeState?.isActive) &&
-    (adFreeState?.code === 'SPONSOR_REWARD_VIP' || remainingSeconds <= 4 * 3600);
+    (adFreeState?.code === 'REWARD_1H_VIP' ||
+      cachedPlan === 'reward1h' ||
+      remainingSeconds <= 4 * 3600);
 
   const progressPercent = isRewardedHourPass
     ? Math.min(100, Math.max(0, (remainingSeconds / 3600) * 100))
@@ -673,23 +645,6 @@ export function useRealtimeVipCountdown(adFreeState?: AdFreeState) {
     progressPercent,
     isActive,
   };
-}
-
-export function getAffiliateGoUrl(
-  offerIdOrUrl: string,
-  placement: string = 'advertisement-category',
-  subid?: string
-): string {
-  const cleanId = offerIdOrUrl
-    .replace(/^https?:\/\/rzekl\.com\/g\//i, '')
-    .replace(/^https?:\/\/uplcm\.com\/4\//i, '')
-    .replace(/\/+$/, '')
-    .replace(/^(uplcm-|rzekl-)/, '');
-  const params = new URLSearchParams();
-  if (placement) params.set('placement', placement);
-  if (subid) params.set('subid', subid);
-  const qs = params.toString();
-  return `/go/${encodeURIComponent(cleanId)}${qs ? `?${qs}` : ''}`;
 }
 
 /**
@@ -745,7 +700,7 @@ export function recordAdEvent(
       window.dispatchEvent(new CustomEvent('mrs_ad_stats_updated', { detail: stats }));
       (window as any).MRS_ADS_TRACK_EVENT?.({
         eventType: eventType === 'click' ? 'click' : 'view',
-        format: zone.category === 'advertisement' ? 'affiliate' : 'banner',
+        format: 'banner',
         placement,
         offerId: zone.zoneId,
         network: zone.network,
@@ -792,7 +747,7 @@ export function openSponsorLink(customUrl?: string, placement: string = 'manual-
       const anchor = document.createElement('a');
       anchor.href = targetUrl;
       anchor.target = '_blank';
-      anchor.rel = 'sponsored nofollow noopener';
+      anchor.rel = 'nofollow noopener noreferrer';
       anchor.style.display = 'none';
       document.body.appendChild(anchor);
       anchor.click();
@@ -807,51 +762,15 @@ export function openSponsorLink(customUrl?: string, placement: string = 'manual-
 }
 
 /**
- * Grants temporary rewarded sponsor cooldown for free users (does NOT write real VIP token or mrs_vip_active cookie).
+ * Deprecated: VIP rewards are strictly server-controlled via window.MRS_REWARD_ADS.startAndWatch().
+ * Clicking banners or sponsor links never grants VIP access.
  */
-export function grantRewardedAdFreeTime(hours: number = 1): AdFreeState {
-  const deviceId = getDeviceId();
-  const current = getStoredAdFreeState();
-
-  if (
-    current.isActive &&
-    current.code &&
-    current.code !== 'SPONSOR_REWARD_VIP' &&
-    new Date(current.expiryDate).getTime() > Date.now() + hours * 60 * 60 * 1000
-  ) {
-    return current;
-  }
-
-  const now = Date.now();
-  const exactDurationMs = Math.round(hours * 60 * 60 * 1000);
-  const newExpiry = new Date(now + exactDurationMs);
-
-  const newState: AdFreeState = {
-    isActive: true,
-    isAdFree: true,
-    code: 'SPONSOR_REWARD_VIP',
-    deviceId,
-    activatedAt: new Date(now).toISOString(),
-    expiryDate: newExpiry.toISOString(),
-    durationMonths: hours / (24 * 30),
-  };
-
-  try {
-    localStorage.setItem('shahintv_adfree_activation', JSON.stringify(newState));
-    localStorage.setItem(LAST_AD_CLICK_KEY, String(now));
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('shahintv_adfree_updated', { detail: newState }));
-    }
-  } catch (e) {
-    console.warn('[AdSystem] Failed to save rewarded state:', e);
-  }
-
-  return newState;
+export function grantRewardedAdFreeTime(_hours: number = 1): AdFreeState {
+  return getStoredAdFreeState();
 }
 
-export function openRewardedSponsorLink(hours: number = 1): { url: string; state: AdFreeState } {
-  const url = openSponsorLink(undefined, 'rewarded-vip');
-  const state = grantRewardedAdFreeTime(hours);
-  return { url, state };
+export function openRewardedSponsorLink(_hours: number = 1): { url: string; state: AdFreeState } {
+  const url = openSponsorLink(undefined, 'sponsor-link');
+  return { url, state: getStoredAdFreeState() };
 }
 

@@ -244,7 +244,7 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
   router.get('/status', limiter(60_000, 120), (req: Request, res: Response) => {
     const token = bearer(req) || String(req.query.token || '');
     const deviceId = String(req.get('x-device-id') || req.query.deviceId || '');
-    const r = getEntitlementStatus({ token, deviceId });
+    const r = getEntitlementStatus({ token, deviceId }) as any;
     if (!r.ok) {
       return res.status(r.status).json({
         ok: false,
@@ -253,7 +253,13 @@ export function createPaymentRouter(options: { channelLookup?: (targetUrl: strin
         error: { code: r.code, message: r.message },
       });
     }
-    res.json({ ok: true, data: r, ...r, error: null });
+    const statusPlan = r.kind === 'reward' || r.plan === 'reward1h' ? 'reward1h' : 'vip';
+    const payload = {
+      ...r,
+      plan: statusPlan,
+      planCode: r.planCode || r.plan,
+    };
+    res.json({ ok: true, data: payload, ...payload, error: null });
   });
 
   router.post('/entitlement', limiter(60_000, 120), (req: Request, res: Response) => {
