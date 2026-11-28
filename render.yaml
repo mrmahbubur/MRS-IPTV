@@ -94,6 +94,8 @@ services:
         value: "fa9656182dbc7301dcd9a2326441dcf3"
       - key: MONETAG_VIGNETTE_ZONE_ID
         value: "11242067"
+      - key: MONETAG_INTERSTITIAL_ZONE_ID
+        value: "11242067"
       - key: MONETAG_POPUNDER_ZONE_ID
         value: "11226634"
       - key: MONETAG_SHOW_REGULAR_ADS

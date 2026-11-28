@@ -11,6 +11,7 @@
   var CONSENT_KEY = NS + 'consent_v1';
   var VISITS_KEY = NS + 'visits';
   var POP_HIST_KEY = NS + 'pop_hist';
+  var INTERSTITIAL_HIST_KEY = NS + 'interstitial_hist';
   var PUSH_NO_UNTIL_KEY = NS + 'push_no_until';
   var STICKY_CLOSED_KEY = NS + 'sticky_closed_session';
   var BLOCKER_NOTICE_COUNT_KEY = NS + 'blocker_notice_visits';
@@ -21,6 +22,7 @@
   var managerBootedForFree = false;
   var popunderHandlerBound = false;
   var sessionPopNetworkUsed = false;
+  var activeConfigFetch = null;
 
   var serverFormatConfig = {
     formats: {
@@ -34,6 +36,7 @@
     monetag: {
       verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
       vignetteZoneId: '11242067',
+      interstitialZoneId: '11242067',
       popunderZoneId: '11226634',
       showRegularAds: false,
       rewardedEnabled: false,
@@ -155,6 +158,72 @@
     );
   }
 
+  function isSafeHttpsAdUrl(rawUrl) {
+    if (typeof rawUrl !== 'string') return false;
+    var trimmed = rawUrl.trim();
+    if (!trimmed || trimmed.length > 512) return false;
+    try {
+      var parsed = new win.URL(trimmed);
+      if (parsed.protocol !== 'https:') return false;
+      if (parsed.username || parsed.password) return false;
+      var host = String(parsed.hostname || '').toLowerCase();
+      return (
+        host === 'uplcm.com' ||
+        host.slice(-10) === '.uplcm.com' ||
+        host === 'monetag.com' ||
+        host.slice(-12) === '.monetag.com'
+      );
+    } catch (e) {
+      return /^https:\/\/([a-z0-9-]+\.)?(uplcm\.com|monetag\.com)(\/|$)/i.test(trimmed);
+    }
+  }
+
+  function getEffectiveCaps() {
+    var cfg = win.MRS_ADS_CONFIG || {};
+    return Object.assign({}, cfg.caps || {}, (serverFormatConfig.monetag && serverFormatConfig.monetag.caps) || {});
+  }
+
+  function canShowNetworkInterstitial(caps) {
+    var effectiveCaps = caps || getEffectiveCaps();
+    var maxPerDay = typeof effectiveCaps.interstitialMaxPerDay === 'number'
+      ? Math.max(0, effectiveCaps.interstitialMaxPerDay)
+      : 12;
+    if (maxPerDay === 0) return false;
+
+    var cooldown = typeof effectiveCaps.interstitialCooldownMs === 'number'
+      ? Math.max(15000, effectiveCaps.interstitialCooldownMs)
+      : 180000;
+    var now = Date.now();
+    var today = new Date(now).toISOString().slice(0, 10);
+    var hist = { day: today, count: 0, lastAt: 0 };
+    try {
+      var raw = lsGet(INTERSTITIAL_HIST_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && parsed.day === today) hist = parsed;
+      }
+    } catch (e) {}
+    if (Number(hist.count || 0) >= maxPerDay) return false;
+    if (hist.lastAt && (now - Number(hist.lastAt)) < cooldown) return false;
+    return true;
+  }
+
+  function markNetworkInterstitialShown() {
+    var now = Date.now();
+    var today = new Date(now).toISOString().slice(0, 10);
+    var hist = { day: today, count: 0, lastAt: 0 };
+    try {
+      var raw = lsGet(INTERSTITIAL_HIST_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && parsed.day === today) hist = parsed;
+      }
+    } catch (e) {}
+    hist.count = Number(hist.count || 0) + 1;
+    hist.lastAt = now;
+    lsSet(INTERSTITIAL_HIST_KEY, JSON.stringify(hist));
+  }
+
   function enqueueAdEvent(ev) {
     if (!isFreeState() || !ev) return;
     eventQueue.push({
@@ -204,7 +273,7 @@
   }
 
   function injectExternalScript(src, attrs) {
-    if (!isFreeState() || !hasAdConsent() || !src) return null;
+    if (!isFreeState() || !hasAdConsent() || !src || !isSafeHttpsAdUrl(src)) return null;
     if (doc.querySelector('script[src="' + src + '"]')) return null;
     var s = doc.createElement('script');
     s.src = src;
@@ -366,9 +435,12 @@
     var serverZones = serverFormatConfig.monetag && Array.isArray(serverFormatConfig.monetag.zones)
       ? serverFormatConfig.monetag.zones
       : null;
-    var zoneList = (serverZones && serverZones.length > 0)
+    var rawList = (serverZones && serverZones.length > 0)
       ? serverZones
       : (cfg.monetag && Array.isArray(cfg.monetag.directZones) ? cfg.monetag.directZones : []);
+    var zoneList = rawList.filter(function (item) {
+      return item && typeof item.zoneId === 'string' && isSafeHttpsAdUrl(item.url);
+    });
     if (isMonetagRegularAllowed() && zoneList.length > 0) {
       var z = zoneList[0];
       return {
@@ -530,14 +602,35 @@
 
     var cfg = win.MRS_ADS_CONFIG || {};
     var formats = serverFormatConfig.formats || {};
+    var caps = getEffectiveCaps();
 
-    // Monetag Vignette / Interstitial ONLY when monetag.showRegularAds === true
-    if (isMonetagRegularAllowed() && formats.interstitial && !isPlayerActive() && cfg.monetag && cfg.monetag.vignette) {
-      var activeVigZone = (serverFormatConfig.monetag && serverFormatConfig.monetag.vignetteZoneId) || cfg.monetag.vignette.zoneId;
-      if (cfg.monetag.vignette.scriptSrc) {
-        injectExternalScript(cfg.monetag.vignette.scriptSrc, { 'data-zone': activeVigZone });
-      } else if (cfg.monetag.vignette.inlineSnippet) {
-        injectInlineSnippet(cfg.monetag.vignette.inlineSnippet, 'mrs-monetag-vignette');
+    // Monetag Vignette / Interstitial ONLY when monetag.showRegularAds === true and within cooldown + daily cap
+    var interstitialCfg = (cfg.monetag && (cfg.monetag.interstitial || cfg.monetag.vignette)) || null;
+    if (
+      isMonetagRegularAllowed() &&
+      formats.interstitial &&
+      !isPlayerActive() &&
+      interstitialCfg &&
+      canShowNetworkInterstitial(caps)
+    ) {
+      var activeInterstitialZone =
+        (serverFormatConfig.monetag && (serverFormatConfig.monetag.interstitialZoneId || serverFormatConfig.monetag.vignetteZoneId)) ||
+        interstitialCfg.zoneId;
+      var injected = null;
+      if (interstitialCfg.scriptSrc) {
+        injected = injectExternalScript(interstitialCfg.scriptSrc, { 'data-zone': activeInterstitialZone });
+      } else if (interstitialCfg.inlineSnippet) {
+        injected = injectInlineSnippet(interstitialCfg.inlineSnippet, 'mrs-monetag-interstitial');
+      }
+      if (injected) {
+        markNetworkInterstitialShown();
+        enqueueAdEvent({
+          eventType: 'view',
+          format: 'interstitial',
+          placement: 'network-interstitial',
+          offerId: activeInterstitialZone,
+          network: 'Monetag Direct'
+        });
       }
     }
   }
@@ -558,22 +651,72 @@
             win.MRS_ADS_CONFIG.publisherMeta.monetag = m.verificationId;
           }
         }
-        if (m.vignette && win.MRS_ADS_CONFIG.monetag.vignette) {
+        if (m.vignette && win.MRS_ADS_CONFIG.monetag.vignette && isSafeHttpsAdUrl(m.vignette.url)) {
           win.MRS_ADS_CONFIG.monetag.vignette.zoneId = m.vignette.zoneId;
           win.MRS_ADS_CONFIG.monetag.vignette.url = m.vignette.url;
         }
-        if (m.popunder && win.MRS_ADS_CONFIG.monetag.popunder) {
+        if (m.interstitial && win.MRS_ADS_CONFIG.monetag.interstitial && isSafeHttpsAdUrl(m.interstitial.url)) {
+          win.MRS_ADS_CONFIG.monetag.interstitial.zoneId = m.interstitial.zoneId;
+          win.MRS_ADS_CONFIG.monetag.interstitial.url = m.interstitial.url;
+        }
+        if (m.popunder && win.MRS_ADS_CONFIG.monetag.popunder && isSafeHttpsAdUrl(m.popunder.url)) {
           win.MRS_ADS_CONFIG.monetag.popunder.zoneId = m.popunder.zoneId;
           win.MRS_ADS_CONFIG.monetag.popunder.directZoneUrl = m.popunder.url;
         }
         if (Array.isArray(m.zones) && m.zones.length > 0) {
-          win.MRS_ADS_CONFIG.monetag.directZones = m.zones;
+          var safeZones = m.zones.filter(function (z) {
+            return z && typeof z.zoneId === 'string' && isSafeHttpsAdUrl(z.url);
+          });
+          if (safeZones.length > 0) {
+            win.MRS_ADS_CONFIG.monetag.directZones = safeZones;
+          }
         }
         if (m.caps) {
           win.MRS_ADS_CONFIG.caps = Object.assign({}, win.MRS_ADS_CONFIG.caps || {}, m.caps);
         }
       }
     } catch (e) {}
+  }
+
+  function applyServerAdConfigPayload(json) {
+    var data = json && json.data ? json.data : json;
+    if (data && data.formats) {
+      serverFormatConfig.formats = Object.assign({}, serverFormatConfig.formats, data.formats);
+    }
+    if (data && typeof data.testMode === 'boolean') {
+      serverFormatConfig.testMode = data.testMode;
+    }
+    if (data && data.monetag) {
+      serverFormatConfig.monetag = Object.assign({}, serverFormatConfig.monetag, data.monetag, {
+        caps: Object.assign({}, serverFormatConfig.monetag.caps || {}, data.monetag.caps || {})
+      });
+    }
+    if (data && data.rewards) {
+      serverFormatConfig.rewards = Object.assign({}, serverFormatConfig.rewards, data.rewards);
+    }
+    syncCentralizedMonetagMetadata();
+    win.__MRS_ADS_SERVER_CONFIG = serverFormatConfig;
+    try {
+      win.dispatchEvent(new CustomEvent('mrs_ads_config_loaded', { detail: serverFormatConfig }));
+    } catch (e) {}
+    return serverFormatConfig;
+  }
+
+  function fetchDynamicAdConfig() {
+    if (activeConfigFetch) return activeConfigFetch;
+    var cfg = win.MRS_ADS_CONFIG || {};
+    var endpoint = (cfg.apiBaseUrl || '') + '/api/ads/config';
+    activeConfigFetch = fetch(endpoint, { method: 'GET', credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (json) {
+        if (json) return applyServerAdConfigPayload(json);
+        return serverFormatConfig;
+      })
+      .catch(function () { return serverFormatConfig; })
+      .finally(function () {
+        activeConfigFetch = null;
+      });
+    return activeConfigFetch;
   }
 
   function bootFreeAds() {
@@ -588,49 +731,25 @@
     var prevVisits = parseInt(lsGet(VISITS_KEY) || '0', 10) || 0;
     lsSet(VISITS_KEY, String(prevVisits + 1));
 
-    var cfg = win.MRS_ADS_CONFIG || {};
-    var endpoint = (cfg.apiBaseUrl || '') + '/api/ads/config';
-
-    fetch(endpoint, { method: 'GET', credentials: 'same-origin' })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (json) {
-        var data = json && json.data ? json.data : json;
-        if (data && data.formats) {
-          serverFormatConfig.formats = Object.assign({}, serverFormatConfig.formats, data.formats);
-        }
-        if (data && typeof data.testMode === 'boolean') {
-          serverFormatConfig.testMode = data.testMode;
-        }
-        if (data && data.monetag) {
-          serverFormatConfig.monetag = Object.assign({}, serverFormatConfig.monetag, data.monetag, {
-            caps: Object.assign({}, serverFormatConfig.monetag.caps || {}, data.monetag.caps || {})
-          });
-        }
-        if (data && data.rewards) {
-          serverFormatConfig.rewards = Object.assign({}, serverFormatConfig.rewards, data.rewards);
-        }
-        syncCentralizedMonetagMetadata();
-        win.__MRS_ADS_SERVER_CONFIG = serverFormatConfig;
-        try {
-          win.dispatchEvent(new CustomEvent('mrs_ads_config_loaded', { detail: serverFormatConfig }));
-        } catch (e) {}
-      })
-      .catch(function () { /* fail quietly if blocked */ })
-      .finally(function () {
-        if (!isFreeState()) {
-          teardownAllAdsUi();
-          return;
-        }
-        renderConsentBanner(false);
-        if (hasAdConsent()) {
-          loadConfiguredNetworkScripts();
-          setupSafePopunderCap();
-          renderStickyMobileBanner();
-          schedulePushPrePrompt();
-          monitorEmptyDynamicSlots();
-        }
-      });
+    fetchDynamicAdConfig().finally(function () {
+      if (!isFreeState()) {
+        teardownAllAdsUi();
+        return;
+      }
+      renderConsentBanner(false);
+      if (hasAdConsent()) {
+        loadConfiguredNetworkScripts();
+        setupSafePopunderCap();
+        renderStickyMobileBanner();
+        schedulePushPrePrompt();
+        monitorEmptyDynamicSlots();
+      }
+    });
   }
+
+  win.MRS_ADS_REFRESH_CONFIG = function () {
+    return fetchDynamicAdConfig();
+  };
 
   win.MRS_ADS_OPEN_CONSENT = function () {
     if (!isFreeState()) return;

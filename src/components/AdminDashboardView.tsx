@@ -18,6 +18,7 @@ import {
 import {
   MONETAG_DEFAULT_VERIFICATION_ID,
   MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
   MONETAG_DEFAULT_POPUNDER_ZONE_ID,
   MONETAG_CAP_BOUNDS,
   MonetagAdCapsPolicy,
@@ -53,6 +54,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
     monetag?: {
       verificationId?: string;
       vignetteZoneId?: string;
+      interstitialZoneId?: string;
       popunderZoneId?: string;
       showRegularAds: boolean;
       caps?: MonetagAdCapsPolicy;
@@ -64,6 +66,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
     monetag: {
       verificationId: MONETAG_DEFAULT_VERIFICATION_ID,
       vignetteZoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+      interstitialZoneId: MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
       popunderZoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
       showRegularAds: false,
       caps: {
@@ -83,6 +86,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
   const [monetagIdsDraft, setMonetagIdsDraft] = useState({
     verificationId: MONETAG_DEFAULT_VERIFICATION_ID,
     vignetteZoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+    interstitialZoneId: MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
     popunderZoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
     rewardedZoneId: '',
   });
@@ -258,6 +262,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
           setMonetagIdsDraft({
             verificationId: String(s.monetag?.verificationId || MONETAG_DEFAULT_VERIFICATION_ID),
             vignetteZoneId: String(s.monetag?.vignetteZoneId || MONETAG_DEFAULT_VIGNETTE_ZONE_ID),
+            interstitialZoneId: String(s.monetag?.interstitialZoneId || MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID),
             popunderZoneId: String(s.monetag?.popunderZoneId || MONETAG_DEFAULT_POPUNDER_ZONE_ID),
             rewardedZoneId: String(s.monetag?.rewarded?.zoneId || ''),
           });
@@ -1958,6 +1963,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                             monetag: {
                               verificationId: monetagIdsDraft.verificationId.trim(),
                               vignetteZoneId: monetagIdsDraft.vignetteZoneId.trim(),
+                              interstitialZoneId: monetagIdsDraft.interstitialZoneId.trim(),
                               popunderZoneId: monetagIdsDraft.popunderZoneId.trim(),
                               caps: monetagCapsDraft,
                               rewarded: {
@@ -1973,6 +1979,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                           setMonetagIdsDraft({
                             verificationId: String(j.data.monetag?.verificationId || MONETAG_DEFAULT_VERIFICATION_ID),
                             vignetteZoneId: String(j.data.monetag?.vignetteZoneId || MONETAG_DEFAULT_VIGNETTE_ZONE_ID),
+                            interstitialZoneId: String(j.data.monetag?.interstitialZoneId || MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID),
                             popunderZoneId: String(j.data.monetag?.popunderZoneId || MONETAG_DEFAULT_POPUNDER_ZONE_ID),
                             rewardedZoneId: String(j.data.monetag?.rewarded?.zoneId || ''),
                           });
@@ -1991,7 +1998,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                   <div>
                     <label className="block text-[10px] font-mono uppercase text-[#94A3B8] mb-1">
                       Verification ID
@@ -2013,6 +2020,17 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onBackTo
                       onChange={(e) => setMonetagIdsDraft((p) => ({ ...p, rewardedZoneId: e.target.value }))}
                       placeholder="Optional Zone ID"
                       className="w-full min-h-[36px] px-2.5 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white placeholder-[#64748B] focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase text-[#94A3B8] mb-1">
+                      Interstitial Zone ID
+                    </label>
+                    <input
+                      type="text"
+                      value={monetagIdsDraft.interstitialZoneId}
+                      onChange={(e) => setMonetagIdsDraft((p) => ({ ...p, interstitialZoneId: e.target.value }))}
+                      className="w-full min-h-[36px] px-2.5 py-1 rounded-lg bg-[#0B132B] border border-white/15 focus:border-[#00D9FF] text-[11px] font-mono text-white focus:outline-none"
                     />
                   </div>
                   <div>

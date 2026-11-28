@@ -6,7 +6,11 @@ import {
   MONETAG_DEFAULT_CAPS,
   MONETAG_DEFAULT_POPUNDER_ZONE_ID,
   MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
+  DynamicMonetagZone,
   buildMonetagZoneUrl,
+  isSafeMonetagZoneUrl,
+  sanitizeMonetagZoneIdStrict,
 } from './monetagConfig';
 export { getDeviceId, getStoredAdFreeState } from './codes';
 
@@ -84,23 +88,195 @@ const INTERSTITIAL_COOLDOWN_MS = MONETAG_DEFAULT_CAPS.interstitialCooldownMs;
 // In-memory cache synced with localStorage
 let memoryCycleIndex: number | null = null;
 let memoryOpenedUrls: string[] | null = null;
+let inFlightDynamicConfigFetch: Promise<any> | null = null;
 
 function withSequenceMeta(zone: AdZoneConfig, _idx: number): AdZoneConfig {
   return { ...zone };
 }
 
 /**
- * Returns the current sequential index (0 to 10).
+ * Fetches latest Monetag zones, verification/interstitial/vignette IDs, and caps
+ * dynamically from /api/ads/config and broadcasts mrs_ads_config_loaded.
+ */
+export async function fetchDynamicAdConfig(force: boolean = false): Promise<any> {
+  if (typeof window === 'undefined') return null;
+  const win = window as any;
+  if (!force && win.__MRS_ADS_SERVER_CONFIG) {
+    return win.__MRS_ADS_SERVER_CONFIG;
+  }
+  if (inFlightDynamicConfigFetch) {
+    return inFlightDynamicConfigFetch;
+  }
+  const baseUrl = String(win.MRS_ADS_CONFIG?.apiBaseUrl || '').replace(/\/+$/, '');
+  inFlightDynamicConfigFetch = fetch(`${baseUrl}/api/ads/config`, {
+    method: 'GET',
+    credentials: 'same-origin',
+  })
+    .then(async (res) => {
+      if (!res.ok) return win.__MRS_ADS_SERVER_CONFIG || null;
+      const json = await res.json();
+      const data = json?.data || json;
+      if (!data || typeof data !== 'object') return win.__MRS_ADS_SERVER_CONFIG || null;
+
+      const prev = win.__MRS_ADS_SERVER_CONFIG || {};
+      const nextServerCfg = {
+        ...prev,
+        ...data,
+        formats: { ...(prev.formats || {}), ...(data.formats || {}) },
+        monetag: {
+          ...(prev.monetag || {}),
+          ...(data.monetag || {}),
+          caps: { ...(prev.monetag?.caps || {}), ...(data.monetag?.caps || {}) },
+        },
+        rewards: { ...(prev.rewards || {}), ...(data.rewards || {}) },
+      };
+      win.__MRS_ADS_SERVER_CONFIG = nextServerCfg;
+
+      if (win.MRS_ADS_CONFIG?.monetag && nextServerCfg.monetag) {
+        const m = nextServerCfg.monetag;
+        if (Array.isArray(m.zones) && m.zones.length > 0) {
+          const validZones = m.zones.filter(
+            (z: DynamicMonetagZone) => z && sanitizeMonetagZoneIdStrict(z.zoneId) && isSafeMonetagZoneUrl(z.url)
+          );
+          if (validZones.length > 0) {
+            win.MRS_ADS_CONFIG.monetag.directZones = validZones;
+          }
+        }
+        if (m.interstitial?.zoneId && isSafeMonetagZoneUrl(m.interstitial?.url) && win.MRS_ADS_CONFIG.monetag.interstitial) {
+          win.MRS_ADS_CONFIG.monetag.interstitial.zoneId = m.interstitial.zoneId;
+          win.MRS_ADS_CONFIG.monetag.interstitial.url = m.interstitial.url;
+        }
+        if (m.vignette?.zoneId && isSafeMonetagZoneUrl(m.vignette?.url) && win.MRS_ADS_CONFIG.monetag.vignette) {
+          win.MRS_ADS_CONFIG.monetag.vignette.zoneId = m.vignette.zoneId;
+          win.MRS_ADS_CONFIG.monetag.vignette.url = m.vignette.url;
+        }
+        if (m.caps) {
+          win.MRS_ADS_CONFIG.caps = { ...(win.MRS_ADS_CONFIG.caps || {}), ...m.caps };
+        }
+      }
+
+      try {
+        window.dispatchEvent(new CustomEvent('mrs_ads_config_loaded', { detail: nextServerCfg }));
+      } catch {}
+      return nextServerCfg;
+    })
+    .catch(() => win.__MRS_ADS_SERVER_CONFIG || null)
+    .finally(() => {
+      inFlightDynamicConfigFetch = null;
+    });
+
+  return inFlightDynamicConfigFetch;
+}
+
+/**
+ * Resolves dynamically fetched Monetag zones validated for HTTPS Monetag origin,
+ * merged with canonical metadata and falling back safely to STORED_AD_ZONES.
+ */
+export function getDynamicAdZones(): AdZoneConfig[] {
+  if (typeof window === 'undefined') return STORED_AD_ZONES;
+  const win = window as any;
+  const rawList: DynamicMonetagZone[] =
+    (Array.isArray(win.__MRS_ADS_SERVER_CONFIG?.monetag?.zones) && win.__MRS_ADS_SERVER_CONFIG.monetag.zones.length > 0
+      ? win.__MRS_ADS_SERVER_CONFIG.monetag.zones
+      : Array.isArray(win.MRS_ADS_CONFIG?.monetag?.directZones) && win.MRS_ADS_CONFIG.monetag.directZones.length > 0
+        ? win.MRS_ADS_CONFIG.monetag.directZones
+        : []);
+
+  if (!rawList.length) return STORED_AD_ZONES;
+
+  const byZoneId = new Map<string, AdZoneConfig>(STORED_AD_ZONES.map((z) => [z.zoneId, z]));
+  const resolved: AdZoneConfig[] = [];
+  for (const item of rawList) {
+    if (!item || typeof item !== 'object') continue;
+    const cleanZoneId = sanitizeMonetagZoneIdStrict(item.zoneId);
+    if (!cleanZoneId || !isSafeMonetagZoneUrl(item.url)) continue;
+    const canonical = byZoneId.get(cleanZoneId);
+    if (canonical) {
+      resolved.push({
+        ...canonical,
+        url: item.url.trim(),
+        label: typeof item.label === 'string' && item.label.trim() ? item.label.trim() : canonical.label,
+      });
+    } else {
+      resolved.push({
+        id: typeof item.id === 'string' && item.id.trim() ? item.id.trim() : `uplcm-${cleanZoneId}`,
+        url: item.url.trim(),
+        network: 'Monetag Direct',
+        zoneId: cleanZoneId,
+        estimatedCpmUsd: 4.5,
+        label: typeof item.label === 'string' && item.label.trim() ? item.label.trim() : 'Monetag Direct Partner Line',
+        subtitle: 'Official Monetag streaming line · Unlock 1 hour ad-free HD TV',
+        ctaText: 'Unlock 1-Hour Free VIP',
+        badge: item.format === 'interstitial' ? 'SPOTLIGHT' : 'PARTNER',
+        accentColor: 'amber',
+        isMidnightOnly: false,
+        showAllTime: true,
+        category: 'vip',
+      });
+    }
+  }
+  return resolved.length > 0 ? resolved : STORED_AD_ZONES;
+}
+
+/**
+ * Resolves the active Monetag interstitial zone from runtime/server configuration,
+ * prioritizing configured interstitialZoneId / vignetteZoneId with strict URL validation.
+ */
+export function getInterstitialAdZone(): AdZoneConfig {
+  const zones = getDynamicAdZones();
+  if (typeof window === 'undefined') {
+    return zones.find((z) => z.zoneId === MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID) || zones[0];
+  }
+  const win = window as any;
+  const serverMonetag = win.__MRS_ADS_SERVER_CONFIG?.monetag || {};
+  const staticMonetag = win.MRS_ADS_CONFIG?.monetag || {};
+
+  const configuredZoneId =
+    sanitizeMonetagZoneIdStrict(serverMonetag.interstitialZoneId) ||
+    sanitizeMonetagZoneIdStrict(serverMonetag.interstitial?.zoneId) ||
+    sanitizeMonetagZoneIdStrict(staticMonetag.interstitial?.zoneId) ||
+    sanitizeMonetagZoneIdStrict(serverMonetag.vignetteZoneId) ||
+    sanitizeMonetagZoneIdStrict(staticMonetag.vignette?.zoneId) ||
+    MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID;
+
+  const matched = zones.find((z) => z.zoneId === configuredZoneId);
+  if (matched) return withSequenceMeta(matched, 0);
+
+  const candidateUrl =
+    (isSafeMonetagZoneUrl(serverMonetag.interstitial?.url) ? serverMonetag.interstitial.url : '') ||
+    (isSafeMonetagZoneUrl(staticMonetag.interstitial?.url) ? staticMonetag.interstitial.url : '') ||
+    buildMonetagZoneUrl(configuredZoneId);
+
+  return {
+    id: `uplcm-${configuredZoneId}`,
+    url: isSafeMonetagZoneUrl(candidateUrl) ? candidateUrl : buildMonetagZoneUrl(MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID),
+    network: 'Monetag Direct',
+    zoneId: configuredZoneId,
+    estimatedCpmUsd: 5.5,
+    label: '24/7 Exclusive HD Cinema & Live Broadcasts',
+    subtitle: 'Official Monetag spotlight · Tap to enjoy 1 hour ad-free streaming',
+    ctaText: 'Visit Monetag Ad',
+    badge: 'INTERSTITIAL',
+    accentColor: 'rose',
+    isMidnightOnly: false,
+    showAllTime: true,
+    category: 'cinema',
+  };
+}
+
+/**
+ * Returns the current sequential index (0 to N-1).
  * Defaults strictly to 0 (the very 1st stored ad link).
  */
 export function getCurrentAdIndex(): number {
-  if (memoryCycleIndex !== null && memoryCycleIndex >= 0 && memoryCycleIndex < STORED_AD_ZONES.length) {
+  const zones = getDynamicAdZones();
+  if (memoryCycleIndex !== null && memoryCycleIndex >= 0 && memoryCycleIndex < zones.length) {
     return memoryCycleIndex;
   }
   try {
     const raw = localStorage.getItem(AD_CYCLE_INDEX_KEY);
     const parsed = raw !== null ? parseInt(raw, 10) : 0;
-    const safeIdx = Number.isInteger(parsed) && parsed >= 0 ? parsed % STORED_AD_ZONES.length : 0;
+    const safeIdx = Number.isInteger(parsed) && parsed >= 0 ? parsed % zones.length : 0;
     memoryCycleIndex = safeIdx;
     return safeIdx;
   } catch {
@@ -110,10 +286,11 @@ export function getCurrentAdIndex(): number {
 }
 
 /**
- * Sets the sequential index strictly to a given position (0 to 10).
+ * Sets the sequential index strictly to a given position.
  */
 export function setAdCycleIndex(idx: number): number {
-  const safeIdx = ((idx % STORED_AD_ZONES.length) + STORED_AD_ZONES.length) % STORED_AD_ZONES.length;
+  const zones = getDynamicAdZones();
+  const safeIdx = ((idx % zones.length) + zones.length) % zones.length;
   memoryCycleIndex = safeIdx;
   try {
     localStorage.setItem(AD_CYCLE_INDEX_KEY, String(safeIdx));
@@ -137,7 +314,7 @@ export function resetAdCycle(): AdZoneConfig {
 }
 
 /**
- * Returns the array of URLs opened during the current 11-ad cycle.
+ * Returns the array of URLs opened during the current cycle.
  */
 export function getOpenedAdHistory(): string[] {
   if (memoryOpenedUrls !== null) return memoryOpenedUrls;
@@ -156,12 +333,12 @@ export function getOpenedAdHistory(): string[] {
 }
 
 function recordOpenedUrl(url: string) {
+  const zones = getDynamicAdZones();
   const history = getOpenedAdHistory();
   if (!history.includes(url)) {
     history.push(url);
   }
-  // If cycle reached full length of stored links, reset history for the next cycle
-  if (history.length >= STORED_AD_ZONES.length) {
+  if (history.length >= zones.length) {
     memoryOpenedUrls = [];
     try {
       localStorage.removeItem(AD_OPENED_HISTORY_KEY);
@@ -178,16 +355,18 @@ function recordOpenedUrl(url: string) {
  * Returns the exact current AdZoneConfig to be opened next (starts at #1).
  */
 export function getCurrentAdZone(): AdZoneConfig {
+  const zones = getDynamicAdZones();
   const idx = getCurrentAdIndex();
-  return withSequenceMeta(STORED_AD_ZONES[idx], idx);
+  return withSequenceMeta(zones[idx] || zones[0], idx);
 }
 
 /**
  * Returns any AdZoneConfig by its index.
  */
 export function getAdZoneByIndex(idx: number): AdZoneConfig {
-  const safeIdx = ((idx % STORED_AD_ZONES.length) + STORED_AD_ZONES.length) % STORED_AD_ZONES.length;
-  return withSequenceMeta(STORED_AD_ZONES[safeIdx], safeIdx);
+  const zones = getDynamicAdZones();
+  const safeIdx = ((idx % zones.length) + zones.length) % zones.length;
+  return withSequenceMeta(zones[safeIdx], safeIdx);
 }
 
 /**
@@ -202,7 +381,7 @@ export function getNextAdZone(excludeUrl?: string): AdZoneConfig {
 }
 
 export function getAllAdZones(): AdZoneConfig[] {
-  return STORED_AD_ZONES.map((z, idx) => withSequenceMeta(z, idx));
+  return getDynamicAdZones().map((z, idx) => withSequenceMeta(z, idx));
 }
 
 export function isClientMidnightHour(): boolean {
@@ -221,16 +400,18 @@ export const MONETAG_MIDNIGHT_VIGNETTE = {
 };
 
 /**
- * Returns an AdZone from all 10 stored ad links (24/7 All-Time rule).
+ * Returns an AdZone from dynamic Monetag links (24/7 All-Time rule).
  */
 export function getRandomAdZone(_allowMidnight: boolean = true): AdZoneConfig {
-  const randIdx = Math.floor(Math.random() * STORED_AD_ZONES.length);
-  return withSequenceMeta(STORED_AD_ZONES[randIdx], randIdx);
+  const zones = getDynamicAdZones();
+  const randIdx = Math.floor(Math.random() * zones.length);
+  return withSequenceMeta(zones[randIdx], randIdx);
 }
 
 export function peekAdZone(offset: number = 0): AdZoneConfig {
+  const zones = getDynamicAdZones();
   const currentIdx = getCurrentAdIndex();
-  const targetIdx = (currentIdx + offset) % STORED_AD_ZONES.length;
+  const targetIdx = (currentIdx + offset) % zones.length;
   return getAdZoneByIndex(targetIdx);
 }
 
@@ -274,11 +455,12 @@ export function confirmAndOpenCurrentAd(
   placement: string = 'general',
   anchorElement?: HTMLAnchorElement | null
 ): { openedZone: AdZoneConfig; nextZone: AdZoneConfig } {
+  const zones = getDynamicAdZones();
   const currentIdx = getCurrentAdIndex();
-  const confirmedZone = withSequenceMeta(STORED_AD_ZONES[currentIdx], currentIdx);
-  
-  // Advance pointer strictly to next link (1 -> 2 -> ... -> 10 -> 1)
-  const nextIdx = (currentIdx + 1) % STORED_AD_ZONES.length;
+  const confirmedZone = withSequenceMeta(zones[currentIdx] || zones[0], currentIdx);
+
+  // Advance pointer strictly to next link (1 -> 2 -> ... -> N -> 1)
+  const nextIdx = (currentIdx + 1) % zones.length;
   memoryCycleIndex = nextIdx;
   try {
     localStorage.setItem(AD_CYCLE_INDEX_KEY, String(nextIdx));
@@ -315,7 +497,7 @@ export function confirmAndOpenCurrentAd(
     }
   }
 
-  const nextZone = withSequenceMeta(STORED_AD_ZONES[nextIdx], nextIdx);
+  const nextZone = withSequenceMeta(zones[nextIdx] || zones[0], nextIdx);
   notifyRotation();
 
   return { openedZone: confirmedZone, nextZone };

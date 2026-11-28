@@ -62,7 +62,15 @@
     'WebSocket': 1, 'Worker': 1, 'SharedWorker': 1, 'BroadcastChannel': 1, 'MessageChannel': 1, 'MessagePort': 1,
     'defineProperty': 1, 'defineProperties': 1, 'getOwnPropertyDescriptor': 1, 'getPrototypeOf': 1, 'setPrototypeOf': 1,
     'freeze': 1, 'seal': 1, 'parse': 1, 'stringify': 1, 'Buffer': 1, 'process': 1, 'require': 1, 'module': 1, 'exports': 1,
-    'caller': 1, 'callee': 1, 'arguments': 1, 'apply': 1, 'call': 1, 'bind': 1, 'name': 1, 'length': 1
+    'caller': 1, 'callee': 1, 'arguments': 1, 'apply': 1, 'call': 1, 'bind': 1, 'name': 1, 'length': 1,
+    'escape': 1, 'unescape': 1, 'encodeURI': 1, 'encodeURIComponent': 1, 'decodeURI': 1, 'decodeURIComponent': 1,
+    'isFinite': 1, 'isNaN': 1, 'parseFloat': 1, 'parseInt': 1, 'structuredClone': 1, 'reportError': 1,
+    'fetchLater': 1, 'openDatabase': 1, 'getComputedStyle': 1, 'matchMedia': 1, 'getSelection': 1,
+    'scrollTo': 1, 'scrollBy': 1, 'moveTo': 1, 'resizeTo': 1, 'trustedTypes': 1, 'customElements': 1,
+    'performance': 1, 'Intl': 1, 'WebAssembly': 1, 'Atomics': 1, 'SharedArrayBuffer': 1, 'ArrayBuffer': 1,
+    'DataView': 1, 'WeakMap': 1, 'WeakSet': 1, 'Map': 1, 'Set': 1, 'Date': 1, 'Math': 1,
+    'ShadowRoot': 1, 'MutationObserver': 1, 'ResizeObserver': 1, 'IntersectionObserver': 1, 'PerformanceObserver': 1,
+    'DOMParser': 1, 'XMLSerializer': 1, 'Range': 1, 'Selection': 1, 'subtle': 1, 'inspect': 1
   };
   var FORBIDDEN_FN_LOWER = {};
   (function () {
@@ -158,9 +166,23 @@
       var seg = parts[i];
       if (!cur || (typeof cur !== 'object' && typeof cur !== 'function')) return null;
       if (!Object.prototype.hasOwnProperty.call(cur, seg)) return null;
+      var desc = Object.getOwnPropertyDescriptor(cur, seg);
+      if (!desc || !Object.prototype.hasOwnProperty.call(desc, 'value') || typeof desc.get === 'function' || typeof desc.set === 'function') {
+        return null;
+      }
       parent = cur;
-      cur = cur[seg];
-      if (cur === win || (win.Node && cur instanceof win.Node)) return null;
+      cur = desc.value;
+      if (
+        cur === win ||
+        cur === doc ||
+        (win.Node && cur instanceof win.Node) ||
+        (win.Location && cur instanceof win.Location) ||
+        (win.History && cur instanceof win.History) ||
+        (win.Storage && cur instanceof win.Storage) ||
+        (win.Navigator && cur instanceof win.Navigator)
+      ) {
+        return null;
+      }
     }
     if (typeof cur !== 'function') return null;
     try {

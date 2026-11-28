@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Crown, Zap, X, ShieldCheck, Tv2, ArrowRight, ExternalLink } from 'lucide-react';
 import {
   AdZoneConfig,
-  getRandomAdZone,
+  getInterstitialAdZone,
+  canTriggerInterstitialAd,
   recordAdEvent,
   markInterstitialAdShown,
 } from '../lib/adSystem';
@@ -31,7 +32,13 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
   const isPlayerBusy =
     typeof document !== 'undefined' &&
     document.documentElement?.getAttribute('data-mrs-player-active') === '1';
-  const canShow =
+
+  const prevOpenRef = useRef<boolean>(false);
+  const [capAllowedForOpen, setCapAllowedForOpen] = useState<boolean>(false);
+  const [secondsLeft, setSecondsLeft] = useState<number>(5);
+  const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getInterstitialAdZone());
+
+  const baseEligible =
     isOpen &&
     isFreeMode &&
     !isVipLocked &&
@@ -40,8 +47,24 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
     adConfig.formats.interstitial &&
     hasRegularNetworkInterstitials;
 
-  const [secondsLeft, setSecondsLeft] = useState<number>(5);
-  const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getRandomAdZone());
+  useEffect(() => {
+    if (!baseEligible) {
+      prevOpenRef.current = false;
+      setCapAllowedForOpen(false);
+      return;
+    }
+    if (!prevOpenRef.current) {
+      prevOpenRef.current = true;
+      if (canTriggerInterstitialAd()) {
+        setCapAllowedForOpen(true);
+      } else {
+        setCapAllowedForOpen(false);
+        onClose();
+      }
+    }
+  }, [baseEligible, onClose]);
+
+  const canShow = baseEligible && capAllowedForOpen;
 
   useEffect(() => {
     if (!canShow) {
@@ -49,7 +72,7 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
       return;
     }
 
-    const nextZone = getRandomAdZone();
+    const nextZone = getInterstitialAdZone();
     setActiveZone(nextZone);
     markInterstitialAdShown();
     recordAdEvent('impression', nextZone, 'five-min-vip-modal');
@@ -66,7 +89,7 @@ export const ModernAdModal: React.FC<ModernAdModalProps> = ({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [canShow]);
+  }, [canShow, adConfig.monetag?.interstitialZoneId]);
 
   if (!canShow) return null;
 

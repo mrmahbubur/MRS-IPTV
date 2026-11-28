@@ -3,17 +3,25 @@ import { getCachedEntitlement } from './mrsVip';
 import {
   MONETAG_DEFAULT_VERIFICATION_ID,
   MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
   MONETAG_DEFAULT_POPUNDER_ZONE_ID,
   MONETAG_DEFAULT_CAPS,
+  DynamicMonetagZone,
   MonetagRuntimeCaps,
+  buildMonetagZoneUrl,
+  isSafeMonetagZoneUrl,
 } from './monetagConfig';
+import { fetchDynamicAdConfig } from './adSystem';
 
 export type AdGateState = 'pending' | 'vip' | 'free';
 
 export interface NetworkGateConfig {
   verificationId?: string;
   vignetteZoneId?: string;
+  interstitialZoneId?: string;
+  interstitial?: { zoneId: string; url: string };
   popunderZoneId?: string;
+  zones?: DynamicMonetagZone[];
   showRegularAds: boolean;
   rewardedEnabled: boolean;
   rewardedShowFn?: string | null;
@@ -55,6 +63,11 @@ const DEFAULT_AD_CONFIG: AdFormatConfig = {
   monetag: {
     verificationId: MONETAG_DEFAULT_VERIFICATION_ID,
     vignetteZoneId: MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+    interstitialZoneId: MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
+    interstitial: {
+      zoneId: MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
+      url: buildMonetagZoneUrl(MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID),
+    },
     popunderZoneId: MONETAG_DEFAULT_POPUNDER_ZONE_ID,
     showRegularAds: false,
     rewardedEnabled: false,
@@ -117,7 +130,34 @@ export function getAdRuntimeConfig(): AdFormatConfig {
     monetag: {
       verificationId: serverCfg.monetag?.verificationId || staticCfg.monetag?.verificationId || DEFAULT_AD_CONFIG.monetag.verificationId,
       vignetteZoneId: serverCfg.monetag?.vignetteZoneId || staticCfg.monetag?.vignette?.zoneId || DEFAULT_AD_CONFIG.monetag.vignetteZoneId,
+      interstitialZoneId:
+        serverCfg.monetag?.interstitialZoneId ||
+        serverCfg.monetag?.interstitial?.zoneId ||
+        staticCfg.monetag?.interstitial?.zoneId ||
+        serverCfg.monetag?.vignetteZoneId ||
+        DEFAULT_AD_CONFIG.monetag.interstitialZoneId,
+      interstitial: (() => {
+        const zId =
+          serverCfg.monetag?.interstitialZoneId ||
+          serverCfg.monetag?.interstitial?.zoneId ||
+          staticCfg.monetag?.interstitial?.zoneId ||
+          serverCfg.monetag?.vignetteZoneId ||
+          MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID;
+        const candidateUrl =
+          serverCfg.monetag?.interstitial?.url ||
+          staticCfg.monetag?.interstitial?.url ||
+          buildMonetagZoneUrl(zId);
+        return {
+          zoneId: zId,
+          url: isSafeMonetagZoneUrl(candidateUrl) ? candidateUrl : buildMonetagZoneUrl(zId),
+        };
+      })(),
       popunderZoneId: serverCfg.monetag?.popunderZoneId || DEFAULT_AD_CONFIG.monetag.popunderZoneId,
+      zones: Array.isArray(serverCfg.monetag?.zones)
+        ? serverCfg.monetag.zones.filter((z: DynamicMonetagZone) => z && isSafeMonetagZoneUrl(z.url))
+        : Array.isArray(staticCfg.monetag?.directZones)
+          ? staticCfg.monetag.directZones.filter((z: DynamicMonetagZone) => z && isSafeMonetagZoneUrl(z.url))
+          : undefined,
       showRegularAds: monetagShowRegular,
       rewardedEnabled: monetagRewarded,
       rewardedShowFn: serverCfg.monetag?.rewardedShowFn || null,
@@ -190,6 +230,10 @@ export function useAdGate() {
 
     syncState();
     syncConfig();
+
+    if (getAdGateState() === 'free' && typeof window !== 'undefined' && !(window as any).__MRS_ADS_SERVER_CONFIG) {
+      fetchDynamicAdConfig(false).then(() => syncConfig()).catch(() => {});
+    }
 
     window.addEventListener('mrs_ads_state_change', syncState);
     window.addEventListener('mrs_ads_config_loaded', syncConfig);

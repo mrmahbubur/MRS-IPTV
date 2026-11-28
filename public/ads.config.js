@@ -47,6 +47,12 @@
         scriptSrc: null,
         inlineSnippet: null
       },
+      interstitial: {
+        zoneId: '11242067',
+        url: 'https://uplcm.com/4/11242067',
+        scriptSrc: null,
+        inlineSnippet: null
+      },
       popunder: {
         zoneId: '11226634',
         scriptSrc: null,

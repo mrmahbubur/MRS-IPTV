@@ -8,6 +8,7 @@ import { getTrustedClientIp } from './clientIp.js';
 import {
   MONETAG_DEFAULT_VERIFICATION_ID,
   MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+  MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
   MONETAG_DEFAULT_POPUNDER_ZONE_ID,
   MONETAG_CANONICAL_ZONES,
   MONETAG_CAP_BOUNDS,
@@ -52,6 +53,7 @@ export interface AdSettings {
   monetag: {
     verificationId: string;
     vignetteZoneId: string;
+    interstitialZoneId: string;
     popunderZoneId: string;
     showRegularAds: boolean;
     caps: MonetagAdCapsPolicy;
@@ -118,7 +120,11 @@ export function sanitizeRewardedSnippet(raw: unknown): string | null {
   if (trimmed.length > 4096) {
     throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet must be 4096 characters or fewer.');
   }
-  if (/(?:javascript:|vbscript:|data:text\/html|<iframe\b|\bon[a-z]+\s*=|\beval\s*\(|\bnew\s+Function\b|document\.write)/i.test(trimmed)) {
+  if (
+    /(?:javascript:|vbscript:|data:text\/html|<iframe\b|<svg\b|<object\b|<embed\b|<meta\b[^>]*http-equiv|\bon[a-z]+\s*=|\beval\s*\(|\bnew\s+Function\b|document\.(?:cookie|location|domain|write|writeln)|window\.location|\blocalStorage\b|\bsessionStorage\b|\.(?:inner|outer)HTML\s*=|\bfetch\s*\(|XMLHttpRequest|\bimport\s*\()/i.test(
+      trimmed
+    )
+  ) {
     throw new AdPolicyValidationError(400, 'invalid_snippet', 'Rewarded snippet contains disallowed inline patterns.');
   }
   return trimmed;
@@ -232,6 +238,9 @@ const DEFAULT_AD_SETTINGS: AdSettings = {
     vignetteZoneId:
       sanitizeZoneId(backendConfig.rewards?.monetagVignetteZoneId) ||
       MONETAG_DEFAULT_VIGNETTE_ZONE_ID,
+    interstitialZoneId:
+      sanitizeZoneId(backendConfig.rewards?.monetagInterstitialZoneId) ||
+      MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
     popunderZoneId:
       sanitizeZoneId(backendConfig.rewards?.monetagPopunderZoneId) ||
       MONETAG_DEFAULT_POPUNDER_ZONE_ID,
@@ -268,6 +277,9 @@ export function getAdSettings(): AdSettings {
           vignetteZoneId:
             sanitizeZoneId(parsed.monetag?.vignetteZoneId) ||
             DEFAULT_AD_SETTINGS.monetag.vignetteZoneId,
+          interstitialZoneId:
+            sanitizeZoneId(parsed.monetag?.interstitialZoneId) ||
+            DEFAULT_AD_SETTINGS.monetag.interstitialZoneId,
           popunderZoneId:
             sanitizeZoneId(parsed.monetag?.popunderZoneId) ||
             DEFAULT_AD_SETTINGS.monetag.popunderZoneId,
@@ -338,6 +350,7 @@ export function saveAdSettings(partial: {
   monetag?: {
     verificationId?: string;
     vignetteZoneId?: string;
+    interstitialZoneId?: string;
     popunderZoneId?: string;
     showRegularAds?: boolean;
     caps?: Partial<MonetagAdCapsPolicy>;
@@ -365,6 +378,10 @@ export function saveAdSettings(partial: {
         partial.monetag && 'vignetteZoneId' in partial.monetag
           ? (validateZoneIdInput(partial.monetag.vignetteZoneId, DEFAULT_AD_SETTINGS.monetag.vignetteZoneId, false) as string)
           : current.monetag.vignetteZoneId,
+      interstitialZoneId:
+        partial.monetag && 'interstitialZoneId' in partial.monetag
+          ? (validateZoneIdInput(partial.monetag.interstitialZoneId, DEFAULT_AD_SETTINGS.monetag.interstitialZoneId, false) as string)
+          : current.monetag.interstitialZoneId,
       popunderZoneId:
         partial.monetag && 'popunderZoneId' in partial.monetag
           ? (validateZoneIdInput(partial.monetag.popunderZoneId, DEFAULT_AD_SETTINGS.monetag.popunderZoneId, false) as string)
@@ -511,6 +528,7 @@ export function createAdsRouter() {
     const verificationId =
       sanitizeMonetagVerificationIdStrict(settings.monetag.verificationId) || MONETAG_DEFAULT_VERIFICATION_ID;
     const vignetteZoneId = sanitizeZoneId(settings.monetag.vignetteZoneId) || MONETAG_DEFAULT_VIGNETTE_ZONE_ID;
+    const interstitialZoneId = sanitizeZoneId(settings.monetag.interstitialZoneId) || MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID;
     const popunderZoneId = sanitizeZoneId(settings.monetag.popunderZoneId) || MONETAG_DEFAULT_POPUNDER_ZONE_ID;
     const rewardedZoneId = sanitizeZoneId(settings.monetag.rewarded.zoneId);
 
@@ -523,10 +541,15 @@ export function createAdsRouter() {
         monetag: {
           verificationId,
           vignetteZoneId,
+          interstitialZoneId,
           popunderZoneId,
           vignette: {
             zoneId: vignetteZoneId,
             url: buildMonetagZoneUrl(vignetteZoneId),
+          },
+          interstitial: {
+            zoneId: interstitialZoneId,
+            url: buildMonetagZoneUrl(interstitialZoneId),
           },
           popunder: {
             zoneId: popunderZoneId,

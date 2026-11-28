@@ -3,7 +3,7 @@ import { Gift, ExternalLink, X, Globe, Crown } from 'lucide-react';
 import hourlySupportBannerImg from '../assets/images/hourly_ad_support_banner_1791108106898.jpg';
 import {
   AdZoneConfig,
-  getRandomAdZone,
+  getInterstitialAdZone,
   recordAdEvent,
   canTriggerInterstitialAd,
   markInterstitialAdShown,
@@ -107,7 +107,7 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
 
   const [isVisible, setIsVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(5);
-  const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getRandomAdZone());
+  const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getInterstitialAdZone());
   const [localizedData, setLocalizedData] = useState<LocalizedPromptData>(() => detectInitialClientLanguage());
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export const HourlyAdReminderOverlay: React.FC<HourlyAdReminderOverlayProps> = (
       if (!canOperate || isBlockedContext()) return;
       try {
         if (!hasUserViewedAdInLastHour() && canTriggerInterstitialAd()) {
-          const nextZone = getRandomAdZone();
+          const nextZone = getInterstitialAdZone();
           setActiveZone(nextZone);
           markInterstitialAdShown();
           recordAdEvent('impression', nextZone, 'hourly-visual-reminder');

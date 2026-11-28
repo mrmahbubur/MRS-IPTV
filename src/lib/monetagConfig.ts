@@ -1,7 +1,16 @@
 export const MONETAG_DEFAULT_VERIFICATION_ID = 'fa9656182dbc7301dcd9a2326441dcf3';
 export const MONETAG_DEFAULT_VIGNETTE_ZONE_ID = '11242067';
+export const MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID = '11242067';
 export const MONETAG_DEFAULT_POPUNDER_ZONE_ID = '11226634';
 export const MONETAG_DIRECT_BASE_URL = 'https://uplcm.com/4/';
+
+export interface DynamicMonetagZone {
+  id?: string;
+  zoneId: string;
+  url: string;
+  format?: 'banner' | 'interstitial';
+  label?: string;
+}
 
 export interface CanonicalMonetagZone {
   index: number;
@@ -28,6 +37,24 @@ export interface CanonicalMonetagZone {
 export function buildMonetagZoneUrl(zoneId: string): string {
   const clean = String(zoneId || '').trim();
   return `${MONETAG_DIRECT_BASE_URL}${clean}`;
+}
+
+const APPROVED_MONETAG_HOSTS = ['uplcm.com', 'monetag.com'];
+
+export function isSafeMonetagZoneUrl(rawUrl: unknown): boolean {
+  if (typeof rawUrl !== 'string') return false;
+  const trimmed = rawUrl.trim();
+  if (!trimmed || trimmed.length > 512) return false;
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.protocol !== 'https:') return false;
+    if (parsed.username || parsed.password) return false;
+    const host = parsed.hostname.toLowerCase();
+    if (!host) return false;
+    return APPROVED_MONETAG_HOSTS.some((allowed) => host === allowed || host.endsWith(`.${allowed}`));
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -483,6 +510,53 @@ export const FORBIDDEN_SHOW_FN_SEGMENTS = new Set([
   'bind',
   'name',
   'length',
+  'escape',
+  'unescape',
+  'encodeURI',
+  'encodeURIComponent',
+  'decodeURI',
+  'decodeURIComponent',
+  'isFinite',
+  'isNaN',
+  'parseFloat',
+  'parseInt',
+  'structuredClone',
+  'reportError',
+  'fetchLater',
+  'openDatabase',
+  'getComputedStyle',
+  'matchMedia',
+  'getSelection',
+  'scrollTo',
+  'scrollBy',
+  'moveTo',
+  'resizeTo',
+  'trustedTypes',
+  'customElements',
+  'performance',
+  'Intl',
+  'WebAssembly',
+  'Atomics',
+  'SharedArrayBuffer',
+  'ArrayBuffer',
+  'DataView',
+  'WeakMap',
+  'WeakSet',
+  'Map',
+  'Set',
+  'Date',
+  'Math',
+  'ShadowRoot',
+  'MutationObserver',
+  'ResizeObserver',
+  'IntersectionObserver',
+  'PerformanceObserver',
+  'DOMParser',
+  'XMLSerializer',
+  'Range',
+  'Selection',
+  'subtle',
+  'inspect',
 ]);
 
 export const FORBIDDEN_SHOW_FN_LOWER = new Set(
@@ -547,11 +621,15 @@ export function isForbiddenShowFnSegment(seg: string): boolean {
   return false;
 }
 
+export function validateShowFnSegment(seg: string): boolean {
+  return !isForbiddenShowFnSegment(seg);
+}
+
 export function isValidShowFnIdentifier(fnName: string): boolean {
   if (typeof fnName !== 'string') return false;
   const trimmed = fnName.trim();
   if (!trimmed || trimmed.length > 64) return false;
   const parts = trimmed.split('.');
   if (parts.length < 1 || parts.length > 4) return false;
-  return parts.every((part) => !isForbiddenShowFnSegment(part));
+  return parts.every((part) => validateShowFnSegment(part));
 }

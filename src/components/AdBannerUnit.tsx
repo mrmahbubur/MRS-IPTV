@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ExternalLink, Crown, X, Tag } from 'lucide-react';
 import {
   AdZoneConfig,
-  STORED_AD_ZONES,
+  getDynamicAdZones,
   recordAdEvent,
 } from '../lib/adSystem';
 import { AdFreeState } from '../types';
@@ -50,7 +50,7 @@ export const AdBannerUnit: React.FC<AdBannerUnitProps> = ({
 
   const items: ResolvedBannerItem[] = useMemo(() => {
     if (!adConfig.monetag?.showRegularAds) return [];
-    return STORED_AD_ZONES.map((z) => ({
+    return getDynamicAdZones().map((z) => ({
       id: z.zoneId,
       title: z.label,
       network: z.network,
@@ -59,7 +59,7 @@ export const AdBannerUnit: React.FC<AdBannerUnitProps> = ({
       href: z.url,
       zoneObj: z,
     }));
-  }, [adConfig.monetag?.showRegularAds]);
+  }, [adConfig.monetag?.showRegularAds, adConfig.monetag?.zones]);
 
   const [itemIndex, setItemIndex] = useState(0);
   const [isDismissed, setIsDismissed] = useState(false);
@@ -109,17 +109,18 @@ export const AdBannerUnit: React.FC<AdBannerUnitProps> = ({
     return () => clearTimeout(viewTimer);
   }, [activeItem, placement, isInViewport, canRenderAds, isDismissed, refreshTrigger]);
 
-  // Collapse empty/blocked ad container cleanly after 4s
+  // Collapse empty/blocked ad container cleanly using dynamic emptySlotCollapseMs cap
   useEffect(() => {
     if (!canRenderAds || isDismissed) return;
+    const collapseMs = adConfig.monetag?.caps?.emptySlotCollapseMs ?? 4000;
     const timer = setTimeout(() => {
       const el = containerRef.current;
       if (el && el.getBoundingClientRect().height < 10) {
         setIsDismissed(true);
       }
-    }, 4000);
+    }, collapseMs);
     return () => clearTimeout(timer);
-  }, [canRenderAds, isDismissed]);
+  }, [canRenderAds, isDismissed, adConfig.monetag?.caps?.emptySlotCollapseMs]);
 
   if (!canRenderAds || isDismissed || !activeItem) return null;
 

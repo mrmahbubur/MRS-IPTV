@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Play, Tv, X, Clock, ArrowRight, Zap, ShieldCheck } from 'lucide-react';
 import {
   AdZoneConfig,
-  getNextAdZone,
+  getInterstitialAdZone,
+  canTriggerInterstitialAd,
   recordAdEvent,
   markInterstitialAdShown,
 } from '../lib/adSystem';
@@ -35,7 +36,7 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
   const remoteConfig = useRemoteConfig();
   const { isFreeMode, isVipLocked, adConfig } = useAdGate();
   const hasRegularNetworkInterstitials = Boolean(adConfig.monetag?.showRegularAds);
-  const canShow =
+  const baseEligible =
     isOpen &&
     isFreeMode &&
     !isVipLocked &&
@@ -46,11 +47,33 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
 
   const configuredDwell = customDwell || remoteConfig.adsConfig.dwellTimerSeconds || 5;
 
-  const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getNextAdZone());
+  const prevOpenRef = useRef<boolean>(false);
+  const [capAllowedForOpen, setCapAllowedForOpen] = useState<boolean>(false);
+  const [activeZone, setActiveZone] = useState<AdZoneConfig>(() => getInterstitialAdZone());
   const [countdown, setCountdown] = useState<number>(configuredDwell);
   const [canSkip, setCanSkip] = useState<boolean>(false);
   const verifiedRef = useRef<boolean>(false);
   const offerHref = activeZone.url;
+
+  useEffect(() => {
+    if (!baseEligible) {
+      prevOpenRef.current = false;
+      setCapAllowedForOpen(false);
+      return;
+    }
+    if (!prevOpenRef.current) {
+      prevOpenRef.current = true;
+      if (canTriggerInterstitialAd()) {
+        setCapAllowedForOpen(true);
+      } else {
+        setCapAllowedForOpen(false);
+        onProceed();
+        onClose();
+      }
+    }
+  }, [baseEligible, onProceed, onClose]);
+
+  const canShow = baseEligible && capAllowedForOpen;
 
   useEffect(() => {
     if (!canShow) {
@@ -60,7 +83,7 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
       return;
     }
 
-    const nextZone = getNextAdZone();
+    const nextZone = getInterstitialAdZone();
     setActiveZone(nextZone);
     setCountdown(configuredDwell);
     setCanSkip(false);
@@ -79,7 +102,7 @@ export const RewardedAdInterstitial: React.FC<RewardedAdInterstitialProps> = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [canShow, configuredDwell]);
+  }, [canShow, configuredDwell, adConfig.monetag?.interstitialZoneId]);
 
   useEffect(() => {
     if (!canShow || verifiedRef.current) return;

@@ -282,6 +282,7 @@ export const config = {
     adsTestMode: bool(env.ADS_TEST_MODE, true),
     monetagVerificationId: String(env.MONETAG_VERIFICATION_ID || 'fa9656182dbc7301dcd9a2326441dcf3').trim(),
     monetagVignetteZoneId: String(env.MONETAG_VIGNETTE_ZONE_ID || '11242067').trim(),
+    monetagInterstitialZoneId: String(env.MONETAG_INTERSTITIAL_ZONE_ID || env.MONETAG_VIGNETTE_ZONE_ID || '11242067').trim(),
     monetagPopunderZoneId: String(env.MONETAG_POPUNDER_ZONE_ID || '11226634').trim(),
     monetagShowRegularAds: bool(env.MONETAG_SHOW_REGULAR_ADS, false),
     monetagBannerEnabled: bool(env.MONETAG_BANNER_ENABLED, true),
